@@ -29,7 +29,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/rtype.zip --z80core=1" />
+				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/kov.zip" />
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-g" />
@@ -677,6 +677,7 @@
 		<Unit filename="src/burner/neocdlist.h" />
 		<Unit filename="src/burner/sdl/burner_sdl.h" />
 		<Unit filename="src/burner/sdl/bzip.cpp" />
+		<Unit filename="src/burner/sdl/config.cpp" />
 		<Unit filename="src/burner/sdl/drv.cpp" />
 		<Unit filename="src/burner/sdl/stated.cpp" />
 		<Unit filename="src/burner/sdl/stringset.cpp" />

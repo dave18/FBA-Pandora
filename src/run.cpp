@@ -275,6 +275,19 @@ static void BurnerVideoTrans320x224()
 	}
 }
 
+static void BurnerVideoTrans448x224()
+{
+	// PGM
+	unsigned short * p = &VideoBuffer[3072];
+	unsigned short * q = &BurnVideoBuffer[32];
+	//unsigned short * q = &BurnVideoBuffer[0];
+
+	for (int i=0; i<224; i++,p+=384,q+=448)
+	{
+		memcpy(p,q,768);
+	}
+}
+
 static void BurnerVideoTrans384x256()
 {
 	// Cave & Toaplan
@@ -598,7 +611,7 @@ static void BurnerVideoTrans280x240Flipped()
 }
 
 
-static void BurnerVideoTrans448x224()
+/*static void BurnerVideoTrans448x224()
 {
 	// IGS 448x224
 /*
@@ -616,8 +629,8 @@ static void BurnerVideoTrans448x224()
 			q += 7;
 		}
 */
-	memcpy(&VideoBuffer[0],BurnVideoBuffer,448*224*2);
-}
+//	memcpy(&VideoBuffer[0],BurnVideoBuffer,448*224*2);
+//}
 
 /*static void BurnerVideoTrans352x240()
 {
@@ -690,6 +703,26 @@ int VideoInit()
 				BurnerVideoTrans = BurnerVideoTransDemo;
 				PhysicalBufferWidth	= VideoBufferWidth;
 		}
+	} else
+	if (VideoBufferWidth == 448 && VideoBufferHeight == 224) {
+		// PGM
+		if (config_options.option_rescale>=3)
+	    {
+            BurnVideoBuffer = (unsigned short *)malloc( VideoBufferWidth * VideoBufferHeight * 2 );;
+            BurnVideoBufferAlloced = true;
+            nBurnPitch  = VideoBufferWidth * 2;
+            //BurnerVideoTrans = BurnerVideoTrans320x224_rotate;
+            PhysicalBufferWidth = 240;
+	    }
+	    else
+	    {
+
+            BurnVideoBuffer = (unsigned short *)malloc( VideoBufferWidth * VideoBufferHeight * 2 );;
+            BurnVideoBufferAlloced = true;
+            nBurnPitch  = VideoBufferWidth * 2;
+            BurnerVideoTrans = BurnerVideoTrans448x224;
+            PhysicalBufferWidth = 384;
+	    }
 	} else
 	if (VideoBufferWidth == 384 && VideoBufferHeight == 240) {
 		// Cave

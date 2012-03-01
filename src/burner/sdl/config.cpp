@@ -41,7 +41,7 @@ int ConfigAppLoad()
   if (szValue) strcpy(x,szValue); }
 
 		VAR(nIniVersion);
-		VAR(nVidSelect); // video mode select
+	//	VAR(nVidSelect); // video mode select
 		VAR(bBurnUseASMCPUEmulation); // if you have a poor mans PC
 
 		// Other
@@ -82,9 +82,9 @@ int ConfigAppSave()
 	fprintf(h,"\n// The application version this file was saved from\n");
 	// We can't use the macros for this!
 	fprintf(h, "nIniVersion 0x%06X", nBurnVer);
-	
+
 	fprintf(h,"\n// video mode 0 = standard SDL 1= (very expiermental) opengl\n");
-	VAR(nVidSelect); // video mode select
+	//VAR(nVidSelect); // video mode select
 
 	fprintf(h,"\n// use asm cpu cores (i.e. you need to buy a new PC)\n");
 	VAR(bBurnUseASMCPUEmulation);

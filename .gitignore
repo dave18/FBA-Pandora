@@ -1,4 +1,14 @@
 .objs-db
 .objs
-built
+built/fba
+built/fba-debug
+built/config
+built/neocdiso
+built/recordings
+built/roms
+built/savestates
+built/screenshots
+built/support
+built/fbasdl.ini
 makefile
+pbcopy

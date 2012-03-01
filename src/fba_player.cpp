@@ -27,7 +27,7 @@
 #include "ezxaudio.h"
 #include "font.h"
 #include "snd.h"
-//#include "burner.h"
+//#include "burner_sdl.h"
 
 #include "burnint.h"
 //#include "gp2xmemfuncs.h"
@@ -43,6 +43,11 @@ extern INT32 create_datfile(TCHAR* szFilename, INT32 bType);
 
 extern char nub0[11];
 extern char nub1[11];
+extern char szAppRomPaths[20] [20];
+
+extern int ConfigAppLoad();
+extern int ConfigAppSave();
+
 
 extern "C"
 {
@@ -244,7 +249,7 @@ int InpInit();
 int InpExit();
 void InpDIP();
 
-extern char szAppRomPath[];
+//extern char szAppRomPath[];
 extern int nBurnFPS;
 int fps=0;
 
@@ -303,7 +308,8 @@ void show_rom_error_text(char * szText)
 	if (config_options.option_rescale<3) memcpy (VideoBuffer, titlefb, pwidth*240*2); else memcpy (VideoBuffer, titlefb, pwidth*384*2);
 	gp2x_video_flip();
 	SDL_Event event;
-	SDL_WaitEvent(&event);
+	while (event.type!=SDL_KEYDOWN)
+        SDL_WaitEvent(&event);
 
 }
 
@@ -388,16 +394,21 @@ void run_fba_emulator(const char *fn)
         pwidth=240;
         doffset=0;
     }
-    if (config_options.option_forcem68k) bBurnUseASMCPUEmulation=false;
-    bBurnZ80Core=config_options.option_z80core;
+
+    printf("about to burnlibinit()\n");
+	BurnLibInit();
+	printf("completed burnlibinit()\n");
+
+	ConfigAppLoad();
+
 	// process rom path and name
 	printf("about to load rom\n");
 	char romname[MAX_PATH];
 /*	if (BurnCacheInit(fn, romname))
 		goto finish;
 */
-	strcpy(szAppRomPath, fn);
-	char * p = strrchr(szAppRomPath, '/');
+	strcpy(szAppRomPaths[0], fn);
+	char * p = strrchr(szAppRomPaths[0], '/');
 	if (p) {
 		p++;
 		strcpy(romname, p);
@@ -414,10 +425,12 @@ void run_fba_emulator(const char *fn)
 		goto finish;
 	}
 
-    printf("about to burnlibinit()\n");
-	BurnLibInit();
-	printf("completed burnlibinit()\n");
 
+
+
+
+	if (config_options.option_forcem68k) bBurnUseASMCPUEmulation=false; else bBurnUseASMCPUEmulation=true;
+    bBurnZ80Core=config_options.option_z80core;
 
 	// find rom by name
 	for (nBurnDrvSelect[0]=0; nBurnDrvSelect[0]<nBurnDrvCount; nBurnDrvSelect[0]++)
@@ -608,6 +621,7 @@ if (config_options.option_sound_enable==2)
 
 finish:
 	printf("---- Shutdown Finalburn Alpha plus ----\n\n");
+	ConfigAppSave();
 /*	DrvExit();
 	printf("DrvExit()\n");
 	BurnLibExit();
