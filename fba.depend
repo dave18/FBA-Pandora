@@ -1,0 +1,7345 @@
+# depslib dependency file v1.0
+1324664429 source:/media/MAINSYSTEM/source/GravityForce/gforce.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<linux/fb.h>
+	<sys/ioctl.h>
+	<sys/mman.h>
+	<fcntl.h>
+	"assert.h"
+	"SDL/SDL.h"
+	"SDL/SDL_image.h"
+	"SDL/SDL_net.h"
+	"SDL/SDL_mixer.h"
+	"gforce.h"
+	"sintab.h"
+
+1209020086 /media/MAINSYSTEM/source/SDL/SDL_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255911952 /media/MAINSYSTEM/source/SDL/SDL_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1255927868 /media/MAINSYSTEM/source/SDL/SDL_config.h
+	"SDL_platform.h"
+	"SDL_config_dreamcast.h"
+	"SDL_config_macos.h"
+	"SDL_config_macosx.h"
+	"SDL_config_symbian.h"
+	"SDL_config_win32.h"
+	"SDL_config_os2.h"
+	"SDL_config_minimal.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_platform.h
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_config_dreamcast.h
+	"SDL_platform.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_config_macos.h
+	"SDL_platform.h"
+	<MacTypes.h>
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_config_macosx.h
+	"SDL_platform.h"
+	<AvailabilityMacros.h>
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_config_symbian.h
+	"SDL_platform.h"
+	<stdarg.h>
+	<stddef.h>
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_config_win32.h
+	"SDL_platform.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_config_os2.h
+	"SDL_platform.h"
+
+1306496498 /media/MAINSYSTEM/source/SDL/SDL_config_minimal.h
+	"SDL_platform.h"
+	<stdarg.h>
+
+1255363640 /media/MAINSYSTEM/source/SDL/begin_code.h
+
+1255363640 /media/MAINSYSTEM/source/SDL/close_code.h
+
+1209027678 /media/MAINSYSTEM/source/SDL/SDL_mixer.h
+	"SDL_types.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_byteorder.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_types.h
+	"SDL_stdinc.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_endian.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1255363640 /media/MAINSYSTEM/source/SDL/SDL_byteorder.h
+	"SDL_endian.h"
+
+1324661371 /media/MAINSYSTEM/source/GravityForce/gforce.h
+
+1053739122 /media/MAINSYSTEM/source/GravityForce/sintab.h
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/burner/sdl/bzip.cpp
+	"burner.h"
+
+1327228626 /media/mmcblk0p1/fba-pc/src/burner/burner.h
+	<limits.h>
+	<stdarg.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<assert.h>
+	<ctype.h>
+	"tchar.h"
+	"title.h"
+	"burn.h"
+	"burner_win32.h"
+	"burner_sdl.h"
+	"burner_xbox.h"
+	"png.h"
+	"interface.h"
+
+1329384750 /media/mmcblk0p1/fba-pc/src/burner/sdl/tchar.h
+	<wchar.h>
+
+1324323818 /media/mmcblk0p1/fba-pc/src/burner/title.h
+
+1327094928 /media/mmcblk0p1/fba-pc/src/burn/burn.h
+	<time.h>
+	"state.h"
+	"cheat.h"
+	"hiscore.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/state.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/cheat.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/hiscore.h
+
+1329226314 /media/mmcblk0p1/fba-pc/src/burner/sdl/burner_sdl.h
+	"SDL.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_audio.h"
+	"SDL_cdrom.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_loadso.h"
+	"SDL_mutex.h"
+	"SDL_rwops.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_video.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255911952 /media/mmcblk0p1/sdl/SDL_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1255927868 /media/mmcblk0p1/sdl/SDL_config.h
+	"SDL_platform.h"
+	"SDL_config_dreamcast.h"
+	"SDL_config_macos.h"
+	"SDL_config_macosx.h"
+	"SDL_config_symbian.h"
+	"SDL_config_win32.h"
+	"SDL_config_os2.h"
+	"SDL_config_minimal.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_platform.h
+
+1255363640 /media/mmcblk0p1/sdl/SDL_config_dreamcast.h
+	"SDL_platform.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_config_macos.h
+	"SDL_platform.h"
+	<MacTypes.h>
+
+1255363640 /media/mmcblk0p1/sdl/SDL_config_macosx.h
+	"SDL_platform.h"
+	<AvailabilityMacros.h>
+
+1255363640 /media/mmcblk0p1/sdl/SDL_config_symbian.h
+	"SDL_platform.h"
+	<stdarg.h>
+	<stddef.h>
+
+1255363640 /media/mmcblk0p1/sdl/SDL_config_win32.h
+	"SDL_platform.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_config_os2.h
+	"SDL_platform.h"
+
+1306496498 /media/mmcblk0p1/sdl/SDL_config_minimal.h
+	"SDL_platform.h"
+	<stdarg.h>
+
+1255363640 /media/mmcblk0p1/sdl/begin_code.h
+
+1255363640 /media/mmcblk0p1/sdl/close_code.h
+
+1255363640 /media/mmcblk0p1/sdl/SDL_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_endian.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_cdrom.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_cpuinfo.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_active.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_quit.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_active.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keysym.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_keysym.h
+
+1255363640 /media/mmcblk0p1/sdl/SDL_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_video.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1255363640 /media/mmcblk0p1/sdl/SDL_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1325193364 /media/mmcblk0p1/fba-pc/src/intf/interface.h
+	"gameinp.h"
+	"inp_keys.h"
+	"cd_interface.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burner/gameinp.h
+
+1324323818 /media/mmcblk0p1/fba-pc/src/intf/input/inp_keys.h
+
+1324323818 /media/mmcblk0p1/fba-pc/src/intf/cd/cd_interface.h
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/burner/sdl/config.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/burner/sdl/drv.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/burner/sdl/inpdipsw.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/burner/sdl/main.cpp
+	"burner.h"
+
+1329439377 source:/media/mmcblk0p1/fba-pc/src/burner/sdl/run.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/burner/sdl/stated.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/burner/sdl/stringset.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/burner/conc.cpp
+	"burner.h"
+
+1324334772 source:/media/mmcblk0p1/fba-pc/src/burner/cong.cpp
+	"burner.h"
+
+1327435198 source:/media/mmcblk0p1/fba-pc/src/burner/dat.cpp
+	"burner.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burner/gamc.cpp
+	"burner.h"
+
+1329425084 source:/media/mmcblk0p1/fba-pc/src/burner/gami.cpp
+	"burner.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burner/image.cpp
+	"burner.h"
+	"png.h"
+
+1324325386 source:/media/mmcblk0p1/fba-pc/src/burner/ioapi.c
+	"ioapi.h"
+
+1324325386 /media/mmcblk0p1/fba-pc/src/burner/ioapi.h
+	<stdio.h>
+	<stdlib.h>
+	"zlib.h"
+	<stdint.h>
+	"mz64conf.h"
+	"stdint.h"
+
+1329425340 source:/media/mmcblk0p1/fba-pc/src/burner/misc.cpp
+	<math.h>
+	"burner.h"
+
+1329226416 source:/media/mmcblk0p1/fba-pc/src/burner/sshot.cpp
+	"burner.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burner/state.cpp
+	"burner.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burner/statec.cpp
+	"zlib.h"
+	"burnint.h"
+
+1327522004 /media/mmcblk0p1/fba-pc/src/burn/burnint.h
+	<stdarg.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"tchar.h"
+	"burn.h"
+	"sek.h"
+	"zet.h"
+	"endian.h"
+	"stdfunc.h"
+
+1329420832 /media/mmcblk0p1/fba-pc/src/cpu/sek.h
+	"m68k.h"
+	"cyclone.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m68k/m68k.h
+	"m68kconf.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m68k/m68kconf.h
+
+1329422440 /media/mmcblk0p1/fba-pc/src/cpu/zet.h
+	"doze.h"
+	"DrZ80.h"
+
+1324669556 /media/mmcblk0p1/fba-pc/src/cpu/z80/z80.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/stdfunc.h
+
+1324325386 source:/media/mmcblk0p1/fba-pc/src/burner/unzip.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"zlib.h"
+	"unzip.h"
+	<stddef.h>
+	<string.h>
+	<stdlib.h>
+	<errno.h>
+	"crypt.h"
+
+1324325386 /media/mmcblk0p1/fba-pc/src/burner/unzip.h
+	"zlib.h"
+	"ioapi.h"
+	"bzlib.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burner/zipfn.cpp
+	"burner.h"
+	"unzip.h"
+
+1329349081 source:/media/mmcblk0p1/fba-pc/src/burn/burn.cpp
+	"version.h"
+	"burnint.h"
+	"burn_sound.h"
+	"driverlist.h"
+	"driver.h"
+
+1327246832 /media/mmcblk0p1/fba-pc/src/burn/version.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/burn_sound.h
+
+1329248214 /media/mmcblk0p1/fba-pc/src/burn/driverlist.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/driver.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+
+1323203544 source:/media/mmcblk0p1/fba-pc/src/burn/burn_gun.cpp
+	"burnint.h"
+	"burn_gun.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/burn_gun.h
+
+1323203762 source:/media/mmcblk0p1/fba-pc/src/burn/burn_led.cpp
+	"burnint.h"
+	"burn_led.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/burn_led.h
+
+1323719328 source:/media/mmcblk0p1/fba-pc/src/burn/burn_memory.cpp
+	"burnint.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/burn_sound.cpp
+	"burnint.h"
+	"burn_sound.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/burn_sound_c.cpp
+	"burnint.h"
+	"burn_sound.h"
+
+1329253766 source:/media/mmcblk0p1/fba-pc/src/burn/cheat.cpp
+	"burnint.h"
+	"vez.h"
+	"sh2.h"
+	"m6502_intf.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"s2650_intf.h"
+	"konami_intf.h"
+	"arm7_intf.h"
+
+1325619392 /media/mmcblk0p1/fba-pc/src/cpu/vez.h
+
+1329252575 /media/mmcblk0p1/fba-pc/src/cpu/sh2/sh2.h
+
+1323373400 /media/mmcblk0p1/fba-pc/src/cpu/m6502_intf.h
+	"m6502.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6502/m6502.h
+
+1324669556 /media/mmcblk0p1/fba-pc/src/cpu/m6809_intf.h
+	"m6809.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6809/m6809.h
+
+1324669556 /media/mmcblk0p1/fba-pc/src/cpu/hd6309_intf.h
+	"hd6309.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/hd6309/hd6309.h
+
+1325511142 /media/mmcblk0p1/fba-pc/src/cpu/m6800_intf.h
+	"m6800.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6800/m6800.h
+
+1326399494 /media/mmcblk0p1/fba-pc/src/cpu/s2650_intf.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/konami_intf.h
+
+1323115180 /media/mmcblk0p1/fba-pc/src/cpu/arm7_intf.h
+
+1323379588 source:/media/mmcblk0p1/fba-pc/src/burn/debug_track.cpp
+	"burnint.h"
+
+1329420664 source:/media/mmcblk0p1/fba-pc/src/burn/hiscore.cpp
+	"burnint.h"
+	"vez.h"
+	"sh2.h"
+	"m6502_intf.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"s2650_intf.h"
+
+1329425006 source:/media/mmcblk0p1/fba-pc/src/burn/load.cpp
+	"burnint.h"
+
+1323204770 source:/media/mmcblk0p1/fba-pc/src/burn/tiles_generic.cpp
+	"tiles_generic.h"
+
+1325271074 /media/mmcblk0p1/fba-pc/src/burn/tiles_generic.h
+	"burnint.h"
+
+1326573230 source:/media/mmcblk0p1/fba-pc/src/burn/timer.cpp
+	"burnint.h"
+	"timer.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"m6502_intf.h"
+	"sh2.h"
+	"h6280_intf.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/timer.h
+
+1327607520 /media/mmcblk0p1/fba-pc/src/cpu/h6280_intf.h
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/vector.cpp
+	"tiles_generic.h"
+	"math.h"
+
+1323202204 source:/media/mmcblk0p1/fba-pc/src/burn/devices/8255ppi.cpp
+	"burnint.h"
+	"8255ppi.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/devices/8255ppi.h
+
+1324334770 source:/media/mmcblk0p1/fba-pc/src/burn/devices/eeprom.cpp
+	"burnint.h"
+	"eeprom.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/devices/eeprom.h
+
+1323202610 source:/media/mmcblk0p1/fba-pc/src/burn/devices/pandora.cpp
+	"tiles_generic.h"
+
+1326401116 source:/media/mmcblk0p1/fba-pc/src/burn/devices/seibusnd.cpp
+	"burnint.h"
+	"burn_ym3812.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+	"bitswap.h"
+
+1326829384 /media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym3812.h
+	"driver.h"
+	"fmopl.h"
+	"timer.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/fmopl.h
+
+1323115178 /media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2151.h
+	"driver.h"
+	"ym2151.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/ym2151.h
+
+1323115178 /media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2203.h
+	"driver.h"
+	"ay8910.h"
+	"fm.h"
+	"timer.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/ay8910.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/fm.h
+
+1323201202 /media/mmcblk0p1/fba-pc/src/burn/snd/msm6295.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/bitswap.h
+
+1325530136 source:/media/mmcblk0p1/fba-pc/src/burn/devices/sknsspr.cpp
+	"tiles_generic.h"
+
+1323202988 source:/media/mmcblk0p1/fba-pc/src/burn/devices/timekpr.cpp
+	"burnint.h"
+	"time.h"
+	"timekpr.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/devices/timekpr.h
+
+1323980616 source:/media/mmcblk0p1/fba-pc/src/burn/devices/v3021.cpp
+	"burnint.h"
+
+1327094928 source:/media/mmcblk0p1/fba-pc/src/burn/devices/vdc.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cps.cpp
+	"cps.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cps.h
+	"burnint.h"
+	"msm6295.h"
+	"eeprom.h"
+	"timer.h"
+
+1327435196 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cps2_crpt.cpp
+	"driver.h"
+	"cpu/m68000/m68kmame.h"
+	"ui.h"
+	"includes/cps1.h"
+	"cps.h"
+	"bitswap.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cps_config.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cps_draw.cpp
+	"cps.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cps_mem.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cps_obj.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cps_pal.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cps_run.cpp
+	"cps.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cps_rw.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cps_scr.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cpsr.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cpsrd.cpp
+	"cps.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/cpst.cpp
+	"cps.h"
+
+1329230234 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/ctv.cpp
+	"cps.h"
+	"ctv.h"
+
+1167301332 /media/mmcblk0p1/fba-pc/src/burn/drv/capcom/ctv.h
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/capcom/ctv_do.h
+
+1326489382 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/ctv_make.cpp
+	<stdio.h>
+
+1326052542 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/d_cps1.cpp
+	"cps.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/d_cps2.cpp
+	"cps.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/kabuki.cpp
+	"cps.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/ps.cpp
+	"cps.h"
+	"driver.h"
+	"ym2151.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/ps_m.cpp
+	"cps.h"
+	"burn_ym2151.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/ps_z.cpp
+	"cps.h"
+	"burn_ym2151.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/qs.cpp
+	"cps.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/qs_c.cpp
+	<math.h>
+	"cps.h"
+	"burn_sound.h"
+
+1325705580 source:/media/mmcblk0p1/fba-pc/src/burn/drv/capcom/qs_z.cpp
+	"cps.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave.cpp
+	"cave.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave.h
+	"burnint.h"
+	"eeprom.h"
+
+1327436326 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave_palette.cpp
+	"cave.h"
+
+1327436326 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave_sprite.cpp
+	"cave.h"
+	"cave_sprite_func.h"
+
+1106768202 /media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave_sprite_func.h
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_func_table.h"
+
+1327436326 /media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave_sprite_render.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave_sprite_render_zoom.h
+
+1179935806 /media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave_sprite_func_table.h
+
+1327436326 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave_tile.cpp
+	"cave.h"
+	"cave_tile_func.h"
+
+1106768202 /media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave_tile_func.h
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_func_table.h"
+
+1327436326 /media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave_tile_render.h
+
+1179935910 /media/mmcblk0p1/fba-pc/src/burn/drv/cave/cave_tile_func_table.h
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_dodonpachi.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/ymz280b.h
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_donpachi.cpp
+	"cave.h"
+	"msm6295.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_esprade.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_feversos.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1323721240 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_gaia.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_guwange.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1325878116 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_hotdogst.cpp
+	"cave.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_korokoro.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_mazinger.cpp
+	"cave.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+	"bitswap.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_metmqstr.cpp
+	"cave.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1327436326 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_pwrinst2.cpp
+	"cave.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+	"bitswap.h"
+
+1325878116 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_sailormn.cpp
+	"cave.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+	"bitswap.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_tjumpman.cpp
+	"cave.h"
+	"msm6295.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cave/d_uopoko.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1329345671 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cps3/cps3run.cpp
+	"cps3.h"
+	"sh2.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/cps3/cps3.h
+	"burnint.h"
+
+1323807822 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cps3/cps3snd.cpp
+	"cps3.h"
+
+1326402824 source:/media/mmcblk0p1/fba-pc/src/burn/drv/cps3/d_cps3.cpp
+	"cps3.h"
+
+1324415772 source:/media/mmcblk0p1/fba-pc/src/burn/drv/d_parent.cpp
+	"burnint.h"
+
+1325146608 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_backfire.cpp
+	"tiles_generic.h"
+	"arm_intf.h"
+	"ymz280b.h"
+	"eeprom.h"
+	"deco16ic.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/arm_intf.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/deco16ic.h
+
+1326573954 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_boogwing.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"deco16ic.h"
+	"msm6295.h"
+
+1326575962 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_cbuster.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"bitswap.h"
+	"deco16ic.h"
+	"msm6295.h"
+	"timer.h"
+	"burn_ym2203.h"
+
+1326744786 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_cninja.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"bitswap.h"
+	"deco16ic.h"
+	"burn_ym2203.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"timer.h"
+
+1326636100 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_darkseal.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"bitswap.h"
+	"deco16ic.h"
+	"burn_ym2203.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"timer.h"
+
+1326636106 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_dassault.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"bitswap.h"
+	"deco16ic.h"
+	"burn_ym2203.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"timer.h"
+
+1327607520 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_dec0.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+	"burn_ym3812.h"
+	"h6280_intf.h"
+
+1325146578 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_dec8.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"burn_ym2203.h"
+	"hd6309_intf.h"
+	"m6809_intf.h"
+	"burn_ym3812.h"
+	"burn_ym3526.h"
+	"msm5205.h"
+
+1323115970 /media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym3526.h
+	"driver.h"
+	"fmopl.h"
+	"timer.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/msm5205.h
+
+1326572542 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_dietgogo.cpp
+	"tiles_generic.h"
+	"deco16ic.h"
+	"msm6295.h"
+	"h6280_intf.h"
+
+1326636112 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_funkyjet.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"deco16ic.h"
+	"msm6295.h"
+
+1325146564 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_karnov.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"burn_ym2203.h"
+	"burn_ym3526.h"
+
+1325146558 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_lemmings.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"m6809_intf.h"
+	"msm6295.h"
+
+1326636548 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_rohga.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"deco16ic.h"
+	"msm6295.h"
+
+1326138552 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_sidepckt.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"m6502_intf.h"
+	"burn_ym2203.h"
+	"burn_ym3526.h"
+
+1325146548 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_simpl156.cpp
+	"tiles_generic.h"
+	"arm_intf.h"
+	"msm6295.h"
+	"eeprom.h"
+	"deco16ic.h"
+
+1326658776 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_supbtime.cpp
+	"tiles_generic.h"
+	"deco16ic.h"
+	"h6280_intf.h"
+	"msm6295.h"
+
+1326551118 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_tumblep.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"deco16ic.h"
+	"msm6295.h"
+
+1326646984 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/d_vaportra.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"deco16ic.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1327607520 source:/media/mmcblk0p1/fba-pc/src/burn/drv/dataeast/deco16ic.cpp
+	"tiles_generic.h"
+	"bitswap.h"
+	"h6280_intf.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1324410664 source:/media/mmcblk0p1/fba-pc/src/burn/drv/galaxian/d_galaxian.cpp
+	"gal.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/galaxian/gal.h
+	"tiles_generic.h"
+	"dac.h"
+	"8255ppi.h"
+	"bitswap.h"
+	"s2650_intf.h"
+	"sn76496.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/dac.h
+
+1326399272 /media/mmcblk0p1/fba-pc/src/burn/snd/sn76496.h
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/galaxian/gal_gfx.cpp
+	"gal.h"
+
+1324577980 source:/media/mmcblk0p1/fba-pc/src/burn/drv/galaxian/gal_run.cpp
+	"gal.h"
+
+1324410664 source:/media/mmcblk0p1/fba-pc/src/burn/drv/galaxian/gal_sound.cpp
+	"gal.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/galaxian/gal_stars.cpp
+	"gal.h"
+
+1324577980 source:/media/mmcblk0p1/fba-pc/src/burn/drv/irem/d_m62.cpp
+	"tiles_generic.h"
+	"m6800_intf.h"
+	"msm5205.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577980 source:/media/mmcblk0p1/fba-pc/src/burn/drv/irem/d_m63.cpp
+	"tiles_generic.h"
+	"i8039.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/i8039/i8039.h
+	"driver.h"
+
+1327521258 source:/media/mmcblk0p1/fba-pc/src/burn/drv/irem/d_m72.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"vez.h"
+	"irem_cpu.h"
+	"dac.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/irem/irem_cpu.h
+
+1327521258 source:/media/mmcblk0p1/fba-pc/src/burn/drv/irem/d_m90.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"vez.h"
+	"irem_cpu.h"
+	"dac.h"
+
+1327521258 source:/media/mmcblk0p1/fba-pc/src/burn/drv/irem/d_m92.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"vez.h"
+	"msm6295.h"
+	"irem_cpu.h"
+	"iremga20.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/iremga20.h
+
+1325156820 source:/media/mmcblk0p1/fba-pc/src/burn/drv/irem/d_vigilant.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"dac.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/irem/irem_cpu.cpp
+	"burnint.h"
+	"irem_cpu.h"
+
+1326399556 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_88games.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"upd7759.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/konami/konamiic.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/upd7759.h
+
+1324669556 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_ajax.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+	"m6809_intf.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/k007232.h
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_aliens.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_blockhl.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+
+1324669556 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_bottom9.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+	"k007232.h"
+	"m6809_intf.h"
+
+1324669556 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_contra.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"m6809_intf.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_crimfght.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+
+1324587174 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_gberet.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_gbusters.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_gradius3.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+
+1324669556 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_gyruss.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"i8039.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_hcastle.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"burn_ym3812.h"
+	"k051649.h"
+	"k007232.h"
+
+1324577992 /media/mmcblk0p1/fba-pc/src/burn/snd/k051649.h
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_hexion.cpp
+	"tiles_generic.h"
+	"k051649.h"
+	"msm6295.h"
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_mainevt.cpp
+	"tiles_generic.h"
+	"hd6309_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"upd7759.h"
+	"k007232.h"
+
+1324587174 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_mogura.cpp
+	"tiles_generic.h"
+	"dac.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_parodius.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"k053260.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/k053260.h
+
+1324587174 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_pooyan.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_rollerg.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"k053260.h"
+
+1324669556 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_scotrsht.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"burn_ym2203.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_simpsons.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"k053260.h"
+	"eeprom.h"
+
+1324669556 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_spy.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"burn_ym3812.h"
+	"konamiic.h"
+	"k007232.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_surpratk.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"konami_intf.h"
+	"konamiic.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_thunderx.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+
+1326400116 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_tmnt.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"upd7759.h"
+	"k007232.h"
+	"k053260.h"
+	"eeprom.h"
+
+1326400614 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_twin16.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"upd7759.h"
+	"k007232.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_ultraman.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"konamiic.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_vendetta.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"k053260.h"
+	"eeprom.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/d_xmen.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k054539.h"
+	"eeprom.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/k054539.h
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/k051316.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/k051733.cpp
+	"burnint.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/k051960.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/k052109.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/k053245.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/k053247.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/k053251.cpp
+	"burnint.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/k053936.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/k054000.cpp
+	"burnint.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/drv/konami/konamiic.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1326312384 source:/media/mmcblk0p1/fba-pc/src/burn/drv/megadrive/d_megadrive.cpp
+	"burnint.h"
+	"megadrive.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/megadrive/megadrive.h
+
+1329262327 source:/media/mmcblk0p1/fba-pc/src/burn/drv/megadrive/megadrive.cpp
+	"burnint.h"
+	"burn_ym2612.h"
+	"sn76496.h"
+	"megadrive.h"
+	"bitswap.h"
+	"sekdebug.h"
+
+1323115762 /media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2612.h
+	"driver.h"
+	"fm.h"
+	"timer.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/sekdebug.h
+
+1327435196 source:/media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/d_neogeo.cpp
+	"neogeo.h"
+	"bitswap.h"
+
+1323169562 /media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neogeo.h
+	"burnint.h"
+
+1324569962 source:/media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neo_decrypt.cpp
+	"neogeo.h"
+	"bitswap.h"
+
+1324671874 source:/media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neo_palette.cpp
+	"neogeo.h"
+
+1329335969 source:/media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neo_run.cpp
+	"neogeo.h"
+	"cd_interface.h"
+	"burn_ym2610.h"
+	"bitswap.h"
+	"neocdlist.h"
+
+1323115178 /media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2610.h
+	"driver.h"
+	"ay8910.h"
+	"fm.h"
+	"timer.h"
+
+1325536502 /media/mmcblk0p1/fba-pc/src/burner/neocdlist.h
+
+1324569804 source:/media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neo_sprite.cpp
+	"neogeo.h"
+	"neo_sprite_func.h"
+
+1179935690 /media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neo_sprite_func.h
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_func_table.h"
+
+1323169562 /media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neo_sprite_render.h
+
+1179935194 /media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neo_sprite_func_table.h
+
+1324569780 source:/media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neo_text.cpp
+	"neogeo.h"
+	"neo_text_render.h"
+	"neo_text_render.h"
+	"neo_text_render.h"
+
+1323169562 /media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neo_text_render.h
+
+1323169562 source:/media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neo_upd4990a.cpp
+	"neogeo.h"
+
+1324569732 source:/media/mmcblk0p1/fba-pc/src/burn/drv/neogeo/neogeo.cpp
+	"neogeo.h"
+	"bitswap.h"
+
+1326744786 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pgm/d_pgm.cpp
+	"pgm.h"
+
+1325001472 /media/mmcblk0p1/fba-pc/src/burn/drv/pgm/pgm.h
+	"tiles_generic.h"
+	"arm7_intf.h"
+	"ics2115.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/ics2115.h
+
+1325191092 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_1942.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191098 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_1943.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_4enraya.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_ambush.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_arabian.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_armedf.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"dac.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_aztarac.cpp
+	"burnint.h"
+	"vector.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/vector.h
+
+1324669554 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_baraduke.cpp
+	"tiles_generic.h"
+	"m6800_intf.h"
+	"m6809_intf.h"
+	"namco_snd.h"
+	"burn_led.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/namco_snd.h
+
+1325191548 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_bionicc.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+
+1325191544 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_blktiger.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+
+1325191826 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_blockout.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_blueprnt.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_bombjack.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191102 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_commando.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+
+1325878116 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_ddragon.cpp
+	"tiles_generic.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"m6805_intf.h"
+	"m6809_intf.h"
+	"burn_ym2151.h"
+	"msm5205.h"
+	"msm6295.h"
+	"bitswap.h"
+
+1326400692 /media/mmcblk0p1/fba-pc/src/cpu/m6805_intf.h
+	"m6805.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6805/m6805.h
+
+1325538368 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_dynduke.cpp
+	"tiles_generic.h"
+	"seibusnd.h"
+	"vez.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/devices/seibusnd.h
+	"burn_ym3812.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_epos.cpp
+	"tiles_generic.h"
+	"8255ppi.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1326487722 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_exedexes.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_funkybee.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_galaga.cpp
+	"tiles_generic.h"
+	"namco_snd.h"
+	"samples.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/samples.h
+
+1323552260 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_gauntlet.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"burn_ym2151.h"
+
+1324669554 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_ginganin.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"burn_y8950.h"
+	"driver.h"
+	"ay8910.h"
+
+1323115178 /media/mmcblk0p1/fba-pc/src/burn/snd/burn_y8950.h
+	"driver.h"
+	"fmopl.h"
+	"timer.h"
+
+1325191112 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_gng.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"burn_ym2203.h"
+
+1325191116 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_gunsmoke.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+
+1325191122 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_higemaru.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1326487722 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_ikki.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_jack.cpp
+	"tiles_generic.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_kangaroo.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_kyugo.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1326487722 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_ladybug.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+	"bitswap.h"
+
+1325191126 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_lwings.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm5205.h"
+
+1325191130 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_madgear.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_marineb.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_markham.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_meijinsn.cpp
+	"burnint.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_mitchell.cpp
+	"tiles_generic.h"
+	"eeprom.h"
+	"burn_ym2413.h"
+	"msm6295.h"
+
+1325790090 /media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2413.h
+	"driver.h"
+	"ym2413.h"
+
+1325790090 /media/mmcblk0p1/fba-pc/src/burn/snd/ym2413.h
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_mole.cpp
+	"burnint.h"
+	"m6502_intf.h"
+	"driver.h"
+	"ay8910.h"
+
+1326487722 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_mrdo.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1325511902 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_mrflea.cpp
+	"burnint.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191740 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_mystston.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_pac2650.cpp
+	"tiles_generic.h"
+	"s2650_intf.h"
+	"sn76496.h"
+
+1325272102 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_pacland.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"m6800_intf.h"
+	"namco_snd.h"
+	"burn_led.h"
+
+1326744786 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_pacman.cpp
+	"tiles_generic.h"
+	"bitswap.h"
+	"sn76496.h"
+	"namco_snd.h"
+	"driver.h"
+	"ay8910.h"
+
+1327607520 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_pce.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"vdc.h"
+	"c6280.h"
+	"bitswap.h"
+
+1327094928 /media/mmcblk0p1/fba-pc/src/burn/devices/vdc.h
+
+1327094926 /media/mmcblk0p1/fba-pc/src/burn/snd/c6280.h
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_pkunwar.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_prehisle.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"upd7759.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_quizo.cpp
+	"burnint.h"
+	"driver.h"
+	"ay8910.h"
+	"bitswap.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_rallyx.cpp
+	"tiles_generic.h"
+	"namco_snd.h"
+	"samples.h"
+
+1325191744 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_renegade.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"m6805_intf.h"
+	"m6809_intf.h"
+	"burn_ym3526.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_route16.cpp
+	"burnint.h"
+	"driver.h"
+	"dac.h"
+	"ay8910.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_rpunch.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"upd7759.h"
+
+1325191746 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_scregg.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191134 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_sf.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm5205.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_skyfox.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+
+1324669554 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_skykid.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"m6800_intf.h"
+	"namco_snd.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_snk68.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"upd7759.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_solomon.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191138 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_sonson.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191060 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_srumbler.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"burn_ym2203.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_tecmo.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"msm5205.h"
+
+1326311602 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_terracre.cpp
+	"tiles_generic.h"
+	"burn_ym3526.h"
+	"burn_ym2203.h"
+	"dac.h"
+
+1325191066 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_tigeroad.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm5205.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_toki.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+	"msm5205.h"
+	"bitswap.h"
+
+1325191088 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_vulgus.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_wallc.cpp
+	"tiles_generic.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1327438620 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_wc90.cpp
+	"tiles_generic.h"
+	"burn_ym2608.h"
+
+1323115178 /media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2608.h
+	"driver.h"
+	"ay8910.h"
+	"fm.h"
+	"timer.h"
+
+1324577986 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_wc90b.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm5205.h"
+
+1325191748 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pre90s/d_wwfsstar.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1322769254 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_1945kiii.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_aerofgt.cpp
+	"burnint.h"
+	"burn_ym2610.h"
+
+1325156818 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_airbustr.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+	"pandora.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/devices/pandora.h
+
+1324577984 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_aquarium.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"bitswap.h"
+
+1325964748 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_blmbycar.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_bloodbro.cpp
+	"tiles_generic.h"
+	"seibusnd.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_crospang.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym3812.h"
+
+1324577984 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_crshrace.cpp
+	"tiles_generic.h"
+	"burn_ym2610.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_dcon.cpp
+	"tiles_generic.h"
+	"seibusnd.h"
+
+1325191696 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_ddragon3.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_deniam.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_diverboy.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_drtomy.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577984 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_egghunt.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577984 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_esd16.cpp
+	"tiles_generic.h"
+	"eeprom.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_f1gp.cpp
+	"tiles_generic.h"
+	"burn_ym2610.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_fstarfrc.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_funybubl.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_fuukifg3.cpp
+	"tiles_generic.h"
+	"burn_ymf278b.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/burn_ymf278b.h
+	"driver.h"
+	"ymf278b.h"
+	"timer.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/ymf278b.h
+
+1324669554 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_gaelco.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"msm6295.h"
+	"burn_ym3812.h"
+	"bitswap.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_gaiden.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"bitswap.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_galpanic.cpp
+	"burnint.h"
+	"driver.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_gotcha.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"bitswap.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_gumbo.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_hyperpac.cpp
+	"tiles_generic.h"
+	"timer.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+	"burn_ym3812.h"
+	"bitswap.h"
+
+1325533150 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_jchan.cpp
+	"tiles_generic.h"
+	"sknsspr.h"
+	"ymz280b.h"
+
+1325530136 /media/mmcblk0p1/fba-pc/src/burn/devices/sknsspr.h
+
+1325107310 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_kaneko16.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+	"eeprom.h"
+	"kanekotb.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/kanekotb.h
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_lordgun.cpp
+	"tiles_generic.h"
+	"burn_ymf278b.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+	"8255ppi.h"
+	"eeprom.h"
+	"burn_gun.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_mcatadv.cpp
+	"tiles_generic.h"
+	"burn_ym2610.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_midas.cpp
+	"tiles_generic.h"
+	"eeprom.h"
+	"ymz280b.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_mugsmash.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1325706308 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_news.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_nmg5.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_nmk16.cpp
+	"tiles_generic.h"
+	"seibusnd.h"
+	"bitswap.h"
+	"nmk004.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/nmk004.h
+
+1326658174 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_ohmygod.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_pass.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_pirates.cpp
+	"tiles_generic.h"
+	"bitswap.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_pktgaldx.cpp
+	"tiles_generic.h"
+	"deco16ic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_powerins.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_pushman.cpp
+	"tiles_generic.h"
+	"m6805_intf.h"
+	"burn_ym2203.h"
+
+1325538424 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_raiden.cpp
+	"burnint.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+	"vez.h"
+
+1326401000 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_seta.cpp
+	"tiles_generic.h"
+	"burn_ym2612.h"
+	"burn_ym3812.h"
+	"burn_gun.h"
+	"msm6295.h"
+	"x1010.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/x1010.h
+
+1325191320 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_seta2.cpp
+	"tiles_generic.h"
+	"burn_gun.h"
+	"eeprom.h"
+	"x1010.h"
+
+1325191702 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_shadfrce.cpp
+	"burnint.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_silkroad.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_speedspn.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_suna16.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"burn_ym3526.h"
+	"driver.h"
+	"dac.h"
+	"ay8910.h"
+
+1325156818 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_suprnova.cpp
+	"tiles_generic.h"
+	"sh2.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_taotaido.cpp
+	"tiles_generic.h"
+	"burn_ym2610.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_tecmosys.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"eeprom.h"
+	"ymz280b.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_tumbleb.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"burn_ym3812.h"
+
+1323639578 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_unico.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"eeprom.h"
+	"burn_gun.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_vmetal.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"es8712.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/es8712.h
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_welltris.cpp
+	"tiles_generic.h"
+	"burn_ym2610.h"
+
+1325191700 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_wwfwfest.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_xorworld.cpp
+	"tiles_generic.h"
+	"saa1099.h"
+	"eeprom.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/saa1099.h
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_yunsun16.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/d_zerozone.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/pst90s/nmk004.cpp
+	"burnint.h"
+	"nmk004.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1325793640 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_angelkds.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"bitswap.h"
+
+1325793770 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_bankp.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1325157000 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_dotrikun.cpp
+	"tiles_generic.h"
+
+1325018000 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_hangon.cpp
+	"sys16.h"
+
+1325790090 /media/mmcblk0p1/fba-pc/src/burn/drv/sega/sys16.h
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"burn_ym2413.h"
+	"burn_ym2612.h"
+	"rf5c68.h"
+	"burn_gun.h"
+	"bitswap.h"
+	"genesis_vid.h"
+	"8255ppi.h"
+
+1325790090 /media/mmcblk0p1/fba-pc/src/burn/snd/rf5c68.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/sega/genesis_vid.h
+	"driver.h"
+
+1324329052 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_outrun.cpp
+	"sys16.h"
+	"bitswap.h"
+
+1326487722 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_suprloco.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1326399272 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_sys1.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+	"bitswap.h"
+	"mc8123.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/sega/mc8123.h
+
+1325018106 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_sys16a.cpp
+	"sys16.h"
+
+1326224968 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_sys16b.cpp
+	"sys16.h"
+
+1324410664 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_sys18.cpp
+	"sys16.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_xbrd.cpp
+	"sys16.h"
+
+1325025158 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/d_ybrd.cpp
+	"sys16.h"
+
+1325017768 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/fd1089.cpp
+	"sys16.h"
+	"bitswap.h"
+
+1325017920 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/fd1094.cpp
+	"burnint.h"
+	"fd1094.h"
+	"bitswap.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/sega/fd1094.h
+
+1325790090 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/genesis_vid.cpp
+	"genesis_vid.h"
+	"burnint.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/mc8123.cpp
+	"burnint.h"
+	"bitswap.h"
+
+1329342020 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/sys16_fd1094.cpp
+	"sys16.h"
+	"fd1094.h"
+
+1325790090 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/sys16_gfx.cpp
+	"sys16.h"
+
+1326489304 source:/media/mmcblk0p1/fba-pc/src/burn/drv/sega/sys16_run.cpp
+	"sys16.h"
+	"dac.h"
+	"i8039.h"
+	"mc8123.h"
+	"upd7759.h"
+	"segapcm.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/segapcm.h
+
+1325107892 source:/media/mmcblk0p1/fba-pc/src/burn/drv/snes/d_snes.cpp
+	"snes.h"
+
+1324577990 /media/mmcblk0p1/fba-pc/src/burn/drv/snes/snes.h
+	"tiles_generic.h"
+	"bitswap.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/snes/snes_65816.cpp
+	<stdio.h>
+	"snes.h"
+
+1326401840 source:/media/mmcblk0p1/fba-pc/src/burn/drv/snes/snes_io.cpp
+	"snes.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/snes/snes_main.cpp
+	<stdio.h>
+	"snes.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/snes/snes_mem.cpp
+	<stdio.h>
+	"snes.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/snes/snes_ppu.cpp
+	<stdio.h>
+	"snes.h"
+
+1324577990 source:/media/mmcblk0p1/fba-pc/src/burn/drv/snes/snes_spc700.cpp
+	<stdio.h>
+	"snes.h"
+
+1324323816 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/cchip.cpp
+	"burnint.h"
+	"taito_ic.h"
+	"taito.h"
+
+1325087378 /media/mmcblk0p1/fba-pc/src/burn/drv/taito/taito_ic.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/taito/taito.h
+
+1325157136 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_arkanoid.cpp
+	"tiles_generic.h"
+	"taito_m68705.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/taito/taito_m68705.h
+	"m6805_intf.h"
+
+1325157140 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_ashnojoe.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm5205.h"
+
+1324577980 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_asuka.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"burn_ym2610.h"
+	"msm5205.h"
+	"taito_ic.h"
+	"taito.h"
+
+1324577980 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_bublbobl.cpp
+	"tiles_generic.h"
+	"m6800_intf.h"
+	"taito_m68705.h"
+	"burn_ym2203.h"
+	"burn_ym3526.h"
+	"bitswap.h"
+
+1325157114 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_chaknpop.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577980 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_darius2.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+
+1325157118 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_flstory.cpp
+	"tiles_generic.h"
+	"taito_m68705.h"
+	"driver.h"
+	"dac.h"
+	"ay8910.h"
+
+1325157122 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_lkage.cpp
+	"tiles_generic.h"
+	"taito_m68705.h"
+	"burn_ym2203.h"
+
+1325157124 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_minivdr.cpp
+	"tiles_generic.h"
+
+1325089048 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_othunder.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+	"eeprom.h"
+	"burn_gun.h"
+
+1326487722 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_retofinv.cpp
+	"tiles_generic.h"
+	"taito_m68705.h"
+	"bitswap.h"
+	"sn76496.h"
+
+1325089162 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_slapshot.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+	"eeprom.h"
+	"burn_gun.h"
+	"timekpr.h"
+
+1325089326 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_superchs.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"eeprom.h"
+	"es5506.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/es5506.h
+
+1324577980 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_taitob.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+	"burn_gun.h"
+	"eeprom.h"
+
+1325088926 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_taitof2.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1326400862 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_taitomisc.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"msm5205.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"burn_gun.h"
+
+1326487722 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_taitox.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2151.h"
+	"burn_ym2610.h"
+
+1325088136 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_taitoz.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+	"eeprom.h"
+	"burn_gun.h"
+
+1325157134 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/d_tnzs.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"burn_ym2151.h"
+	"tnzs_prot.h"
+	"dac.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/taito/tnzs_prot.h
+
+1325087796 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/pc080sn.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1325087506 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/pc090oj.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1324323816 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/taito.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2151.h"
+	"burn_ym2610.h"
+	"burn_ym2203.h"
+	"msm5205.h"
+	"msm6295.h"
+	"eeprom.h"
+	"burn_gun.h"
+
+1324323816 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/taito_ic.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/taito_m68705.cpp
+	"burnint.h"
+	"taito_m68705.h"
+
+1325087120 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tc0100scn.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1324323816 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tc0110pcr.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tc0140syt.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1325086886 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tc0150rod.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1324323816 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tc0180vcu.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+	"taito.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tc0220ioc.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1325086698 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tc0280grd.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tc0360pri.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1325089506 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tc0480scp.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tc0510nio.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tc0640fio.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/taito/tnzs_prot.cpp
+	"burnint.h"
+	"tnzs_prot.h"
+
+1325710636 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_batrider.cpp
+	"toaplan.h"
+
+1325019006 /media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/toaplan.h
+	"burnint.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+	"burn_ym3812.h"
+
+1325538232 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_batsugun.cpp
+	"toaplan.h"
+	"vez.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_battleg.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_bbakraid.cpp
+	"toaplan.h"
+	"ymz280b.h"
+	"eeprom.h"
+	"timer.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_demonwld.cpp
+	"toaplan.h"
+
+1325538266 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_dogyuun.cpp
+	"toaplan.h"
+	"vez.h"
+
+1325538290 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_fixeight.cpp
+	"toaplan.h"
+	"eeprom.h"
+	"vez.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_ghox.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_hellfire.cpp
+	"toaplan.h"
+
+1325538308 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_kbash.cpp
+	"toaplan.h"
+	"vez.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_kbash2.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_mahoudai.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_outzone.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_pipibibs.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_rallybik.cpp
+	"toaplan.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_samesame.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_shippumd.cpp
+	"toaplan.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_snowbro2.cpp
+	"toaplan.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_tekipaki.cpp
+	"toaplan.h"
+
+1325156916 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_tigerheli.cpp
+	"burnint.h"
+	"taito_m68705.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_truxton.cpp
+	"toaplan.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_truxton2.cpp
+	"toaplan.h"
+
+1325538330 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_vfive.cpp
+	"toaplan.h"
+	"vez.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_vimana.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/d_zerowing.cpp
+	"toaplan.h"
+
+1323805278 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/toa_bcu2.cpp
+	"toaplan.h"
+	"toa_gp9001_func.h"
+
+1179936086 /media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/toa_gp9001_func.h
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_func_table.h"
+
+1325018734 /media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/toa_gp9001_render.h
+
+1179936064 /media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/toa_gp9001_func_table.h
+
+1325018844 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/toa_extratext.cpp
+	"toaplan.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/toa_extratext.h
+
+1325018914 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/toa_gp9001.cpp
+	"toaplan.h"
+	"toa_gp9001_func.h"
+
+1325018950 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/toa_palette.cpp
+	"toaplan.h"
+
+1326401674 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/toaplan.cpp
+	"toaplan.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/drv/toaplan/toaplan1.cpp
+	"toaplan.h"
+
+1323379094 source:/media/mmcblk0p1/fba-pc/src/burn/snd/ay8910.c
+	"driver.h"
+	"state.h"
+	"ay8910.h"
+	<tchar.h>
+
+1323115178 source:/media/mmcblk0p1/fba-pc/src/burn/snd/burn_y8950.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_y8950.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"m6502_intf.h"
+
+1327002846 source:/media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2151.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2151.h"
+
+1323115178 source:/media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2203.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2203.h"
+
+1325790090 source:/media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2413.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2413.h"
+
+1323115178 source:/media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2608.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2608.h"
+
+1323115178 source:/media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2610.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2610.h"
+
+1323115862 source:/media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym2612.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2612.h"
+
+1323116090 source:/media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym3526.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym3526.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"m6502_intf.h"
+
+1326829384 source:/media/mmcblk0p1/fba-pc/src/burn/snd/burn_ym3812.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym3812.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"m6502_intf.h"
+	"h6280_intf.h"
+
+1323116584 source:/media/mmcblk0p1/fba-pc/src/burn/snd/burn_ymf278b.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ymf278b.h"
+
+1327521182 source:/media/mmcblk0p1/fba-pc/src/burn/snd/c6280.cpp
+	"burnint.h"
+	"h6280_intf.h"
+	"math.h"
+
+1325790090 source:/media/mmcblk0p1/fba-pc/src/burn/snd/dac.cpp
+	"burnint.h"
+	"burn_sound.h"
+
+1326401192 source:/media/mmcblk0p1/fba-pc/src/burn/snd/es5506.cpp
+	"burnint.h"
+	"es5506.h"
+	"wavwrite.h"
+
+1323117362 source:/media/mmcblk0p1/fba-pc/src/burn/snd/es8712.cpp
+	"burnint.h"
+	"math.h"
+	"es8712.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/snd/fm.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdarg.h>
+	<math.h>
+	"driver.h"
+	"state.h"
+	"deftypes.h"
+	"support.h"
+	"ay8910.h"
+	"fm.h"
+	"ymdeltat.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/burn/snd/ymdeltat.h
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/snd/fmopl.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"driver.h"
+	"ymdeltat.h"
+	"fmopl.h"
+
+1323891882 source:/media/mmcblk0p1/fba-pc/src/burn/snd/ics2115.cpp
+	"burnint.h"
+	"msm6295.h"
+	"burn_sound.h"
+	"ics2115.h"
+
+1323201202 source:/media/mmcblk0p1/fba-pc/src/burn/snd/iremga20.cpp
+	"burnint.h"
+	"iremga20.h"
+
+1323201202 source:/media/mmcblk0p1/fba-pc/src/burn/snd/k007232.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"k007232.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/snd/k051649.cpp
+	"burnint.h"
+
+1324577992 source:/media/mmcblk0p1/fba-pc/src/burn/snd/k053260.cpp
+	"burnint.h"
+
+1323201202 source:/media/mmcblk0p1/fba-pc/src/burn/snd/k054539.cpp
+	"burnint.h"
+	"math.h"
+	"k054539.h"
+
+1323201202 source:/media/mmcblk0p1/fba-pc/src/burn/snd/msm5205.cpp
+	"burnint.h"
+	"msm5205.h"
+	"math.h"
+
+1329343766 source:/media/mmcblk0p1/fba-pc/src/burn/snd/msm6295.cpp
+	<math.h>
+	"burnint.h"
+	"msm6295.h"
+	"burn_sound.h"
+
+1323201202 source:/media/mmcblk0p1/fba-pc/src/burn/snd/namco_snd.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"namco_snd.h"
+
+1325790090 source:/media/mmcblk0p1/fba-pc/src/burn/snd/rf5c68.cpp
+	"burnint.h"
+	"rf5c68.h"
+	"burn_sound.h"
+
+1323201202 source:/media/mmcblk0p1/fba-pc/src/burn/snd/saa1099.cpp
+	"burnint.h"
+	"saa1099.h"
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/burn/snd/samples.cpp
+	"burnint.h"
+	"samples.h"
+
+1325790090 source:/media/mmcblk0p1/fba-pc/src/burn/snd/segapcm.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"segapcm.h"
+
+1326399272 source:/media/mmcblk0p1/fba-pc/src/burn/snd/sn76496.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"sn76496.h"
+
+1323201202 source:/media/mmcblk0p1/fba-pc/src/burn/snd/upd7759.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"upd7759.h"
+
+1323201202 source:/media/mmcblk0p1/fba-pc/src/burn/snd/x1010.cpp
+	"burnint.h"
+	"msm6295.h"
+	"burn_sound.h"
+	"x1010.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/snd/ym2151.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	"driver.h"
+	"state.h"
+	"ym2151.h"
+
+1325878370 source:/media/mmcblk0p1/fba-pc/src/burn/snd/ym2413.c
+	"driver.h"
+	"state.h"
+	"ym2413.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/snd/ymdeltat.c
+	"driver.h"
+	"state.h"
+	"ymdeltat.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/burn/snd/ymf278b.c
+	<math.h>
+	"driver.h"
+	"ymf278b.h"
+	"cpuintrf.h"
+	"ymf278b.h"
+
+1323201202 source:/media/mmcblk0p1/fba-pc/src/burn/snd/ymz280b.cpp
+	<math.h>
+	"burnint.h"
+	"ymz280b.h"
+	"burn_sound.h"
+
+1323373400 source:/media/mmcblk0p1/fba-pc/src/cpu/arm/arm.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"burnint.h"
+	"arm_intf.h"
+
+1323373402 source:/media/mmcblk0p1/fba-pc/src/cpu/arm7/arm7.cpp
+	"burnint.h"
+	"arm7core.h"
+	"arm7_intf.h"
+	"arm7core.c"
+	"arm7exec.c"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/arm7/arm7core.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/arm7/arm7core.c
+	<stdarg.h>
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/arm7/arm7exec.c
+
+1323373402 source:/media/mmcblk0p1/fba-pc/src/cpu/arm7_intf.cpp
+	"burnint.h"
+	"arm7_intf.h"
+
+1323373402 source:/media/mmcblk0p1/fba-pc/src/cpu/arm_intf.cpp
+	"burnint.h"
+	"arm_intf.h"
+
+1327607520 source:/media/mmcblk0p1/fba-pc/src/cpu/h6280/h6280.cpp
+	"burnint.h"
+	"h6280.h"
+	"h6280_intf.h"
+	"h6280ops.h"
+	"tblh6280.c"
+
+1327607520 /media/mmcblk0p1/fba-pc/src/cpu/h6280/h6280.h
+
+1327094928 /media/mmcblk0p1/fba-pc/src/cpu/h6280/h6280ops.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/h6280/tblh6280.c
+
+1327607520 source:/media/mmcblk0p1/fba-pc/src/cpu/h6280_intf.cpp
+	"burnint.h"
+	"h6280.h"
+	"h6280_intf.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/cpu/hd6309/hd6309.cpp
+	"burnint.h"
+	"hd6309.h"
+	"6309tbl.c"
+	"6309ops.c"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/hd6309/6309tbl.c
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/hd6309/6309ops.c
+
+1325878116 source:/media/mmcblk0p1/fba-pc/src/cpu/hd6309_intf.cpp
+	"burnint.h"
+	"hd6309_intf.h"
+
+1325790090 source:/media/mmcblk0p1/fba-pc/src/cpu/i8039/i8039.cpp
+	"burnint.h"
+	"i8039.h"
+
+1326401240 source:/media/mmcblk0p1/fba-pc/src/cpu/konami/konami.cpp
+	"burnint.h"
+	"konami.h"
+	"konami_intf.h"
+	"konamtbl.c"
+	"konamops.c"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/konami/konami.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/konami/konamtbl.c
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/konami/konamops.c
+
+1323373402 source:/media/mmcblk0p1/fba-pc/src/cpu/konami_intf.cpp
+	"burnint.h"
+	"konami_intf.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/cpu/m6502/m6502.cpp
+	"burnint.h"
+	"m6502.h"
+	"ops02.h"
+	"ill02.h"
+	"t6502.c"
+	"opsn2a03.h"
+	"tn2a03.c"
+	"opsc02.h"
+	"t65c02.c"
+	"t65sc02.c"
+	"tdeco16.c"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6502/ops02.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6502/ill02.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6502/t6502.c
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6502/opsn2a03.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6502/tn2a03.c
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6502/opsc02.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6502/t65c02.c
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6502/t65sc02.c
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6502/tdeco16.c
+
+1325878116 source:/media/mmcblk0p1/fba-pc/src/cpu/m6502_intf.cpp
+	"burnint.h"
+	"m6502_intf.h"
+
+1326401282 source:/media/mmcblk0p1/fba-pc/src/cpu/m6800/m6800.cpp
+	"burnint.h"
+	"m6800.h"
+	"6800tbl.c"
+	"6800ops.c"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6800/6800tbl.c
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6800/6800ops.c
+
+1325878116 source:/media/mmcblk0p1/fba-pc/src/cpu/m6800_intf.cpp
+	"burnint.h"
+	"m6800_intf.h"
+
+1326401310 source:/media/mmcblk0p1/fba-pc/src/cpu/m6805/m6805.cpp
+	"burnint.h"
+	"driver.h"
+	"m6805_intf.h"
+	"6805ops.c"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6805/6805ops.c
+
+1323373402 source:/media/mmcblk0p1/fba-pc/src/cpu/m6805_intf.cpp
+	"burnint.h"
+	"m6805_intf.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/cpu/m6809/m6809.cpp
+	"burnint.h"
+	"m6809.h"
+	"6809tbl.c"
+	"6809ops.c"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6809/6809tbl.c
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/m6809/6809ops.c
+
+1324669556 source:/media/mmcblk0p1/fba-pc/src/cpu/m6809_intf.cpp
+	"burnint.h"
+	"m6809_intf.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/cpu/nec/nec.cpp
+	<stdlib.h>
+	<stdio.h>
+	"driver.h"
+	"state.h"
+	"vez.h"
+	"nec.h"
+	"necpriv.h"
+	"necinstr.h"
+	"necmacro.h"
+	"necea.h"
+	"necmodrm.h"
+	"necinstr.c"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/nec/nec.h
+
+1327521272 /media/mmcblk0p1/fba-pc/src/cpu/nec/necpriv.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/nec/necinstr.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/nec/necmacro.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/nec/necea.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/nec/necmodrm.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/nec/necinstr.c
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/cpu/nec/v25.cpp
+	<stdlib.h>
+	<stdio.h>
+	"driver.h"
+	"state.h"
+	"vez.h"
+	"v25priv.h"
+	"v25sfr.c"
+	"v25instr.h"
+	"necmacro.h"
+	"necea.h"
+	"necmodrm.h"
+	"necinstr.c"
+	"v25instr.c"
+
+1327521272 /media/mmcblk0p1/fba-pc/src/cpu/nec/v25priv.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/nec/v25sfr.c
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/nec/v25instr.h
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/nec/v25instr.c
+
+1326401344 source:/media/mmcblk0p1/fba-pc/src/cpu/s2650/s2650.cpp
+	"s2650.h"
+	"burnint.h"
+	"s2650_intf.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/s2650/s2650.h
+
+1323606272 source:/media/mmcblk0p1/fba-pc/src/cpu/s2650_intf.cpp
+	"burnint.h"
+	"s2650_intf.h"
+
+1329422064 source:/media/mmcblk0p1/fba-pc/src/cpu/sek.cpp
+	"burnint.h"
+	"sekdebug.h"
+
+1329344088 source:/media/mmcblk0p1/fba-pc/src/cpu/sh2/sh2.cpp
+	"burnint.h"
+	"sh2.h"
+	"sh2op.c"
+	"state.h"
+
+1323373402 source:/media/mmcblk0p1/fba-pc/src/cpu/vez.cpp
+	"burnint.h"
+	"vez.h"
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/cpu/z80/z80.cpp
+	"burnint.h"
+	"z80.h"
+	"z80daisy.h"
+
+1322658694 /media/mmcblk0p1/fba-pc/src/cpu/z80/z80daisy.h
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/cpu/z80/z80daisy.cpp
+	"z80daisy.h"
+
+1329422440 source:/media/mmcblk0p1/fba-pc/src/cpu/zet.cpp
+	"burnint.h"
+
+1156931676 /media/mmcblk0p1/fba-pc/src/cpu/cyclone/cyclone.h
+
+1173816462 /media/mmcblk0p1/fba-pc/src/cpu/drz80/DrZ80.h
+
+1174079306 source:/media/mmcblk0p1/fba-pc/src/cpu/cyclone/cyclone.s
+
+1328482144 source:/media/mmcblk0p1/fba-pc/src/cpu/drz80/DrZ80.s
+
+1325533810 /media/mmcblk0p1/fba-pc/src/burner/win32/burner_win32.h
+	<windows.h>
+	<windowsx.h>
+	<commctrl.h>
+	<commdlg.h>
+	<mmsystem.h>
+	<shellapi.h>
+	<shlwapi.h>
+	"dwmapi_core.h"
+	"mingw_win32.h"
+	"resource.h"
+	"resource_string.h"
+	"net.h"
+
+1324410660 /media/mmcblk0p1/fba-pc/src/burner/win32/dwmapi_core.h
+	<uxtheme.h>
+
+1327228302 /media/mmcblk0p1/fba-pc/src/burner/win32/resource.h
+
+1327094928 /media/mmcblk0p1/fba-pc/src/burner/win32/resource_string.h
+
+1329439536 source:/media/mmcblk0p1/fba-pc/src/burner/win32/neocdlist.cpp
+	"burner.h"
+	"neocdlist.h"
+
+1325193668 source:/media/mmcblk0p1/fba-pc/src/intf/cd/cd_interface.cpp
+	"burner.h"
+
+1329424311 source:/media/mmcblk0p1/fba-pc/src/burner/sdl/support_paths.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/intf/video/vid_interface.cpp
+	"burner.h"
+
+1324323818 source:/media/mmcblk0p1/fba-pc/src/intf/video/vid_support.cpp
+	"burner.h"
+	"vid_support.h"
+
+1324323820 /media/mmcblk0p1/fba-pc/src/intf/video/vid_support.h
+
+1324323818 source:/media/mmcblk0p1/fba-pc/src/intf/audio/aud_dsp.cpp
+	<stdlib.h>
+	"burner.h"
+	"lowpass2.h"
+
+1324323818 /media/mmcblk0p1/fba-pc/src/intf/audio/lowpass2.h
+
+1329439889 source:/media/mmcblk0p1/fba-pc/src/intf/audio/aud_interface.cpp
+	"burner.h"
+
+1324323818 source:/media/mmcblk0p1/fba-pc/src/intf/audio/lowpass2.cpp
+	<math.h>
+	"burner.h"
+	"lowpass2.h"
+
+1329426112 source:/media/mmcblk0p1/fba-pc/src/intf/video/vid_softfx.cpp
+	"burner.h"
+	"vid_softfx.h"
+	"scale2x.h"
+	"scale2x_vc.h"
+	"scale3x.h"
+
+1324323818 /media/mmcblk0p1/fba-pc/src/intf/video/vid_softfx.h
+	"vid_directx_support.h"
+	<SDL.h>
+
+1324323820 /media/mmcblk0p1/fba-pc/src/intf/video/scalers/scale2x.h
+	<assert.h>
+
+1324323820 /media/mmcblk0p1/fba-pc/src/intf/video/scalers/scale2x_vc.h
+	"scale2x.h"
+
+1324323820 /media/mmcblk0p1/fba-pc/src/intf/video/scalers/scale3x.h
+	<assert.h>
+
+1325193726 source:/media/mmcblk0p1/fba-pc/src/intf/input/inp_interface.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/intf/input/sdl/inp_sdl.cpp
+	<SDL.h>
+	"burner.h"
+	"inp_sdl_keys.h"
+
+1324410662 /media/mmcblk0p1/fba-pc/src/intf/input/sdl/inp_sdl_keys.h
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/intf/audio/sdl/aud_sdl.cpp
+	"SDL.h"
+	"burner.h"
+	"aud_dsp.h"
+	<math.h>
+
+1324323818 /media/mmcblk0p1/fba-pc/src/intf/audio/aud_dsp.h
+
+1325511140 source:/media/mmcblk0p1/fba-pc/src/intf/video/sdl/vid_sdlfx.cpp
+	"burner.h"
+	"vid_support.h"
+	"vid_softfx.h"
+
+1329440438 source:/media/mmcblk0p1/fba-pc/src/intf/video/sdl/vid_sdlopengl.cpp
+	"burner.h"
+	"vid_support.h"
+	"vid_softfx.h"
+	<GLES/gl.h>
+	<GLES/glext.h>
+	<sys/time.h>
+
+1322658694 source:/media/mmcblk0p1/fba-pc/src/intf/interface.cpp
+	"burner.h"
+
+1330280527 source:/media/mmcblk0p1/fba-merge/src/burn/burn.cpp
+	"version.h"
+	"burnint.h"
+	"burn_sound.h"
+	"driverlist.h"
+	"driver.h"
+
+1327246832 /media/mmcblk0p1/fba-merge/src/burn/version.h
+
+1327522004 /media/mmcblk0p1/fba-merge/src/burn/burnint.h
+	<stdarg.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+	"tchar.h"
+	"burn.h"
+	"sek.h"
+	"zet.h"
+	"endian.h"
+	"stdfunc.h"
+
+1329384750 /media/mmcblk0p1/fba-merge/src/burner/sdl/tchar.h
+	<wchar.h>
+
+1330172457 /media/mmcblk0p1/fba-merge/src/burn/burn.h
+	<time.h>
+	"state.h"
+	"cheat.h"
+	"hiscore.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/state.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/cheat.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/hiscore.h
+
+1329681450 /media/mmcblk0p1/fba-merge/src/cpu/sek.h
+	"m68k.h"
+	"cyclone.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m68k/m68k.h
+	"m68kconf.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m68k/m68kconf.h
+
+1156931676 /media/mmcblk0p1/fba-merge/src/cpu/cyclone/cyclone.h
+
+1330214585 /media/mmcblk0p1/fba-merge/src/cpu/zet.h
+	"doze.h"
+	"DrZ80.h"
+	"z80.h"
+
+1173816462 /media/mmcblk0p1/fba-merge/src/cpu/drz80/DrZ80.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/stdfunc.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/burn_sound.h
+
+1329563876 /media/mmcblk0p1/fba-merge/src/burn/driverlist.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/driver.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+
+1323203544 source:/media/mmcblk0p1/fba-merge/src/burn/burn_gun.cpp
+	"burnint.h"
+	"burn_gun.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/burn_gun.h
+
+1323203762 source:/media/mmcblk0p1/fba-merge/src/burn/burn_led.cpp
+	"burnint.h"
+	"burn_led.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/burn_led.h
+
+1323719328 source:/media/mmcblk0p1/fba-merge/src/burn/burn_memory.cpp
+	"burnint.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/burn_sound.cpp
+	"burnint.h"
+	"burn_sound.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/burn_sound_c.cpp
+	"burnint.h"
+	"burn_sound.h"
+
+1329253766 source:/media/mmcblk0p1/fba-merge/src/burn/cheat.cpp
+	"burnint.h"
+	"vez.h"
+	"sh2.h"
+	"m6502_intf.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"s2650_intf.h"
+	"konami_intf.h"
+	"arm7_intf.h"
+
+1325619392 /media/mmcblk0p1/fba-merge/src/cpu/vez.h
+
+1329252575 /media/mmcblk0p1/fba-merge/src/cpu/sh2/sh2.h
+
+1323373400 /media/mmcblk0p1/fba-merge/src/cpu/m6502_intf.h
+	"m6502.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6502/m6502.h
+
+1324669556 /media/mmcblk0p1/fba-merge/src/cpu/m6809_intf.h
+	"m6809.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6809/m6809.h
+
+1324669556 /media/mmcblk0p1/fba-merge/src/cpu/hd6309_intf.h
+	"hd6309.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/hd6309/hd6309.h
+
+1325511142 /media/mmcblk0p1/fba-merge/src/cpu/m6800_intf.h
+	"m6800.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6800/m6800.h
+
+1326399494 /media/mmcblk0p1/fba-merge/src/cpu/s2650_intf.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/konami_intf.h
+
+1323115180 /media/mmcblk0p1/fba-merge/src/cpu/arm7_intf.h
+
+1323379588 source:/media/mmcblk0p1/fba-merge/src/burn/debug_track.cpp
+	"burnint.h"
+
+1323202204 source:/media/mmcblk0p1/fba-merge/src/burn/devices/8255ppi.cpp
+	"burnint.h"
+	"8255ppi.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/devices/8255ppi.h
+
+1329529845 source:/media/mmcblk0p1/fba-merge/src/burn/devices/eeprom.cpp
+	"burnint.h"
+	"eeprom.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/devices/eeprom.h
+
+1323202610 source:/media/mmcblk0p1/fba-merge/src/burn/devices/pandora.cpp
+	"tiles_generic.h"
+
+1325271074 /media/mmcblk0p1/fba-merge/src/burn/tiles_generic.h
+	"burnint.h"
+
+1330216370 source:/media/mmcblk0p1/fba-merge/src/burn/devices/seibusnd.cpp
+	"burnint.h"
+	"burn_ym3812.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+	"bitswap.h"
+	"zet.h"
+
+1326829384 /media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym3812.h
+	"driver.h"
+	"fmopl.h"
+	"timer.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/fmopl.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/timer.h
+
+1323115178 /media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2151.h
+	"driver.h"
+	"ym2151.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/ym2151.h
+
+1323115178 /media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2203.h
+	"driver.h"
+	"ay8910.h"
+	"fm.h"
+	"timer.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/ay8910.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/fm.h
+
+1323201202 /media/mmcblk0p1/fba-merge/src/burn/snd/msm6295.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/bitswap.h
+
+1325530136 source:/media/mmcblk0p1/fba-merge/src/burn/devices/sknsspr.cpp
+	"tiles_generic.h"
+
+1323202988 source:/media/mmcblk0p1/fba-merge/src/burn/devices/timekpr.cpp
+	"burnint.h"
+	"time.h"
+	"timekpr.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/devices/timekpr.h
+
+1323980616 source:/media/mmcblk0p1/fba-merge/src/burn/devices/v3021.cpp
+	"burnint.h"
+
+1327094928 source:/media/mmcblk0p1/fba-merge/src/burn/devices/vdc.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+
+1327607520 /media/mmcblk0p1/fba-merge/src/cpu/h6280_intf.h
+
+1324577990 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cps.cpp
+	"cps.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cps.h
+	"burnint.h"
+	"msm6295.h"
+	"eeprom.h"
+	"timer.h"
+
+1327435196 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cps2_crpt.cpp
+	"driver.h"
+	"cpu/m68000/m68kmame.h"
+	"ui.h"
+	"includes/cps1.h"
+	"cps.h"
+	"bitswap.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cps_config.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cps_draw.cpp
+	"cps.h"
+
+1324577990 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cps_mem.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cps_obj.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cps_pal.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cps_run.cpp
+	"cps.h"
+
+1324577990 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cps_rw.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cps_scr.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cpsr.cpp
+	"cps.h"
+
+1327435196 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cpsrd.cpp
+	"cps.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/cpst.cpp
+	"cps.h"
+
+1329230234 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/ctv.cpp
+	"cps.h"
+	"ctv.h"
+
+1167301332 /media/mmcblk0p1/fba-merge/src/burn/drv/capcom/ctv.h
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+	"ctv_do.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/capcom/ctv_do.h
+
+1326052542 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/d_cps1.cpp
+	"cps.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/d_cps2.cpp
+	"cps.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/kabuki.cpp
+	"cps.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/ps.cpp
+	"cps.h"
+	"driver.h"
+	"ym2151.h"
+
+1329525034 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/ps_m.cpp
+	"cps.h"
+	"burn_ym2151.h"
+
+1324577990 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/ps_z.cpp
+	"cps.h"
+	"burn_ym2151.h"
+
+1324577990 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/qs.cpp
+	"cps.h"
+
+1324577990 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/qs_c.cpp
+	<math.h>
+	"cps.h"
+	"burn_sound.h"
+
+1325705580 source:/media/mmcblk0p1/fba-merge/src/burn/drv/capcom/qs_z.cpp
+	"cps.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave.cpp
+	"cave.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave.h
+	"burnint.h"
+	"eeprom.h"
+
+1327436326 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave_palette.cpp
+	"cave.h"
+
+1327436326 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave_sprite.cpp
+	"cave.h"
+	"cave_sprite_func.h"
+
+1329527849 /media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave_sprite_func.h
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_render_zoom.h"
+	"cave_sprite_func_table.h"
+
+1327436326 /media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave_sprite_render.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave_sprite_render_zoom.h
+
+1329527405 /media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave_sprite_func_table.h
+
+1327436326 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave_tile.cpp
+	"cave.h"
+	"cave_tile_func.h"
+
+1329527889 /media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave_tile_func.h
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_render.h"
+	"cave_tile_func_table.h"
+
+1327436326 /media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave_tile_render.h
+
+1329527386 /media/mmcblk0p1/fba-merge/src/burn/drv/cave/cave_tile_func_table.h
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_dodonpachi.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/ymz280b.h
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_donpachi.cpp
+	"cave.h"
+	"msm6295.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_esprade.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_feversos.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1323721240 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_gaia.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_guwange.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1325878116 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_hotdogst.cpp
+	"cave.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_korokoro.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_mazinger.cpp
+	"cave.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+	"bitswap.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_metmqstr.cpp
+	"cave.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1327436326 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_pwrinst2.cpp
+	"cave.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+	"bitswap.h"
+
+1325878116 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_sailormn.cpp
+	"cave.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+	"bitswap.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_tjumpman.cpp
+	"cave.h"
+	"msm6295.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cave/d_uopoko.cpp
+	"cave.h"
+	"ymz280b.h"
+
+1329345671 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cps3/cps3run.cpp
+	"cps3.h"
+	"sh2.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/cps3/cps3.h
+	"burnint.h"
+
+1323807822 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cps3/cps3snd.cpp
+	"cps3.h"
+
+1326402824 source:/media/mmcblk0p1/fba-merge/src/burn/drv/cps3/d_cps3.cpp
+	"cps3.h"
+
+1324415772 source:/media/mmcblk0p1/fba-merge/src/burn/drv/d_parent.cpp
+	"burnint.h"
+
+1325146608 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_backfire.cpp
+	"tiles_generic.h"
+	"arm_intf.h"
+	"ymz280b.h"
+	"eeprom.h"
+	"deco16ic.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/arm_intf.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/deco16ic.h
+
+1326573954 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_boogwing.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"deco16ic.h"
+	"msm6295.h"
+
+1326575962 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_cbuster.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"bitswap.h"
+	"deco16ic.h"
+	"msm6295.h"
+	"timer.h"
+	"burn_ym2203.h"
+
+1326744786 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_cninja.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"bitswap.h"
+	"deco16ic.h"
+	"burn_ym2203.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"timer.h"
+
+1326636100 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_darkseal.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"bitswap.h"
+	"deco16ic.h"
+	"burn_ym2203.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"timer.h"
+
+1326636106 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_dassault.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"bitswap.h"
+	"deco16ic.h"
+	"burn_ym2203.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"timer.h"
+
+1327607520 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_dec0.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+	"burn_ym3812.h"
+	"h6280_intf.h"
+
+1325146578 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_dec8.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"burn_ym2203.h"
+	"hd6309_intf.h"
+	"m6809_intf.h"
+	"burn_ym3812.h"
+	"burn_ym3526.h"
+	"msm5205.h"
+
+1323115970 /media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym3526.h
+	"driver.h"
+	"fmopl.h"
+	"timer.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/msm5205.h
+
+1326572542 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_dietgogo.cpp
+	"tiles_generic.h"
+	"deco16ic.h"
+	"msm6295.h"
+	"h6280_intf.h"
+
+1326636112 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_funkyjet.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"deco16ic.h"
+	"msm6295.h"
+
+1325146564 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_karnov.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"burn_ym2203.h"
+	"burn_ym3526.h"
+
+1325146558 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_lemmings.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"m6809_intf.h"
+	"msm6295.h"
+
+1326636548 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_rohga.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"deco16ic.h"
+	"msm6295.h"
+
+1326138552 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_sidepckt.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"m6502_intf.h"
+	"burn_ym2203.h"
+	"burn_ym3526.h"
+
+1325146548 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_simpl156.cpp
+	"tiles_generic.h"
+	"arm_intf.h"
+	"msm6295.h"
+	"eeprom.h"
+	"deco16ic.h"
+
+1326658776 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_supbtime.cpp
+	"tiles_generic.h"
+	"deco16ic.h"
+	"h6280_intf.h"
+	"msm6295.h"
+
+1326551118 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_tumblep.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"deco16ic.h"
+	"msm6295.h"
+
+1326646984 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/d_vaportra.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"deco16ic.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1327607520 source:/media/mmcblk0p1/fba-merge/src/burn/drv/dataeast/deco16ic.cpp
+	"tiles_generic.h"
+	"bitswap.h"
+	"h6280_intf.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1324410664 source:/media/mmcblk0p1/fba-merge/src/burn/drv/galaxian/d_galaxian.cpp
+	"gal.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/galaxian/gal.h
+	"tiles_generic.h"
+	"dac.h"
+	"8255ppi.h"
+	"bitswap.h"
+	"s2650_intf.h"
+	"sn76496.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/dac.h
+
+1326399272 /media/mmcblk0p1/fba-merge/src/burn/snd/sn76496.h
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/galaxian/gal_gfx.cpp
+	"gal.h"
+
+1324577980 source:/media/mmcblk0p1/fba-merge/src/burn/drv/galaxian/gal_run.cpp
+	"gal.h"
+
+1324410664 source:/media/mmcblk0p1/fba-merge/src/burn/drv/galaxian/gal_sound.cpp
+	"gal.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/galaxian/gal_stars.cpp
+	"gal.h"
+
+1324577980 source:/media/mmcblk0p1/fba-merge/src/burn/drv/irem/d_m62.cpp
+	"tiles_generic.h"
+	"m6800_intf.h"
+	"msm5205.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577980 source:/media/mmcblk0p1/fba-merge/src/burn/drv/irem/d_m63.cpp
+	"tiles_generic.h"
+	"i8039.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/i8039/i8039.h
+	"driver.h"
+
+1327521258 source:/media/mmcblk0p1/fba-merge/src/burn/drv/irem/d_m72.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"vez.h"
+	"irem_cpu.h"
+	"dac.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/irem/irem_cpu.h
+
+1327521258 source:/media/mmcblk0p1/fba-merge/src/burn/drv/irem/d_m90.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"vez.h"
+	"irem_cpu.h"
+	"dac.h"
+
+1327521258 source:/media/mmcblk0p1/fba-merge/src/burn/drv/irem/d_m92.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"vez.h"
+	"msm6295.h"
+	"irem_cpu.h"
+	"iremga20.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/iremga20.h
+
+1325156820 source:/media/mmcblk0p1/fba-merge/src/burn/drv/irem/d_vigilant.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"dac.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/irem/irem_cpu.cpp
+	"burnint.h"
+	"irem_cpu.h"
+
+1326399556 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_88games.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"upd7759.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/konami/konamiic.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/upd7759.h
+
+1324669556 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_ajax.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+	"m6809_intf.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/k007232.h
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_aliens.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_blockhl.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+
+1324669556 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_bottom9.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+	"k007232.h"
+	"m6809_intf.h"
+
+1324669556 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_contra.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"m6809_intf.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_crimfght.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+
+1324587174 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_gberet.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_gbusters.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_gradius3.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+
+1324669556 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_gyruss.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"i8039.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_hcastle.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"burn_ym3812.h"
+	"k051649.h"
+	"k007232.h"
+
+1324577992 /media/mmcblk0p1/fba-merge/src/burn/snd/k051649.h
+
+1325511140 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_hexion.cpp
+	"tiles_generic.h"
+	"k051649.h"
+	"msm6295.h"
+
+1325511140 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_mainevt.cpp
+	"tiles_generic.h"
+	"hd6309_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"upd7759.h"
+	"k007232.h"
+
+1324587174 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_mogura.cpp
+	"tiles_generic.h"
+	"dac.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_parodius.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"k053260.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/k053260.h
+
+1324587174 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_pooyan.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_rollerg.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"k053260.h"
+
+1324669556 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_scotrsht.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"burn_ym2203.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_simpsons.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"k053260.h"
+	"eeprom.h"
+
+1324669556 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_spy.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"burn_ym3812.h"
+	"konamiic.h"
+	"k007232.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_surpratk.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"konami_intf.h"
+	"konamiic.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_thunderx.cpp
+	"tiles_generic.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k007232.h"
+
+1326400116 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_tmnt.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"upd7759.h"
+	"k007232.h"
+	"k053260.h"
+	"eeprom.h"
+
+1326400614 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_twin16.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"upd7759.h"
+	"k007232.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_ultraman.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"konamiic.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_vendetta.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"konami_intf.h"
+	"konamiic.h"
+	"k053260.h"
+	"eeprom.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/d_xmen.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+	"burn_ym2151.h"
+	"k054539.h"
+	"eeprom.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/k054539.h
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/k051316.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/k051733.cpp
+	"burnint.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/k051960.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/k052109.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/k053245.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/k053247.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/k053251.cpp
+	"burnint.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/k053936.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/k054000.cpp
+	"burnint.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/drv/konami/konamiic.cpp
+	"tiles_generic.h"
+	"konamiic.h"
+
+1326312384 source:/media/mmcblk0p1/fba-merge/src/burn/drv/megadrive/d_megadrive.cpp
+	"burnint.h"
+	"megadrive.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/megadrive/megadrive.h
+
+1329262327 source:/media/mmcblk0p1/fba-merge/src/burn/drv/megadrive/megadrive.cpp
+	"burnint.h"
+	"burn_ym2612.h"
+	"sn76496.h"
+	"megadrive.h"
+	"bitswap.h"
+	"sekdebug.h"
+
+1323115762 /media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2612.h
+	"driver.h"
+	"fm.h"
+	"timer.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/sekdebug.h
+
+1327435196 source:/media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/d_neogeo.cpp
+	"neogeo.h"
+	"bitswap.h"
+
+1323169562 /media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neogeo.h
+	"burnint.h"
+
+1324569962 source:/media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neo_decrypt.cpp
+	"neogeo.h"
+	"bitswap.h"
+
+1324671874 source:/media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neo_palette.cpp
+	"neogeo.h"
+
+1329335969 source:/media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neo_run.cpp
+	"neogeo.h"
+	"cd_interface.h"
+	"burn_ym2610.h"
+	"bitswap.h"
+	"neocdlist.h"
+
+1324323818 /media/mmcblk0p1/fba-merge/src/intf/cd/cd_interface.h
+
+1323115178 /media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2610.h
+	"driver.h"
+	"ay8910.h"
+	"fm.h"
+	"timer.h"
+
+1325536502 /media/mmcblk0p1/fba-merge/src/burner/neocdlist.h
+
+1324569804 source:/media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neo_sprite.cpp
+	"neogeo.h"
+	"neo_sprite_func.h"
+
+1329527944 /media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neo_sprite_func.h
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_render.h"
+	"neo_sprite_func_table.h"
+
+1323169562 /media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neo_sprite_render.h
+
+1329527442 /media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neo_sprite_func_table.h
+
+1324569780 source:/media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neo_text.cpp
+	"neogeo.h"
+	"neo_text_render.h"
+	"neo_text_render.h"
+	"neo_text_render.h"
+
+1323169562 /media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neo_text_render.h
+
+1323169562 source:/media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neo_upd4990a.cpp
+	"neogeo.h"
+
+1324569732 source:/media/mmcblk0p1/fba-merge/src/burn/drv/neogeo/neogeo.cpp
+	"neogeo.h"
+	"bitswap.h"
+
+1325191092 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_1942.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191098 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_1943.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_4enraya.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_ambush.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_arabian.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_armedf.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"dac.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_aztarac.cpp
+	"burnint.h"
+	"vector.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/vector.h
+
+1324669554 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_baraduke.cpp
+	"tiles_generic.h"
+	"m6800_intf.h"
+	"m6809_intf.h"
+	"namco_snd.h"
+	"burn_led.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/namco_snd.h
+
+1325191548 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_bionicc.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+
+1325191544 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_blktiger.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+
+1325191826 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_blockout.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_blueprnt.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_bombjack.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191102 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_commando.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+
+1325878116 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_ddragon.cpp
+	"tiles_generic.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"m6805_intf.h"
+	"m6809_intf.h"
+	"burn_ym2151.h"
+	"msm5205.h"
+	"msm6295.h"
+	"bitswap.h"
+
+1326400692 /media/mmcblk0p1/fba-merge/src/cpu/m6805_intf.h
+	"m6805.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6805/m6805.h
+
+1325538368 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_dynduke.cpp
+	"tiles_generic.h"
+	"seibusnd.h"
+	"vez.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/devices/seibusnd.h
+	"burn_ym3812.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_epos.cpp
+	"tiles_generic.h"
+	"8255ppi.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1326487722 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_exedexes.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_funkybee.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_galaga.cpp
+	"tiles_generic.h"
+	"namco_snd.h"
+	"samples.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/samples.h
+
+1323552260 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_gauntlet.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"burn_ym2151.h"
+
+1324669554 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_ginganin.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"burn_y8950.h"
+	"driver.h"
+	"ay8910.h"
+
+1323115178 /media/mmcblk0p1/fba-merge/src/burn/snd/burn_y8950.h
+	"driver.h"
+	"fmopl.h"
+	"timer.h"
+
+1325191112 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_gng.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"burn_ym2203.h"
+
+1325191116 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_gunsmoke.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+
+1325191122 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_higemaru.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1326487722 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_ikki.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_jack.cpp
+	"tiles_generic.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_kangaroo.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_kyugo.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1326487722 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_ladybug.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+	"bitswap.h"
+
+1325191126 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_lwings.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm5205.h"
+
+1325191130 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_madgear.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_marineb.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_markham.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_meijinsn.cpp
+	"burnint.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_mitchell.cpp
+	"tiles_generic.h"
+	"eeprom.h"
+	"burn_ym2413.h"
+	"msm6295.h"
+
+1325790090 /media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2413.h
+	"driver.h"
+	"ym2413.h"
+
+1325790090 /media/mmcblk0p1/fba-merge/src/burn/snd/ym2413.h
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_mole.cpp
+	"burnint.h"
+	"m6502_intf.h"
+	"driver.h"
+	"ay8910.h"
+
+1326487722 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_mrdo.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1325511902 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_mrflea.cpp
+	"burnint.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191740 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_mystston.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_pac2650.cpp
+	"tiles_generic.h"
+	"s2650_intf.h"
+	"sn76496.h"
+
+1325272102 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_pacland.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"m6800_intf.h"
+	"namco_snd.h"
+	"burn_led.h"
+
+1326744786 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_pacman.cpp
+	"tiles_generic.h"
+	"bitswap.h"
+	"sn76496.h"
+	"namco_snd.h"
+	"driver.h"
+	"ay8910.h"
+
+1327607520 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_pce.cpp
+	"tiles_generic.h"
+	"h6280_intf.h"
+	"vdc.h"
+	"c6280.h"
+	"bitswap.h"
+
+1327094928 /media/mmcblk0p1/fba-merge/src/burn/devices/vdc.h
+
+1327094926 /media/mmcblk0p1/fba-merge/src/burn/snd/c6280.h
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_pkunwar.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_prehisle.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"upd7759.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_quizo.cpp
+	"burnint.h"
+	"driver.h"
+	"ay8910.h"
+	"bitswap.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_rallyx.cpp
+	"tiles_generic.h"
+	"namco_snd.h"
+	"samples.h"
+
+1325191744 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_renegade.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"m6805_intf.h"
+	"m6809_intf.h"
+	"burn_ym3526.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_route16.cpp
+	"burnint.h"
+	"driver.h"
+	"dac.h"
+	"ay8910.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_rpunch.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"upd7759.h"
+
+1325191746 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_scregg.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191134 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_sf.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm5205.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_skyfox.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+
+1324669554 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_skykid.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"m6800_intf.h"
+	"namco_snd.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_snk68.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"upd7759.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_solomon.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191138 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_sonson.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"driver.h"
+	"ay8910.h"
+
+1325191060 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_srumbler.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"burn_ym2203.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_tecmo.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"msm5205.h"
+
+1326311602 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_terracre.cpp
+	"tiles_generic.h"
+	"burn_ym3526.h"
+	"burn_ym2203.h"
+	"dac.h"
+
+1325191066 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_tigeroad.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm5205.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_toki.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+	"msm5205.h"
+	"bitswap.h"
+
+1325191088 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_vulgus.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_wallc.cpp
+	"tiles_generic.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1327438620 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_wc90.cpp
+	"tiles_generic.h"
+	"burn_ym2608.h"
+
+1323115178 /media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2608.h
+	"driver.h"
+	"ay8910.h"
+	"fm.h"
+	"timer.h"
+
+1324577986 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_wc90b.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm5205.h"
+
+1325191748 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pre90s/d_wwfsstar.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1322769254 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_1945kiii.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_aerofgt.cpp
+	"burnint.h"
+	"burn_ym2610.h"
+
+1325156818 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_airbustr.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+	"pandora.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/devices/pandora.h
+
+1324577984 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_aquarium.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"bitswap.h"
+
+1325964748 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_blmbycar.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_bloodbro.cpp
+	"tiles_generic.h"
+	"seibusnd.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_crospang.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym3812.h"
+
+1324577984 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_crshrace.cpp
+	"tiles_generic.h"
+	"burn_ym2610.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_dcon.cpp
+	"tiles_generic.h"
+	"seibusnd.h"
+
+1325191696 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_ddragon3.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_deniam.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_diverboy.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_drtomy.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577984 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_egghunt.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577984 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_esd16.cpp
+	"tiles_generic.h"
+	"eeprom.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_f1gp.cpp
+	"tiles_generic.h"
+	"burn_ym2610.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_fstarfrc.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_funybubl.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_fuukifg3.cpp
+	"tiles_generic.h"
+	"burn_ymf278b.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/burn_ymf278b.h
+	"driver.h"
+	"ymf278b.h"
+	"timer.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/ymf278b.h
+
+1324669554 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_gaelco.cpp
+	"tiles_generic.h"
+	"m6809_intf.h"
+	"msm6295.h"
+	"burn_ym3812.h"
+	"bitswap.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_gaiden.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"bitswap.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_galpanic.cpp
+	"burnint.h"
+	"driver.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_gotcha.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"bitswap.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_gumbo.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_hyperpac.cpp
+	"tiles_generic.h"
+	"timer.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+	"burn_ym3812.h"
+	"bitswap.h"
+
+1325533150 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_jchan.cpp
+	"tiles_generic.h"
+	"sknsspr.h"
+	"ymz280b.h"
+
+1325530136 /media/mmcblk0p1/fba-merge/src/burn/devices/sknsspr.h
+
+1325107310 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_kaneko16.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+	"eeprom.h"
+	"kanekotb.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/kanekotb.h
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_lordgun.cpp
+	"tiles_generic.h"
+	"burn_ymf278b.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+	"8255ppi.h"
+	"eeprom.h"
+	"burn_gun.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_mcatadv.cpp
+	"tiles_generic.h"
+	"burn_ym2610.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_midas.cpp
+	"tiles_generic.h"
+	"eeprom.h"
+	"ymz280b.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_mugsmash.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1325706308 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_news.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_nmg5.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_nmk16.cpp
+	"tiles_generic.h"
+	"seibusnd.h"
+	"bitswap.h"
+	"nmk004.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/nmk004.h
+
+1326658174 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_ohmygod.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_pass.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_pirates.cpp
+	"tiles_generic.h"
+	"bitswap.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_pktgaldx.cpp
+	"tiles_generic.h"
+	"deco16ic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_powerins.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_pushman.cpp
+	"tiles_generic.h"
+	"m6805_intf.h"
+	"burn_ym2203.h"
+
+1325538424 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_raiden.cpp
+	"burnint.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+	"vez.h"
+
+1326401000 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_seta.cpp
+	"tiles_generic.h"
+	"burn_ym2612.h"
+	"burn_ym3812.h"
+	"burn_gun.h"
+	"msm6295.h"
+	"x1010.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/x1010.h
+
+1325191320 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_seta2.cpp
+	"tiles_generic.h"
+	"burn_gun.h"
+	"eeprom.h"
+	"x1010.h"
+
+1325191702 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_shadfrce.cpp
+	"burnint.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_silkroad.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_speedspn.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_suna16.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"burn_ym3526.h"
+	"driver.h"
+	"dac.h"
+	"ay8910.h"
+
+1325156818 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_suprnova.cpp
+	"tiles_generic.h"
+	"sh2.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_taotaido.cpp
+	"tiles_generic.h"
+	"burn_ym2610.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_tecmosys.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"eeprom.h"
+	"ymz280b.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_tumbleb.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"burn_ym3812.h"
+
+1323639578 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_unico.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+	"eeprom.h"
+	"burn_gun.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_vmetal.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+	"es8712.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/es8712.h
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_welltris.cpp
+	"tiles_generic.h"
+	"burn_ym2610.h"
+
+1325191700 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_wwfwfest.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_xorworld.cpp
+	"tiles_generic.h"
+	"saa1099.h"
+	"eeprom.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/saa1099.h
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_yunsun16.cpp
+	"tiles_generic.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+
+1324577982 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/d_zerozone.cpp
+	"tiles_generic.h"
+	"msm6295.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pst90s/nmk004.cpp
+	"burnint.h"
+	"nmk004.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1325793640 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_angelkds.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"bitswap.h"
+
+1325793770 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_bankp.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1325157000 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_dotrikun.cpp
+	"tiles_generic.h"
+
+1325018000 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_hangon.cpp
+	"sys16.h"
+
+1325790090 /media/mmcblk0p1/fba-merge/src/burn/drv/sega/sys16.h
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"burn_ym2413.h"
+	"burn_ym2612.h"
+	"rf5c68.h"
+	"burn_gun.h"
+	"bitswap.h"
+	"genesis_vid.h"
+	"8255ppi.h"
+
+1325790090 /media/mmcblk0p1/fba-merge/src/burn/snd/rf5c68.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/sega/genesis_vid.h
+	"driver.h"
+
+1324329052 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_outrun.cpp
+	"sys16.h"
+	"bitswap.h"
+
+1326487722 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_suprloco.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+
+1326399272 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_sys1.cpp
+	"tiles_generic.h"
+	"sn76496.h"
+	"bitswap.h"
+	"mc8123.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/sega/mc8123.h
+
+1325018106 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_sys16a.cpp
+	"sys16.h"
+
+1326224968 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_sys16b.cpp
+	"sys16.h"
+
+1324410664 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_sys18.cpp
+	"sys16.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_xbrd.cpp
+	"sys16.h"
+
+1325025158 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/d_ybrd.cpp
+	"sys16.h"
+
+1325017768 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/fd1089.cpp
+	"sys16.h"
+	"bitswap.h"
+
+1325017920 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/fd1094.cpp
+	"burnint.h"
+	"fd1094.h"
+	"bitswap.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/sega/fd1094.h
+
+1325790090 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/genesis_vid.cpp
+	"genesis_vid.h"
+	"burnint.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/mc8123.cpp
+	"burnint.h"
+	"bitswap.h"
+
+1329660645 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/sys16_fd1094.cpp
+	"sys16.h"
+	"fd1094.h"
+
+1325790090 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/sys16_gfx.cpp
+	"sys16.h"
+
+1329671381 source:/media/mmcblk0p1/fba-merge/src/burn/drv/sega/sys16_run.cpp
+	"sys16.h"
+	"dac.h"
+	"i8039.h"
+	"mc8123.h"
+	"upd7759.h"
+	"segapcm.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/segapcm.h
+
+1325107892 source:/media/mmcblk0p1/fba-merge/src/burn/drv/snes/d_snes.cpp
+	"snes.h"
+
+1324577990 /media/mmcblk0p1/fba-merge/src/burn/drv/snes/snes.h
+	"tiles_generic.h"
+	"bitswap.h"
+
+1324577990 source:/media/mmcblk0p1/fba-merge/src/burn/drv/snes/snes_65816.cpp
+	<stdio.h>
+	"snes.h"
+
+1326401840 source:/media/mmcblk0p1/fba-merge/src/burn/drv/snes/snes_io.cpp
+	"snes.h"
+
+1324577990 source:/media/mmcblk0p1/fba-merge/src/burn/drv/snes/snes_main.cpp
+	<stdio.h>
+	"snes.h"
+
+1324577990 source:/media/mmcblk0p1/fba-merge/src/burn/drv/snes/snes_mem.cpp
+	<stdio.h>
+	"snes.h"
+
+1324577990 source:/media/mmcblk0p1/fba-merge/src/burn/drv/snes/snes_ppu.cpp
+	<stdio.h>
+	"snes.h"
+
+1324577990 source:/media/mmcblk0p1/fba-merge/src/burn/drv/snes/snes_spc700.cpp
+	<stdio.h>
+	"snes.h"
+
+1324323816 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/cchip.cpp
+	"burnint.h"
+	"taito_ic.h"
+	"taito.h"
+
+1325087378 /media/mmcblk0p1/fba-merge/src/burn/drv/taito/taito_ic.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/taito/taito.h
+
+1325157136 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_arkanoid.cpp
+	"tiles_generic.h"
+	"taito_m68705.h"
+	"driver.h"
+	"ay8910.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/taito/taito_m68705.h
+	"m6805_intf.h"
+
+1325157140 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_ashnojoe.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"msm5205.h"
+
+1324577980 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_asuka.cpp
+	"tiles_generic.h"
+	"burn_ym2151.h"
+	"burn_ym2610.h"
+	"msm5205.h"
+	"taito_ic.h"
+	"taito.h"
+
+1324577980 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_bublbobl.cpp
+	"tiles_generic.h"
+	"m6800_intf.h"
+	"taito_m68705.h"
+	"burn_ym2203.h"
+	"burn_ym3526.h"
+	"bitswap.h"
+
+1325157114 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_chaknpop.cpp
+	"tiles_generic.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577980 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_darius2.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+
+1325157118 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_flstory.cpp
+	"tiles_generic.h"
+	"taito_m68705.h"
+	"driver.h"
+	"dac.h"
+	"ay8910.h"
+
+1325157122 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_lkage.cpp
+	"tiles_generic.h"
+	"taito_m68705.h"
+	"burn_ym2203.h"
+
+1325157124 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_minivdr.cpp
+	"tiles_generic.h"
+
+1325089048 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_othunder.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+	"eeprom.h"
+	"burn_gun.h"
+
+1326487722 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_retofinv.cpp
+	"tiles_generic.h"
+	"taito_m68705.h"
+	"bitswap.h"
+	"sn76496.h"
+
+1325089162 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_slapshot.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+	"eeprom.h"
+	"burn_gun.h"
+	"timekpr.h"
+
+1325089326 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_superchs.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"eeprom.h"
+	"es5506.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/es5506.h
+
+1324577980 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_taitob.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+	"msm6295.h"
+	"burn_ym2203.h"
+	"burn_gun.h"
+	"eeprom.h"
+
+1325088926 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_taitof2.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+	"burn_ym2203.h"
+	"msm6295.h"
+
+1326400862 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_taitomisc.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"msm5205.h"
+	"burn_ym2151.h"
+	"burn_ym2203.h"
+	"burn_gun.h"
+
+1326487722 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_taitox.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2151.h"
+	"burn_ym2610.h"
+
+1329840411 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_taitoz.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2610.h"
+	"eeprom.h"
+	"burn_gun.h"
+	"config.h"
+
+1325157134 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/d_tnzs.cpp
+	"tiles_generic.h"
+	"burn_ym2203.h"
+	"burn_ym2151.h"
+	"tnzs_prot.h"
+	"dac.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/taito/tnzs_prot.h
+
+1325087796 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/pc080sn.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1325087506 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/pc090oj.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1324323816 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/taito.cpp
+	"tiles_generic.h"
+	"taito.h"
+	"taito_ic.h"
+	"burn_ym2151.h"
+	"burn_ym2610.h"
+	"burn_ym2203.h"
+	"msm5205.h"
+	"msm6295.h"
+	"eeprom.h"
+	"burn_gun.h"
+
+1324323816 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/taito_ic.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/taito_m68705.cpp
+	"burnint.h"
+	"taito_m68705.h"
+
+1325087120 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tc0100scn.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1324323816 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tc0110pcr.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tc0140syt.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1325086886 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tc0150rod.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1324323816 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tc0180vcu.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+	"taito.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tc0220ioc.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1325086698 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tc0280grd.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tc0360pri.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1325089506 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tc0480scp.cpp
+	"tiles_generic.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tc0510nio.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tc0640fio.cpp
+	"burnint.h"
+	"taito_ic.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/taito/tnzs_prot.cpp
+	"burnint.h"
+	"tnzs_prot.h"
+
+1325710636 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_batrider.cpp
+	"toaplan.h"
+
+1325019006 /media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/toaplan.h
+	"burnint.h"
+	"msm6295.h"
+	"burn_ym2151.h"
+	"burn_ym3812.h"
+
+1325538232 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_batsugun.cpp
+	"toaplan.h"
+	"vez.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_battleg.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_bbakraid.cpp
+	"toaplan.h"
+	"ymz280b.h"
+	"eeprom.h"
+	"timer.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_demonwld.cpp
+	"toaplan.h"
+
+1325538266 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_dogyuun.cpp
+	"toaplan.h"
+	"vez.h"
+
+1325538290 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_fixeight.cpp
+	"toaplan.h"
+	"eeprom.h"
+	"vez.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_ghox.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_hellfire.cpp
+	"toaplan.h"
+
+1325538308 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_kbash.cpp
+	"toaplan.h"
+	"vez.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_kbash2.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_mahoudai.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_outzone.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_pipibibs.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_rallybik.cpp
+	"toaplan.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_samesame.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_shippumd.cpp
+	"toaplan.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_snowbro2.cpp
+	"toaplan.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_tekipaki.cpp
+	"toaplan.h"
+
+1325156916 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_tigerheli.cpp
+	"burnint.h"
+	"taito_m68705.h"
+	"bitswap.h"
+	"driver.h"
+	"ay8910.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_truxton.cpp
+	"toaplan.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_truxton2.cpp
+	"toaplan.h"
+
+1325538330 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_vfive.cpp
+	"toaplan.h"
+	"vez.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_vimana.cpp
+	"toaplan.h"
+
+1324577988 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/d_zerowing.cpp
+	"toaplan.h"
+
+1323805278 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/toa_bcu2.cpp
+	"toaplan.h"
+	"toa_gp9001_func.h"
+
+1179936086 /media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/toa_gp9001_func.h
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_render.h"
+	"toa_gp9001_func_table.h"
+
+1325018734 /media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/toa_gp9001_render.h
+
+1179936064 /media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/toa_gp9001_func_table.h
+
+1325018844 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/toa_extratext.cpp
+	"toaplan.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+	"toa_extratext.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/toa_extratext.h
+
+1325018914 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/toa_gp9001.cpp
+	"toaplan.h"
+	"toa_gp9001_func.h"
+
+1325018950 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/toa_palette.cpp
+	"toaplan.h"
+
+1326401674 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/toaplan.cpp
+	"toaplan.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/drv/toaplan/toaplan1.cpp
+	"toaplan.h"
+
+1329420664 source:/media/mmcblk0p1/fba-merge/src/burn/hiscore.cpp
+	"burnint.h"
+	"vez.h"
+	"sh2.h"
+	"m6502_intf.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"s2650_intf.h"
+
+1329425006 source:/media/mmcblk0p1/fba-merge/src/burn/load.cpp
+	"burnint.h"
+
+1323379094 source:/media/mmcblk0p1/fba-merge/src/burn/snd/ay8910.c
+	"driver.h"
+	"state.h"
+	"ay8910.h"
+	<tchar.h>
+
+1323115178 source:/media/mmcblk0p1/fba-merge/src/burn/snd/burn_y8950.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_y8950.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"m6502_intf.h"
+
+1327002846 source:/media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2151.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2151.h"
+
+1323115178 source:/media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2203.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2203.h"
+
+1325790090 source:/media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2413.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2413.h"
+
+1323115178 source:/media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2608.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2608.h"
+
+1323115178 source:/media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2610.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2610.h"
+
+1323115862 source:/media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym2612.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym2612.h"
+
+1323116090 source:/media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym3526.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym3526.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"m6502_intf.h"
+
+1326829384 source:/media/mmcblk0p1/fba-merge/src/burn/snd/burn_ym3812.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ym3812.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"m6502_intf.h"
+	"h6280_intf.h"
+
+1323116584 source:/media/mmcblk0p1/fba-merge/src/burn/snd/burn_ymf278b.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ymf278b.h"
+
+1327521182 source:/media/mmcblk0p1/fba-merge/src/burn/snd/c6280.cpp
+	"burnint.h"
+	"h6280_intf.h"
+	"math.h"
+
+1325790090 source:/media/mmcblk0p1/fba-merge/src/burn/snd/dac.cpp
+	"burnint.h"
+	"burn_sound.h"
+
+1326401192 source:/media/mmcblk0p1/fba-merge/src/burn/snd/es5506.cpp
+	"burnint.h"
+	"es5506.h"
+	"wavwrite.h"
+
+1323117362 source:/media/mmcblk0p1/fba-merge/src/burn/snd/es8712.cpp
+	"burnint.h"
+	"math.h"
+	"es8712.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/snd/fm.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdarg.h>
+	<math.h>
+	"driver.h"
+	"state.h"
+	"deftypes.h"
+	"support.h"
+	"ay8910.h"
+	"fm.h"
+	"ymdeltat.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/ymdeltat.h
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/snd/fmopl.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"driver.h"
+	"ymdeltat.h"
+	"fmopl.h"
+
+1323891882 source:/media/mmcblk0p1/fba-merge/src/burn/snd/ics2115.cpp
+	"burnint.h"
+	"msm6295.h"
+	"burn_sound.h"
+	"ics2115.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/snd/ics2115.h
+
+1323201202 source:/media/mmcblk0p1/fba-merge/src/burn/snd/iremga20.cpp
+	"burnint.h"
+	"iremga20.h"
+
+1323201202 source:/media/mmcblk0p1/fba-merge/src/burn/snd/k007232.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"k007232.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/snd/k051649.cpp
+	"burnint.h"
+
+1324577992 source:/media/mmcblk0p1/fba-merge/src/burn/snd/k053260.cpp
+	"burnint.h"
+
+1323201202 source:/media/mmcblk0p1/fba-merge/src/burn/snd/k054539.cpp
+	"burnint.h"
+	"math.h"
+	"k054539.h"
+
+1323201202 source:/media/mmcblk0p1/fba-merge/src/burn/snd/msm5205.cpp
+	"burnint.h"
+	"msm5205.h"
+	"math.h"
+
+1329587425 source:/media/mmcblk0p1/fba-merge/src/burn/snd/msm6295.cpp
+	<math.h>
+	"burnint.h"
+	"msm6295.h"
+	"burn_sound.h"
+
+1323201202 source:/media/mmcblk0p1/fba-merge/src/burn/snd/namco_snd.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"namco_snd.h"
+
+1325790090 source:/media/mmcblk0p1/fba-merge/src/burn/snd/rf5c68.cpp
+	"burnint.h"
+	"rf5c68.h"
+	"burn_sound.h"
+
+1323201202 source:/media/mmcblk0p1/fba-merge/src/burn/snd/saa1099.cpp
+	"burnint.h"
+	"saa1099.h"
+
+1325511140 source:/media/mmcblk0p1/fba-merge/src/burn/snd/samples.cpp
+	"burnint.h"
+	"samples.h"
+
+1325790090 source:/media/mmcblk0p1/fba-merge/src/burn/snd/segapcm.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"segapcm.h"
+
+1326399272 source:/media/mmcblk0p1/fba-merge/src/burn/snd/sn76496.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"sn76496.h"
+
+1323201202 source:/media/mmcblk0p1/fba-merge/src/burn/snd/upd7759.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"upd7759.h"
+
+1323201202 source:/media/mmcblk0p1/fba-merge/src/burn/snd/x1010.cpp
+	"burnint.h"
+	"msm6295.h"
+	"burn_sound.h"
+	"x1010.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/snd/ym2151.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	"driver.h"
+	"state.h"
+	"ym2151.h"
+
+1325878370 source:/media/mmcblk0p1/fba-merge/src/burn/snd/ym2413.c
+	"driver.h"
+	"state.h"
+	"ym2413.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/snd/ymdeltat.c
+	"driver.h"
+	"state.h"
+	"ymdeltat.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/snd/ymf278b.c
+	<math.h>
+	"driver.h"
+	"ymf278b.h"
+	"cpuintrf.h"
+	"ymf278b.h"
+
+1323201202 source:/media/mmcblk0p1/fba-merge/src/burn/snd/ymz280b.cpp
+	<math.h>
+	"burnint.h"
+	"ymz280b.h"
+	"burn_sound.h"
+
+1323204770 source:/media/mmcblk0p1/fba-merge/src/burn/tiles_generic.cpp
+	"tiles_generic.h"
+
+1326573230 source:/media/mmcblk0p1/fba-merge/src/burn/timer.cpp
+	"burnint.h"
+	"timer.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"m6502_intf.h"
+	"sh2.h"
+	"h6280_intf.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burn/vector.cpp
+	"tiles_generic.h"
+	"math.h"
+
+1325511140 source:/media/mmcblk0p1/fba-merge/src/burner/conc.cpp
+	"burner.h"
+
+1329476779 /media/mmcblk0p1/fba-merge/src/burner/burner.h
+	<limits.h>
+	<stdarg.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	<assert.h>
+	<ctype.h>
+	"tchar.h"
+	"title.h"
+	"burn.h"
+	"burner_win32.h"
+	"burner_sdl.h"
+	"burner_xbox.h"
+	"png.h"
+	"interface.h"
+
+1324323818 /media/mmcblk0p1/fba-merge/src/burner/title.h
+
+1325533810 /media/mmcblk0p1/fba-merge/src/burner/win32/burner_win32.h
+	<windows.h>
+	<windowsx.h>
+	<commctrl.h>
+	<commdlg.h>
+	<mmsystem.h>
+	<shellapi.h>
+	<shlwapi.h>
+	"dwmapi_core.h"
+	"mingw_win32.h"
+	"resource.h"
+	"resource_string.h"
+	"net.h"
+
+1324410660 /media/mmcblk0p1/fba-merge/src/burner/win32/dwmapi_core.h
+	<uxtheme.h>
+
+1327228302 /media/mmcblk0p1/fba-merge/src/burner/win32/resource.h
+
+1327094928 /media/mmcblk0p1/fba-merge/src/burner/win32/resource_string.h
+
+1329743934 /media/mmcblk0p1/fba-merge/src/burner/sdl/burner_sdl.h
+	"SDL.h"
+
+1329477296 /media/mmcblk0p1/fba-merge/src/intf/interface.h
+	"inp_keys.h"
+	"cd_interface.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burner/gameinp.h
+
+1324323818 /media/mmcblk0p1/fba-merge/src/intf/input/inp_keys.h
+
+1329476908 source:/media/mmcblk0p1/fba-merge/src/burner/cong.cpp
+	"burner.h"
+
+1329745851 source:/media/mmcblk0p1/fba-merge/src/burner/dat.cpp
+	"burner.h"
+
+1329477012 source:/media/mmcblk0p1/fba-merge/src/burner/gamc.cpp
+	"burner.h"
+
+1329425084 source:/media/mmcblk0p1/fba-merge/src/burner/gami.cpp
+	"burner.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burner/image.cpp
+	"burner.h"
+	"png.h"
+
+1324325386 source:/media/mmcblk0p1/fba-merge/src/burner/ioapi.c
+	"ioapi.h"
+
+1324325386 /media/mmcblk0p1/fba-merge/src/burner/ioapi.h
+	<stdio.h>
+	<stdlib.h>
+	"zlib.h"
+	<stdint.h>
+	"mz64conf.h"
+	"stdint.h"
+
+1329477541 source:/media/mmcblk0p1/fba-merge/src/burner/misc.cpp
+	<math.h>
+	"burner.h"
+
+1329752462 source:/media/mmcblk0p1/fba-merge/src/burner/sdl/bzip.cpp
+	"burner.h"
+
+1329526825 source:/media/mmcblk0p1/fba-merge/src/burner/sdl/drv.cpp
+	"burner.h"
+	"snd.h"
+
+1325511140 source:/media/mmcblk0p1/fba-merge/src/burner/sdl/inpdipsw.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba-merge/src/burner/sdl/stated.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba-merge/src/burner/sdl/stringset.cpp
+	"burner.h"
+
+1329424311 source:/media/mmcblk0p1/fba-merge/src/burner/sdl/support_paths.cpp
+	"burner.h"
+
+1329744039 source:/media/mmcblk0p1/fba-merge/src/burner/sshot.cpp
+	"burner.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burner/state.cpp
+	"burner.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burner/statec.cpp
+	"zlib.h"
+	"burnint.h"
+
+1324325386 source:/media/mmcblk0p1/fba-merge/src/burner/unzip.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"zlib.h"
+	"unzip.h"
+	<stddef.h>
+	<string.h>
+	<stdlib.h>
+	<errno.h>
+	"crypt.h"
+
+1324325386 /media/mmcblk0p1/fba-merge/src/burner/unzip.h
+	"zlib.h"
+	"ioapi.h"
+	"bzlib.h"
+
+1329744059 source:/media/mmcblk0p1/fba-merge/src/burner/win32/neocdlist.cpp
+	"burner.h"
+	"neocdlist.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/burner/zipfn.cpp
+	"burner.h"
+	"unzip.h"
+
+1323373400 source:/media/mmcblk0p1/fba-merge/src/cpu/arm/arm.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"burnint.h"
+	"arm_intf.h"
+
+1323373402 source:/media/mmcblk0p1/fba-merge/src/cpu/arm7/arm7.cpp
+	"burnint.h"
+	"arm7core.h"
+	"arm7_intf.h"
+	"arm7core.c"
+	"arm7exec.c"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/arm7/arm7core.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/arm7/arm7core.c
+	<stdarg.h>
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/arm7/arm7exec.c
+
+1323373402 source:/media/mmcblk0p1/fba-merge/src/cpu/arm7_intf.cpp
+	"burnint.h"
+	"arm7_intf.h"
+
+1323373402 source:/media/mmcblk0p1/fba-merge/src/cpu/arm_intf.cpp
+	"burnint.h"
+	"arm_intf.h"
+
+1174079306 source:/media/mmcblk0p1/fba-merge/src/cpu/cyclone/cyclone.s
+
+1328482144 source:/media/mmcblk0p1/fba-merge/src/cpu/drz80/DrZ80.s
+
+1327607520 source:/media/mmcblk0p1/fba-merge/src/cpu/h6280/h6280.cpp
+	"burnint.h"
+	"h6280.h"
+	"h6280_intf.h"
+	"h6280ops.h"
+	"tblh6280.c"
+
+1327607520 /media/mmcblk0p1/fba-merge/src/cpu/h6280/h6280.h
+
+1327094928 /media/mmcblk0p1/fba-merge/src/cpu/h6280/h6280ops.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/h6280/tblh6280.c
+
+1327607520 source:/media/mmcblk0p1/fba-merge/src/cpu/h6280_intf.cpp
+	"burnint.h"
+	"h6280.h"
+	"h6280_intf.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/cpu/hd6309/hd6309.cpp
+	"burnint.h"
+	"hd6309.h"
+	"6309tbl.c"
+	"6309ops.c"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/hd6309/6309tbl.c
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/hd6309/6309ops.c
+
+1325878116 source:/media/mmcblk0p1/fba-merge/src/cpu/hd6309_intf.cpp
+	"burnint.h"
+	"hd6309_intf.h"
+
+1325790090 source:/media/mmcblk0p1/fba-merge/src/cpu/i8039/i8039.cpp
+	"burnint.h"
+	"i8039.h"
+
+1326401240 source:/media/mmcblk0p1/fba-merge/src/cpu/konami/konami.cpp
+	"burnint.h"
+	"konami.h"
+	"konami_intf.h"
+	"konamtbl.c"
+	"konamops.c"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/konami/konami.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/konami/konamtbl.c
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/konami/konamops.c
+
+1323373402 source:/media/mmcblk0p1/fba-merge/src/cpu/konami_intf.cpp
+	"burnint.h"
+	"konami_intf.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/cpu/m6502/m6502.cpp
+	"burnint.h"
+	"m6502.h"
+	"ops02.h"
+	"ill02.h"
+	"t6502.c"
+	"opsn2a03.h"
+	"tn2a03.c"
+	"opsc02.h"
+	"t65c02.c"
+	"t65sc02.c"
+	"tdeco16.c"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6502/ops02.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6502/ill02.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6502/t6502.c
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6502/opsn2a03.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6502/tn2a03.c
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6502/opsc02.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6502/t65c02.c
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6502/t65sc02.c
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6502/tdeco16.c
+
+1325878116 source:/media/mmcblk0p1/fba-merge/src/cpu/m6502_intf.cpp
+	"burnint.h"
+	"m6502_intf.h"
+
+1326401282 source:/media/mmcblk0p1/fba-merge/src/cpu/m6800/m6800.cpp
+	"burnint.h"
+	"m6800.h"
+	"6800tbl.c"
+	"6800ops.c"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6800/6800tbl.c
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6800/6800ops.c
+
+1325878116 source:/media/mmcblk0p1/fba-merge/src/cpu/m6800_intf.cpp
+	"burnint.h"
+	"m6800_intf.h"
+
+1326401310 source:/media/mmcblk0p1/fba-merge/src/cpu/m6805/m6805.cpp
+	"burnint.h"
+	"driver.h"
+	"m6805_intf.h"
+	"6805ops.c"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6805/6805ops.c
+
+1323373402 source:/media/mmcblk0p1/fba-merge/src/cpu/m6805_intf.cpp
+	"burnint.h"
+	"m6805_intf.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/cpu/m6809/m6809.cpp
+	"burnint.h"
+	"m6809.h"
+	"6809tbl.c"
+	"6809ops.c"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6809/6809tbl.c
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/m6809/6809ops.c
+
+1324669556 source:/media/mmcblk0p1/fba-merge/src/cpu/m6809_intf.cpp
+	"burnint.h"
+	"m6809_intf.h"
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/cpu/nec/nec.cpp
+	<stdlib.h>
+	<stdio.h>
+	"driver.h"
+	"state.h"
+	"vez.h"
+	"nec.h"
+	"necpriv.h"
+	"necinstr.h"
+	"necmacro.h"
+	"necea.h"
+	"necmodrm.h"
+	"necinstr.c"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/nec/nec.h
+
+1327521272 /media/mmcblk0p1/fba-merge/src/cpu/nec/necpriv.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/nec/necinstr.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/nec/necmacro.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/nec/necea.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/nec/necmodrm.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/nec/necinstr.c
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/cpu/nec/v25.cpp
+	<stdlib.h>
+	<stdio.h>
+	"driver.h"
+	"state.h"
+	"vez.h"
+	"v25priv.h"
+	"v25sfr.c"
+	"v25instr.h"
+	"necmacro.h"
+	"necea.h"
+	"necmodrm.h"
+	"necinstr.c"
+	"v25instr.c"
+
+1327521272 /media/mmcblk0p1/fba-merge/src/cpu/nec/v25priv.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/nec/v25sfr.c
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/nec/v25instr.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/nec/v25instr.c
+
+1326401344 source:/media/mmcblk0p1/fba-merge/src/cpu/s2650/s2650.cpp
+	"s2650.h"
+	"burnint.h"
+	"s2650_intf.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/s2650/s2650.h
+
+1323606272 source:/media/mmcblk0p1/fba-merge/src/cpu/s2650_intf.cpp
+	"burnint.h"
+	"s2650_intf.h"
+
+1329678139 source:/media/mmcblk0p1/fba-merge/src/cpu/sek.cpp
+	"burnint.h"
+	"sekdebug.h"
+
+1329344088 source:/media/mmcblk0p1/fba-merge/src/cpu/sh2/sh2.cpp
+	"burnint.h"
+	"sh2.h"
+	"sh2op.c"
+	"state.h"
+
+1330373014 source:/media/mmcblk0p1/fba-merge/src/cpu/vez.cpp
+	"burnint.h"
+	"vez.h"
+
+1330279738 source:/media/mmcblk0p1/fba-merge/src/cpu/zet.cpp
+	"burnint.h"
+
+1324323818 source:/media/mmcblk0p1/fba-merge/src/intf/audio/aud_dsp.cpp
+	<stdlib.h>
+	"burner.h"
+	"lowpass2.h"
+
+1324323818 /media/mmcblk0p1/fba-merge/src/intf/audio/lowpass2.h
+
+1329439889 source:/media/mmcblk0p1/fba-merge/src/intf/audio/aud_interface.cpp
+	"burner.h"
+
+1324323818 source:/media/mmcblk0p1/fba-merge/src/intf/audio/lowpass2.cpp
+	<math.h>
+	"burner.h"
+	"lowpass2.h"
+
+1325511140 source:/media/mmcblk0p1/fba-merge/src/intf/audio/sdl/aud_sdl.cpp
+	"SDL.h"
+	"burner.h"
+	"aud_dsp.h"
+	<math.h>
+
+1324323818 /media/mmcblk0p1/fba-merge/src/intf/audio/aud_dsp.h
+
+1325193668 source:/media/mmcblk0p1/fba-merge/src/intf/cd/cd_interface.cpp
+	"burner.h"
+
+1325193726 source:/media/mmcblk0p1/fba-merge/src/intf/input/inp_interface.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba-merge/src/intf/input/sdl/inp_sdl.cpp
+	<SDL.h>
+	"burner.h"
+	"inp_sdl_keys.h"
+
+1324410662 /media/mmcblk0p1/fba-merge/src/intf/input/sdl/inp_sdl_keys.h
+
+1329847008 source:/media/mmcblk0p1/fba-merge/src/intf/interface.cpp
+	"burner.h"
+
+1329440586 source:/media/mmcblk0p1/fba-merge/src/intf/video/sdl/vid_sdlfx.cpp
+	"burner.h"
+	"vid_support.h"
+	"vid_softfx.h"
+
+1324323820 /media/mmcblk0p1/fba-merge/src/intf/video/vid_support.h
+
+1324323818 /media/mmcblk0p1/fba-merge/src/intf/video/vid_softfx.h
+	"vid_directx_support.h"
+	<SDL.h>
+
+1329440438 source:/media/mmcblk0p1/fba-merge/src/intf/video/sdl/vid_sdlopengl.cpp
+	"burner.h"
+	"vid_support.h"
+	"vid_softfx.h"
+	<GLES/gl.h>
+	<GLES/glext.h>
+	<sys/time.h>
+
+1325511140 source:/media/mmcblk0p1/fba-merge/src/intf/video/vid_interface.cpp
+	"burner.h"
+
+1329426112 source:/media/mmcblk0p1/fba-merge/src/intf/video/vid_softfx.cpp
+	"burner.h"
+	"vid_softfx.h"
+	"scale2x.h"
+	"scale2x_vc.h"
+	"scale3x.h"
+
+1324323820 /media/mmcblk0p1/fba-merge/src/intf/video/scalers/scale2x.h
+	<assert.h>
+
+1324323820 /media/mmcblk0p1/fba-merge/src/intf/video/scalers/scale2x_vc.h
+	"scale2x.h"
+
+1324323820 /media/mmcblk0p1/fba-merge/src/intf/video/scalers/scale3x.h
+	<assert.h>
+
+1324323818 source:/media/mmcblk0p1/fba-merge/src/intf/video/vid_support.cpp
+	"burner.h"
+	"vid_support.h"
+
+1328087834 source:/media/mmcblk0p1/fba-merge/src/ezxaudio.cpp
+	"ezxaudio.h"
+	<stdlib.h>
+	<stdio.h>
+	<unistd.h>
+	<string.h>
+	<ctype.h>
+	<errno.h>
+	<fcntl.h>
+	<sys/ioctl.h>
+	<sys/wait.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<sched.h>
+
+1328035892 /media/mmcblk0p1/fba-merge/src/ezxaudio.h
+	<sys/soundcard.h>
+
+1330279630 source:/media/mmcblk0p1/fba-merge/src/fba_player.cpp
+	<stdio.h>
+	<stdlib.h>
+	"fba_player.h"
+	"ezxaudio.h"
+	"font.h"
+	"snd.h"
+	"burnint.h"
+	"config.h"
+	"cache.h"
+	"SDL/SDL.h"
+	"pandorasdk.h"
+
+1181159338 /media/mmcblk0p1/fba-merge/src/fba_player.h
+	"gamewidget.h"
+
+1181637176 /media/mmcblk0p1/fba-merge/src/gamewidget.h
+
+1198349706 /media/mmcblk0p1/fba-merge/src/font.h
+
+1328364484 /media/mmcblk0p1/fba-merge/src/snd.h
+	"ezxaudio.h"
+
+1330172566 /media/mmcblk0p1/fba-merge/src/config.h
+
+1182708098 /media/mmcblk0p1/fba-merge/src/cache.h
+
+1328031702 /media/mmcblk0p1/fba-merge/src/pandorasdk.h
+	<math.h>
+	<fcntl.h>
+	<linux/fb.h>
+	<pthread.h>
+	<signal.h>
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	<sys/mman.h>
+	<sys/ioctl.h>
+	<sys/soundcard.h>
+	<sys/time.h>
+	<unistd.h>
+	<stdarg.h>
+	"usbjoy.h"
+
+1198794068 /media/mmcblk0p1/fba-merge/src/usbjoy.h
+
+1327776232 source:/media/mmcblk0p1/fba-merge/src/gamewidget.cpp
+	<stdio.h>
+	<time.h>
+	"moose.h"
+	"gamewidget.h"
+	"configfile.h"
+	"font.h"
+	<time.h>
+	<sys/time.h>
+	<errno.h>
+
+1181159504 /media/mmcblk0p1/fba-merge/src/moose.h
+
+1181159046 /media/mmcblk0p1/fba-merge/src/configfile.h
+	<stdio.h>
+
+1330254018 source:/media/mmcblk0p1/fba-merge/src/main.cpp
+	<unistd.h>
+	<fcntl.h>
+	<sys/types.h>
+	<sys/ioctl.h>
+	<getopt.h>
+	"main.h"
+	"fba_player.h"
+	"burner.h"
+	"snd.h"
+	"config.h"
+	"pandorasdk.h"
+
+1329847445 /media/mmcblk0p1/fba-merge/src/main.h
+	<stddef.h>
+	<stdio.h>
+	"configfile.h"
+
+1330278844 source:/media/mmcblk0p1/fba-merge/src/pandorasdk.cpp
+	"pandorasdk.h"
+	"burner.h"
+	"config.h"
+	"snd.h"
+	<getopt.h>
+	"fba_player.h"
+	"SDL/SDL.h"
+
+1330299337 source:/media/mmcblk0p1/fba-merge/src/run.cpp
+	"burner.h"
+	"gamewidget.h"
+	"snd.h"
+	"font.h"
+	"pandorasdk.h"
+	"config.h"
+	"SDL/SDL.h"
+
+1215102356 source:/media/mmcblk0p1/fba-merge/src/font.cpp
+	<string.h>
+	"font.h"
+
+1329692968 source:/media/mmcblk0p1/fba-merge/src/snd.cpp
+	<unistd.h>
+	<fcntl.h>
+	<pthread.h>
+	<sys/types.h>
+	<sys/ioctl.h>
+	<stdlib.h>
+	<stdio.h>
+	<semaphore.h>
+	"burner.h"
+	"snd.h"
+	"config.h"
+	"SDL/SDL.h"
+	"gamewidget.h"
+
+1185304866 source:/media/mmcblk0p1/fba-merge/src/usbjoy.c
+	<stdlib.h>
+	<stdio.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<sys/ioctl.h>
+	<fcntl.h>
+	<unistd.h>
+	<string.h>
+	<limits.h>
+	<linux/joystick.h>
+	"usbjoy.h"
+
+1329854096 source:/media/mmcblk0p1/fba-merge/src/input.cpp
+	"burner.h"
+	"pandorasdk.h"
+	"SDL/SDL.h"
+
+1219941360 source:/media/mmcblk0p1/fba-merge/src/cache.cpp
+	"burnint.h"
+	<fcntl.h>
+	<unistd.h>
+	<sys/mman.h>
+
+1325081492 source:/media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/d_psikyo.cpp
+	"psikyo.h"
+	"burn_ym2610.h"
+	"burn_ymf278b.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/psikyo.h
+	"burnint.h"
+
+1327607520 source:/media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/d_psikyo4.cpp
+	"tiles_generic.h"
+	"burn_ymf278b.h"
+	"eeprom.h"
+	"sh2.h"
+
+1327607520 source:/media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/d_psikyosh.cpp
+	"tiles_generic.h"
+	"psikyosh_render.h"
+	"burn_ymf278b.h"
+	"eeprom.h"
+	"sh2.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/psikyosh_render.h
+
+1323806088 source:/media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/psikyo_palette.cpp
+	"psikyo.h"
+
+1325081938 source:/media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/psikyo_sprite.cpp
+	"psikyo.h"
+	"psikyo_sprite_func.h"
+
+1322658694 /media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/psikyo_sprite_func.h
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+
+1325081594 /media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/psikyo_render.h
+
+1325081170 source:/media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/psikyo_tile.cpp
+	"psikyo.h"
+	"psikyo_tile_func.h"
+
+1329528077 /media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/psikyo_tile_func.h
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_render.h"
+	"psikyo_tile_func_table.h"
+
+1329527251 /media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/psikyo_tile_func_table.h
+
+1324670558 source:/media/mmcblk0p1/fba-merge/src/burn/drv/psikyo/psikyosh_render.cpp
+	"tiles_generic.h"
+	"psikyosh_render.h"
+
+1330168286 source:/media/mmcblk0p1/fba-merge/src/cpu/z80/z80.cpp
+	"burnint.h"
+	"z80.h"
+	"z80daisy.h"
+
+1330168313 /media/mmcblk0p1/fba-merge/src/cpu/z80/z80.h
+
+1322658694 /media/mmcblk0p1/fba-merge/src/cpu/z80/z80daisy.h
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/cpu/z80/z80daisy.cpp
+	"z80daisy.h"
+
+1326744786 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pgm/d_pgm.cpp
+	"pgm.h"
+
+1325001472 /media/mmcblk0p1/fba-merge/src/burn/drv/pgm/pgm.h
+	"tiles_generic.h"
+	"arm7_intf.h"
+	"ics2115.h"
+
+1325001472 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pgm/pgm_crypt.cpp
+	"pgm.h"
+	"bitswap.h"
+
+1323900464 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pgm/pgm_draw.cpp
+	"pgm.h"
+	"pgm_sprite.h"
+
+1329564507 /media/mmcblk0p1/fba-merge/src/burn/drv/pgm/pgm_sprite.h
+
+1326401576 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pgm/pgm_prot.cpp
+	"pgm.h"
+	"bitswap.h"
+
+1324577978 source:/media/mmcblk0p1/fba-merge/src/burn/drv/pgm/pgm_run.cpp
+	"pgm.h"
+	"arm7_intf.h"
+	"v3021.h"
+
+1323980616 /media/mmcblk0p1/fba-merge/src/burn/devices/v3021.h
+
+1322658694 source:/media/mmcblk0p1/fba-merge/src/cpu/m68k/m68kcpu.c
+	"m68kops.h"
+	"m68kcpu.h"
+	<setjmp.h>
+	<stdio.h>
+	"state.h"
+
+1329659651 /media/mmcblk0p1/fba-merge/src/cpu/m68k/m68kops.h
+
+1329678629 /media/mmcblk0p1/fba-merge/src/cpu/m68k/m68kcpu.h
+	<stdio.h>
+	"m68k.h"
+	<limits.h>
+	<setjmp.h>
+	<setjmp.h>
+	<stdio.h>
+
+1329659651 source:/media/mmcblk0p1/fba-merge/src/cpu/m68k/m68kopac.c
+	"m68kcpu.h"
+
+1329659651 source:/media/mmcblk0p1/fba-merge/src/cpu/m68k/m68kopdm.c
+	"m68kcpu.h"
+
+1329659651 source:/media/mmcblk0p1/fba-merge/src/cpu/m68k/m68kopnz.c
+	"m68kcpu.h"
+
+1329659651 source:/media/mmcblk0p1/fba-merge/src/cpu/m68k/m68kops.c
+	"m68kops.h"
+
