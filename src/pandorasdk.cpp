@@ -12,15 +12,17 @@
 
 //extern CFG_OPTIONS config_options;
 
+extern char **environ;
+
 extern CFG_OPTIONS config_options;
 
 
-static int mem_fd = -1;
-void *UpperMem;
-int TakenSize[0x2000000 / BLOCKSIZE];
+//static int mem_fd = -1;
+//void *UpperMem;
+//int TakenSize[0x2000000 / BLOCKSIZE];
 unsigned short *VideoBuffer = NULL;
 static int screen_mode = 0;
-volatile static unsigned short *gp2xregs = NULL;
+//volatile static unsigned short *gp2xregs = NULL;
 //unsigned long gp2x_physvram[4]={0,0,0,0};
 //unsigned short *framebuffer[4]={0,0,0,0};
 
@@ -50,21 +52,70 @@ int vb;
 
 void gp2x_initialize()
 {
-    if (config_options.option_rescale==4)
+    int scaleheight=480;
+    int scalewidth=800;
+    BurnDrvGetFullSize(&WINDOW_WIDTH, &WINDOW_HEIGHT);
+    if (((config_options.option_rotate==0) && (BurnDrvGetFlags() & BDF_ORIENTATION_VERTICAL)) || (config_options.option_rotate==2))
     {
-        WINDOW_HEIGHT=384;
-        WINDOW_WIDTH=240;
+        int t;
+        t=WINDOW_HEIGHT;
+        WINDOW_HEIGHT=WINDOW_WIDTH;
+        WINDOW_WIDTH=t;
+    }
+    printf("dw:%d dh:%d\n",WINDOW_WIDTH,WINDOW_HEIGHT);
+    if (config_options.option_rescale==0)
+    {
+        scaleheight=WINDOW_HEIGHT;
+        scalewidth=WINDOW_WIDTH;
+        if (scaleheight>480) scaleheight=480;
+        if (scalewidth>800) scalewidth=800;
+    }
+    if (config_options.option_rescale==1)
+    {
+        scaleheight=WINDOW_HEIGHT*2;
+        scalewidth=WINDOW_WIDTH*2;
+        if (scaleheight>480) scaleheight=480;
+        if (scalewidth>800) scalewidth=800;
+    }
+    if (config_options.option_rescale==2)
+    {
+        float xw,xh;
+        xh=(float)480/(float)WINDOW_HEIGHT;
+        xw=(float)800/(float)WINDOW_WIDTH;
+        if (xh>xw)
+        {
+            scalewidth=(int)((float)WINDOW_WIDTH*xw);
+            scaleheight=(int)((float)WINDOW_HEIGHT*xw);
+        }
+        else
+        {
+            scalewidth=(int)((float)WINDOW_WIDTH*xh);
+            scaleheight=(int)((float)WINDOW_HEIGHT*xh);
+
+        }
+        if (scaleheight>480) scaleheight=480;
+        if (scalewidth>800) scalewidth=800;
     }
     if (config_options.option_rescale==3)
     {
-        WINDOW_HEIGHT=384;
-        WINDOW_WIDTH=240;
+        scaleheight=480;
+        scalewidth=800;
     }
-    if (config_options.option_rescale<3)
+
+    char scaling[64];
+    sprintf(scaling,"SDL_OMAP_LAYER_SIZE=%dx%d",scalewidth,scaleheight);
+    printf("scaling x:%d y:%d   %s\n",scalewidth,scaleheight,scaling);
+
+    for (int i=0;environ[i];i++)
     {
-        WINDOW_WIDTH = 384;
-        WINDOW_HEIGHT = 240;
+        if (strstr(environ[i],"SDL_OMAP_LAYER_SIZE="))
+        {
+            strcpy(environ[i],scaling);
+        }
+
     }
+
+
     printf("Setting screen to %d x %d\n",WINDOW_WIDTH,WINDOW_HEIGHT);
     if ((SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_VIDEO | SDL_INIT_TIMER))<0)
     {
@@ -370,9 +421,9 @@ void gp2x_video_flip()
 }
 
 
-void * UpperMalloc(size_t size)
-{
-    printf("using upper malloc\n");
+//void * UpperMalloc(size_t size)
+//{
+    //printf("using upper malloc\n");
   /*int i = 0;
 ReDo:
   for (; TakenSize[i]; i += TakenSize[i]);
@@ -392,13 +443,13 @@ ReDo:
   void* mem = ((char*)UpperMem) + i * BLOCKSIZE;
 //  gp2x_memset(mem, 0, size);
 */
-void * mem=(char*)malloc(size);
+/*void * mem=(char*)malloc(size);
   if (mem==NULL) printf("mem alloc of %d bytes failed\n",size);
   return mem;
-}
+}/*
 
 //Releases UpperMalloced memory
-void UpperFree(void* mem)
+//void UpperFree(void* mem)
 {
  /* int i = (((int)mem) - ((int)UpperMem));
   if (i < 0 || i >= 0x2000000) {
@@ -408,11 +459,11 @@ void UpperFree(void* mem)
       fprintf(stderr, "delete error: %p\n", mem);
     TakenSize[i / BLOCKSIZE] = 0;
   }*/
-  free(mem);
-}
+//  free(mem);
+//}
 
 //Returns the size of a UpperMalloced block.
-int GetUpperSize(void* mem)
+/*int GetUpperSize(void* mem)
 {
   int i = (((int)mem) - ((int)UpperMem));
   if (i < 0 || i >= 0x2000000) {
@@ -422,4 +473,4 @@ int GetUpperSize(void* mem)
   return TakenSize[i / BLOCKSIZE] * BLOCKSIZE;
 }
 
-
+*/

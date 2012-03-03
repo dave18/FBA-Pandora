@@ -185,6 +185,7 @@ UINT8 __fastcall ZetReadOpArg(UINT32 a)
 static void Z80DebugCallback(unsigned short pc, unsigned int d)
 {
 	printf("z80 error at PC: 0x%08x   OpCodes: %08X\n", pc, d);
+	exit(0);
 }
 
 static unsigned int z80_rebasePC(unsigned short address)

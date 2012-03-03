@@ -9754,13 +9754,14 @@
 	"burn_gun.h"
 	"eeprom.h"
 
-1325088926 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitof2.cpp
+1330624823 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitof2.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
 	"burn_ym2610.h"
 	"burn_ym2203.h"
 	"msm6295.h"
+	"config.h"
 
 1326400862 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitomisc.cpp
 	"tiles_generic.h"
@@ -9787,7 +9788,7 @@
 	"burn_gun.h"
 	"config.h"
 
-1330172566 /media/mmcblk0p1/FBA-Pandora/src/config.h
+1330771773 /media/mmcblk0p1/FBA-Pandora/src/config.h
 
 1325157134 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_tnzs.cpp
 	"tiles_generic.h"
@@ -9897,8 +9898,9 @@
 	"eeprom.h"
 	"timer.h"
 
-1324577988 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/toaplan/d_demonwld.cpp
+1330625518 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/toaplan/d_demonwld.cpp
 	"toaplan.h"
+	"config.h"
 
 1325538266 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/toaplan/d_dogyuun.cpp
 	"toaplan.h"
@@ -10797,7 +10799,7 @@
 	<sys/stat.h>
 	<sched.h>
 
-1330613553 source:/media/mmcblk0p1/FBA-Pandora/src/fba_player.cpp
+1330772156 source:/media/mmcblk0p1/FBA-Pandora/src/fba_player.cpp
 	<stdio.h>
 	<stdlib.h>
 	"fba_player.h"
@@ -10869,7 +10871,7 @@
 1329847008 source:/media/mmcblk0p1/FBA-Pandora/src/intf/interface.cpp
 	"burner.h"
 
-1330254018 source:/media/mmcblk0p1/FBA-Pandora/src/main.cpp
+1330711433 source:/media/mmcblk0p1/FBA-Pandora/src/main.cpp
 	<unistd.h>
 	<fcntl.h>
 	<sys/types.h>
@@ -10887,7 +10889,7 @@
 	<stdio.h>
 	"configfile.h"
 
-1330278844 source:/media/mmcblk0p1/FBA-Pandora/src/pandorasdk.cpp
+1330714158 source:/media/mmcblk0p1/FBA-Pandora/src/pandorasdk.cpp
 	"pandorasdk.h"
 	"burner.h"
 	"config.h"
@@ -10896,7 +10898,7 @@
 	"fba_player.h"
 	"SDL/SDL.h"
 
-1330613480 source:/media/mmcblk0p1/FBA-Pandora/src/run.cpp
+1330710845 source:/media/mmcblk0p1/FBA-Pandora/src/run.cpp
 	"burner.h"
 	"gamewidget.h"
 	"snd.h"

@@ -45,6 +45,8 @@ extern char nub0[11];
 extern char nub1[11];
 extern char szAppRomPaths[20] [20];
 
+extern int nAnalogSpeed;
+
 extern int ConfigAppLoad();
 extern int ConfigAppSave();
 
@@ -57,7 +59,7 @@ extern "C"
 void uploadfb(void);
 extern char szAppBurnVer[16];
 
-const int fwidth=384;
+int fwidth,fheight;
 
 extern unsigned int nFramesRendered;
 static int frame_count = 0;
@@ -65,7 +67,7 @@ unsigned int FBA_KEYPAD[4];
 signed int FBA_AXIS[4] [4];
 unsigned char ServiceRequest = 0;
 unsigned char P1P2Start = 0;
-unsigned short titlefb[fwidth][240];
+unsigned short *titlefb;
 extern bool bShowFPS;
 void ChangeFrameskip();
 extern SDL_Joystick *joys[4];
@@ -105,7 +107,7 @@ void do_keypad()
 {
 	static unsigned int turbo = 0;
 	unsigned long joy = gp2x_joystick_read();
-	int bVert = (BurnDrvGetFlags() & BDF_ORIENTATION_VERTICAL) && (config_options.option_rescale<=2);
+	int bVert = ((BurnDrvGetFlags() & BDF_ORIENTATION_VERTICAL) && (config_options.option_rotate==1));
 	//int bVert=config_options.option_rescale<=2;
 	turbo ++;
 
@@ -255,57 +257,53 @@ int fps=0;
 
 void show_rom_loading_text(char * szText, int nSize, int nTotalSize)
 {
-    int pwidth=fwidth;
     int doffset=20;
-    if (config_options.option_rescale>=3)
+    /*if (config_options.option_rescale>=3)
     {
         pwidth=240;
         doffset=0;
-    }
+    }*/
 	static long long size = 0;
 	//printf("!!! %s, %d / %d\n", szText, size + nSize, nTotalSize);
 
-	DrawRect((uint16 *) titlefb, doffset, 120, 300, 20, 0, pwidth);
+	DrawRect((uint16 *) titlefb, doffset, 120, 300, 20, 0, fwidth);
 
 	if (szText)
-		DrawString (szText, (uint16 *) titlefb, doffset, 120, pwidth);
+		DrawString (szText, (uint16 *) titlefb, doffset, 120, fwidth);
 
 	if (nTotalSize == 0) {
 		size = 0;
-		DrawRect((uint16 *) titlefb, doffset, 140, 280, 12, 0x00FFFFFF, pwidth);
-		DrawRect((uint16 *) titlefb, doffset+1, 141, 278, 10, 0x00808080, pwidth);
+		DrawRect((uint16 *) titlefb, doffset, 140, 280, 12, 0x00FFFFFF, fwidth);
+		DrawRect((uint16 *) titlefb, doffset+1, 141, 278, 10, 0x00808080, fwidth);
 	} else {
 		size += nSize;
 		if (size > nTotalSize) size = nTotalSize;
-		DrawRect((uint16 *) titlefb, doffset+1, 141, size * 278 / nTotalSize, 10, 0x00FFFF00, pwidth);
+		DrawRect((uint16 *) titlefb, doffset+1, 141, size * 278 / nTotalSize, 10, 0x00FFFF00, fwidth);
 	}
 
-	if (config_options.option_rescale<3) memcpy (VideoBuffer, titlefb, pwidth*240*2); else memcpy (VideoBuffer, titlefb, pwidth*384*2);
+	//if (config_options.option_rescale<3) memcpy (VideoBuffer, titlefb, fwidth*fheight*2); else memcpy (VideoBuffer, titlefb, pwidth*fwidth*2);
+	memcpy (VideoBuffer,titlefb, fwidth*fheight*2);
 	gp2x_video_flip();
 
 }
 
 void show_rom_error_text(char * szText)
 {
-    int pwidth=fwidth;
+
     int doffset=20;
-    if (config_options.option_rescale>=3)
-    {
-        pwidth=240;
-        doffset=0;
-    }
+
 	static long long size = 0;
 	//printf("!!! %s, %d / %d\n", szText, size + nSize, nTotalSize);
 
-	DrawRect((uint16 *) titlefb, doffset, 120, 300, 20, 0, pwidth);
+	DrawRect((uint16 *) titlefb, doffset, 120, 300, 20, 0, fwidth);
 
-    DrawString ("Error loading rom:", (uint16 *) titlefb, doffset, 160, pwidth);
+    DrawString ("Error loading rom:", (uint16 *) titlefb, doffset, 160, fwidth);
 	if (szText)
-		DrawString (szText, (uint16 *) titlefb, doffset, 180, pwidth);
-    DrawString ("Exiting - press any key", (uint16 *) titlefb, doffset, 200, pwidth);
+		DrawString (szText, (uint16 *) titlefb, doffset, 180, fwidth);
+    DrawString ("Exiting - press any key", (uint16 *) titlefb, doffset, 200, fwidth);
 
 
-	if (config_options.option_rescale<3) memcpy (VideoBuffer, titlefb, pwidth*240*2); else memcpy (VideoBuffer, titlefb, pwidth*384*2);
+	memcpy (VideoBuffer, titlefb, fwidth*fheight*2);
 	gp2x_video_flip();
 	SDL_Event event;
 	while (event.type!=SDL_KEYDOWN)
@@ -455,14 +453,26 @@ void run_fba_emulator(const char *fn)
 	    nBurnDrvActive=tmp;
 	}
 
+
+    gp2x_initialize();
+    BurnDrvGetFullSize(&fwidth, &fheight);
+    if (((config_options.option_rotate==0) && (BurnDrvGetFlags() & BDF_ORIENTATION_VERTICAL)) || (config_options.option_rotate==2))
+    {
+        int t;
+        t=fheight;
+        fheight=fwidth;
+        fwidth=t;
+    }
+    titlefb=(unsigned short*)malloc(fwidth * fheight*2);
+
 	printf("Attempt to initialise '%s'\n", BurnDrvGetTextA(DRV_FULLNAME));
 
-	if (config_options.option_rescale<3) memset (titlefb, 0, pwidth*240*2); else memset (titlefb, 0, pwidth*384*2);
-	DrawString ("Finalburn Alpha for Pandora (v 0.2.97.21)", (uint16*)&titlefb, 10, 20, pwidth);
-	DrawString ("Based on FinalBurnAlpha", (uint16*)&titlefb, 10, 35, pwidth);
-	DrawString ("Now loading ... ", (uint16 *)&titlefb, 10, 105, pwidth);
+	memset (titlefb, 0, fwidth*fheight*2);
+	DrawString ("Finalburn Alpha for Pandora (v 0.2.97.21)", titlefb, 10, 20, fwidth);
+	DrawString ("Based on FinalBurnAlpha", titlefb, 10, 35, fwidth);
+	DrawString ("Now loading ... ", titlefb, 10, 105, fwidth);
 	show_rom_loading_text("Open Zip", 0, 0);
-	memcpy (VideoBuffer, titlefb, pwidth*240*2); gp2x_video_flip();
+	memcpy (VideoBuffer, titlefb, fwidth*fheight*2); gp2x_video_flip();
 
 	InpInit();
 	InpDIP();
@@ -480,6 +490,11 @@ void run_fba_emulator(const char *fn)
 	{
 		printf ("Driver initialisation failed! Likely causes are:\n- Corrupt/Missing ROM(s)\n- I/O Error\n- Memory error\n\n");
 		goto finish;
+	}
+
+	if (config_options.option_sense<100)
+	{
+	    nAnalogSpeed=0x100/100*config_options.option_sense;
 	}
 
 

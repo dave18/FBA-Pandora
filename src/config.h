@@ -5,11 +5,13 @@ typedef struct
 {
 	int option_sound_enable;
 	int option_rescale;
+	int option_rotate;
 	int option_samplerate;
 	int option_showfps;
 	int option_forcem68k;
     int option_forcec68k;
     int option_z80core;
+    int option_sense;
 	char option_frontend[MAX_PATH];
 	int option_create_lists;
 	char option_startspeed[6];

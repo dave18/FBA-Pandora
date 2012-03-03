@@ -1,7 +1,10 @@
 #include "toaplan.h"
+#include "config.h"
 
 #define REFRESHRATE 60
 #define VBLANK_LINES (32)
+
+extern CFG_OPTIONS config_options;
 
 static UINT8 *AllMem;
 static UINT8 *MemEnd;
@@ -235,7 +238,7 @@ void __fastcall demonwldWriteWord(UINT32 a, UINT16 d)
 			ToaFCU2WriteRAM(d);
 		return;
 
-		case 0xa00006: 
+		case 0xa00006:
 			ToaFCU2WriteRAMSize(d);
 		return;
 
@@ -426,7 +429,7 @@ static INT32 MemIndex()
 
 static INT32 DrvInit()
 {
-	if (bBurnUseASMCPUEmulation) {
+	if ((bBurnUseASMCPUEmulation) && (config_options.option_forcec68k==0)) {
 		bUseAsm68KCoreOldValue = bBurnUseASMCPUEmulation;
 		bBurnUseASMCPUEmulation = false;
 	}
@@ -531,7 +534,7 @@ static INT32 DrvDraw()
 		ToaRenderBCU2();
 	}
 
-	ToaPalUpdate();	
+	ToaPalUpdate();
 	ToaPal2Update();
 
 	if (bUseAsm68KCoreOldValue) {
@@ -566,7 +569,7 @@ static INT32 DrvFrame()
 
 	SekNewFrame();
 	ZetNewFrame();
-	
+
 	SekOpen(0);
 	ZetOpen(0);
 
@@ -613,7 +616,7 @@ static INT32 DrvFrame()
 		} else {
 			SekIdle(nCyclesSegment);
 		}
-		
+
 		BurnTimerUpdateYM3812(i * (nCyclesTotal[1] / nInterleave));
 	}
 
@@ -661,7 +664,7 @@ static INT32 DrvScan(INT32 nAction, INT32* pnMin)
 
 // Hack to bypass the missing sub-cpu.  All games except the taito
 // set check the crc and rather than dealing with that, I'm seperating
-// the opcodes and data and just patching the opcodes. 
+// the opcodes and data and just patching the opcodes.
 // Taito set patches from MAME 0.36b10.
 static void map_hack(INT32 hack_off)
 {

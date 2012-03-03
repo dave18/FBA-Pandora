@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="debug" />
-	<File name="src/burn/burn.cpp" open="1" top="0" tabpos="4">
+	<ActiveTarget name="release" />
+	<File name="src/burn/burn.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="14856" topLine="612" />
 	</File>
 	<File name="src/burn/burn.h" open="0" top="0" tabpos="1">
@@ -17,13 +17,13 @@
 		<Cursor position="1701" topLine="62" />
 	</File>
 	<File name="src/burn/burnint.h" open="0" top="0" tabpos="6">
-		<Cursor position="1607" topLine="44" />
+		<Cursor position="875" topLine="35" />
 	</File>
 	<File name="src/burn/cheat.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="10400" topLine="425" />
 	</File>
 	<File name="src/burn/cheat.h" open="0" top="0" tabpos="0">
-		<Cursor position="945" topLine="30" />
+		<Cursor position="125" topLine="0" />
 	</File>
 	<File name="src/burn/devices/seibusnd.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="783" topLine="28" />
@@ -57,6 +57,9 @@
 	</File>
 	<File name="src/burn/drv/cps3/cps3run.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="53132" topLine="1789" />
+	</File>
+	<File name="src/burn/drv/cps3/d_cps3.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="49602" topLine="1223" />
 	</File>
 	<File name="src/burn/drv/dataeast/d_backfire.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="13673" topLine="525" />
@@ -118,8 +121,29 @@
 	<File name="src/burn/drv/taito/d_bublbobl.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="51889" topLine="1672" />
 	</File>
+	<File name="src/burn/drv/taito/d_taitob.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="190" topLine="0" />
+	</File>
+	<File name="src/burn/drv/taito/d_taitof2.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="195" topLine="0" />
+	</File>
+	<File name="src/burn/drv/taito/d_taitomisc.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="44" topLine="0" />
+	</File>
+	<File name="src/burn/drv/taito/d_taitoz.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="190" topLine="0" />
+	</File>
 	<File name="src/burn/drv/taito/taito.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1796" topLine="40" />
+	</File>
+	<File name="src/burn/drv/toaplan/d_demonwld.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="654" topLine="26" />
+	</File>
+	<File name="src/burn/drv/toaplan/d_snowbro2.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="492" topLine="14" />
+	</File>
+	<File name="src/burn/drv/toaplan/d_tekipaki.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="808" topLine="28" />
 	</File>
 	<File name="src/burn/drv/toaplan/toa_bcu2.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="320" topLine="17" />
@@ -151,8 +175,8 @@
 	<File name="src/burner/sdl/burner_sdl.h" open="0" top="0" tabpos="3">
 		<Cursor position="163" topLine="8" />
 	</File>
-	<File name="src/burner/sdl/bzip.cpp" open="1" top="0" tabpos="5">
-		<Cursor position="5475" topLine="232" />
+	<File name="src/burner/sdl/bzip.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="5458" topLine="239" />
 	</File>
 	<File name="src/burner/sdl/drv.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="2955" topLine="119" />
@@ -196,26 +220,29 @@
 	<File name="src/cpu/z80/z80.cpp" open="0" top="0" tabpos="11">
 		<Cursor position="170813" topLine="3572" />
 	</File>
-	<File name="src/cpu/zet.cpp" open="0" top="0" tabpos="6">
-		<Cursor position="21299" topLine="671" />
+	<File name="src/cpu/zet.cpp" open="1" top="1" tabpos="6">
+		<Cursor position="5293" topLine="181" />
 	</File>
 	<File name="src/cpu/zet.h" open="0" top="0" tabpos="4">
 		<Cursor position="279" topLine="3" />
 	</File>
-	<File name="src/fba_player.cpp" open="1" top="1" tabpos="2">
-		<Cursor position="8065" topLine="295" />
+	<File name="src/fba_player.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="1330" topLine="33" />
 	</File>
-	<File name="src/input.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="4831" topLine="155" />
+	<File name="src/font.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="9566" topLine="122" />
+	</File>
+	<File name="src/input.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="204" topLine="0" />
 	</File>
 	<File name="src/main.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="4555" topLine="156" />
+		<Cursor position="6127" topLine="231" />
 	</File>
-	<File name="src/pandorasdk.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="10433" topLine="359" />
+	<File name="src/pandorasdk.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="9301" topLine="294" />
 	</File>
 	<File name="src/run.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="13097" topLine="669" />
+		<Cursor position="4029" topLine="178" />
 	</File>
 	<File name="src/snd.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="5452" topLine="184" />

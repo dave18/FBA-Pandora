@@ -94,11 +94,9 @@ void parse_cmd(int argc, char *argv[], char *path)
 		{"no-sound", 0, &config_options.option_sound_enable, 0},
 		{"samplerate", required_argument, 0, 'r'},
 		{"clock", required_argument, 0, 'c'},
-		{"no-rescale", 0, &config_options.option_rescale, 0},
-		{"sw-rescale", 0, &config_options.option_rescale, 1},
-		{"hw-rescale", 0, &config_options.option_rescale, 2},
-		{"sw-rotate", 0, &config_options.option_rescale, 3},
-		{"sw-rotate-scale", 0, &config_options.option_rescale, 4},
+		{"scaling", required_argument, 0, 'a'},
+		{"rotate", required_argument, 0, 'o'},
+		{"sense", required_argument, 0, 'd'},
 		{"showfps", 0, &config_options.option_showfps, 1},
 		{"no-showfps", 0, &config_options.option_showfps, 0},
 		{"create-lists", 0, &config_options.option_create_lists, 1},
@@ -127,6 +125,27 @@ void parse_cmd(int argc, char *argv[], char *path)
 				sscanf(optarg,"%d",&z2);
 				if ((z2>1) || (z2<0)) z2=0;
 				config_options.option_z80core = z2;
+				break;
+            case 'a':
+				if(!optarg) continue;
+				z2=0;
+				sscanf(optarg,"%d",&z2);
+				if ((z2>3) || (z2<0)) z2=0;
+				config_options.option_rescale = z2;
+				break;
+            case 'o':
+				if(!optarg) continue;
+				z2=0;
+				sscanf(optarg,"%d",&z2);
+				if ((z2>2) || (z2<0)) z2=0;
+				config_options.option_rotate = z2;
+				break;
+            case 'd':
+				if(!optarg) continue;
+				z2=0;
+				sscanf(optarg,"%d",&z2);
+				if ((z2>100) || (z2<10)) z2=100;
+				config_options.option_sense = z2;
 				break;
             case 'c':
 				if(!optarg) continue;
@@ -211,13 +230,15 @@ char path[MAX_PATH];
 
 	//Initialize configuration options
 	config_options.option_sound_enable = 2;
-	config_options.option_rescale = 0;
+	config_options.option_rescale = 2;
+	config_options.option_rotate = 0;
 	config_options.option_samplerate = 0;
 	config_options.option_showfps = 1;
 	config_options.option_create_lists=0;
 	config_options.option_forcem68k=0;
 	config_options.option_forcec68k=0;
 	config_options.option_z80core=0;
+	config_options.option_sense=100;
 	strcpy(config_options.option_startspeed,"NULL");
 	strcpy(config_options.option_selectspeed,"NULL");
 	strcpy(config_options.option_frontend, "./capex.sh");
@@ -227,8 +248,8 @@ char path[MAX_PATH];
 
 
 
-	gp2x_initialize();
-	printf("platform init finished\n");
+//	gp2x_initialize();
+//	printf("platform init finished\n");
 
 	//Initialize sound thread
 		run_fba_emulator (path);
