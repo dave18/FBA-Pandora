@@ -29,7 +29,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/gigawing.zip" />
+				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/dsoccr94.zip --z80core=1" />
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-g" />
@@ -109,6 +109,7 @@
 			<Add directory="src/burner/win32" />
 			<Add directory="src/intf/video/scalers" />
 			<Add directory="src" />
+			<Add directory="src/cpu/davez80" />
 		</Compiler>
 		<Linker>
 			<Add library="SDL_image" />
@@ -702,6 +703,8 @@
 		<Unit filename="src/cpu/arm_intf.h" />
 		<Unit filename="src/cpu/cyclone/cyclone.h" />
 		<Unit filename="src/cpu/cyclone/cyclone.s" />
+		<Unit filename="src/cpu/davez80/davez80.h" />
+		<Unit filename="src/cpu/davez80/davez80.s" />
 		<Unit filename="src/cpu/drz80/DrZ80.h" />
 		<Unit filename="src/cpu/drz80/DrZ80.s" />
 		<Unit filename="src/cpu/h6280/h6280.cpp" />

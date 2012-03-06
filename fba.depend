@@ -7391,9 +7391,10 @@
 
 1156931676 /media/mmcblk0p1/FBA-Pandora/src/cpu/cyclone/cyclone.h
 
-1330214585 /media/mmcblk0p1/FBA-Pandora/src/cpu/zet.h
+1330871979 /media/mmcblk0p1/FBA-Pandora/src/cpu/zet.h
 	"doze.h"
 	"DrZ80.h"
+	"davez80.h"
 	"z80.h"
 
 1173816462 /media/mmcblk0p1/FBA-Pandora/src/cpu/drz80/DrZ80.h
@@ -8063,7 +8064,7 @@
 	"deco16ic.h"
 	"msm6295.h"
 
-1326646984 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/dataeast/d_vaportra.cpp
+1330870749 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/dataeast/d_vaportra.cpp
 	"tiles_generic.h"
 	"h6280_intf.h"
 	"deco16ic.h"
@@ -8123,7 +8124,7 @@
 1322658694 /media/mmcblk0p1/FBA-Pandora/src/cpu/i8039/i8039.h
 	"driver.h"
 
-1327521258 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m72.cpp
+1330976346 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m72.cpp
 	"tiles_generic.h"
 	"burn_ym2151.h"
 	"vez.h"
@@ -9712,13 +9713,14 @@
 1325157124 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_minivdr.cpp
 	"tiles_generic.h"
 
-1325089048 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_othunder.cpp
+1330887429 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_othunder.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
 	"burn_ym2610.h"
 	"eeprom.h"
 	"burn_gun.h"
+	"config.h"
 
 1326487722 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_retofinv.cpp
 	"tiles_generic.h"
@@ -9726,7 +9728,7 @@
 	"bitswap.h"
 	"sn76496.h"
 
-1325089162 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_slapshot.cpp
+1330787764 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_slapshot.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
@@ -9734,6 +9736,7 @@
 	"eeprom.h"
 	"burn_gun.h"
 	"timekpr.h"
+	"config.h"
 
 1325089326 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_superchs.cpp
 	"tiles_generic.h"
@@ -9763,7 +9766,7 @@
 	"msm6295.h"
 	"config.h"
 
-1326400862 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitomisc.cpp
+1330889832 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitomisc.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
@@ -10695,7 +10698,7 @@
 1329659651 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/m68k/m68kops.c
 	"m68kops.h"
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/nec/nec.cpp
+1330976379 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/nec/nec.cpp
 	<stdlib.h>
 	<stdio.h>
 	"driver.h"
@@ -10781,7 +10784,7 @@
 1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/z80/z80daisy.cpp
 	"z80daisy.h"
 
-1330279738 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/zet.cpp
+1330886953 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/zet.cpp
 	"burnint.h"
 
 1328087834 source:/media/mmcblk0p1/FBA-Pandora/src/ezxaudio.cpp
@@ -10860,7 +10863,7 @@
 1181159046 /media/mmcblk0p1/FBA-Pandora/src/configfile.h
 	<stdio.h>
 
-1329854096 source:/media/mmcblk0p1/FBA-Pandora/src/input.cpp
+1330974460 source:/media/mmcblk0p1/FBA-Pandora/src/input.cpp
 	"burner.h"
 	"pandorasdk.h"
 	"SDL/SDL.h"
@@ -10871,7 +10874,7 @@
 1329847008 source:/media/mmcblk0p1/FBA-Pandora/src/intf/interface.cpp
 	"burner.h"
 
-1330711433 source:/media/mmcblk0p1/FBA-Pandora/src/main.cpp
+1330772346 source:/media/mmcblk0p1/FBA-Pandora/src/main.cpp
 	<unistd.h>
 	<fcntl.h>
 	<sys/types.h>
@@ -10898,7 +10901,7 @@
 	"fba_player.h"
 	"SDL/SDL.h"
 
-1330710845 source:/media/mmcblk0p1/FBA-Pandora/src/run.cpp
+1330789370 source:/media/mmcblk0p1/FBA-Pandora/src/run.cpp
 	"burner.h"
 	"gamewidget.h"
 	"snd.h"
@@ -10940,4 +10943,8 @@
 
 1330604575 source:/media/mmcblk0p1/FBA-Pandora/src/burner/sdl/config.cpp
 	"burner.h"
+
+1330882818 /media/mmcblk0p1/FBA-Pandora/src/cpu/davez80/davez80.h
+
+1330877918 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/davez80/davez80.s
 

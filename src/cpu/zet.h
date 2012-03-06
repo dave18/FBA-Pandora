@@ -1,6 +1,7 @@
 // Z80 (Zed Eight-Ty) Interface
 //#define EMU_DOZE					// Use Dave's 'Doze' Assembler Z80 emulator
 #define EMU_DRZ80					// Use Reesy's Assembler Z80 Emulator
+#define EMU_DAVEZ80
 
 #ifdef EMU_DOZE
  #include "doze.h"
@@ -9,6 +10,8 @@
 #ifdef EMU_DRZ80
  #include "DrZ80.h"
 
+
+
  extern struct DrZ80 Doze;
 
 extern int ZET_IRQSTATUS_NONE;
@@ -16,6 +19,10 @@ extern int ZET_IRQSTATUS_ACK;
 extern int ZET_IRQSTATUS_AUTO;
 
 
+#endif
+
+#ifdef EMU_DAVEZ80
+ #include "davez80.h"
 #endif
 
 #include "z80.h"

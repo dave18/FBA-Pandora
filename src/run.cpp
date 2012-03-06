@@ -169,6 +169,31 @@ static void BurnerVideoTrans_flipped()
     }
 }
 
+static void BurnerVideoTrans_flipped_horiz()
+{
+    unsigned short * p = &VideoBuffer[0];
+	unsigned short * q = &BurnVideoBuffer[(VideoBufferHeight-1)*VideoBufferWidth];
+    for (int j=0; j<VideoBufferHeight; j++,q-=VideoBufferWidth,p+=VideoBufferWidth)
+    {
+        memcpy(p,q,VideoBufferWidth<<1);
+    }
+}
+
+static void BurnerVideoTrans_flipped_horiz2()
+{
+    unsigned short * p = &VideoBuffer[0];
+	unsigned short * q = &BurnVideoBuffer[VideoBufferHeight*VideoBufferWidth-1];
+       for (int j=0; j<VideoBufferHeight; j++)
+    {
+        for (int i=0; i<VideoBufferWidth; i++)
+        {
+            memcpy(p,q,2);
+            p++;
+            q--;
+        }
+    }
+}
+
 int VideoInit()
 {
 	BurnDrvGetFullSize(&VideoBufferWidth, &VideoBufferHeight);
@@ -187,6 +212,14 @@ int VideoInit()
         nBurnPitch  = VideoBufferWidth * 2;
         if (BurnDrvGetFlags() & BDF_ORIENTATION_FLIPPED) BurnerVideoTrans = BurnerVideoTrans_flipped; else BurnerVideoTrans = BurnerVideoTrans_rotate;
         PhysicalBufferWidth = VideoBufferHeight;
+    }
+    else if (BurnDrvGetFlags() & BDF_ORIENTATION_FLIPPED)
+    {
+        BurnVideoBuffer = (unsigned short *)malloc( VideoBufferWidth * VideoBufferHeight * 2 );
+        BurnVideoBufferAlloced = true;
+        nBurnPitch  = VideoBufferWidth * 2;
+        BurnerVideoTrans = BurnerVideoTrans_flipped_horiz2;
+        PhysicalBufferWidth = VideoBufferWidth;
     }
     else
     {

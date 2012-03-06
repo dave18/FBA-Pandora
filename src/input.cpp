@@ -43,6 +43,7 @@ int DoInputBlank(int /*bDipSwitch*/)
   // Reset all inputs to undefined (even dip switches, if bDipSwitch==1)
   char controlName[MAX_INPUT_inp];
 
+
   DIPInfo.nDIP = 0;
   // Get the targets in the library for the Input Values
   for (i=0; i<nGameInpCount; i++)
@@ -50,6 +51,8 @@ int DoInputBlank(int /*bDipSwitch*/)
     struct BurnInputInfo bii;
     memset(&bii,0,sizeof(bii));
     BurnDrvGetInputInfo(&bii,i);
+
+    printf("c %s\n",bii.szInfo);
 
     //if (bDipSwitch==0 && bii.nType==2) continue; // Don't blank the dip switches
 
@@ -68,8 +71,8 @@ int DoInputBlank(int /*bDipSwitch*/)
 		DIPInfo.DIPData[i-DIPInfo.nFirstDIP].nBit = 0;
 	}
 
-	if (bii.szInfo[0]=='p')
-		iJoyNum = bii.szInfo[1] - '1';
+	if ((bii.szInfo[0]=='p') || (bii.szInfo[0]=='m'))
+		if (bii.szInfo[0]=='m') iJoyNum=0; else iJoyNum = bii.szInfo[1] - '1';
 	else
 	{
 		if (strcmp(bii.szInfo, "diag") == 0 || strcmp(bii.szInfo, "test") == 0)
@@ -78,6 +81,7 @@ int DoInputBlank(int /*bDipSwitch*/)
 		}
 		continue;
 	}
+
 	sprintf(controlName,"p%i coin",iJoyNum+1);
     if (strcmp(bii.szInfo, controlName) == 0)
     {
@@ -144,18 +148,22 @@ int DoInputBlank(int /*bDipSwitch*/)
 		GameInp[iJoyNum][13].nBit = 3;
 		GameInp[iJoyNum][13].pShortVal = bii.pShortVal;
 		GameInp[iJoyNum][13].nType = bii.nType;
-		/*GameInp[iJoyNum][14].nBit = 3;
-		GameInp[iJoyNum][14].pShortVal = bii.pShortVal;
-		GameInp[iJoyNum][14].nType = bii.nType;*/
-		//printf("12 %d 13 %d\n",GameInp[iJoyNum][12].nType,GameInp[iJoyNum][13].nType);
     }
     else {
-    sprintf(controlName,"p%i y-axis",iJoyNum+1);
+    sprintf(controlName,"mouse x-axis");
     if (strcmp(bii.szInfo, controlName) == 0)
     {
-        /*GameInp[iJoyNum][15].nBit = 0;
-		GameInp[iJoyNum][15].pShortVal = bii.pShortVal;
-		GameInp[iJoyNum][15].nType = bii.nType;*/
+		GameInp[iJoyNum][12].nBit = 2;
+		GameInp[iJoyNum][12].pShortVal = bii.pShortVal;
+		GameInp[iJoyNum][12].nType = bii.nType;
+		GameInp[iJoyNum][13].nBit = 3;
+		GameInp[iJoyNum][13].pShortVal = bii.pShortVal;
+		GameInp[iJoyNum][13].nType = bii.nType;
+    }
+    else {
+    sprintf(controlName,"mouse y-axis");
+    if (strcmp(bii.szInfo, controlName) == 0)
+    {
 		GameInp[iJoyNum][14].nBit = 0;
 		GameInp[iJoyNum][14].pShortVal = bii.pShortVal;
 		GameInp[iJoyNum][14].nType = bii.nType;
@@ -163,6 +171,7 @@ int DoInputBlank(int /*bDipSwitch*/)
 		GameInp[iJoyNum][15].pShortVal = bii.pShortVal;
 		GameInp[iJoyNum][15].nType = bii.nType;
     }
+    else {
     sprintf(controlName,"p%i z-axis",iJoyNum+1);
     if (strcmp(bii.szInfo, controlName) == 0)
     {
@@ -180,6 +189,22 @@ int DoInputBlank(int /*bDipSwitch*/)
     }
     else {
 	sprintf(controlName,"p%i fire 2",iJoyNum+1);
+    if (strcmp(bii.szInfo, controlName) == 0)
+    {
+    	GameInp[iJoyNum][7].nBit = 7;
+		GameInp[iJoyNum][7].pVal = bii.pVal;
+		GameInp[iJoyNum][7].nType = bii.nType;
+    }
+    else {
+    sprintf(controlName,"mouse button 1");
+    if (strcmp(bii.szInfo, controlName) == 0)
+    {
+    	GameInp[iJoyNum][6].nBit = 6;
+		GameInp[iJoyNum][6].pVal = bii.pVal;
+		GameInp[iJoyNum][6].nType = bii.nType;
+    }
+    else {
+	sprintf(controlName,"mouse button 2");
     if (strcmp(bii.szInfo, controlName) == 0)
     {
     	GameInp[iJoyNum][7].nBit = 7;
@@ -217,7 +242,7 @@ int DoInputBlank(int /*bDipSwitch*/)
     	GameInp[iJoyNum][11].nBit = 11;
 		GameInp[iJoyNum][11].pVal = bii.pVal;
 		GameInp[iJoyNum][11].nType = bii.nType;
-    }}}}}}}}}}}}}}
+    }}}}}}}}}}}}}}}}}}
 
 #if 0
 if (pgi->pVal != NULL)
@@ -292,6 +317,7 @@ int InpMake(unsigned int key[])
 
 				if (GameInp[joyNum][i].nType!=1) {
 					// Set analog controls to full
+
 					if (i<12)
 					{
                         if (down) *(GameInp[joyNum][i].pVal)=0xff; else *(GameInp[joyNum][i].pVal)=0x01;
@@ -312,6 +338,7 @@ int InpMake(unsigned int key[])
                         if (nJoy >  32767) {
                             nJoy =  32767;
                         }
+
                         *(GameInp[joyNum][i].pShortVal)=nJoy;
 					}
 					if (i==13) //analogue right

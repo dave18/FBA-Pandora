@@ -6,6 +6,8 @@
 static struct ZetExt * ZetCPUContext[MAX_Z80] = { NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL };
 int cpucore[MAX_Z80];
 
+//extern void DaveZ80EnterCPU(unsigned char *, void *);
+
 typedef UINT8 (__fastcall *pZetInHandler)(UINT16 a);
 typedef void (__fastcall *pZetOutHandler)(UINT16 a, UINT8 d);
 typedef UINT8 (__fastcall *pZetReadHandler)(UINT16 a);
@@ -943,6 +945,9 @@ int ZetRun(int nCycles)
 	if (nCycles <= 0) {
 		return 0;
 	}
+
+//	DaveZ80EnterCPU(ZetCPUContext[nOpenedCPU]->pZetMemMap[0], ZetCPUContext[nOpenedCPU]);
+
 //	printf("ocpu %d\n",nCPUCount);
     if (cpucore[nOpenedCPU]==0)
     {
