@@ -97,7 +97,7 @@ int RunOneFrame(bool bDraw, int fps)
 		{
 			char buf[10];
 			int x;
-			sprintf(buf, "FPS: %2d", fps);
+			sprintf(buf, "FPS: %2d/%2d", fps,(nBurnFPS/100));
 			//draw_text(buf, x, 0, 0xBDF7, 0x2020);
 			DrawRect((uint16 *) (unsigned short *) &VideoBuffer[0],0, 0, 60, 9, 0,PhysicalBufferWidth);
 			DrawString (buf, (unsigned short *) &VideoBuffer[0], 0, 0,PhysicalBufferWidth);

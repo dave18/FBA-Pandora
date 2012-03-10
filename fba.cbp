@@ -29,7 +29,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/dsoccr94.zip --z80core=1" />
+				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/gberet.zip --z80core=2" />
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-g" />

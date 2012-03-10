@@ -75,6 +75,7 @@ extern char joyCount;
 //extern SDL_Surface* SDL_VideoBuffer;
 //extern SDL_Surface* myscreen;
 extern CFG_OPTIONS config_options;
+extern CFG_KEYMAP config_keymap;
 extern volatile short *pOutput[];
 extern bool bPauseOn;
 int pausecnt=0;
@@ -382,6 +383,51 @@ void shutdown()
 
 }
 
+
+void load_keymap(char * nm)
+{
+    FILE * f;
+    char arg1[128];
+	signed long argd;
+    char line[256];
+    char fullpath[256];
+    strcpy(fullpath,"./config/games/");
+    strcat(fullpath,nm);
+    strcat(fullpath,".kmp");
+    if ((f = fopen(fullpath,"r")) == NULL) f = fopen("./config/default.kmp", "r");
+    if (f==NULL) return;
+
+    		while(fgets(line,sizeof(line),f) != NULL){
+
+			sscanf(line, "%s %d", &arg1,&argd);
+			if (argd>0)
+			{
+
+			if (strcmp(arg1,"#")!=0){
+
+				if (strcmp(arg1,"KEY_UP")==0) config_keymap.up  = argd;
+				if (strcmp(arg1,"KEY_DOWN")==0) config_keymap.down  = argd;
+				if (strcmp(arg1,"KEY_LEFT")==0) config_keymap.left  = argd;
+				if (strcmp(arg1,"KEY_RIGHT")==0) config_keymap.right  = argd;
+				if (strcmp(arg1,"KEY_FIRE1")==0) config_keymap.fire1  = argd;
+				if (strcmp(arg1,"KEY_FIRE2")==0) config_keymap.fire1  = argd;
+				if (strcmp(arg1,"KEY_FIRE3")==0) config_keymap.fire1  = argd;
+				if (strcmp(arg1,"KEY_FIRE4")==0) config_keymap.fire1  = argd;
+				if (strcmp(arg1,"KEY_FIRE5")==0) config_keymap.fire1  = argd;
+				if (strcmp(arg1,"KEY_FIRE6")==0) config_keymap.fire1  = argd;
+				if (strcmp(arg1,"KEY_COIN1")==0) config_keymap.coin1  = argd;
+				if (strcmp(arg1,"KEY_START1")==0) config_keymap.start1  = argd;
+				if (strcmp(arg1,"KEY_PAUSE")==0) config_keymap.pause  = argd;
+				if (strcmp(arg1,"KEY_QUIT")==0) config_keymap.quit  = argd;
+
+			}
+			}
+		}
+		fclose(f);
+
+
+}
+
 void run_fba_emulator(const char *fn)
 {
     atexit(shutdown);
@@ -453,7 +499,7 @@ void run_fba_emulator(const char *fn)
 	    nBurnDrvActive=tmp;
 	}
 
-
+    load_keymap(BurnDrvGetTextA(DRV_NAME));
     gp2x_initialize();
     BurnDrvGetFullSize(&fwidth, &fheight);
     if (((config_options.option_rotate==0) && (BurnDrvGetFlags() & BDF_ORIENTATION_VERTICAL)) || (config_options.option_rotate==2))

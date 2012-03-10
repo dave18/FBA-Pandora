@@ -41,6 +41,7 @@ extern "C"
 };
 
 CFG_OPTIONS config_options;
+CFG_KEYMAP config_keymap;
 
 char szAppBurnVer[16];
 
@@ -123,7 +124,7 @@ void parse_cmd(int argc, char *argv[], char *path)
 				if(!optarg) continue;
 				z2=0;
 				sscanf(optarg,"%d",&z2);
-				if ((z2>1) || (z2<0)) z2=0;
+				if ((z2>2) || (z2<0)) z2=0;
 				config_options.option_z80core = z2;
 				break;
             case 'a':
@@ -245,6 +246,21 @@ char path[MAX_PATH];
 	printf("about to parse cmd\n");
 	parse_cmd(argc, argv,path);
 	printf("finshed parsing\n");
+
+	config_keymap.up=SDLK_UP;
+	config_keymap.down=SDLK_DOWN;
+	config_keymap.left=SDLK_LEFT;
+	config_keymap.right=SDLK_RIGHT;
+	config_keymap.fire1=SDLK_HOME; //a
+	config_keymap.fire2=SDLK_PAGEDOWN; //x
+	config_keymap.fire3=SDLK_END; //b
+	config_keymap.fire4=SDLK_PAGEUP; //y
+	config_keymap.fire5=SDLK_RSHIFT;
+	config_keymap.fire6=SDLK_RCTRL;
+	config_keymap.coin1=SDLK_LCTRL;
+	config_keymap.start1=SDLK_LALT;
+	config_keymap.pause=SDLK_p;
+	config_keymap.quit=SDLK_q;
 
 
 

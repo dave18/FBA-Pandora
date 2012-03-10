@@ -18,4 +18,26 @@ typedef struct
 	char option_selectspeed[6];
 } CFG_OPTIONS;
 
+typedef struct
+{
+	int up;
+	int down;
+	int left;
+	int right;
+	int fire1;
+	int fire2;
+    int fire3;
+    int fire4;
+    int fire5;
+	int fire6;
+	int coin1;
+	int coin2;
+	int start1;
+	int start2;
+	int pause;
+	int quit;
+	int fps;
+
+} CFG_KEYMAP;
+
 #endif

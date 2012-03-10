@@ -15,6 +15,7 @@
 extern char **environ;
 
 extern CFG_OPTIONS config_options;
+extern CFG_KEYMAP config_keymap;
 
 
 //static int mem_fd = -1;
@@ -219,128 +220,100 @@ int get_pc_keyboard()
 
                 if (event.type== SDL_KEYUP)
                 {																	// PC buttons
-					switch( event.key.keysym.sym )
-					{
 
-						case SDLK_UP:
+						if (event.key.keysym.sym==config_keymap.up)
 							UPDOWN=0;
-							break;
-						//case SDLK_HOME:
-//							UPDOWN=0;
-							//break;
-						//case SDLK_RCTRL:
-//							UPDOWN=0;
-							//break;
-						case SDLK_LEFT:
+
+						if (event.key.keysym.sym==config_keymap.left)
 							LEFTDOWN=0;
-							break;
-						case SDLK_RIGHT:
+
+						if (event.key.keysym.sym==config_keymap.right)
 							RIGHTDOWN=0;
-							break;
-                        case SDLK_HOME:
+
+                        if (event.key.keysym.sym==config_keymap.fire1)
                             ADOWN=0;
-                            break;
-                        case SDLK_PAGEUP:
+
+                        if (event.key.keysym.sym==config_keymap.fire4)
                             YDOWN=0;
-                            break;
-                        case SDLK_PAGEDOWN:
+
+                        if (event.key.keysym.sym==config_keymap.fire2)
                             XDOWN=0;
-                            break;
-                        case SDLK_END:
+
+                        if (event.key.keysym.sym==config_keymap.fire3)
                             BDOWN=0;
-                            break;
-                        case SDLK_l:
+
+                        if (event.key.keysym.sym==config_keymap.fire5)
                             LSDOWN=0;
-							break;
-                        case SDLK_DOWN:
+
+                        if (event.key.keysym.sym==config_keymap.down)
 							DOWNDOWN=0;
-							break;
-                        case SDLK_RSHIFT:
-                            LSDOWN=0;
-							break;
-                        case SDLK_RCTRL:
+
+                        if (event.key.keysym.sym==config_keymap.fire6)
 							RSDOWN=0;
-							break;
-                        case SDLK_LCTRL:
+
+                        if (event.key.keysym.sym==config_keymap.coin1)
 							SELECTDOWN=0;
-							break;
-                        case SDLK_s:
-                        case SDLK_LALT:
+
+                        if (event.key.keysym.sym==config_keymap.start1)
                             STARTDOWN=0;
-							break;
-                        case SDLK_q:
+
+                        if (event.key.keysym.sym==config_keymap.quit)
                             QDOWN=0;
-							break;
-                        case SDLK_p:
+
+                        if (event.key.keysym.sym==config_keymap.pause)
                             PAUSEDOWN=0;
-							break;
-						default:
-							break;
-					}
-                }
+
+
+				}
 
 				if (event.type== SDL_KEYDOWN)
 				{																	// PC buttons
 				    kinput=event.key.keysym.sym;
-                    switch( event.key.keysym.sym )
-					{
 
-						case SDLK_UP:
+						if (event.key.keysym.sym==config_keymap.up)
 							UPDOWN=1;
-							break;
-						//case SDLK_HOME:
-//							UPDOWN=1;
-	//						break;
-		//				case SDLK_RCTRL:
-			//				UPDOWN=1;
-				//			break;
-						case SDLK_LEFT:
-							LEFTDOWN=1;
-							break;
-						case SDLK_RIGHT:
-							RIGHTDOWN=1;
-							break;
-                        case SDLK_HOME:
-                            ADOWN=1;
-                            break;
-                        case SDLK_PAGEUP:
-                            YDOWN=1;
-                            break;
-                        case SDLK_PAGEDOWN:
-                            XDOWN=1;
-                            break;
-                        case SDLK_END:
-                            BDOWN=1;
-                            break;
-                        case SDLK_l:
-                            LSDOWN=1;
-							break;
-                        case SDLK_DOWN:
-							DOWNDOWN=1;
-							break;
-                        case SDLK_RSHIFT:
-                            LSDOWN=1;
-							break;
-                        case SDLK_RCTRL:
-							RSDOWN=1;
-							break;
 
-                        case SDLK_LCTRL:
+						if (event.key.keysym.sym==config_keymap.left)
+							LEFTDOWN=1;
+
+						if (event.key.keysym.sym==config_keymap.right)
+							RIGHTDOWN=1;
+
+                        if (event.key.keysym.sym==config_keymap.fire1)
+                            ADOWN=1;
+
+                        if (event.key.keysym.sym==config_keymap.fire4)
+                            YDOWN=1;
+
+                        if (event.key.keysym.sym==config_keymap.fire2)
+                            XDOWN=1;
+
+                        if (event.key.keysym.sym==config_keymap.fire3)
+                            BDOWN=1;
+
+                        if (event.key.keysym.sym==config_keymap.fire5)
+                            LSDOWN=1;
+
+                        if (event.key.keysym.sym==config_keymap.down)
+							DOWNDOWN=1;
+
+                        if (event.key.keysym.sym==config_keymap.fire6)
+							RSDOWN=1;
+
+
+                        if (event.key.keysym.sym==config_keymap.coin1)
 							SELECTDOWN=1;
-							break;
-                        case SDLK_s:
-                        case SDLK_LALT:
+
+                        if (event.key.keysym.sym==config_keymap.start1)
                             STARTDOWN=1;
-							break;
-                        case SDLK_q:
+
+                        if (event.key.keysym.sym==config_keymap.quit)
                             QDOWN=1;
-							break;
-                        case SDLK_p:
+
+                        if (event.key.keysym.sym==config_keymap.pause)
                             PAUSEDOWN=1;
-							break;
-						default:
-							break;
-					}
+
+
 				}
 
 			}

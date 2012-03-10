@@ -254,12 +254,18 @@ int SndInit()
 	if (config_options.option_sound_enable)
 	{
 		if ((BurnDrvGetHardwareCode() == HARDWARE_CAPCOM_CPS1) || (BurnDrvGetHardwareCode() == HARDWARE_CAPCOM_CPS1_GENERIC))
+		//if (1==0)
 		{
-			nBurnSoundRate = 11025;
+			/*nBurnSoundRate = 11025;
 			nAudioChannels = 1;
 			BUFFSIZE=512;
             NUM_BUFS=4;
-            expectedperframe=734;
+            expectedperframe=734;*/
+			nAudioChannels = 2;
+			nBurnSoundRate = 11025;
+            BUFFSIZE=2048/2;
+            NUM_BUFS=6;
+            expectedperframe=1468/2;
         //    printf("using low snd for cps1\n");
 		}
 		else

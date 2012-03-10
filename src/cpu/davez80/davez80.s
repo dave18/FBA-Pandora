@@ -1,3 +1,34 @@
+;@ --------------------------- Defines ----------------------------
+
+     cpucontext .req r6
+
+    .equ z80sppc_pointer,            0                  ;@  0
+    .equ z80hlfa_pointer,            z80sppc_pointer+4     ;@  4
+    .equ z80debc_pointer,            z80hlfa_pointer+4     ;@  8
+    .equ z80iyix_pointer,            z80debc_pointer+4     ;@  12
+    .equ z80hlfa2_pointer,           z80iyix_pointer+4     ;@  16
+    .equ z80debc2_pointer,           z80hlfa2_pointer+4    ;@  20
+    .equ z80cyclesleft_pointer,      z80debc2_pointer+4    ;@  24
+    .equ z80flagsir_pointer,         z80cyclesleft_pointer+4   ;@  28
+
+    .equ z80irqcallback,          z80flagsir_pointer+4
+    .equ z80_write8,              z80irqcallback+4
+    .equ z80_write16,             z80_write8+4
+    .equ z80_in,                  z80_write16+4
+    .equ z80_out,                 z80_in+4
+    .equ z80_read8,               z80_out+4
+    .equ z80_read16,              z80_read8+4
+    .equ z80_rebaseSP,            z80_read16+4
+    .equ z80_rebasePC,            z80_rebaseSP+4
+
+    .equ ppMemFetch,			  z80_rebasePC+4
+    .equ ppMemFetchData,		  ppMemFetch+4
+    .equ ppMemRead,				  ppMemFetchData+4
+    .equ ppMemWrite,			  ppMemRead+4
+    .equ debugCallback,			  ppMemWrite+4
+
+
+
 .ALIGN
             .ltorg
 
@@ -33,7 +64,7 @@
 
 	@** Following ARM registers are reserved To match Z80 registers
 	@** R5 - Bit 31=IFF2, 30=IFF1,29&28=Int Mode, 27-Page Enable, 26-Model, 25-Current Rom, 24-128K Screen, 23-Tape Load, 22,21=Beeper, 20-18=Border, 17=Halt status, 16=Debug flag, 15-8=I, 7-0=R
-	@** R6 - Base of spectrum memory
+	@** R6 - cpu context
 	@** R7 - SP  PC
 	@** R8 - H L F A
 	@** R9 - D E B C
@@ -47,21 +78,20 @@ DaveZ80EnterCPU:
 	stmfd r13!,{r3-r12,lr}
 			ldr r4,=mpointer
 			str r0,[r4]
-			mov r6,r0		@Store base of memory For future
 
 			ldr r4,=rpointer
-			str r2,[r4]
-			mov r0,r2		@Load address For external register storage
+			str r1,[r4]
+			mov r6,r1
+			mov r0,r1		@Load address For external register storage
 
 			ldr r7,[r0],#4 @Start reloading registers -  SP PC
 			ldr r8,[r0],#4 @H L F A
 			ldr r9,[r0],#4 @D E B C
-			ldr r10,[r0],#8 @IY IX
+			ldr r10,[r0],#4 @IY IX
 			ldr r2,[r0],#4 @H' L' F' A'
 			ldr r3,[r0],#4 @D' E' B' C'
 			ldr r11,[r0],#4 @Cycles
-			ldr r5,[r0],#12 @user flags			@ IFF2 IFF1 (14 spare bits) I R
-			ldr r1,[r0],#16 @Keyboard vars
+			ldr r5,[r0] @user flags			@ IFF2 IFF1 (14 spare bits) I R
 			mov r12,#0xFF00 @16 bit mask
 			add r12,r12,#0x00FF @16 bit mask
 			ldr r4,=ExReg
@@ -82,7 +112,7 @@ CPU_LOOP:
 			bne	ENDOPCODES				@ Jump past opcodes
 OPCODES:
 			and r1,r7,r12				@Mask the 16 bits that relate to the PC
-			bl MEMREAD
+			bl MEMFETCH
 
 			add r1,r1,#1				@Increment PC
 			and r1,r1,r12				@Mask the 16 bits that relate to the PC
@@ -360,7 +390,7 @@ B ENDOPCODES
 
 OPCODE_01:	@ LD BC,nn
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREADSHORT
+	bl MEMFETCHSHORT
 	add r1,r1,#2			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -436,7 +466,7 @@ B ENDOPCODES
 
 OPCODE_06:	@ LD B,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -594,7 +624,7 @@ B ENDOPCODES
 
 OPCODE_0E:	@ LD C,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -621,7 +651,7 @@ B ENDOPCODES
 
 @OPCODE_10:	@ DJNZ (PC+e)
 @	and r1,r7,r12			@ Move PC into R2 and mask to 16 bits
-@	bl MEMREAD
+@	bl MEMFETCH
 @	add r1,r1,#1			@ Increase PC to compensate for byte just loaded
 @	mov r3,#0			@ This is for cycle count
 @	mov r2,r9,lsr #8		@ Move B register into R0
@@ -652,7 +682,7 @@ OPCODE_10:	@ DJNZ (PC+e)
 	orreq r7,r7,r0			@ Add new PC
 	moveq r2,#8			@ Put tstates in R2
 	beq ENDOPCODES
-	bl MEMREAD			@ Get displacement if jump needed (R1 still contains PC correct PC).
+	bl MEMFETCH			@ Get displacement if jump needed (R1 still contains PC correct PC).
 	add r1,r1,r0			@ Add to PC
 	add r1,r1,#1			@ Adjust for extra byte read
 	tst r0,#128			@ Check sign for 2's displacemen
@@ -665,7 +695,7 @@ B ENDOPCODES
 
 OPCODE_11:	@ LD DE,nn
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREADSHORT
+	bl MEMFETCHSHORT
 	add r1,r1,#2			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -742,7 +772,7 @@ B ENDOPCODES
 
 OPCODE_16:	@ LD D,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -772,7 +802,7 @@ B ENDOPCODES
 
 OPCODE_18:	@ JR (PC+e)
 	and r2,r7,r12			@ Move PC into R2 and mask to 16 bits
-	bl MEMREAD2			@ Load byte from address
+	bl MEMFETCH2			@ Load byte from address
 	add r2,r2,#1			@ Increase PC to compensate for byte just loaded
 	add r0,r2,r1			@ Add to PC
 	tst r1,#128			@ Check sign for 2's displacemen
@@ -876,7 +906,7 @@ B ENDOPCODES
 
 OPCODE_1E:	@ LD E,n
 	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -908,7 +938,7 @@ OPCODE_20:	@ JR NZ,(PC+e)
 	and r2,r7,r12			@ Move PC into R2 and mask to 16 bits
 	tst r8,#0x4000			@ Test Z flag
 	bne	jrnz
-	bl MEMREAD2			@ Load byte from address
+	bl MEMFETCH2			@ Load byte from address
 	add r2,r2,#1			@ Increase PC to compensate for byte just loaded
 	add r0,r2,r1			@ Add to PC
 	tst r1,#128			@ Check sign for 2's displacemen
@@ -927,7 +957,7 @@ B ENDOPCODES
 
 OPCODE_21:	@ LD HL,nn
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREADSHORT
+	bl MEMFETCHSHORT
 	add r1,r1,#2			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -944,7 +974,7 @@ OPCODE_22:	@ LD (nn),HL
 	and r1,r1,r12			@ Mask new PC to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
 	orr r7,r7,r1			@ Store incremented value
-	bl MEMREADSHORT2		@ Get memory location into R1
+	bl MEMFETCHSHORT2		@ Get memory location into R1
 	bl MEMSTORESHORT		@ Store value in memory
 	mov r2,#16
 B ENDOPCODES
@@ -1008,7 +1038,7 @@ B ENDOPCODES
 
 OPCODE_26:	@ LD H,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -1061,7 +1091,7 @@ OPCODE_28:	@ JR Z,(PC+e)
 	and r2,r7,r12			@Move PC into R2 and mask to 16 bits
 	tst r8,#0x4000			@ Test Z flag
 	beq	jrz
-	bl MEMREAD2			@ Load byte from address
+	bl MEMFETCH2			@ Load byte from address
 	add r2,r2,#1			@ Increase PC to compensate for byte just loaded
 	add r0,r2,r1			@ Add to PC
 	tst r1,#128			@ Check sign for 2's displacement
@@ -1102,7 +1132,7 @@ B ENDOPCODES
 
 OPCODE_2A:	@ LD HL,(nn)
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREADSHORT2		@ Get address in R1
+	bl MEMFETCHSHORT2		@ Get address in R1
 	add r2,r2,#2			@ Increment PC
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -1172,7 +1202,7 @@ B ENDOPCODES
 
 OPCODE_2E:	@ LD L,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -1201,7 +1231,7 @@ OPCODE_30:	@ JR NC,(PC+e)
 	and r2,r7,r12			@Move PC into R2 and mask to 16 bits
 	tst r8,#0x100			@ Test C flag
 	bne	jrnc
-	bl MEMREAD2			@ Load byte from address
+	bl MEMFETCH2			@ Load byte from address
 	add r2,r2,#1			@ Increase PC to compensate for byte just loaded
 	add r0,r2,r1			@ Add to PC
 	tst r1,#128			@ Check sign for 2's displacemen
@@ -1220,7 +1250,7 @@ B ENDOPCODES
 
 OPCODE_31:	@ LD SP,nn
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREADSHORT
+	bl MEMFETCHSHORT
 	add r1,r1,#2			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -1237,7 +1267,7 @@ OPCODE_32:	@ LD (n),A
 	and r1,r1,r12			@ Mask new PC to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
 	orr r7,r7,r1			@ Store incremented value
-	bl MEMREADSHORT2		@ Get memory location into R1
+	bl MEMFETCHSHORT2		@ Get memory location into R1
 	bl MEMSTORE 			@ Store value in memory
 	mov r2,#13
 B ENDOPCODES
@@ -1270,8 +1300,8 @@ OPCODE_34:	@ INC (HL)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-@	bl MEMSTORE 			@ Store value in memory
-	strb r0,[r3]			@ R3 still contains correct address
+	bl STOREMEM2 			@ Store value in memory
+@	strb r0,[r3]			@ R3 still contains correct address
 	mov r2,#11
 B ENDOPCODES
 
@@ -1296,14 +1326,14 @@ OPCODE_35:	@ DEC (HL)
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
 	orr r8,r8,#0x200		@ Set N flag
-@	bl MEMSTORE 			@ Store value in memory
-	strb r0,[r3]			@ R£ still contains correct address
+	bl STOREMEM2 			@ Store value in memory
+	@strb r0,[r3]			@ R£ still contains correct address
 	mov r2,#11
 B ENDOPCODES
 
 OPCODE_36:	@ LD (HL),n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -1327,7 +1357,7 @@ OPCODE_38:	@ JR C,(PC+e)
 	and r2,r7,r12			@ Move PC into R2 and mask to 16 bits
 	tst r8,#0x100			@ Test C flag
 	beq	jrc
-	bl MEMREAD2			@ Load byte from address
+	bl MEMFETCH2			@ Load byte from address
 	add r2,r2,#1			@ Increase PC to compensate for byte just loaded
 	add r0,r2,r1			@ Add to PC
 	tst r1,#128			@ Check sign for 2's displacement
@@ -1372,7 +1402,7 @@ B ENDOPCODES
 
 OPCODE_3A:	@ LD A,(n)
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREADSHORT2		@ Get address
+	bl MEMFETCHSHORT2		@ Get address
 	add r2,r2,#2			@ Increment PC
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -1442,7 +1472,7 @@ B ENDOPCODES
 
 OPCODE_3E:	@ LD A,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -3806,7 +3836,7 @@ OPCODE_C2:	@ JP NZ,(nn)
 	movne r1,r7			@ Get old PC if cond not met
 	addne r1,r1,#2			@ Increase the PC by 2
 	andne r1,r1,r12			@ Mask to 16 bits
-	bleq MEMREADSHORT2		@ Read address into R1
+	bleq MEMFETCHSHORT2		@ Read address into R1
 	bic r7,r7,r12			@ Clear old PC
 	orr r7,r7,r1			@ Add new PC
 	mov r2,#10
@@ -3814,7 +3844,7 @@ B ENDOPCODES
 
 OPCODE_C3:	@ JP (nn)
 	and r2,r7,r12			@ Move PC into R2 and mask to 16 bits
-	bl MEMREADSHORT2		@ Read address into R1
+	bl MEMFETCHSHORT2		@ Read address into R1
 	bic r7,r7,r12			@ Clear old PC
 	orr r7,r7,r1			@ Add new PC
 	mov r2,#10
@@ -3824,7 +3854,7 @@ OPCODE_C4:	@ CALL NZ,(nn)
 	tst r8,#0x4000			@ Test Z flag
 	bne callnz
 	and r2,r7,r12			@ Move PC into R2 and mask to 16 bits
-	bl MEMREADSHORT2		@ Get address from current PC into r1
+	bl MEMFETCHSHORT2		@ Get address from current PC into r1
 	mov r4,r1			@ Save address in R4
 	add r0,r2,#2			@ Increase Pc by 2
 	mov r1,r7,lsr #16		@ Put SP into R1
@@ -3859,7 +3889,7 @@ B ENDOPCODES
 
 OPCODE_C6:	@ ADD A,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -3935,7 +3965,7 @@ OPCODE_CA:	@ JP Z,(nn)
 	moveq r1,r7			@ Get old PC if cond not met
 	addeq r1,r1,#2			@ Increase the PC by 2
 	andeq r1,r1,r12			@ Mask to 16 bits
-	blne MEMREADSHORT2		@ Read address into R1
+	blne MEMFETCHSHORT2		@ Read address into R1
 	bic r7,r7,r12			@ Clear old PC
 	orr r7,r7,r1			@ Add new PC
 	mov r2,#10
@@ -3949,7 +3979,7 @@ OPCODE_CC:	@ CALL Z,(nn)
 	tst r8,#0x4000			@Test Z flag
 	beq callz
 	and r2,r7,r12			@Move PC into R2 and mask to 16 bits
-	bl MEMREADSHORT2		@Get address from current PC into r1
+	bl MEMFETCHSHORT2		@Get address from current PC into r1
 	mov r4,r1			@Save address in R4
 	add r0,r2,#2			@Increase Pc by 2
 	mov r1,r7,lsr #16		@Put SP into R1
@@ -3972,7 +4002,7 @@ B ENDOPCODES
 
 OPCODE_CD:	@ CALL (nn)
 	and r2,r7,r12			@Move PC into R2 and mask to 16 bits
-	bl MEMREADSHORT2		@Get address from current PC into r1
+	bl MEMFETCHSHORT2		@Get address from current PC into r1
 	mov r4,r1			@Save address in R4
 	add r0,r2,#2			@Increase Pc by 2
 	mov r1,r7,lsr #16		@Put SP into R1
@@ -3988,7 +4018,7 @@ B ENDOPCODES
 
 OPCODE_CE:	@ ADC A,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -4071,7 +4101,7 @@ OPCODE_D2:	@ JP NC,(nn)
 	movne r1,r7			@ Get old PC if cond not met
 	addne r1,r1,#2			@ Increase the PC by 2
 	andne r1,r1,r12			@ Mask to 16 bits
-	bleq MEMREADSHORT2		@ Read address into R1
+	bleq MEMFETCHSHORT2		@ Read address into R1
 	bic r7,r7,r12			@ Clear old PC
 	orr r7,r7,r1			@ Add new PC
 	mov r2,#10
@@ -4079,13 +4109,19 @@ B ENDOPCODES
 
 OPCODE_D3:	@ OUT (n),A
 	and r0,r8,#0x000000FF		@ Mask value to a single byte
-@	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD3			@ Load byte from address
-	add r1,r1,#1			@ Increment PC
-	and r1,r1,r12			@ Mask to 16 bits
+	and r2,r7,r12			@ Mask PC register
+	bl MEMFETCH2			@ Load byte from address
+	add r2,r2,#1			@ Increment PC
+	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
-	orr r7,r7,r1			@ Store new PC value
-	and r1,r8,#0xFF			@ Get port number
+	orr r7,r7,r2			@ Store new PC value
+	and r0,r8,#0xFF			@ Get port number
+
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_out] @ r0=port r1=data
+    ldmia sp!,{r3,r12,lr}
+
 	mov r2,#11
 B ENDOPCODES
 
@@ -4093,7 +4129,7 @@ OPCODE_D4:	@ CALL NC,(nn)
 	tst r8,#0x100			@Test C flag
 	bne callnc
 	and r2,r7,r12			@Move PC into R2 and mask to 16 bits
-	bl MEMREADSHORT2		@Get address from current PC into r1
+	bl MEMFETCHSHORT2		@Get address from current PC into r1
 	mov r4,r1			@Save address in R4
 	add r0,r2,#2			@Increase Pc by 2
 	mov r1,r7,lsr #16		@Put SP into R1
@@ -4127,7 +4163,7 @@ B ENDOPCODES
 
 OPCODE_D6:	@ SUB A,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -4192,21 +4228,26 @@ OPCODE_DA:	@ JP C,(nn)
 	moveq r1,r7			@ Get old PC if cond not met
 	addeq r1,r1,#2			@ Increase the PC by 2
 	andeq r1,r1,r12			@ Mask to 16 bits
-	blne MEMREADSHORT2		@ Read address into R1
+	blne MEMFETCHSHORT2		@ Read address into R1
 	bic r7,r7,r12			@ Clear old PC
 	orr r7,r7,r1			@ Add new PC
 	mov r2,#10
 B ENDOPCODES
 
 OPCODE_DB:	@ IN A,(n)
-@	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD3
+	and r1,r7,r12			@ Mask PC register
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
 	orr r7,r7,r1			@ Store new PC value
 	and r1,r8,#0xFF			@ Get port number
-	mov r0,#0xFF			@ Temp code to put nil return
+	orr r0,r0,r1,lsl #8
+
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
 
 	bic r8,r8,#0xFE00		@ Clear all flags except carry
 	cmp r0,#0
@@ -4230,7 +4271,7 @@ OPCODE_DC:	@ CALL C,(nn)
 	tst r8,#0x100			@Test C flag
 	beq callc
 	and r2,r7,r12			@Move PC into R2 and mask to 16 bits
-	bl MEMREADSHORT2		@Get address from current PC into r1
+	bl MEMFETCHSHORT2		@Get address from current PC into r1
 	mov r4,r1			@Save address in R4
 	add r0,r2,#2			@Increase Pc by 2
 	mov r1,r7,lsr #16		@Put SP into R1
@@ -4257,7 +4298,7 @@ B ENDOPCODES
 
 OPCODE_DE:	@ SBC A,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -4339,7 +4380,7 @@ OPCODE_E2:	@ JP PO,(nn)
 	movne r1,r7			@ Get old PC if cond not met
 	addne r1,r1,#2			@ Increase the PC by 2
 	andne r1,r1,r12			@ Mask to 16 bits
-	bleq MEMREADSHORT2		@ Read address into R1
+	bleq MEMFETCHSHORT2		@ Read address into R1
 	bic r7,r7,r12			@ Clear old PC
 	orr r7,r7,r1			@ Add new PC
 	mov r2,#10
@@ -4360,7 +4401,7 @@ OPCODE_E4:	@ CALL PO,(nn)
 	tst r8,#0x400			@Test P flag
 	bne callpo
 	and r2,r7,r12			@Move PC into R2 and mask to 16 bits
-	bl MEMREADSHORT2		@Get address from current PC into r1
+	bl MEMFETCHSHORT2		@Get address from current PC into r1
 	mov r4,r1			@Save address in R4
 	add r0,r2,#2			@Increase Pc by 2
 	mov r1,r7,lsr #16		@Put SP into R1
@@ -4394,7 +4435,7 @@ B ENDOPCODES
 
 OPCODE_E6:	@ AND n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -4457,7 +4498,7 @@ OPCODE_EA:	@ JP PE,(nn)
 	moveq r1,r7			@ Get old PC if cond not met
 	addeq r1,r1,#2			@ Increase the PC by 2
 	andeq r1,r1,r12			@ Mask to 16 bits
-	blne MEMREADSHORT2		@ Read address into R1
+	blne MEMFETCHSHORT2		@ Read address into R1
 	bic r7,r7,r12			@ Clear old PC
 	orr r7,r7,r1			@ Add new PC
 	mov r2,#10
@@ -4477,7 +4518,7 @@ OPCODE_EC:	@ CALL PE,(nn)
 	tst r8,#0x400			@ Test P flag
 	beq callpe
 	and r2,r7,r12			@ Move PC into R2 and mask to 16 bits
-	bl MEMREADSHORT2		@ Get address from current PC into r1
+	bl MEMFETCHSHORT2		@ Get address from current PC into r1
 	mov r4,r1			@ Save address in R4
 	add r0,r2,#2			@ Increase Pc by 2
 	mov r1,r7,lsr #16		@ Put SP into R1
@@ -4504,7 +4545,7 @@ B ENDOPCODES
 
 OPCODE_EE:	@ XOR n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -4571,7 +4612,7 @@ OPCODE_F2:	@ JP P,(nn)
 	movne r1,r7			@ Get old PC if cond not met
 	addne r1,r1,#2			@ Increase the PC by 2
 	andne r1,r1,r12			@ Mask to 16 bits
-	bleq MEMREADSHORT2		@ Read address into R1
+	bleq MEMFETCHSHORT2		@ Read address into R1
 	bic r7,r7,r12			@ Clear old PC
 	orr r7,r7,r1			@ Add new PC
 	mov r2,#10
@@ -4586,7 +4627,7 @@ OPCODE_F4:	@ CALL P,(nn)
 	tst r8,#0x8000			@Test S flag
 	bne callp
 	and r2,r7,r12			@ Move PC into R2 and mask to 16 bits
-	bl MEMREADSHORT2		@ Get address from current PC into r1
+	bl MEMFETCHSHORT2		@ Get address from current PC into r1
 	mov r4,r1			@ Save address in R4
 	add r0,r2,#2			@ Increase Pc by 2
 	mov r1,r7,lsr #16		@ Put SP into R1
@@ -4624,7 +4665,7 @@ B ENDOPCODES
 
 OPCODE_F6:	@ OR n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -4687,7 +4728,7 @@ OPCODE_FA:	@ JP M,(nn)
 	moveq r1,r7			@ Get old PC if cond not met
 	addeq r1,r1,#2			@ Increase the PC by 2
 	andeq r1,r1,r12			@ Mask to 16 bits
-	blne MEMREADSHORT2		@ Read address into R1
+	blne MEMFETCHSHORT2		@ Read address into R1
 	bic r7,r7,r12			@ Clear old PC
 	orr r7,r7,r1			@ Add new PC
 	mov r2,#10
@@ -4702,7 +4743,7 @@ OPCODE_FC:	@ CALL M,(nn)
 	tst r8,#0x8000			@ Test S flag
 	beq callm
 	and r2,r7,r12			@ Move PC into R2 and mask to 16 bits
-	bl MEMREADSHORT2		@ Get address from current PC into r1
+	bl MEMFETCHSHORT2		@ Get address from current PC into r1
 	mov r4,r1			@ Save address in R4
 	add r0,r2,#2			@ Increase Pc by 2
 	mov r1,r7,lsr #16		@ Put SP into R1
@@ -4729,7 +4770,7 @@ B ENDOPCODES
 
 OPCODE_FE:	@ CP n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -4775,7 +4816,7 @@ OPCODE_FF:	@ RST 38H
 B ENDOPCODES
 
 EXCODES:
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1		@R1 should still contain the PC so increment
 	and r1,r1,r12		@Mask the 16 bits that relate to the PC
 	bic r7,r7,r12		@Clear the old PC value
@@ -5369,10 +5410,14 @@ EXOPCODE_3F:		@ILL
 B ENDOPCODES
 
 EXOPCODE_40:		@IN B,(C)
-	and r2,r9,#0xFF			@ Get value of C reg
-	mov r1,r9,lsr #8		@ Get value of B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0xFF			@ Temp code to put nil return
+
+	and r0,r9,r12			@ Mask B Reg (Port number)
+
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
+
 
 	bic r8,r8,#0xFE00		@ Clear all flags except carry
 	cmp r0,#0
@@ -5449,7 +5494,7 @@ EXOPCODE_43:		@LD (nn),BC
 	and r1,r1,r12			@ Mask new PC to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
 	orr r7,r7,r1			@ Store incremented value
-	bl MEMREADSHORT2		@ Get memory location into R1
+	bl MEMFETCHSHORT2		@ Get memory location into R1
 	bl MEMSTORESHORT		@ Store value in memory
 	mov r2,#20
 B ENDOPCODES
@@ -5506,10 +5551,13 @@ EXOPCODE_47:		@LD I,A
 B ENDOPCODES
 
 EXOPCODE_48:		@IN C,(C)
-	and r2,r9,#0xFF			@ Get value of C reg
-	mov r1,r9,lsr #8		@ Get value of B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0xFF			@ Temp code to put nil return
+	and r0,r9,r12			@ Mask B Reg (Port number)
+
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
+
 
 	bic r8,r8,#0xFE00		@ Clear all flags except carry
 	cmp r0,#0
@@ -5581,7 +5629,7 @@ B ENDOPCODES
 
 EXOPCODE_4B:		@LD BC,(nn)
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREADSHORT2		@ Get address
+	bl MEMFETCHSHORT2		@ Get address
 	add r2,r2,#2			@ Increment PC
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -5644,10 +5692,12 @@ EXOPCODE_4F:		@LD R,A
 B ENDOPCODES
 
 EXOPCODE_50:		@IN D,(C)
-	and r2,r9,#0xFF			@ Get value of C reg
-	mov r1,r9,lsr #8		@ Get value of B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0xFF			@ Temp code to put nil return
+	and r0,r9,r12			@ Mask B Reg (Port number)
+
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
 	bic r8,r8,#0xFE00		@ Clear all flags except carry
 	cmp r0,#0
 	orreq r8,r8,#0x4000		@ Set Zero flag if need be
@@ -5721,7 +5771,7 @@ EXOPCODE_53:		@LD (nn),DE
 	and r1,r1,r12			@ Mask new PC to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
 	orr r7,r7,r1			@ Store incremented value
-	bl MEMREADSHORT2		@ Get memory location into R1
+	bl MEMFETCHSHORT2		@ Get memory location into R1
 	bl MEMSTORESHORT		@ Store value in memory
 	mov r2,#20
 B ENDOPCODES
@@ -5791,10 +5841,12 @@ EXOPCODE_57:		@LD A,I
 B ENDOPCODES
 
 EXOPCODE_58:		@IN E,(C)
-	and r2,r9,#0xFF			@ Get value of C reg
-	mov r1,r9,lsr #8		@ Get value of B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0xFF			@ Temp code to put nil return
+	and r0,r9,r12			@ Mask B Reg (Port number)
+
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
 
 	bic r8,r8,#0xFE00		@ Clear all flags except carry
 	cmp r0,#0
@@ -5866,7 +5918,7 @@ B ENDOPCODES
 
 EXOPCODE_5B:		@LD DE,(nn)
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREADSHORT2		@ Get address
+	bl MEMFETCHSHORT2		@ Get address
 	add r2,r2,#2			@ Increment PC
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -5941,10 +5993,12 @@ EXOPCODE_5F:		@LD A,R
 B ENDOPCODES
 
 EXOPCODE_60:		@IN H,(C)
-	and r2,r9,#0xFF			@ Get value of C reg
-	mov r1,r9,lsr #8		@ Get value of B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0xFF			@ Temp code to put nil return
+	and r0,r9,r12			@ Mask B Reg (Port number)
+
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
 	bic r8,r8,#0xFE00		@ Clear all flags except carry
 	cmp r0,#0
 	orreq r8,r8,#0x4000		@ Set Zero flag if need be
@@ -6016,7 +6070,7 @@ EXOPCODE_63:		@LD (nn),HL
 	and r1,r1,r12			@ Mask new PC to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
 	orr r7,r7,r1			@ Store incremented value
-	bl MEMREADSHORT2		@ Get memory location into R1
+	bl MEMFETCHSHORT2		@ Get memory location into R1
 	bl MEMSTORESHORT		@ Store value in memory
 	mov r2,#20
 B ENDOPCODES
@@ -6072,8 +6126,8 @@ EXOPCODE_67:		@RRD
 	and r1,r8,#0xF			@ Get low nibble of accumulator
 	mov r1,r1,lsl #4		@ Move low nibble to high nibble
 	orr r0,r1,r0,lsr #4		@ Create new (HL) value
-@	bl MEMSTORE			@ Store back to memory
-	strb r0,[r3]			@ R3 still contains correct address
+	bl STOREMEM2			@ Store back to memory
+@	strb r0,[r3]			@ R3 still contains correct address
 	and r0,r2,#0xF			@ Get low nibble
 	bic r8,r8,#0xF			@ Clear low nible of accumulator
 	orrs r8,r8,r0			@ Create new accumulator value
@@ -6093,10 +6147,12 @@ B ENDOPCODES
 
 
 EXOPCODE_68:		@IN L,(C)
-	and r2,r9,#0xFF			@ Get value of C reg
-	mov r1,r9,lsr #8		@ Get value of B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0xFF			@ Temp code to put nil return
+	and r0,r9,r12			@ Mask B Reg (Port number)
+
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
 	bic r8,r8,#0xFE00		@ Clear all flags except carry
 	cmp r0,#0
 	orreq r8,r8,#0x4000		@ Set Zero flag if need be
@@ -6164,7 +6220,7 @@ B ENDOPCODES
 
 EXOPCODE_6B:		@LD HL,(nn)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREADSHORT			@ Get address
+	bl MEMFETCHSHORT			@ Get address
 	add r1,r1,#2			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -6226,8 +6282,8 @@ EXOPCODE_6F:		@RLD
 	mov r2,r0,lsl #4		@ Move low nibble to high nibble
 	and r1,r8,#0xF			@ Get low nibble of accumulator
 	orr r0,r2,r1			@ Create new (HL) value
-@	bl MEMSTORE			@ Store back to memory
-	strb r0,[r3]			@ R3 still contains correct HL address
+	bl STOREMEM2			@ Store back to memory
+@	strb r0,[r3]			@ R3 still contains correct HL address
 	and r1,r8,#0xF0			@ Get high nible of accumulator
 	orrs r0,r1,r2,lsr #8		@ Create new accumulator value
 	bic r8,r8,#0xFF			@ Clear old accumulator
@@ -6246,10 +6302,12 @@ EXOPCODE_6F:		@RLD
 B ENDOPCODES
 
 EXOPCODE_70:		@IN F,(C)
-	and r2,r9,#0xFF			@ Get value of C reg
-	mov r1,r9,lsr #8		@ Get value of B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0xFF			@ Temp code to put nil return
+	and r0,r9,r12			@ Mask B Reg (Port number)
+
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
 	bic r8,r8,#0xFE00		@ Clear all flags except carry
 	cmp r0,#0
 	orreq r8,r8,#0x4000		@ Set Zero flag if need be
@@ -6324,7 +6382,7 @@ EXOPCODE_73:		@LD (nn),SP
 	and r1,r1,r12			@ Mask new PC to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
 	orr r7,r7,r1			@ Store incremented value
-	bl MEMREADSHORT2		@ Get memory location into R1
+	bl MEMFETCHSHORT2		@ Get memory location into R1
 	bl MEMSTORESHORT		@ Store value in memory
 	mov r2,#20
 B ENDOPCODES
@@ -6380,10 +6438,12 @@ EXOPCODE_77:		@ILL
 B ENDOPCODES
 
 EXOPCODE_78:		@IN A,(C)
-	and r2,r9,#0xFF			@ Get value of C reg
-	mov r1,r9,lsr #8		@ Get value of B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0xFF			@ Temp code to put nil return
+	and r0,r9,r12			@ Mask B Reg (Port number)
+
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
 	bic r8,r8,#0xFE00		@ Clear all flags except carry
 	cmp r0,#0
 	orreq r8,r8,#0x4000		@ Set Zero flag if need be
@@ -6453,7 +6513,7 @@ B ENDOPCODES
 
 EXOPCODE_7B:		@LD SP,(nn)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREADSHORT			@ Get address
+	bl MEMFETCHSHORT			@ Get address
 	add r1,r1,#2			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -6747,8 +6807,12 @@ EXOPCODE_A2:		@INI
 	ands r0,r0,#0xFF		@ Mask new B reg
 	orreq r8,r8,#0x4000		@ Set Zero flag if need be
 	orr r9,r9,r0,lsl #8		@ Store new B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0xFF			@ Temp code to put nil return
+	and r0,r1,#0xFF			@ Mask B Reg (Port number)
+
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
 
 	orr r8,r8,#0x200		@ Set N Flag
 @	tst r0,#32			@ Test 5 flag
@@ -6873,8 +6937,11 @@ EXOPCODE_AA:		@IND
 	ands r0,r0,#0xFF		@ Mask new B reg
 	orreq r8,r8,#0x4000		@ Set Zero flag if need be
 	orr r9,r9,r0,lsl #8		@ Store new B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0xFF			@ Temp code to put nil return
+	and r0,r1,#0xFF			@ Mask B Reg (Port number)
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
 
 	orr r8,r8,#0x200		@ Set N Flag
 @	tst r0,#32			@ Test 5 flag
@@ -7016,8 +7083,11 @@ EXOPCODE_B2:		@INIR
 	ands r0,r0,#0xFF		@ Mask new B reg
 	orreq r8,r8,#0x4000		@ Set Zero flag if need be
 	orr r9,r9,r0,lsl #8		@ Store new B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0xFF			@ Temp code to put nil return
+	and r0,r1,#0xFF			@ Mask B Reg (Port number)
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
 
 	orr r8,r8,#0x200		@ Set N Flag
 @	tst r0,#32			@ Test 5 flag
@@ -7177,8 +7247,11 @@ EXOPCODE_BA:		@INDR
 	ands r0,r0,#0xFF		@ Mask new B reg
 	orreq r8,r8,#0x4000		@ Set Zero flag if need be
 	orr r9,r9,r0,lsl #8		@ Store new B reg
-	and r1,r1,#0xFF			@ Mask B Reg (Port number)
-	mov r0,#0			@ Temp code to put nil return
+	and r0,r1,#0xFF			@ Mask B Reg (Port number)
+	stmdb sp!,{r3,r12,lr}
+     mov lr,pc
+     ldr pc,[cpucontext,#z80_in] ;@ r0=port - data returned in r0
+    ldmia sp!,{r3,r12,lr}
 
 	orr r8,r8,#0x200		@ Set N Flag
 @	tst r0,#32			@ Test 5 flag
@@ -8003,7 +8076,8 @@ CBOPCODE_06:		@RLC (HL)
 	orrne r8,r8,#0x2000			@ Set 5 flag
 	tst r0,#8				@ Test 3 flag
 	orrne r8,r8,#0x800			@ Set 3 flag
-	strb r0,[r3]				@ Store back in mem as R3 still contains address of HL
+	@strb r0,[r3]				@ Store back in mem as R3 still contains address of HL
+	bl STOREMEM2
 	adrl r2,Parity				@ Get start of parity table
 	ldrb r3,[r2,r0]				@ Get parity value
 	cmp r3,#0				@ Test parity value
@@ -8192,7 +8266,8 @@ CBOPCODE_0E:		@RRC (HL)
 	orrne r8,r8,#0x2000			@ Set 5 flag
 	tst r0,#8				@ Test 3 flag
 	orrne r8,r8,#0x800			@ Set 3 flag
-	strb r0,[r3]				@ Store back to mem as R3 still contains address of HL
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store back to mem as R3 still contains address of HL
 	adrl r2,Parity				@ Get start of parity table
 	ldrb r3,[r2,r0]				@ Get parity value
 	cmp r3,#0				@ Test parity value
@@ -8391,7 +8466,8 @@ CBOPCODE_16:		@RL (HL)
 	orrne r8,r8,#0x2000			@ Set 5 flag
 	tst r0,#8				@ Test 3 flag
 	orrne r8,r8,#0x800			@ Set 3 flag
-	strb r0,[r3]				@ Store to mem, R3 still contain HL address
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store to mem, R3 still contain HL address
 	adrl r2,Parity				@ Get start of parity table
 	ldrb r3,[r2,r0]				@ Get parity value
 	cmp r3,#0				@ Test parity value
@@ -8595,7 +8671,8 @@ CBOPCODE_1E:		@RR (HL)
 	orrne r8,r8,#0x2000			@ Set 5 flag
 	tst r0,#8				@ Test 3 flag
 	orrne r8,r8,#0x800			@ Set 3 flag
-	strb r0,[r3]				@ Store to mem
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store to mem
 	adrl r2,Parity				@ Get start of parity table
 	ldrb r3,[r2,r0]				@ Get parity value
 	cmp r3,#0				@ Test parity value
@@ -8782,7 +8859,8 @@ CBOPCODE_26:		@SLA (HL)
 	orrne r8,r8,#0x2000			@ Set 5 flag
 	tst r0,#8				@ Test 3 flag
 	orrne r8,r8,#0x800			@ Set 3 flag
-	strb r0,[r3]				@ Store to mem
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store to mem
 	adrl r2,Parity				@ Get start of parity table
 	ldrb r3,[r2,r0]				@ Get parity value
 	cmp r3,#0				@ Test parity value
@@ -8981,7 +9059,8 @@ CBOPCODE_2E:		@SRA (HL)
 	orrne r8,r8,#0x2000			@ Set 5 flag
 	tst r0,#8				@ Test 3 flag
 	orrne r8,r8,#0x800			@ Set 3 flag
-	strb r0,[r3]				@ Store to mem
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store to mem
 	adrl r2,Parity				@ Get start of parity table
 	ldrb r3,[r2,r0]				@ Get parity value
 	cmp r3,#0				@ Test parity value
@@ -9168,7 +9247,8 @@ CBOPCODE_36:		@SLL (HL)
 	orrne r8,r8,#0x2000			@ Set 5 flag
 	tst r0,#8				@ Test 3 flag
 	orrne r8,r8,#0x800			@ Set 3 flag
-	strb r0,[r3]				@ Store to mem
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store to mem
 	adrl r2,Parity				@ Get start of parity table
 	ldrb r3,[r2,r0]				@ Get parity value
 	cmp r3,#0				@ Test parity value
@@ -9332,7 +9412,8 @@ CBOPCODE_3E:		@SRL (HL)
 	orrne r8,r8,#0x2000			@ Set 5 flag
 	tst r0,#8				@ Test 3 flag
 	orrne r8,r8,#0x800			@ Set 3 flag
-	strb r0,[r3]				@ Store to mem
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store to mem
 	adrl r2,Parity				@ Get start of parity table
 	ldrb r3,[r2,r0]				@ Get parity value
 	cmp r3,#0				@ Test parity value
@@ -10260,7 +10341,8 @@ CBOPCODE_86:		@RES 0,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -10324,7 +10406,8 @@ CBOPCODE_8E:		@RES 1,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -10388,7 +10471,8 @@ CBOPCODE_96:		@RES 2,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -10452,7 +10536,8 @@ CBOPCODE_9E:		@RES 3,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -10516,7 +10601,8 @@ CBOPCODE_A6:		@RES 4,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -10580,7 +10666,8 @@ CBOPCODE_AE:		@RES 5,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -10644,7 +10731,8 @@ CBOPCODE_B6:		@RES 6,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -10708,7 +10796,8 @@ CBOPCODE_BE:		@RES 7,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -10772,7 +10861,8 @@ CBOPCODE_C6:		@SET 0,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -10836,7 +10926,8 @@ CBOPCODE_CE:		@SET 1,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -10900,7 +10991,8 @@ CBOPCODE_D6:		@SET 2,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -10964,7 +11056,8 @@ CBOPCODE_DE:		@SET 3,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -11028,7 +11121,8 @@ CBOPCODE_E6:		@SET 4,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -11092,7 +11186,8 @@ CBOPCODE_EE:		@SET 5,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -11156,7 +11251,8 @@ CBOPCODE_F6:		@SET 6,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -11220,7 +11316,8 @@ CBOPCODE_FE:		@SET 7,(HL)
 	mov r1,r8,lsr #16			@ Get value of register
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3]				@ Store value in memory
 	mov r2,#15
 B ENDOPCODES
 
@@ -11233,7 +11330,7 @@ CBOPCODE_FF:		@SET 7,A
 B ENDOPCODES
 
 DDCODES:
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1		@R1 should still contain the PC so increment
 	and r1,r1,r12		@Mask the 16 bits that relate to the PC
 	bic r7,r7,r12		@Clear the old PC value
@@ -11711,7 +11808,7 @@ B ENDOPCODES
 
 DDOPCODE_21:		@LD IX,nn
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREADSHORT
+	bl MEMFETCHSHORT
 	add r1,r1,#2			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -11729,7 +11826,7 @@ DDOPCODE_22:		@LD (nn),IX
 	and r1,r1,r12			@ Mask new PC to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
 	orr r7,r7,r1			@ Store incremented value
-	bl MEMREADSHORT2		@ Get memory location into R1
+	bl MEMFETCHSHORT2		@ Get memory location into R1
 	bl MEMSTORESHORT		@ Store value in memory
 	mov r2,#20
 B ENDOPCODES
@@ -11792,7 +11889,7 @@ B ENDOPCODES
 
 DDOPCODE_26:		@LD IXH,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -11836,7 +11933,7 @@ B ENDOPCODES
 
 DDOPCODE_2A:		@LD IX,(nn)
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREADSHORT2		@ Get address
+	bl MEMFETCHSHORT2		@ Get address
 	add r2,r2,#2			@ Increment PC
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -11905,7 +12002,7 @@ B ENDOPCODES
 
 DDOPCODE_2E:		@LD IXL,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -11942,7 +12039,7 @@ B ENDOPCODES
 
 DDOPCODE_34:		@INC (IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -11969,13 +12066,14 @@ DDOPCODE_34:		@INC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3] 			@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3] 			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
 DDOPCODE_35:		@DEC (IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12004,16 +12102,17 @@ DDOPCODE_35:		@DEC (IX+d)
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
 	orr r8,r8,#0x200		@ Set N flag
-	strb r0,[r3] 			@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3] 			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
 DDOPCODE_36:		@LD (IX+d),n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD				@ Get displacement
+	bl MEMFETCH				@ Get displacement
 	mov r4,r0
 	add r1,r1,#1			@ Increase PC
-	bl MEMREAD				@ Get value
+	bl MEMFETCH				@ Get value
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12128,7 +12227,7 @@ B ENDOPCODES
 
 DDOPCODE_46:		@LD B,(IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12185,7 +12284,7 @@ B ENDOPCODES
 
 DDOPCODE_4E:		@LD C,(IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12242,7 +12341,7 @@ B ENDOPCODES
 
 DDOPCODE_56:		@LD D,(IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12299,7 +12398,7 @@ B ENDOPCODES
 
 DDOPCODE_5E:		@LD E,(IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12362,7 +12461,7 @@ B ENDOPCODES
 
 DDOPCODE_66:		@LD H,(IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12428,7 +12527,7 @@ B ENDOPCODES
 
 DDOPCODE_6E:		@LD L,(IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12452,7 +12551,7 @@ B ENDOPCODES
 
 DDOPCODE_70:		@LD (IX+d),B
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12469,7 +12568,7 @@ B ENDOPCODES
 
 DDOPCODE_71:		@LD (IX+d),C
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12485,7 +12584,7 @@ B ENDOPCODES
 
 DDOPCODE_72:		@LD (IX+d),D
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12501,7 +12600,7 @@ B ENDOPCODES
 
 DDOPCODE_73:		@LD (IX+d),E
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12518,7 +12617,7 @@ B ENDOPCODES
 
 DDOPCODE_74:		@LD (IX+d),H
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12534,7 +12633,7 @@ B ENDOPCODES
 
 DDOPCODE_75:		@LD (IX+d),L
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12556,7 +12655,7 @@ B ENDOPCODES
 
 DDOPCODE_77:		@LD (IX+d),A
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12607,7 +12706,7 @@ B ENDOPCODES
 
 DDOPCODE_7E:		@LD A,(IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12716,7 +12815,7 @@ B ENDOPCODES
 
 DDOPCODE_86:		@ADD A,(IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12861,7 +12960,7 @@ B ENDOPCODES
 
 DDOPCODE_8E:		@ADC A,(IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -12997,7 +13096,7 @@ B ENDOPCODES
 
 DDOPCODE_96:		@SUB A,(IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -13138,7 +13237,7 @@ B ENDOPCODES
 
 DDOPCODE_9E:		@SBC A,(IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -13254,7 +13353,7 @@ B ENDOPCODES
 
 DDOPCODE_A6:		@AND (IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -13355,7 +13454,7 @@ B ENDOPCODES
 
 DDOPCODE_AE:		@XOR (IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -13456,7 +13555,7 @@ B ENDOPCODES
 
 DDOPCODE_B6:		@OR (IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -13572,7 +13671,7 @@ B ENDOPCODES
 
 DDOPCODE_BE:		@CP (IX+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -13800,9 +13899,11 @@ DDOPCODE_E3:		@EX (SP),IX
 	and r0,r10,r12			@ Mask source value to a 16 bit number
 	bic r10,r10,r12			@ Clear source byte To 0
 	orr r10,r10,r1			@ Place value on target register
-	strb r0,[r3] 			@ store low byte in memory
-	mov r0,r0,lsr #8
-	strb r0,[r3,#1]			@ Store high byte of PC
+	mov r1,r3
+	bl MEMSTORESHORT
+	@strb r0,[r3] 			@ store low byte in memory
+	@mov r0,r0,lsr #8
+	@strb r0,[r3,#1]			@ Store high byte of PC
 	mov r2,#23
 B ENDOPCODES
 
@@ -13957,7 +14058,7 @@ DDOPCODE_FF:		@ILL
 B ENDOPCODES
 
 FDCODES:
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1		@R0 should still contain the PC so increment
 	and r1,r1,r12		@Mask the 16 bits that relate to the PC
 	bic r7,r7,r12		@Clear the old PC value
@@ -14447,7 +14548,7 @@ B ENDOPCODES
 
 FDOPCODE_21:		@LD IY,nn
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREADSHORT
+	bl MEMFETCHSHORT
 	add r1,r1,#2			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -14464,7 +14565,7 @@ FDOPCODE_22:		@LD (nn),IY
 	and r1,r1,r12			@ Mask new PC to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
 	orr r7,r7,r1			@ Store incremented value
-	bl MEMREADSHORT2		@ Get memory location into R1
+	bl MEMFETCHSHORT2		@ Get memory location into R1
 	bl MEMSTORESHORT		@ Store value in memory
 	mov r2,#20
 B ENDOPCODES
@@ -14527,7 +14628,7 @@ B ENDOPCODES
 
 FDOPCODE_26:		@LD IYH,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -14571,7 +14672,7 @@ B ENDOPCODES
 
 FDOPCODE_2A:		@LD IY,(nn)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREADSHORT			@ Get address
+	bl MEMFETCHSHORT			@ Get address
 	add r1,r1,#2			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -14641,7 +14742,7 @@ B ENDOPCODES
 
 FDOPCODE_2E:		@LD IYL,n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -14678,7 +14779,7 @@ B ENDOPCODES
 
 FDOPCODE_34:		@INC (IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -14705,13 +14806,14 @@ FDOPCODE_34:		@INC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3] 			@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3] 			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
 FDOPCODE_35:		@DEC (IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -14740,16 +14842,17 @@ FDOPCODE_35:		@DEC (IY+d)
 	tst r0,#8				@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
 	orr r8,r8,#0x200		@ Set N flag
-	strb r0,[r3] 			@ Store value in memory
+	bl STOREMEM2
+	@strb r0,[r3] 			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
 FDOPCODE_36:		@LD (IY+d),n
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD				@ Get displacement
+	bl MEMFETCH				@ Get displacement
 	mov r4,r0
 	add r1,r1,#1			@ Increase PC
-	bl MEMREAD				@ Get value
+	bl MEMFETCH				@ Get value
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -14865,7 +14968,7 @@ B ENDOPCODES
 
 FDOPCODE_46:		@LD B,(IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -14923,7 +15026,7 @@ B ENDOPCODES
 
 FDOPCODE_4E:		@LD C,(IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -14981,7 +15084,7 @@ B ENDOPCODES
 
 FDOPCODE_56:		@LD D,(IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15039,7 +15142,7 @@ B ENDOPCODES
 
 FDOPCODE_5E:		@LD E,(IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15104,7 +15207,7 @@ B ENDOPCODES
 
 FDOPCODE_66:		@LD H,(IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15170,7 +15273,7 @@ B ENDOPCODES
 
 FDOPCODE_6E:		@LD L,(IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15195,7 +15298,7 @@ B ENDOPCODES
 
 FDOPCODE_70:		@LD (IY+d),B
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15212,7 +15315,7 @@ B ENDOPCODES
 
 FDOPCODE_71:		@LD (IY+d),C
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15228,7 +15331,7 @@ B ENDOPCODES
 
 FDOPCODE_72:		@LD (IY+d),D
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15244,7 +15347,7 @@ B ENDOPCODES
 
 FDOPCODE_73:		@LD (IY+d),E
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15261,7 +15364,7 @@ B ENDOPCODES
 
 FDOPCODE_74:		@LD (IY+d),H
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15277,7 +15380,7 @@ B ENDOPCODES
 
 FDOPCODE_75:		@LD (IY+d),L
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15299,7 +15402,7 @@ B ENDOPCODES
 
 FDOPCODE_77:		@LD (IY+d),A
 	and r2,r7,r12			@ Mask PC register
-	bl MEMREAD2
+	bl MEMFETCH2
 	add r2,r2,#1			@ Increment PC by 1
 	and r2,r2,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15350,7 +15453,7 @@ B ENDOPCODES
 
 FDOPCODE_7E:		@LD A,(IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD			@ Load byte from address
+	bl MEMFETCH			@ Load byte from address
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15460,7 +15563,7 @@ B ENDOPCODES
 
 FDOPCODE_86:		@ADD A,(IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15605,7 +15708,7 @@ B ENDOPCODES
 
 FDOPCODE_8E:		@ADC A,(IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15741,7 +15844,7 @@ B ENDOPCODES
 
 FDOPCODE_96:		@SUB A,(IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15882,7 +15985,7 @@ B ENDOPCODES
 
 FDOPCODE_9E:		@SBC A,(IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -15998,7 +16101,7 @@ B ENDOPCODES
 
 FDOPCODE_A6:		@AND (IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -16099,7 +16202,7 @@ B ENDOPCODES
 
 FDOPCODE_AE:		@XOR (IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -16200,7 +16303,7 @@ B ENDOPCODES
 
 FDOPCODE_B6:		@OR (IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -16316,7 +16419,7 @@ B ENDOPCODES
 
 FDOPCODE_BE:		@CP (IY+d)
 @	and r1,r7,r12			@ Mask PC register
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1			@ Increment PC
 	and r1,r1,r12			@ Mask to 16 bits
 	bic r7,r7,r12			@ Clear old PC value
@@ -16544,10 +16647,12 @@ FDOPCODE_E3:		@EX (SP),IY
 	mov r0,r10,lsr #16		@ Get source value
 	and r10,r10,r12			@ Clear source byte to 0
 	orr r10,r10,r1,lsl #16		@ Place value on target register
-	strb r0,[r3] 			@ store low byte in memory
-	mov r0,r0,lsr #8
-	strb r0,[r3,#1]			@ Store high byte of PC
-	mov r2,#23
+	mov r1,r3
+	bl MEMSTORESHORT
+	@strb r0,[r3] 			@ store low byte in memory
+	@mov r0,r0,lsr #8
+	@strb r0,[r3,#1]			@ Store high byte of PC
+	@mov r2,#23
 B ENDOPCODES
 
 FDOPCODE_E4:		@ILL
@@ -16701,10 +16806,10 @@ FDOPCODE_FF:		@ILL
 B ENDOPCODES
 
 CBXCODES:
-	bl MEMREAD
+	bl MEMFETCH
 	mov r2,r0			@load displacement Value into r2
 	add r1,r1,#1		@load Next OP-CODE into r0
-	bl MEMREAD
+	bl MEMFETCH
 	add r1,r1,#1		@R1 should still contain the PC so increment
 	and r1,r1,r12		@Mask the 16 bits that relate to the PC
 	bic r7,r7,r12		@Clear the old PC value
@@ -16993,7 +17098,7 @@ CBXOPCODE_00:		@LD B,RLC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17022,7 +17127,7 @@ CBXOPCODE_01:		@LD C,RLC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17051,7 +17156,7 @@ CBXOPCODE_02:		@LD D,RLC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17080,7 +17185,7 @@ CBXOPCODE_03:		@LD E,RLC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17109,7 +17214,7 @@ CBXOPCODE_04:		@LD H,RLC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17138,7 +17243,7 @@ CBXOPCODE_05:		@LD L,RLC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17167,7 +17272,7 @@ CBXOPCODE_06:		@RLC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17194,7 +17299,7 @@ CBXOPCODE_07:		@LD A,RLC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17222,7 +17327,7 @@ CBXOPCODE_08:		@LD B,RRC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17250,7 +17355,7 @@ CBXOPCODE_09:		@LD C,RRC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17278,7 +17383,7 @@ CBXOPCODE_0A:		@LD D,RRC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17306,7 +17411,7 @@ CBXOPCODE_0B:		@LD E,RRC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17334,7 +17439,7 @@ CBXOPCODE_0C:		@LD H,RRC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17362,7 +17467,7 @@ CBXOPCODE_0D:		@LD L,RRC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17390,7 +17495,7 @@ CBXOPCODE_0E:		@RRC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17416,7 +17521,7 @@ CBXOPCODE_0F:		@LD A,RRC (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17446,7 +17551,7 @@ CBXOPCODE_10:		@LD B,RL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17476,7 +17581,7 @@ CBXOPCODE_11:		@LD C,RL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17506,7 +17611,7 @@ CBXOPCODE_12:		@LD D,RL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17536,7 +17641,7 @@ CBXOPCODE_13:		@LD E,RL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17566,7 +17671,7 @@ CBXOPCODE_14:		@LD H,RL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17596,7 +17701,7 @@ CBXOPCODE_15:		@LD L,RL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17626,7 +17731,7 @@ CBXOPCODE_16:		@RL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17654,7 +17759,7 @@ CBXOPCODE_17:		@LD A,RL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17684,7 +17789,7 @@ CBXOPCODE_18:		@LD B,RR (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17714,7 +17819,7 @@ CBXOPCODE_19:		@LD C,RR (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17744,7 +17849,7 @@ CBXOPCODE_1A:		@LD D,RR (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17774,7 +17879,7 @@ CBXOPCODE_1B:		@LD E,RR (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17804,7 +17909,7 @@ CBXOPCODE_1C:		@LD H,RR (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17834,7 +17939,7 @@ CBXOPCODE_1D:		@LD L,RR (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17864,7 +17969,7 @@ CBXOPCODE_1E:		@RR (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17892,7 +17997,7 @@ CBXOPCODE_1F:		@LD A,RR (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17920,7 +18025,7 @@ CBXOPCODE_20:		@LD B,SLA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17948,7 +18053,7 @@ CBXOPCODE_21:		@LD C,SLA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -17976,7 +18081,7 @@ CBXOPCODE_22:		@LD D,SLA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18004,7 +18109,7 @@ CBXOPCODE_23:		@LD E,SLA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18032,7 +18137,7 @@ CBXOPCODE_24:		@LD H,SLA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18060,7 +18165,7 @@ CBXOPCODE_25:		@LD L,SLA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18088,7 +18193,7 @@ CBXOPCODE_26:		@SLA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18114,7 +18219,7 @@ CBXOPCODE_27:		@LD A,SLA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18144,7 +18249,7 @@ CBXOPCODE_28:		@LD B,SRA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18174,7 +18279,7 @@ CBXOPCODE_29:		@LD C,SRA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18204,7 +18309,7 @@ CBXOPCODE_2A:		@LD D,SRA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18234,7 +18339,7 @@ CBXOPCODE_2B:		@LD E,SRA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18264,7 +18369,7 @@ CBXOPCODE_2C:		@LD H,SRA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18294,7 +18399,7 @@ CBXOPCODE_2D:		@LD L,SRA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18324,7 +18429,7 @@ CBXOPCODE_2E:		@SRA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18352,7 +18457,7 @@ CBXOPCODE_2F:		@LD A,SRA (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18380,7 +18485,7 @@ CBXOPCODE_30:		@LD B,SLL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18408,7 +18513,7 @@ CBXOPCODE_31:		@LD C,SLL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18436,7 +18541,7 @@ CBXOPCODE_32:		@LD D,SLL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18464,7 +18569,7 @@ CBXOPCODE_33:		@LD E,SLL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18492,7 +18597,7 @@ CBXOPCODE_34:		@LD H,SLL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18520,7 +18625,7 @@ CBXOPCODE_35:		@LD L,SLL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18548,7 +18653,7 @@ CBXOPCODE_36:		@SLL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18574,7 +18679,7 @@ CBXOPCODE_37:		@LD A,SLL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18599,7 +18704,7 @@ CBXOPCODE_38:		@LD B,SRL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18624,7 +18729,7 @@ CBXOPCODE_39:		@LD C,SRL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18649,7 +18754,7 @@ CBXOPCODE_3A:		@LD D,SRL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18674,7 +18779,7 @@ CBXOPCODE_3B:		@LD E,SRL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18699,7 +18804,7 @@ CBXOPCODE_3C:		@LD H,SRL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18724,7 +18829,7 @@ CBXOPCODE_3D:		@LD L,SRL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18749,7 +18854,7 @@ CBXOPCODE_3E:		@SRL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -18772,7 +18877,7 @@ CBXOPCODE_3F:		@LD A,SRL (IX+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -19885,7 +19990,7 @@ CBXOPCODE_80:		@LD B,RES 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -19898,7 +20003,7 @@ CBXOPCODE_81:		@LD C,RES 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -19911,7 +20016,7 @@ CBXOPCODE_82:		@LD D,RES 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -19924,7 +20029,7 @@ CBXOPCODE_83:		@LD E,RES 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -19937,7 +20042,7 @@ CBXOPCODE_84:		@LD H,RES 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -19950,7 +20055,7 @@ CBXOPCODE_85:		@LD L,RES 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -19963,7 +20068,7 @@ CBXOPCODE_86:		@RES 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	mov r2,#23
 B ENDOPCODES
 
@@ -19974,7 +20079,7 @@ CBXOPCODE_87:		@LD A,RES 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -19987,7 +20092,7 @@ CBXOPCODE_88:		@LD B,RES 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -20000,7 +20105,7 @@ CBXOPCODE_89:		@LD C,RES 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -20013,7 +20118,7 @@ CBXOPCODE_8A:		@LD D,RES 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20026,7 +20131,7 @@ CBXOPCODE_8B:		@LD E,RES 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20039,7 +20144,7 @@ CBXOPCODE_8C:		@LD H,RES 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20052,7 +20157,7 @@ CBXOPCODE_8D:		@LD L,RES 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20065,7 +20170,7 @@ CBXOPCODE_8E:		@RES 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	mov r2,#23
 B ENDOPCODES
 
@@ -20076,7 +20181,7 @@ CBXOPCODE_8F:		@LD A,RES 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -20089,7 +20194,7 @@ CBXOPCODE_90:		@LD B,RES 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -20102,7 +20207,7 @@ CBXOPCODE_91:		@LD C,RES 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -20115,7 +20220,7 @@ CBXOPCODE_92:		@LD D,RES 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20128,7 +20233,7 @@ CBXOPCODE_93:		@LD E,RES 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20141,7 +20246,7 @@ CBXOPCODE_94:		@LD H,RES 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20154,7 +20259,7 @@ CBXOPCODE_95:		@LD L,RES 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20167,7 +20272,7 @@ CBXOPCODE_96:		@RES 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	mov r2,#23
 B ENDOPCODES
 
@@ -20178,7 +20283,7 @@ CBXOPCODE_97:		@LD A,RES 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -20191,7 +20296,7 @@ CBXOPCODE_98:		@LD B,RES 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -20204,7 +20309,7 @@ CBXOPCODE_99:		@LD C,RES 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -20217,7 +20322,7 @@ CBXOPCODE_9A:		@LD D,RES 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20230,7 +20335,7 @@ CBXOPCODE_9B:		@LD E,RES 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20243,7 +20348,7 @@ CBXOPCODE_9C:		@LD H,RES 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20256,7 +20361,7 @@ CBXOPCODE_9D:		@LD L,RES 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20269,7 +20374,7 @@ CBXOPCODE_9E:		@RES 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	mov r2,#23
 B ENDOPCODES
 
@@ -20280,7 +20385,7 @@ CBXOPCODE_9F:		@LD A,RES 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -20293,7 +20398,7 @@ CBXOPCODE_A0:		@LD B,RES 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -20306,7 +20411,7 @@ CBXOPCODE_A1:		@LD C,RES 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -20319,7 +20424,7 @@ CBXOPCODE_A2:		@LD D,RES 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20332,7 +20437,7 @@ CBXOPCODE_A3:		@LD E,RES 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20345,7 +20450,7 @@ CBXOPCODE_A4:		@LD H,RES 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20358,7 +20463,7 @@ CBXOPCODE_A5:		@LD L,RES 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20371,7 +20476,7 @@ CBXOPCODE_A6:		@RES 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	mov r2,#23
 B ENDOPCODES
 
@@ -20382,7 +20487,7 @@ CBXOPCODE_A7:		@LD A,RES 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -20395,7 +20500,7 @@ CBXOPCODE_A8:		@LD B,RES 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -20408,7 +20513,7 @@ CBXOPCODE_A9:		@LD C,RES 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -20421,7 +20526,7 @@ CBXOPCODE_AA:		@LD D,RES 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20434,7 +20539,7 @@ CBXOPCODE_AB:		@LD E,RES 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20447,7 +20552,7 @@ CBXOPCODE_AC:		@LD H,RES 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20460,7 +20565,7 @@ CBXOPCODE_AD:		@LD L,RES 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20473,7 +20578,7 @@ CBXOPCODE_AE:		@RES 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	mov r2,#23
 B ENDOPCODES
 
@@ -20484,7 +20589,7 @@ CBXOPCODE_AF:		@LD A,RES 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -20497,7 +20602,7 @@ CBXOPCODE_B0:		@LD B,RES 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -20510,7 +20615,7 @@ CBXOPCODE_B1:		@LD C,RES 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -20523,7 +20628,7 @@ CBXOPCODE_B2:		@LD D,RES 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20536,7 +20641,7 @@ CBXOPCODE_B3:		@LD E,RES 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20549,7 +20654,7 @@ CBXOPCODE_B4:		@LD H,RES 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20562,7 +20667,7 @@ CBXOPCODE_B5:		@LD L,RES 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20575,7 +20680,7 @@ CBXOPCODE_B6:		@RES 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	mov r2,#23
 B ENDOPCODES
 
@@ -20586,7 +20691,7 @@ CBXOPCODE_B7:		@LD A,RES 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -20599,7 +20704,7 @@ CBXOPCODE_B8:		@LD B,RES 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -20612,7 +20717,7 @@ CBXOPCODE_B9:		@LD C,RES 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -20625,7 +20730,7 @@ CBXOPCODE_BA:		@LD D,RES 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20638,7 +20743,7 @@ CBXOPCODE_BB:		@LD E,RES 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20651,7 +20756,7 @@ CBXOPCODE_BC:		@LD H,RES 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20664,7 +20769,7 @@ CBXOPCODE_BD:		@LD L,RES 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20677,7 +20782,7 @@ CBXOPCODE_BE:		@RES 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	mov r2,#23
 B ENDOPCODES
 
@@ -20688,7 +20793,7 @@ CBXOPCODE_BF:		@LD A,RES 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]			@ Store to mem
+	bl STOREMEM2			@ Store to mem
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -20701,7 +20806,7 @@ CBXOPCODE_C0:		@LD B,SET 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -20714,7 +20819,7 @@ CBXOPCODE_C1:		@LD C,SET 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -20727,7 +20832,7 @@ CBXOPCODE_C2:		@LD D,SET 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20740,7 +20845,7 @@ CBXOPCODE_C3:		@LD E,SET 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20753,7 +20858,7 @@ CBXOPCODE_C4:		@LD H,SET 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20766,7 +20871,7 @@ CBXOPCODE_C5:		@LD L,SET 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20779,7 +20884,7 @@ CBXOPCODE_C6:		@SET 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -20790,7 +20895,7 @@ CBXOPCODE_C7:		@LD A,SET 0,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -20803,7 +20908,7 @@ CBXOPCODE_C8:		@LD B,SET 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -20816,7 +20921,7 @@ CBXOPCODE_C9:		@LD C,SET 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -20829,7 +20934,7 @@ CBXOPCODE_CA:		@LD D,SET 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20842,7 +20947,7 @@ CBXOPCODE_CB:		@LD E,SET 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20855,7 +20960,7 @@ CBXOPCODE_CC:		@LD H,SET 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20868,7 +20973,7 @@ CBXOPCODE_CD:		@LD L,SET 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20881,7 +20986,7 @@ CBXOPCODE_CE:		@SET 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -20892,7 +20997,7 @@ CBXOPCODE_CF:		@LD A,SET 1,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -20905,7 +21010,7 @@ CBXOPCODE_D0:		@LD B,SET 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -20918,7 +21023,7 @@ CBXOPCODE_D1:		@LD C,SET 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -20931,7 +21036,7 @@ CBXOPCODE_D2:		@LD D,SET 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20944,7 +21049,7 @@ CBXOPCODE_D3:		@LD E,SET 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20957,7 +21062,7 @@ CBXOPCODE_D4:		@LD H,SET 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -20970,7 +21075,7 @@ CBXOPCODE_D5:		@LD L,SET 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -20983,7 +21088,7 @@ CBXOPCODE_D6:		@SET 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -20994,7 +21099,7 @@ CBXOPCODE_D7:		@LD A,SET 2,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -21007,7 +21112,7 @@ CBXOPCODE_D8:		@LD B,SET 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -21020,7 +21125,7 @@ CBXOPCODE_D9:		@LD C,SET 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -21033,7 +21138,7 @@ CBXOPCODE_DA:		@LD D,SET 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -21046,7 +21151,7 @@ CBXOPCODE_DB:		@LD E,SET 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -21059,7 +21164,7 @@ CBXOPCODE_DC:		@LD H,SET 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -21072,7 +21177,7 @@ CBXOPCODE_DD:		@LD L,SET 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -21085,7 +21190,7 @@ CBXOPCODE_DE:		@SET 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -21096,7 +21201,7 @@ CBXOPCODE_DF:		@LD A,SET 3,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -21109,7 +21214,7 @@ CBXOPCODE_E0:		@LD B,SET 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -21122,7 +21227,7 @@ CBXOPCODE_E1:		@LD C,SET 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -21135,7 +21240,7 @@ CBXOPCODE_E2:		@LD D,SET 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -21148,7 +21253,7 @@ CBXOPCODE_E3:		@LD E,SET 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -21161,7 +21266,7 @@ CBXOPCODE_E4:		@LD H,SET 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -21174,7 +21279,7 @@ CBXOPCODE_E5:		@LD L,SET 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -21187,7 +21292,7 @@ CBXOPCODE_E6:		@SET 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -21198,7 +21303,7 @@ CBXOPCODE_E7:		@LD A,SET 4,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -21211,7 +21316,7 @@ CBXOPCODE_E8:		@LD B,SET 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -21224,7 +21329,7 @@ CBXOPCODE_E9:		@LD C,SET 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -21237,7 +21342,7 @@ CBXOPCODE_EA:		@LD D,SET 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -21250,7 +21355,7 @@ CBXOPCODE_EB:		@LD E,SET 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -21263,7 +21368,7 @@ CBXOPCODE_EC:		@LD H,SET 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -21276,7 +21381,7 @@ CBXOPCODE_ED:		@LD L,SET 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -21289,7 +21394,7 @@ CBXOPCODE_EE:		@SET 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -21300,7 +21405,7 @@ CBXOPCODE_EF:		@LD A,SET 5,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -21313,7 +21418,7 @@ CBXOPCODE_F0:		@LD B,SET 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -21326,7 +21431,7 @@ CBXOPCODE_F1:		@LD C,SET 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -21339,7 +21444,7 @@ CBXOPCODE_F2:		@LD D,SET 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -21352,7 +21457,7 @@ CBXOPCODE_F3:		@LD E,SET 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -21365,7 +21470,7 @@ CBXOPCODE_F4:		@LD H,SET 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -21378,7 +21483,7 @@ CBXOPCODE_F5:		@LD L,SET 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -21391,7 +21496,7 @@ CBXOPCODE_F6:		@SET 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -21402,7 +21507,7 @@ CBXOPCODE_F7:		@LD A,SET 6,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -21415,7 +21520,7 @@ CBXOPCODE_F8:		@LD B,SET 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x0000FF00		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8		@ Place value on target register
 	mov r2,#23
@@ -21428,7 +21533,7 @@ CBXOPCODE_F9:		@LD C,SET 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x000000FF		@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -21441,7 +21546,7 @@ CBXOPCODE_FA:		@LD D,SET 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0xFF000000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -21454,7 +21559,7 @@ CBXOPCODE_FB:		@LD E,SET 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r9,r9,#0x00FF0000		@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -21467,7 +21572,7 @@ CBXOPCODE_FC:		@LD H,SET 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0xFF000000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24		@ Place value on target register
 	mov r2,#23
@@ -21480,7 +21585,7 @@ CBXOPCODE_FD:		@LD L,SET 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x00FF0000		@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16		@ Place value on target register
 	mov r2,#23
@@ -21493,7 +21598,7 @@ CBXOPCODE_FE:		@SET 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -21504,7 +21609,7 @@ CBXOPCODE_FF:		@LD A,SET 7,(IX+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	bic r8,r8,#0x000000FF		@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -21804,7 +21909,7 @@ CBYOPCODE_00:		@LD B,RLC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -21834,7 +21939,7 @@ CBYOPCODE_01:		@LD C,RLC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -21864,7 +21969,7 @@ CBYOPCODE_02:		@LD D,RLC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -21894,7 +21999,7 @@ CBYOPCODE_03:		@LD E,RLC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -21924,7 +22029,7 @@ CBYOPCODE_04:		@LD H,RLC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -21954,7 +22059,7 @@ CBYOPCODE_05:		@LD L,RLC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -21984,7 +22089,7 @@ CBYOPCODE_06:		@RLC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22012,7 +22117,7 @@ CBYOPCODE_07:		@LD A,RLC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22041,7 +22146,7 @@ CBYOPCODE_08:		@LD B,RRC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22070,7 +22175,7 @@ CBYOPCODE_09:		@LD C,RRC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22099,7 +22204,7 @@ CBYOPCODE_0A:		@LD D,RRC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22128,7 +22233,7 @@ CBYOPCODE_0B:		@LD E,RRC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22157,7 +22262,7 @@ CBYOPCODE_0C:		@LD H,RRC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22186,7 +22291,7 @@ CBYOPCODE_0D:		@LD L,RRC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22215,7 +22320,7 @@ CBYOPCODE_0E:		@RRC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22242,7 +22347,7 @@ CBYOPCODE_0F:		@LD A,RRC (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22273,7 +22378,7 @@ CBYOPCODE_10:		@LD B,RL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22304,7 +22409,7 @@ CBYOPCODE_11:		@LD C,RL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22335,7 +22440,7 @@ CBYOPCODE_12:		@LD D,RL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22366,7 +22471,7 @@ CBYOPCODE_13:		@LD E,RL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22397,7 +22502,7 @@ CBYOPCODE_14:		@LD H,RL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22428,7 +22533,7 @@ CBYOPCODE_15:		@LD L,RL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22459,7 +22564,7 @@ CBYOPCODE_16:		@RL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22488,7 +22593,7 @@ CBYOPCODE_17:		@LD A,RL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22520,7 +22625,7 @@ CBYOPCODE_18:		@LD B,RR (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to memory
+	bl STOREMEM2			@ Store to memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22552,7 +22657,7 @@ CBYOPCODE_19:		@LD C,RR (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to memory
+	bl STOREMEM2			@ Store to memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22584,7 +22689,7 @@ CBYOPCODE_1A:		@LD D,RR (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to memory
+	bl STOREMEM2			@ Store to memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22616,7 +22721,7 @@ CBYOPCODE_1B:		@LD E,RR (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to memory
+	bl STOREMEM2			@ Store to memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22648,7 +22753,7 @@ CBYOPCODE_1C:		@LD H,RR (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to memory
+	bl STOREMEM2			@ Store to memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22680,7 +22785,7 @@ CBYOPCODE_1D:		@LD L,RR (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to memory
+	bl STOREMEM2			@ Store to memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22712,7 +22817,7 @@ CBYOPCODE_1E:		@RR (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to memory
+	bl STOREMEM2			@ Store to memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22742,7 +22847,7 @@ CBYOPCODE_1F:		@LD A,RR (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store to memory
+	bl STOREMEM2			@ Store to memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22771,7 +22876,7 @@ CBYOPCODE_20:		@LD B,SLA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22800,7 +22905,7 @@ CBYOPCODE_21:		@LD C,SLA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22829,7 +22934,7 @@ CBYOPCODE_22:		@LD D,SLA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22858,7 +22963,7 @@ CBYOPCODE_23:		@LD E,SLA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22887,7 +22992,7 @@ CBYOPCODE_24:		@LD H,SLA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22916,7 +23021,7 @@ CBYOPCODE_25:		@LD L,SLA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22945,7 +23050,7 @@ CBYOPCODE_26:		@SLA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -22972,7 +23077,7 @@ CBYOPCODE_27:		@LD A,SLA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23003,7 +23108,7 @@ CBYOPCODE_28:		@LD B,SRA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23034,7 +23139,7 @@ CBYOPCODE_29:		@LD C,SRA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23065,7 +23170,7 @@ CBYOPCODE_2A:		@LD D,SRA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23096,7 +23201,7 @@ CBYOPCODE_2B:		@LD E,SRA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23127,7 +23232,7 @@ CBYOPCODE_2C:		@LD H,SRA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23158,7 +23263,7 @@ CBYOPCODE_2D:		@LD L,SRA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23189,7 +23294,7 @@ CBYOPCODE_2E:		@SRA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23218,7 +23323,7 @@ CBYOPCODE_2F:		@LD A,SRA (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23247,7 +23352,7 @@ CBYOPCODE_30:		@LD B,SLL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23276,7 +23381,7 @@ CBYOPCODE_31:		@LD C,SLL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23305,7 +23410,7 @@ CBYOPCODE_32:		@LD D,SLL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23334,7 +23439,7 @@ CBYOPCODE_33:		@LD E,SLL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23363,7 +23468,7 @@ CBYOPCODE_34:		@LD H,SLL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23392,7 +23497,7 @@ CBYOPCODE_35:		@LD L,SLL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23421,7 +23526,7 @@ CBYOPCODE_36:		@SLL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23448,7 +23553,7 @@ CBYOPCODE_37:		@LD A,SLL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23474,7 +23579,7 @@ CBYOPCODE_38:		@LD B,SRL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23500,7 +23605,7 @@ CBYOPCODE_39:		@LD C,SRL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23526,7 +23631,7 @@ CBYOPCODE_3A:		@LD D,SRL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23552,7 +23657,7 @@ CBYOPCODE_3B:		@LD E,SRL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23578,7 +23683,7 @@ CBYOPCODE_3C:		@LD H,SRL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23604,7 +23709,7 @@ CBYOPCODE_3D:		@LD L,SRL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23630,7 +23735,7 @@ CBYOPCODE_3E:		@SRL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -23654,7 +23759,7 @@ CBYOPCODE_3F:		@LD A,SRL (IY+d)
 	orrne r8,r8,#0x2000		@ Set 5 flag
 	tst r0,#8			@ Test 3 flag
 	orrne r8,r8,#0x800		@ Set 3 flag
-	strb r0,[r3]			@ Store value in memory
+	bl STOREMEM2			@ Store value in memory
 	adrl r2,Parity			@ Get start of parity table
 	ldrb r3,[r2,r0]			@ Get parity value
 	cmp r3,#0			@ Test parity value
@@ -24832,7 +24937,7 @@ CBYOPCODE_80:		@LD B,RES 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -24846,7 +24951,7 @@ CBYOPCODE_81:		@LD C,RES 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -24860,7 +24965,7 @@ CBYOPCODE_82:		@LD D,RES 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -24874,7 +24979,7 @@ CBYOPCODE_83:		@LD E,RES 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -24888,7 +24993,7 @@ CBYOPCODE_84:		@LD H,RES 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -24902,7 +25007,7 @@ CBYOPCODE_85:		@LD L,RES 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -24916,7 +25021,7 @@ CBYOPCODE_86:		@RES 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -24928,7 +25033,7 @@ CBYOPCODE_87:		@LD A,RES 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x01			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -24942,7 +25047,7 @@ CBYOPCODE_88:		@LD B,RES 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -24956,7 +25061,7 @@ CBYOPCODE_89:		@LD C,RES 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -24970,7 +25075,7 @@ CBYOPCODE_8A:		@LD D,RES 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -24984,7 +25089,7 @@ CBYOPCODE_8B:		@LD E,RES 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -24998,7 +25103,7 @@ CBYOPCODE_8C:		@LD H,RES 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25012,7 +25117,7 @@ CBYOPCODE_8D:		@LD L,RES 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25026,7 +25131,7 @@ CBYOPCODE_8E:		@RES 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -25038,7 +25143,7 @@ CBYOPCODE_8F:		@LD A,RES 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x02			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -25052,7 +25157,7 @@ CBYOPCODE_90:		@LD B,RES 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -25066,7 +25171,7 @@ CBYOPCODE_91:		@LD C,RES 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -25080,7 +25185,7 @@ CBYOPCODE_92:		@LD D,RES 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25094,7 +25199,7 @@ CBYOPCODE_93:		@LD E,RES 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25108,7 +25213,7 @@ CBYOPCODE_94:		@LD H,RES 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25122,7 +25227,7 @@ CBYOPCODE_95:		@LD L,RES 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25136,7 +25241,7 @@ CBYOPCODE_96:		@RES 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -25148,7 +25253,7 @@ CBYOPCODE_97:		@LD A,RES 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x04			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -25162,7 +25267,7 @@ CBYOPCODE_98:		@LD B,RES 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -25176,7 +25281,7 @@ CBYOPCODE_99:		@LD C,RES 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -25190,7 +25295,7 @@ CBYOPCODE_9A:		@LD D,RES 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25204,7 +25309,7 @@ CBYOPCODE_9B:		@LD E,RES 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25218,7 +25323,7 @@ CBYOPCODE_9C:		@LD H,RES 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25232,7 +25337,7 @@ CBYOPCODE_9D:		@LD L,RES 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25246,7 +25351,7 @@ CBYOPCODE_9E:		@RES 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -25258,7 +25363,7 @@ CBYOPCODE_9F:		@LD A,RES 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x08			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -25272,7 +25377,7 @@ CBYOPCODE_A0:		@LD B,RES 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -25286,7 +25391,7 @@ CBYOPCODE_A1:		@LD C,RES 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -25300,7 +25405,7 @@ CBYOPCODE_A2:		@LD D,RES 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25314,7 +25419,7 @@ CBYOPCODE_A3:		@LD E,RES 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25328,7 +25433,7 @@ CBYOPCODE_A4:		@LD H,RES 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25342,7 +25447,7 @@ CBYOPCODE_A5:		@LD L,RES 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25356,7 +25461,7 @@ CBYOPCODE_A6:		@RES 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -25368,7 +25473,7 @@ CBYOPCODE_A7:		@LD A,RES 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x10			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -25382,7 +25487,7 @@ CBYOPCODE_A8:		@LD B,RES 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -25396,7 +25501,7 @@ CBYOPCODE_A9:		@LD C,RES 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -25410,7 +25515,7 @@ CBYOPCODE_AA:		@LD D,RES 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25424,7 +25529,7 @@ CBYOPCODE_AB:		@LD E,RES 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25438,7 +25543,7 @@ CBYOPCODE_AC:		@LD H,RES 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25452,7 +25557,7 @@ CBYOPCODE_AD:		@LD L,RES 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25466,7 +25571,7 @@ CBYOPCODE_AE:		@RES 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -25478,7 +25583,7 @@ CBYOPCODE_AF:		@LD A,RES 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x20			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -25492,7 +25597,7 @@ CBYOPCODE_B0:		@LD B,RES 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -25506,7 +25611,7 @@ CBYOPCODE_B1:		@LD C,RES 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -25520,7 +25625,7 @@ CBYOPCODE_B2:		@LD D,RES 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25534,7 +25639,7 @@ CBYOPCODE_B3:		@LD E,RES 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25548,7 +25653,7 @@ CBYOPCODE_B4:		@LD H,RES 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25562,7 +25667,7 @@ CBYOPCODE_B5:		@LD L,RES 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25576,7 +25681,7 @@ CBYOPCODE_B6:		@RES 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -25588,7 +25693,7 @@ CBYOPCODE_B7:		@LD A,RES 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x40			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -25602,7 +25707,7 @@ CBYOPCODE_B8:		@LD B,RES 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -25616,7 +25721,7 @@ CBYOPCODE_B9:		@LD C,RES 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -25630,7 +25735,7 @@ CBYOPCODE_BA:		@LD D,RES 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25644,7 +25749,7 @@ CBYOPCODE_BB:		@LD E,RES 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25658,7 +25763,7 @@ CBYOPCODE_BC:		@LD H,RES 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25672,7 +25777,7 @@ CBYOPCODE_BD:		@LD L,RES 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25686,7 +25791,7 @@ CBYOPCODE_BE:		@RES 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -25698,7 +25803,7 @@ CBYOPCODE_BF:		@LD A,RES 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	bic r0,r0,#0x80			@ Reset Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -25712,7 +25817,7 @@ CBYOPCODE_C0:		@LD B,SET 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -25726,7 +25831,7 @@ CBYOPCODE_C1:		@LD C,SET 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -25740,7 +25845,7 @@ CBYOPCODE_C2:		@LD D,SET 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25754,7 +25859,7 @@ CBYOPCODE_C3:		@LD E,SET 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25768,7 +25873,7 @@ CBYOPCODE_C4:		@LD H,SET 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25782,7 +25887,7 @@ CBYOPCODE_C5:		@LD L,SET 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25796,7 +25901,7 @@ CBYOPCODE_C6:		@SET 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -25808,7 +25913,7 @@ CBYOPCODE_C7:		@LD A,SET 0,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x01			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -25822,7 +25927,7 @@ CBYOPCODE_C8:		@LD B,SET 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -25836,7 +25941,7 @@ CBYOPCODE_C9:		@LD C,SET 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -25850,7 +25955,7 @@ CBYOPCODE_CA:		@LD D,SET 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25864,7 +25969,7 @@ CBYOPCODE_CB:		@LD E,SET 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25878,7 +25983,7 @@ CBYOPCODE_CC:		@LD H,SET 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25892,7 +25997,7 @@ CBYOPCODE_CD:		@LD L,SET 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25906,7 +26011,7 @@ CBYOPCODE_CE:		@SET 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -25918,7 +26023,7 @@ CBYOPCODE_CF:		@LD A,SET 1,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x02			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -25932,7 +26037,7 @@ CBYOPCODE_D0:		@LD B,SET 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -25946,7 +26051,7 @@ CBYOPCODE_D1:		@LD C,SET 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -25960,7 +26065,7 @@ CBYOPCODE_D2:		@LD D,SET 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -25974,7 +26079,7 @@ CBYOPCODE_D3:		@LD E,SET 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -25988,7 +26093,7 @@ CBYOPCODE_D4:		@LD H,SET 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -26002,7 +26107,7 @@ CBYOPCODE_D5:		@LD L,SET 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -26016,7 +26121,7 @@ CBYOPCODE_D6:		@SET 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -26028,7 +26133,7 @@ CBYOPCODE_D7:		@LD A,SET 2,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x04			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -26042,7 +26147,7 @@ CBYOPCODE_D8:		@LD B,SET 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -26056,7 +26161,7 @@ CBYOPCODE_D9:		@LD C,SET 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -26070,7 +26175,7 @@ CBYOPCODE_DA:		@LD D,SET 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -26084,7 +26189,7 @@ CBYOPCODE_DB:		@LD E,SET 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -26098,7 +26203,7 @@ CBYOPCODE_DC:		@LD H,SET 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -26112,7 +26217,7 @@ CBYOPCODE_DD:		@LD L,SET 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -26126,7 +26231,7 @@ CBYOPCODE_DE:		@SET 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -26138,7 +26243,7 @@ CBYOPCODE_DF:		@LD A,SET 3,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x08			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -26152,7 +26257,7 @@ CBYOPCODE_E0:		@LD B,SET 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -26166,7 +26271,7 @@ CBYOPCODE_E1:		@LD C,SET 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -26180,7 +26285,7 @@ CBYOPCODE_E2:		@LD D,SET 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -26194,7 +26299,7 @@ CBYOPCODE_E3:		@LD E,SET 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -26208,7 +26313,7 @@ CBYOPCODE_E4:		@LD H,SET 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -26222,7 +26327,7 @@ CBYOPCODE_E5:		@LD L,SET 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -26236,7 +26341,7 @@ CBYOPCODE_E6:		@SET 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -26248,7 +26353,7 @@ CBYOPCODE_E7:		@LD A,SET 4,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x10			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -26262,7 +26367,7 @@ CBYOPCODE_E8:		@LD B,SET 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -26276,7 +26381,7 @@ CBYOPCODE_E9:		@LD C,SET 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -26290,7 +26395,7 @@ CBYOPCODE_EA:		@LD D,SET 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -26304,7 +26409,7 @@ CBYOPCODE_EB:		@LD E,SET 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -26318,7 +26423,7 @@ CBYOPCODE_EC:		@LD H,SET 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -26332,7 +26437,7 @@ CBYOPCODE_ED:		@LD L,SET 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -26346,7 +26451,7 @@ CBYOPCODE_EE:		@SET 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -26358,7 +26463,7 @@ CBYOPCODE_EF:		@LD A,SET 5,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x20			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -26372,7 +26477,7 @@ CBYOPCODE_F0:		@LD B,SET 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -26386,7 +26491,7 @@ CBYOPCODE_F1:		@LD C,SET 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -26400,7 +26505,7 @@ CBYOPCODE_F2:		@LD D,SET 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -26414,7 +26519,7 @@ CBYOPCODE_F3:		@LD E,SET 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -26428,7 +26533,7 @@ CBYOPCODE_F4:		@LD H,SET 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -26442,7 +26547,7 @@ CBYOPCODE_F5:		@LD L,SET 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -26456,7 +26561,7 @@ CBYOPCODE_F6:		@SET 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -26468,7 +26573,7 @@ CBYOPCODE_F7:		@LD A,SET 6,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x40			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -26482,7 +26587,7 @@ CBYOPCODE_F8:		@LD B,SET 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x0000FF00			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #8			@ Place value on target register
 	mov r2,#23
@@ -26496,7 +26601,7 @@ CBYOPCODE_F9:		@LD C,SET 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x000000FF			@ Clear target byte to 0
 	orr r9,r9,r0			@ Place value on target register
 	mov r2,#23
@@ -26510,7 +26615,7 @@ CBYOPCODE_FA:		@LD D,SET 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0xFF000000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -26524,7 +26629,7 @@ CBYOPCODE_FB:		@LD E,SET 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r9,r9,#0x00FF0000			@ Clear target byte to 0
 	orr r9,r9,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -26538,7 +26643,7 @@ CBYOPCODE_FC:		@LD H,SET 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0xFF000000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #24			@ Place value on target register
 	mov r2,#23
@@ -26552,7 +26657,7 @@ CBYOPCODE_FD:		@LD L,SET 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x00FF0000			@ Clear target byte to 0
 	orr r8,r8,r0,lsl #16			@ Place value on target register
 	mov r2,#23
@@ -26566,7 +26671,7 @@ CBYOPCODE_FE:		@SET 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	mov r2,#23
 B ENDOPCODES
 
@@ -26578,7 +26683,7 @@ CBYOPCODE_FF:		@LD A,SET 7,(IY+d)
 	and r1,r1,r12			@ Mask register value to a short (16 bit) value
 	bl MEMREAD
 	orr r0,r0,#0x80			@ Set Bit
-	strb r0,[r3]				@ Store value in memory
+	bl STOREMEM2				@ Store value in memory
 	bic r8,r8,#0x000000FF			@ Clear target byte to 0
 	orr r8,r8,r0			@ Place value on target register
 	mov r2,#23
@@ -26607,8 +26712,9 @@ ENDOPCODES:
 
 @			b INTERRUPT		@Call INT Interrupt routine
 INTRETURN:
-			ldr r1,=rpointer @Load address For external register storage
-			ldr r0,[r1]
+			@ldr r1,=rpointer @Load address For external register storage
+			@ldr r0,[r1]
+			mov r0,cpucontext
 
 			ldr r4,=ExReg
 			ldr r2,[r4,#4]
@@ -26617,7 +26723,7 @@ INTRETURN:
 			str r7,[r0],#4 @Start storing registers
 			str r8,[r0],#4
 			str r9,[r0],#4
-			str r10,[r0],#8
+			str r10,[r0],#4
 			str r2,[r0],#4
 			str r3,[r0],#4
 			str r11,[r0],#4
@@ -26683,77 +26789,320 @@ totalcycles: .word 69888
 
 
 MEMSTORE:
-	add r1,r1,r6				@ Add on to base memory
-	strb r0,[r1] 				@ store value in memory
+    ;@ r0 = data, r1 = addr
+     stmdb sp!,{r2,r3,r12,lr}
+     ldr r3,[cpucontext,#ppMemWrite]		;@ r3 point to ppMemWrite[0]
+     mov r2,r1,lsr#8
+     ldr r3,[r3,r2,lsl#2]					;@ r3 = ppMemWrite[addr >> 8]
+
+     cmp r3,#0
+     strneb r0,[r3,r1]
+     bne write8_end
+
+     mov r2,r1								;@ swp r1, r0
+     mov r1,r0
+     mov r0,r2
+
+     ;@str z80_icount,[cpucontext,#nCyclesLeft]
+
+     mov lr,pc								;@ call z80_write8(r0, r1)
+     ldr pc,[cpucontext,#z80_write8]
+
+write8_end:
+     ldmia sp!,{r2,r3,r12,lr}
+	mov pc,lr				@ Go back
+
+
+STOREMEM2:
+    ;@ r0 = data, r3 = addr
+     stmdb sp!,{r1,r2,r12,lr}
+     ldr r1,[cpucontext,#ppMemWrite]		;@ r3 point to ppMemWrite[0]
+     mov r2,r3,lsr#8
+     ldr r1,[r1,r2,lsl#2]					;@ r3 = ppMemWrite[addr >> 8]
+
+     cmp r1,#0
+     strneb r0,[r1,r3]
+     bne write8_end_2
+
+     mov r2,r3								;@ swp r1, r0
+     mov r3,r0
+     mov r0,r2
+
+     ;@str z80_icount,[cpucontext,#nCyclesLeft]
+
+     mov lr,pc								;@ call z80_write8(r0, r1)
+     ldr pc,[cpucontext,#z80_write8]
+
+write8_end_2:
+     ldmia sp!,{r1,r2,r12,lr}
 	mov pc,lr				@ Go back
 
 
 MEMSTORESHORT:
-	add r1,r1,r6				@ Add on to base memory
-	strb r0,[r1] 				@ store low byte in memory
-	mov r0,r0,lsr #8
-	strb r0,[r1,#1]				@ Store high byte of PC
+
+;@ r0 = data, r1 = addr
+     stmdb sp!,{r2,r3,r12,lr}
+
+     ldr r3,[cpucontext,#ppMemWrite]		;@ r3 point to ppMemWrite[0]
+
+     cmp r3,#0
+     addne r3,r3,r1
+     movne r2,r0,lsr#8
+     strneb r0,[r3],#1
+     strneb r2,[r3]
+     bne write16_end
+
+;@     str z80pc,[cpucontext,#z80pc_pointer]
+     mov lr,pc								;@ call z80_write8(r0, r1)
+     ldr pc,[cpucontext,#z80_write16]
+
+write16_end:
+    ldmia sp!,{r2,r3,r12,lr}
 	mov pc,lr				@ Go back
 
 
 MEMREAD:
-	add r3,r3,r6			@ Add on to base memory
-	ldrb r0,[r3] 			@ Get value from memory
+    @r3=addr
+    mov r0,r1
+
+    stmdb sp!,{r2,r3,r12,lr}
+    ldr r3,[cpucontext,#ppMemRead]			;@ r3 point to ppMemRead[0]
+
+    mov r2,r0,lsr#8
+    ldr r3,[r3,r2,lsl#2]					;@ r3 = ppMemRead[addr >> 8]
+
+    cmp r3,#0
+    ldrneb r0,[r3,r0]
+    bne read8_1_end
+
+    mov lr,pc								;@ call z80_read8(r0, r1)
+    ldr pc,[cpucontext,#z80_read8]
+read8_1_end:
+     ldmia sp!,{r2,r3,r12,lr}
 	mov pc,lr				@ Go back
 
 
 MEMREADSHORT:
-	add r3,r3,r6			@ Add on to base memory
-	ldrb r0,[r3] 			@ Get low byte from memory
-	add r1,r1,#1
-	cmp r1,#0x10000			@ are we above 16bit addressable memory
-	ldrgeb r3,[r6]			@ if so wrap to base of mem
-	ldrltb r3,[r3,#1]			@ else Get high byte from memory
-	add r0,r0,r3,lsl #8		@ Create 16 bit value
-	sub r1,r1,#1
+    mov r0,r1
+     ;@ r0 = addr
+    stmdb sp!,{r1,r2,r3,r12,lr}
+
+    ldr r3,[cpucontext,#ppMemRead]			;@ r3 point to ppMemRead[0]
+
+     mov r2,r0,lsr#8
+     ldr r3,[r3,r2,lsl#2]					;@ r3 = ppMemRead[addr >> 8]
+
+     cmp r3,#0
+     beq read16_call_1
+
+     add r3,r3,r0
+     ldrb r0,[r3],#1
+     ldrb r1,[r3]
+     orr r0,r0,r1,lsl #8
+     b read16_end_1
+
+read16_call_1:
+
+;@     str z80pc,[cpucontext,#z80pc_pointer]
+
+     mov lr,pc								;@ call z80_read8(r0, r1)
+     ldr pc,[cpucontext,#z80_read16]
+read16_end_1:
+     ldmia sp!,{r1,r2,r3,r12,lr}
 	mov pc,lr				@ Go back
 
 
 MEMREAD2:
-	mov r3,r2
-	add r3,r3,r6			@ Add on to base memory
-	ldrb r1,[r3] 			@ Get value from memory
+    stmdb sp!,{r0,r2,r3,r12,lr}
+	mov r0,r2
+    @r0=addr
+
+    ldr r3,[cpucontext,#ppMemRead]			;@ r3 point to ppMemRead[0]
+
+    mov r2,r0,lsr#8
+    ldr r3,[r3,r2,lsl#2]					;@ r3 = ppMemRead[addr >> 8]
+
+    cmp r3,#0
+    ldrneb r1,[r3,r0]
+    bne read8_2_end
+
+    mov lr,pc								;@ call z80_read8(r0, r1)
+    ldr pc,[cpucontext,#z80_read8]
+    mov r1,r0
+read8_2_end:
+     ldmia sp!,{r0,r2,r3,r12,lr}
 	mov pc,lr				@ Go back
 
 
 MEMREADSHORT2:
-	mov r3,r2
-	add r3,r3,r6			@ Add on to base memory
-	ldrb r1,[r3] 			@ Get low byte from memory
-	add r2,r2,#1
-	cmp r2,#0x10000			@ are we above 16bit addressable memory
-	ldrgeb r4,[r6]			@ if so wrap to base of mem
-	ldrltb r4,[r3,#1]			@ else Get high byte from memory
-	add r1,r1,r4,lsl #8		@ Create 16 bit value
-	sub r2,r2,#1
+    stmdb sp!,{r0,r2,r3,r12,lr}
+    mov r0,r2
+     ;@ r0 = addr
+
+
+    ldr r3,[cpucontext,#ppMemRead]			;@ r3 point to ppMemRead[0]
+
+     mov r2,r0,lsr#8
+     ldr r3,[r3,r2,lsl#2]					;@ r3 = ppMemRead[addr >> 8]
+
+     cmp r3,#0
+     beq read16_call_2
+
+     add r3,r3,r0
+     ldrb r0,[r3],#1
+     ldrb r1,[r3]
+     orr r1,r0,r1,lsl #8
+     b read16_end_2
+
+read16_call_2:
+
+;@     str z80pc,[cpucontext,#z80pc_pointer]
+
+     mov lr,pc								;@ call z80_read8(r0, r1)
+     ldr pc,[cpucontext,#z80_read16]
+     mov r1,r0
+read16_end_2:
+     ldmia sp!,{r0,r2,r3,r12,lr}
 	mov pc,lr				@ Go back
 
 
 MEMREAD3:					@ For OUT and IN operation
-	mov r3,r1
-	add r3,r3,r6			@ Add on to base memory
-	ldrb r2,[r3] 			@ Get value from memory
+    stmdb sp!,{r0,r3,r12,lr}
+	mov r0,r1
+    @r0=addr
+
+    ldr r3,[cpucontext,#ppMemRead]			;@ r3 point to ppMemRead[0]
+
+    mov r2,r0,lsr#8
+    ldr r3,[r3,r2,lsl#2]					;@ r3 = ppMemRead[addr >> 8]
+
+    cmp r3,#0
+    ldrneb r2,[r3,r0]
+    bne read8_3_end
+
+    mov lr,pc								;@ call z80_read8(r0, r1)
+    ldr pc,[cpucontext,#z80_read8]
+    mov r2,r0
+read8_3_end:
+     ldmia sp!,{r0,r3,r12,lr}
 	mov pc,lr				@ Go back
 
 
 MEMREADSHORT3:				@ Especially for POP operation
-	mov r3,r1
-	add r3,r3,r6			@ Add on to base memory
-	ldrb r0,[r3] 			@ Get low byte from memory
-	add r1,r1,#1
-	cmp r1,#0x10000			@ are we above 16bit addressable memory
-	ldrgeb r3,[r6]			@ if so wrap to base of mem
-	ldrltb r3,[r3,#1]			@ else Get high byte from memory
-	add r0,r3,r0,lsl #8		@ Create 16 bit value
-	sub r1,r1,#1
+    stmdb sp!,{r0,r1,r3,r12,lr}
+    mov r0,r1
+     ;@ r0 = addr
+
+    ldr r3,[cpucontext,#ppMemRead]			;@ r3 point to ppMemRead[0]
+
+     mov r2,r0,lsr#8
+     ldr r3,[r3,r2,lsl#2]					;@ r3 = ppMemRead[addr >> 8]
+
+     cmp r3,#0
+     beq read16_call_3
+
+     add r3,r3,r0
+     ldrb r0,[r3],#1
+     ldrb r1,[r3]
+     orr r2,r0,r1,lsl #8
+     b read16_end_3
+
+read16_call_3:
+
+;@     str z80pc,[cpucontext,#z80pc_pointer]
+
+     mov lr,pc								;@ call z80_read8(r0, r1)
+     ldr pc,[cpucontext,#z80_read16]
+     mov r2,r0
+read16_end_3:
+     ldmia sp!,{r0,r1,r3,r12,lr}
+	mov pc,lr				@ Go back
+
+MEMFETCH:
+    stmdb sp!,{r1,r2,r3}
+    mov r2,r1
+     ldr r1,[cpucontext,#ppMemFetchData]	;@ r1 point to ppMemFetchData[0]
+     mov r0,r2,lsr#8
+     ldr r1,[r1,r0,lsl#2]					;@ r1 = ppMemFetchData[addr >> 8]
+
+     ldrb r0,[r1,r2]
+
+     ldmia sp!,{r1,r2,r3}
 	mov pc,lr				@ Go back
 
 
+MEMFETCHSHORT:
+    stmdb sp!,{r1,r2,r3}
+    mov r2,r1
+     ldr r1,[cpucontext,#ppMemFetchData]	;@ r1 point to ppMemFetchData[0]
+     mov r0,r2,lsr#8
+     ldr r1,[r1,r0,lsl#2]					;@ r1 = ppMemFetchData[addr >> 8]
+
+     ldrb r0,[r1,r2]
+     add r2,r2,#1
+     ldrb r1,[r1,r2]
+     orr r0,r0,r1, lsl #8
+
+
+     ldmia sp!,{r1,r2,r3}
+	mov pc,lr				@ Go back
+
+
+MEMFETCH2:
+    stmdb sp!,{r2,r3}
+     ldr r1,[cpucontext,#ppMemFetchData]	;@ r1 point to ppMemFetchData[0]
+     mov r0,r2,lsr#8
+     ldr r1,[r1,r0,lsl#2]					;@ r1 = ppMemFetchData[addr >> 8]
+
+     ldrb r1,[r1,r2]
+
+     ldmia sp!,{r2,r3}
+	mov pc,lr				@ Go back
+
+
+MEMFETCHSHORT2:
+    stmdb sp!,{r2,r3}
+     ldr r1,[cpucontext,#ppMemFetchData]	;@ r1 point to ppMemFetchData[0]
+     mov r0,r2,lsr#8
+     ldr r1,[r1,r0,lsl#2]					;@ r1 = ppMemFetchData[addr >> 8]
+
+     ldrb r0,[r1,r2]
+     add r2,r2,#1
+     ldrb r1,[r1,r2]
+     orr r1,r0,r1, lsl #8
+
+
+     ldmia sp!,{r2,r3}
+	mov pc,lr				@ Go back
+
+MEMFETCH3:
+    stmdb sp!,{r1,r3}
+    mov r2,r1
+     ldr r1,[cpucontext,#ppMemFetchData]	;@ r1 point to ppMemFetchData[0]
+     mov r0,r2,lsr#8
+     ldr r1,[r1,r0,lsl#2]					;@ r1 = ppMemFetchData[addr >> 8]
+
+     ldrb r2,[r1,r2]
+
+     ldmia sp!,{r1,r3}
+	mov pc,lr				@ Go back
+
+
+MEMFETCHSHORT3:
+    stmdb sp!,{r1,r3}
+    mov r2,r1
+     ldr r1,[cpucontext,#ppMemFetchData]	;@ r1 point to ppMemFetchData[0]
+     mov r0,r2,lsr#8
+     ldr r1,[r1,r0,lsl#2]					;@ r1 = ppMemFetchData[addr >> 8]
+
+     ldrb r0,[r1,r2]
+     add r2,r2,#1
+     ldrb r1,[r1,r2]
+     orr r2,r0,r1, lsl #8
+
+
+     ldmia sp!,{r1,r3}
+	mov pc,lr				@ Go back
 
 .ALIGN
 
