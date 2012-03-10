@@ -410,11 +410,11 @@ void load_keymap(char * nm)
 				if (strcmp(arg1,"KEY_LEFT")==0) config_keymap.left  = argd;
 				if (strcmp(arg1,"KEY_RIGHT")==0) config_keymap.right  = argd;
 				if (strcmp(arg1,"KEY_FIRE1")==0) config_keymap.fire1  = argd;
-				if (strcmp(arg1,"KEY_FIRE2")==0) config_keymap.fire1  = argd;
-				if (strcmp(arg1,"KEY_FIRE3")==0) config_keymap.fire1  = argd;
-				if (strcmp(arg1,"KEY_FIRE4")==0) config_keymap.fire1  = argd;
-				if (strcmp(arg1,"KEY_FIRE5")==0) config_keymap.fire1  = argd;
-				if (strcmp(arg1,"KEY_FIRE6")==0) config_keymap.fire1  = argd;
+				if (strcmp(arg1,"KEY_FIRE2")==0) config_keymap.fire2  = argd;
+				if (strcmp(arg1,"KEY_FIRE3")==0) config_keymap.fire3  = argd;
+				if (strcmp(arg1,"KEY_FIRE4")==0) config_keymap.fire4  = argd;
+				if (strcmp(arg1,"KEY_FIRE5")==0) config_keymap.fire5  = argd;
+				if (strcmp(arg1,"KEY_FIRE6")==0) config_keymap.fire6  = argd;
 				if (strcmp(arg1,"KEY_COIN1")==0) config_keymap.coin1  = argd;
 				if (strcmp(arg1,"KEY_START1")==0) config_keymap.start1  = argd;
 				if (strcmp(arg1,"KEY_PAUSE")==0) config_keymap.pause  = argd;
