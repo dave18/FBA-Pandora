@@ -102,7 +102,7 @@ void cpu_writeport(UINT32 p,UINT32 d)
 UINT8 cpu_readmem20(UINT32 a)
 {
 	a &= 0xFFFFF;
-
+	
 	UINT8 * p = VezCurrentCPU->ppMemRead[ a >> VEZ_MEM_SHIFT ];
 	if ( p )
 		return *(p + a);
@@ -113,7 +113,7 @@ UINT8 cpu_readmem20(UINT32 a)
 UINT8 cpu_readmem20_op(UINT32 a)
 {
 	a &= 0xFFFFF;
-
+	
 	UINT8 * p = VezCurrentCPU->ppMemFetch[ a >> VEZ_MEM_SHIFT ];
 	if ( p )
 		return *(p + a);
@@ -124,7 +124,7 @@ UINT8 cpu_readmem20_op(UINT32 a)
 UINT8 cpu_readmem20_arg(UINT32 a)
 {
 	a &= 0xFFFFF;
-
+	
 	UINT8 * p = VezCurrentCPU->ppMemFetchData[ a >> VEZ_MEM_SHIFT ];
 	if ( p )
 		return *(p + a);
@@ -135,7 +135,7 @@ UINT8 cpu_readmem20_arg(UINT32 a)
 void cpu_writemem20(UINT32 a, UINT8 d)
 {
 	a &= 0xFFFFF;
-
+	
 	UINT8 * p = VezCurrentCPU->ppMemWrite[ a >> VEZ_MEM_SHIFT ];
 	if ( p )
 		*(p + a) = d;
@@ -198,7 +198,7 @@ void VezSetDecode(UINT8 *table)
 INT32 VezInit(INT32 cpu, INT32 type, INT32 clock)
 {
 	DebugCPU_VezInitted = 1;
-	printf("Vez Init cpu=%d type=%d, clock=%d\n",cpu,type,clock);
+	
 	if (cpu >= MAX_VEZ) {
 		bprintf (0, _T("Only %d Vez available! Increase MAX_VEZ in vez.cpp.\n"), MAX_VEZ);
 	}
@@ -251,7 +251,7 @@ INT32 VezInit(INT32 cpu, INT32 type, INT32 clock)
 		}
 		break;
 	}
-
+		
 	VezCurrentCPU->ReadHandler = VezDummyReadHandler;
 	VezCurrentCPU->WriteHandler = VezDummyWriteHandler;
 	VezCurrentCPU->ReadPort = VezDummyReadPort;
@@ -268,7 +268,6 @@ INT32 VezInit(INT32 cpu, INT32 type, INT32 clock)
 
 INT32 VezInit(INT32 cpu, INT32 type)
 {
-
 	return VezInit(cpu, type, 0);
 }
 
@@ -289,20 +288,18 @@ void VezExit()
 	nVezCount = 0;
 
 	nOpenedCPU = -1;
-
+	
 	DebugCPU_VezInitted = 0;
 }
 
 void VezOpen(INT32 nCPU)
 {
 #if defined FBA_DEBUG
-
 	if (!DebugCPU_VezInitted) bprintf(PRINT_ERROR, _T("VezOpen called without init\n"));
 	if (nCPU > nCPUCount) bprintf(PRINT_ERROR, _T("VezOpen called with invalid index %x\n"), nCPU);
 	if (nOpenedCPU != -1) bprintf(PRINT_ERROR, _T("VezOpen called when CPU already open with index %x\n"), nCPU);
 #endif
 
-    //printf("NEC CPU #%d opened\n",nCPU);
 	if (nCPU >= MAX_VEZ || nCPU < 0) nCPU = 0;
 
 	nOpenedCPU = nCPU;
@@ -438,9 +435,9 @@ INT32 VezMapArea(INT32 nStart, INT32 nEnd, INT32 nMode, UINT8 *Mem1, UINT8 *Mem2
 
 	INT32 s = nStart >> VEZ_MEM_SHIFT;
 	INT32 e = (nEnd + VEZ_MEM_MASK) >> VEZ_MEM_SHIFT;
-
+	
 	if (nMode != 2) return 1;
-
+	
 	for (INT32 i = s; i < e; i++) {
 		VezCurrentCPU->ppMemFetch[i] = Mem1 - nStart;
 		VezCurrentCPU->ppMemFetchData[i] = Mem2 - nStart;
@@ -465,7 +462,7 @@ INT32 VezRun(INT32 nCycles)
 	if (!DebugCPU_VezInitted) bprintf(PRINT_ERROR, _T("VezRun called without init\n"));
 	if (nOpenedCPU == -1) bprintf(PRINT_ERROR, _T("VezRun called when no CPU open\n"));
 #endif
-    //printf("vez run %d cycles\n",nCycles);
+
 	if (nCycles <= 0) return 0;
 
 	return VezCurrentCPU->cpu_execute(nCycles);
@@ -504,7 +501,7 @@ INT32 VezScan(INT32 nAction)
 			CPU->scan(i, nAction);
 		}
 	}
-
+	
 	return 0;
 }
 

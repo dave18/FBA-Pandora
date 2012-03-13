@@ -29,7 +29,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/gberet.zip --z80core=2" />
+				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/turfmast.zip " />
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-g" />

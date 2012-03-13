@@ -161,6 +161,17 @@ int DoInputBlank(int /*bDipSwitch*/)
 		GameInp[iJoyNum][13].nType = bii.nType;
     }
     else {
+    sprintf(controlName,"p%i y-axis",iJoyNum+1);
+    if (strcmp(bii.szInfo, controlName) == 0)
+    {
+		GameInp[iJoyNum][14].nBit = 0;
+		GameInp[iJoyNum][14].pShortVal = bii.pShortVal;
+		GameInp[iJoyNum][14].nType = bii.nType;
+		GameInp[iJoyNum][15].nBit = 1;
+		GameInp[iJoyNum][15].pShortVal = bii.pShortVal;
+		GameInp[iJoyNum][15].nType = bii.nType;
+    }
+    else {
     sprintf(controlName,"mouse y-axis");
     if (strcmp(bii.szInfo, controlName) == 0)
     {
@@ -242,7 +253,7 @@ int DoInputBlank(int /*bDipSwitch*/)
     	GameInp[iJoyNum][11].nBit = 11;
 		GameInp[iJoyNum][11].pVal = bii.pVal;
 		GameInp[iJoyNum][11].nType = bii.nType;
-    }}}}}}}}}}}}}}}}}}
+    }}}}}}}}}}}}}}}}}}}
 
 #if 0
 if (pgi->pVal != NULL)

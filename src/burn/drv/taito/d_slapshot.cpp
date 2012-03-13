@@ -31,7 +31,7 @@ static struct BurnInputInfo SlapshotInputList[] =
 	{"P1 Fire 1"         , BIT_DIGITAL   , TC0640FIOInputPort2 + 0, "p1 fire 1"      },
 	{"P1 Fire 2"         , BIT_DIGITAL   , TC0640FIOInputPort2 + 1, "p1 fire 2"      },
 	{"P1 Fire 3"         , BIT_DIGITAL   , TC0640FIOInputPort2 + 2, "p1 fire 3"      },
-
+	
 	{"P2 Up"             , BIT_DIGITAL   , TC0640FIOInputPort4 + 4, "p2 up"          },
 	{"P2 Down"           , BIT_DIGITAL   , TC0640FIOInputPort4 + 5, "p2 down"        },
 	{"P2 Left"           , BIT_DIGITAL   , TC0640FIOInputPort4 + 6, "p2 left"        },
@@ -39,7 +39,7 @@ static struct BurnInputInfo SlapshotInputList[] =
 	{"P2 Fire 1"         , BIT_DIGITAL   , TC0640FIOInputPort2 + 4, "p2 fire 1"      },
 	{"P2 Fire 2"         , BIT_DIGITAL   , TC0640FIOInputPort2 + 5, "p2 fire 2"      },
 	{"P2 Fire 3"         , BIT_DIGITAL   , TC0640FIOInputPort2 + 6, "p2 fire 3"      },
-
+	
 	{"Reset"             , BIT_DIGITAL   , &TaitoReset            , "reset"          },
 	{"Service"           , BIT_DIGITAL   , TC0640FIOInputPort3 + 0, "service"        },
 	{"Tilt"              , BIT_DIGITAL   , TC0640FIOInputPort1 + 1, "tilt"           },
@@ -61,12 +61,12 @@ static struct BurnInputInfo Opwolf3InputList[] =
 	A("P1 Gun Y"         , BIT_ANALOG_REL, &TaitoAnalogPort1      , "mouse y-axis"   ),
 	{"P1 Fire 1"         , BIT_DIGITAL   , TC0640FIOInputPort2 + 0, "mouse button 1" },
 	{"P1 Fire 2"         , BIT_DIGITAL   , TC0640FIOInputPort2 + 1, "mouse button 2" },
-
+	
 	A("P2 Gun X"         , BIT_ANALOG_REL, &TaitoAnalogPort2      , "p2 x-axis"      ),
-	A("P2 Gun Y"         , BIT_ANALOG_REL, &TaitoAnalogPort3      , "p2 y-axis"      ),
+	A("P2 Gun Y"         , BIT_ANALOG_REL, &TaitoAnalogPort3      , "p2 y-axis"      ),	
 	{"P2 Fire 1"         , BIT_DIGITAL   , TC0640FIOInputPort2 + 4, "p2 fire 1"      },
 	{"P2 Fire 2"         , BIT_DIGITAL   , TC0640FIOInputPort2 + 5, "p2 fire 2"      },
-
+	
 	{"Reset"             , BIT_DIGITAL   , &TaitoReset            , "reset"          },
 	{"Service"           , BIT_DIGITAL   , TC0640FIOInputPort3 + 0, "service"        },
 	{"Tilt"              , BIT_DIGITAL   , TC0640FIOInputPort1 + 1, "tilt"           },
@@ -84,7 +84,7 @@ static void TC0640FIOMakeInputs()
 	TC0640FIOInput[2] = 0xff;
 	TC0640FIOInput[3] = 0xff;
 	TC0640FIOInput[4] = 0xff;
-
+	
 	for (INT32 i = 0; i < 8; i++) {
 		TC0640FIOInput[0] -= (TC0640FIOInputPort0[i] & 1) << i;
 		TC0640FIOInput[1] -= (TC0640FIOInputPort1[i] & 1) << i;
@@ -97,7 +97,7 @@ static void TC0640FIOMakeInputs()
 static void Opwolf3MakeInputs()
 {
 	TC0640FIOMakeInputs();
-
+	
 	BurnGunMakeInputs(0, (INT16)TaitoAnalogPort0, (INT16)TaitoAnalogPort1);
 	BurnGunMakeInputs(1, (INT16)TaitoAnalogPort2, (INT16)TaitoAnalogPort3);
 }
@@ -105,7 +105,7 @@ static void Opwolf3MakeInputs()
 static struct BurnDIPInfo SlapshotDIPList[]=
 {
 	{0x14, 0xff, 0xff, 0x10, NULL                             },
-
+	
 	{0   , 0xfe, 0   , 2   , "Service Mode"                   },
 	{0x14, 0x01, 0x10, 0x10, "Off"                            },
 	{0x14, 0x01, 0x10, 0x00, "On"                             },
@@ -116,7 +116,7 @@ STDDIPINFO(Slapshot)
 static struct BurnDIPInfo Opwolf3DIPList[]=
 {
 	{0x11, 0xff, 0xff, 0x10, NULL                             },
-
+	
 	{0   , 0xfe, 0   , 2   , "Service Mode"                   },
 	{0x11, 0x01, 0x10, 0x10, "Off"                            },
 	{0x11, 0x01, 0x10, 0x00, "On"                             },
@@ -127,14 +127,14 @@ STDDIPINFO(Opwolf3)
 static struct BurnRomInfo SlapshotRomDesc[] = {
 	{ "d71-15.3",              0x080000, 0x1470153f, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
 	{ "d71-16.1",              0x080000, 0xf13666e0, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
-
+	
 	{ "d71-07.77",             0x010000, 0xdd5f670c, BRF_ESS | BRF_PRG | TAITO_Z80ROM1 },
-
+	
 	{ "d71-04.79",             0x080000, 0xb727b81c, BRF_GRA | TAITO_CHARS_BYTESWAP },
 	{ "d71-05.80",             0x080000, 0x7b0f5d6d, BRF_GRA | TAITO_CHARS_BYTESWAP },
-
+	
 	{ "d71-06.37",             0x080000, 0xf3324188, BRF_SND | TAITO_YM2610A },
-
+	
 	// Sprites - handled manually
 	{ "d71-01.23",             0x100000, 0x0b1e8c27, BRF_GRA },
 	{ "d71-02.24",             0x100000, 0xccaaea2d, BRF_GRA },
@@ -149,14 +149,14 @@ static struct BurnRomInfo Opwolf3RomDesc[] = {
 	{ "d74_21.1",              0x080000, 0xc61c558b, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
 	{ "d74_18.18",             0x080000, 0xbd5d7cdb, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
 	{ "d74_17.17",             0x080000, 0xac35a672, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
-
+	
 	{ "d74_22.77",             0x010000, 0x118374a6, BRF_ESS | BRF_PRG | TAITO_Z80ROM1 },
-
+	
 	{ "d74_05.80",             0x200000, 0x85ea64cc, BRF_GRA | TAITO_CHARS_BYTESWAP },
 	{ "d74_06.81",             0x200000, 0x2fa1e08d, BRF_GRA | TAITO_CHARS_BYTESWAP },
-
+	
 	{ "d74_01.37",             0x200000, 0x115313e0, BRF_SND | TAITO_YM2610A },
-
+	
 	// Sprites - handled manually
 	{ "d74_02.23",             0x200000, 0xaab86332, BRF_GRA },
 	{ "d74_03.24",             0x200000, 0x3f398916, BRF_GRA },
@@ -171,14 +171,14 @@ static struct BurnRomInfo Opwolf3uRomDesc[] = {
 	{ "d74_20.1",              0x080000, 0x960fd892, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
 	{ "d74_18.18",             0x080000, 0xbd5d7cdb, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
 	{ "d74_17.17",             0x080000, 0xac35a672, BRF_ESS | BRF_PRG | TAITO_68KROM1_BYTESWAP },
-
+	
 	{ "d74_19.77",             0x010000, 0x05d53f06, BRF_ESS | BRF_PRG | TAITO_Z80ROM1 },
-
+	
 	{ "d74_05.80",             0x200000, 0x85ea64cc, BRF_GRA | TAITO_CHARS_BYTESWAP },
 	{ "d74_06.81",             0x200000, 0x2fa1e08d, BRF_GRA | TAITO_CHARS_BYTESWAP },
-
+	
 	{ "d74_01.37",             0x200000, 0x115313e0, BRF_SND | TAITO_YM2610A },
-
+	
 	// Sprites - handled manually
 	{ "d74_02.23",             0x200000, 0xaab86332, BRF_GRA },
 	{ "d74_03.24",             0x200000, 0x3f398916, BRF_GRA },
@@ -196,7 +196,7 @@ static INT32 MemIndex()
 	TaitoZ80Rom1                   = Next; Next += TaitoZ80Rom1Size;
 	TaitoYM2610ARom                = Next; Next += TaitoYM2610ARomSize;
 	TaitoYM2610BRom                = Next; Next += TaitoYM2610BRomSize;
-
+	
 	TaitoRamStart                  = Next;
 
 	Taito68KRam1                   = Next; Next += 0x10000;
@@ -205,7 +205,7 @@ static INT32 MemIndex()
 	TaitoSpriteRamBuffered         = Next; Next += 0x10000;
 	TaitoSpriteExtension           = Next; Next += 0x02000;
 	TaitoPaletteRam                = Next; Next += 0x08000;
-
+	
 	TaitoRamEnd                    = Next;
 
 	TaitoChars                     = Next; Next += TaitoNumChar * TaitoCharWidth * TaitoCharHeight;
@@ -221,7 +221,7 @@ static INT32 MemIndex()
 static INT32 SlapshotDoReset()
 {
 	TaitoDoReset();
-
+	
 	return 0;
 }
 
@@ -230,59 +230,59 @@ UINT8 __fastcall Slapshot68KReadByte(UINT32 a)
 	if (a >= 0xa00000 && a <= 0xa03fff) {
 		return TimeKeeperRead((a - 0xa00000) >> 1);
 	}
-
+	
 	if (a >= 0xc00000 && a <= 0xc0000f) {
 		return TC0640FIORead((a - 0xc00000) >> 1);
 	}
-
+	
 	if (a >= 0xc00020 && a <= 0xc0002f) {
 		if (a == 0xc00027) bprintf(PRINT_IMPORTANT, _T("%x\n"), a);
-
+		
 		if (a == 0xc00026) return (TC0640FIOInput[2] & 0xef) | (TaitoDip[0] & 0x10);
-
+		
 		return TC0640FIORead((a - 0xc00020) >> 1);
 	}
-
+	
 	switch (a) {
 		default: {
 			bprintf(PRINT_NORMAL, _T("68K #1 Read byte => %06X\n"), a);
 		}
 	}
-
+	
 	return 0;
 }
 
 void __fastcall Slapshot68KWriteByte(UINT32 a, UINT8 d)
 {
 	if (a <= 0x0fffff) return;
-
+	
 	if (a >= 0xa00000 && a <= 0xa03fff) {
 		TimeKeeperWrite((a - 0xa00000) >> 1, d);
 		return;
 	}
-
+	
 	TC0360PRIHalfWordWrite_Map(0xb00000)
 
 	if (a >= 0xc00000 && a <= 0xc0000f) {
 		TC0640FIOWrite((a - 0xc00000) >> 1, d);
 		return;
 	}
-
+	
 	if (a >= 0xc00010 && a <= 0xc0002f) {
 		return;
 	}
-
+	
 	switch (a) {
 		case 0xd00000: {
 			TC0140SYTPortWrite(d);
 			return;
 		}
-
+		
 		case 0xd00002: {
 			TC0140SYTCommWrite(d);
 			return;
 		}
-
+		
 		default: {
 			bprintf(PRINT_NORMAL, _T("68K #1 Write byte => %06X, %02X\n"), a, d);
 		}
@@ -296,19 +296,19 @@ UINT16 __fastcall Slapshot68KReadWord(UINT32 a)
 			bprintf(PRINT_NORMAL, _T("68K #1 Read word => %06X\n"), a);
 		}
 	}
-
+	
 	return 0;
 }
 
 void __fastcall Slapshot68KWriteWord(UINT32 a, UINT16 d)
 {
 	TC0480SCPCtrlWordWrite_Map(0x830000)
-
+	
 	if (a >= 0xc00000 && a <= 0xc0000f) {
 		TC0640FIOWrite((a - 0xc00000) >> 1, d);
 		return;
 	}
-
+	
 	switch (a) {
 		default: {
 			bprintf(PRINT_NORMAL, _T("68K #1 Write word => %06X, %04X\n"), a, d);
@@ -324,30 +324,30 @@ UINT8 __fastcall Opwolf3Gun68KReadByte(UINT32 a)
 			Temp *= 160.0;
 			return ((UINT8)Temp - 0x5b) & 0xff;
 		}
-
+		
 		case 0xe00002: {
 			float Temp = (float)BurnGunReturnY(0) / 256.0;
 			Temp *= 112;
 			return ((UINT8)Temp + 0x08) & 0xff;
 		}
-
+		
 		case 0xe00004: {
 			float Temp = (float)~BurnGunReturnX(1) / 256.0;
 			Temp *= 160.0;
 			return ((UINT8)Temp - 0x5b) & 0xff;
 		}
-
+		
 		case 0xe00006: {
 			float Temp = (float)BurnGunReturnY(1) / 256.0;
 			Temp *= 112;
 			return ((UINT8)Temp + 0x08) & 0xff;
 		}
-
+		
 		default: {
 			bprintf(PRINT_NORMAL, _T("68K #1 Read byte => %06X\n"), a);
 		}
 	}
-
+	
 	return 0;
 }
 
@@ -361,7 +361,7 @@ void __fastcall Opwolf3Gun68KWriteByte(UINT32 a, UINT8 d)
 			SekSetIRQLine(3, SEK_IRQSTATUS_AUTO);
 			return;
 		}
-
+		
 		default: {
 			bprintf(PRINT_NORMAL, _T("68K #1 Write byte => %06X, %02X\n"), a, d);
 		}
@@ -375,7 +375,7 @@ UINT16 __fastcall Opwolf3Gun68KReadWord(UINT32 a)
 			bprintf(PRINT_NORMAL, _T("68K #1 Read word => %06X\n"), a);
 		}
 	}
-
+	
 	return 0;
 }
 
@@ -394,11 +394,11 @@ UINT8 __fastcall SlapshotZ80Read(UINT16 a)
 		case 0xe000: {
 			return BurnYM2610Read(0);
 		}
-
+		
 		case 0xe201: {
 			return TC0140SYTSlaveCommRead();
 		}
-
+		
 		default: {
 			bprintf(PRINT_NORMAL, _T("Z80 Read => %04X\n"), a);
 		}
@@ -414,39 +414,39 @@ void __fastcall SlapshotZ80Write(UINT16 a, UINT8 d)
 			BurnYM2610Write(0, d);
 			return;
 		}
-
+		
 		case 0xe001: {
 			BurnYM2610Write(1, d);
 			return;
 		}
-
+		
 		case 0xe002: {
 			BurnYM2610Write(2, d);
 			return;
 		}
-
+		
 		case 0xe003: {
 			BurnYM2610Write(3, d);
 			return;
 		}
-
+		
 		case 0xe200: {
 			TC0140SYTSlavePortWrite(d);
 			return;
 		}
-
+		
 		case 0xe201: {
 			TC0140SYTSlaveCommWrite(d);
 			return;
 		}
-
+		
 		case 0xf200: {
 			TaitoZ80Bank = (d - 1) & 7;
 			ZetMapArea(0x4000, 0x7fff, 0, TaitoZ80Rom1 + 0x4000 + (TaitoZ80Bank * 0x4000));
 			ZetMapArea(0x4000, 0x7fff, 2, TaitoZ80Rom1 + 0x4000 + (TaitoZ80Bank * 0x4000));
 			return;
 		}
-
+		
 		default: {
 			bprintf(PRINT_NORMAL, _T("Z80 Write => %04X, %02X\n"), a, d);
 		}
@@ -494,11 +494,11 @@ static void SwitchToMusashi()
 static INT32 MachineInit()
 {
 	INT32 nLen;
-
+	
 	TaitoNum68Ks = 1;
 	TaitoNumZ80s = 1;
 	TaitoNumYM2610 = 1;
-
+	
 	TaitoLoadRoms(0);
 
 	// Allocate and Blank all required memory
@@ -508,19 +508,19 @@ static INT32 MachineInit()
 	if ((TaitoMem = (UINT8 *)BurnMalloc(nLen)) == NULL) return 1;
 	memset(TaitoMem, 0, nLen);
 	MemIndex();
-
+	
 	GenericTilesInit();
-
+	
 	TC0480SCPInit(TaitoNumChar, 3, 30, 9, -1, 1, -2);
 	TC0480SCPSetColourBase(256);
 	TC0140SYTInit();
 	TC0360PRIInit();
 	TC0640FIOInit();
-
+	
 	if (TaitoLoadRoms(1)) return 1;
-
+	
 	SwitchToMusashi();
-
+	
 	SekInit(0, 0x68000);
 	SekOpen(0);
 	SekMapMemory(Taito68KRom1            , 0x000000, Taito68KRom1Size - 1, SM_ROM);
@@ -533,8 +533,8 @@ static INT32 MachineInit()
 	SekSetWriteWordHandler(0, Slapshot68KWriteWord);
 	SekSetReadByteHandler(0, Slapshot68KReadByte);
 	SekSetWriteByteHandler(0, Slapshot68KWriteByte);
-	SekClose();
-
+	SekClose();	
+	
 	ZetInit(0);
 	ZetOpen(0);
 	ZetSetReadHandler(SlapshotZ80Read);
@@ -547,31 +547,31 @@ static INT32 MachineInit()
 	ZetMapArea(0xc000, 0xdfff, 1, TaitoZ80Ram1               );
 	ZetMapArea(0xc000, 0xdfff, 2, TaitoZ80Ram1               );
 	ZetMemEnd();
-	ZetClose();
-
+	ZetClose();	
+	
 	BurnYM2610Init(8000000, TaitoYM2610ARom, (INT32*)&TaitoYM2610ARomSize, TaitoYM2610BRom, (INT32*)&TaitoYM2610BRomSize, &SlapshotFMIRQHandler, SlapshotSynchroniseStream, SlapshotGetTime, 0);
 	BurnTimerAttachZet(4000000);
-
+	
 	TaitoMakeInputsFunction = TC0640FIOMakeInputs;
 	TaitoDrawFunction = SlapshotDraw;
 
 	nTaitoCyclesTotal[0] = 14364000 / 60;
 	nTaitoCyclesTotal[1] = 4000000 / 60;
-
+	
 	TimeKeeperInit(TIMEKEEPER_MK48T08, NULL);
-
+	
 	TaitoF2SpritesDisabled = 1;
 	TaitoF2SpritesActiveArea = 0;
 	TaitoF2SpriteType = 2;
 	TaitoXOffset = 3;
-
+	
 	TaitoF2SpriteBufferFunction = TaitoF2NoBuffer;
-
+	
 	for (INT32 i = 0; i < 8; i++) {
 		TaitoF2SpriteBankBuffered[i] = 0x400 * i;
 		TaitoF2SpriteBank[i] = TaitoF2SpriteBankBuffered[i];
 	}
-
+	
 	return 0;
 }
 
@@ -585,7 +585,7 @@ static INT32 SlapshotInit()
 	TaitoCharXOffsets = CharXOffsets;
 	TaitoCharYOffsets = CharYOffsets;
 	TaitoNumChar = 0x2000;
-
+	
 	TaitoSpriteAModulo = 0x400;
 	TaitoSpriteANumPlanes = 6;
 	TaitoSpriteAWidth = 16;
@@ -594,9 +594,9 @@ static INT32 SlapshotInit()
 	TaitoSpriteAXOffsets = SpriteXOffsets;
 	TaitoSpriteAYOffsets = SpriteYOffsets;
 	TaitoNumSpriteA = 0x4000;
-
+	
 	if (MachineInit()) return 1;
-
+	
 	INT32 nRet;
 	UINT8 *TempRom = (UINT8*)BurnMalloc(0x400000);
 	memset(TempRom, 0, 0x400000);
@@ -622,7 +622,7 @@ static INT32 SlapshotInit()
 	}
 	GfxDecode(TaitoNumSpriteA, TaitoSpriteANumPlanes, TaitoSpriteAWidth, TaitoSpriteAHeight, TaitoSpriteAPlaneOffsets, TaitoSpriteAXOffsets, TaitoSpriteAYOffsets, TaitoSpriteAModulo, TempRom, TaitoSpritesA);
 	BurnFree(TempRom);
-
+	
 	SlapshotDoReset();
 
 	return 0;
@@ -638,7 +638,7 @@ static INT32 Opwolf3Init()
 	TaitoCharXOffsets = CharXOffsets;
 	TaitoCharYOffsets = CharYOffsets;
 	TaitoNumChar = 0x8000;
-
+	
 	TaitoSpriteAModulo = 0x400;
 	TaitoSpriteANumPlanes = 6;
 	TaitoSpriteAWidth = 16;
@@ -647,9 +647,9 @@ static INT32 Opwolf3Init()
 	TaitoSpriteAXOffsets = SpriteXOffsets;
 	TaitoSpriteAYOffsets = SpriteYOffsets;
 	TaitoNumSpriteA = 0x8000;
-
+	
 	if (MachineInit()) return 1;
-
+	
 	INT32 nRet;
 	UINT8 *TempRom = (UINT8*)BurnMalloc(0x800000);
 	memset(TempRom, 0, 0x400000);
@@ -675,7 +675,7 @@ static INT32 Opwolf3Init()
 	}
 	GfxDecode(TaitoNumSpriteA, TaitoSpriteANumPlanes, TaitoSpriteAWidth, TaitoSpriteAHeight, TaitoSpriteAPlaneOffsets, TaitoSpriteAXOffsets, TaitoSpriteAYOffsets, TaitoSpriteAModulo, TempRom, TaitoSpritesA);
 	BurnFree(TempRom);
-
+	
 	SekOpen(0);
 	SekMapHandler(1, 0xe00000, 0xe00007, SM_RAM);
 	SekSetReadWordHandler(1, Opwolf3Gun68KReadWord);
@@ -683,10 +683,10 @@ static INT32 Opwolf3Init()
 	SekSetReadByteHandler(1, Opwolf3Gun68KReadByte);
 	SekSetWriteByteHandler(1, Opwolf3Gun68KWriteByte);
 	SekClose();
-
+	
 	TaitoMakeInputsFunction = Opwolf3MakeInputs;
 	TaitoDrawFunction = Opwolf3Draw;
-
+	
 	BurnGunInit(2, true);
 
 	SlapshotDoReset();
@@ -697,7 +697,7 @@ static INT32 Opwolf3Init()
 static INT32 SlapshotExit()
 {
 	TaitoExit();
-
+	
 	// Switch back CPU core if needed
 	if (bUseAsm68KCoreOldValue) {
 #if 1 && defined FBA_DEBUG
@@ -706,9 +706,9 @@ static INT32 SlapshotExit()
 		bUseAsm68KCoreOldValue = false;
 		bBurnUseASMCPUEmulation = true;
 	}
-
+	
 	TimeKeeperExit();
-
+	
 	return 0;
 }
 
@@ -720,7 +720,7 @@ inline static INT32 CalcCol(INT32 nColour)
 	g = (BURN_ENDIAN_SWAP_INT32(nColour) & 0xff000000) >> 24;
 	b = (BURN_ENDIAN_SWAP_INT32(nColour) & 0x00ff0000) >> 16;
 
-	return BurnHighCol(r, g, b, 0);
+	return HighCol16(r, g, b, 0);
 }
 
 static void SlapshotCalcPalette()
@@ -738,27 +738,27 @@ static void SlapshotDraw()
 {
 	UINT8 Layer[4];
 	UINT16 Priority = TC0480SCPGetBgPriority();
-
+	
 	Layer[0] = (Priority & 0xf000) >> 12;
 	Layer[1] = (Priority & 0x0f00) >>  8;
 	Layer[2] = (Priority & 0x00f0) >>  4;
 	Layer[3] = (Priority & 0x000f) >>  0;
-
+	
 	TaitoF2TilePriority[Layer[0]] = TC0360PRIRegs[4] & 0x0f;
 	TaitoF2TilePriority[Layer[1]] = TC0360PRIRegs[4] >> 4;
 	TaitoF2TilePriority[Layer[2]] = TC0360PRIRegs[5] & 0x0f;
 	TaitoF2TilePriority[Layer[3]] = TC0360PRIRegs[5] >> 4;
-
+	
 	TaitoF2SpritePriority[0] = TC0360PRIRegs[6] & 0x0f;
 	TaitoF2SpritePriority[1] = TC0360PRIRegs[6] >> 4;
 	TaitoF2SpritePriority[2] = TC0360PRIRegs[7] & 0x0f;
 	TaitoF2SpritePriority[3] = TC0360PRIRegs[7] >> 4;
-
+	
 	SlapshotCalcPalette();
-	BurnTransferClear();
-
+	BurnTransferClear();	
+	
 	TaitoF2MakeSpriteList();
-
+	
 	for (INT32 i = 0; i < 16; i++) {
 		if (TaitoF2TilePriority[0] == i) TC0480SCPTilemapRender(Layer[0], 0, TaitoChars);
 		if (TaitoF2TilePriority[1] == i) TC0480SCPTilemapRender(Layer[1], 0, TaitoChars);
@@ -769,16 +769,16 @@ static void SlapshotDraw()
 		if (TaitoF2SpritePriority[1] == i) TaitoF2RenderSpriteList(TaitoF2SpritePriority[1]);
 		if (TaitoF2SpritePriority[0] == i) TaitoF2RenderSpriteList(TaitoF2SpritePriority[0]);
 	}
-
+	
 	TC0480SCPRenderCharLayer();
-
+	
 	BurnTransferCopy(TaitoPalette);
 }
 
 static void Opwolf3Draw()
 {
 	SlapshotDraw();
-
+	
 	for (INT32 i = 0; i < nBurnGunNumPlayers; i++) {
 		BurnGunDrawTarget(i, BurnGunX[i] >> 8, BurnGunY[i] >> 8);
 	}
@@ -791,12 +791,12 @@ static INT32 SlapshotFrame()
 	if (TaitoReset) SlapshotDoReset();
 
 	TaitoMakeInputsFunction();
-
+	
 	nTaitoCyclesDone[0] = nTaitoCyclesDone[1] = 0;
 
 	SekNewFrame();
 	ZetNewFrame();
-
+	
 	if ((GetCurrentFrame() % 60) == 0) TimeKeeperTick();
 
 	for (INT32 i = 0; i < nInterleave; i++) {
@@ -811,21 +811,21 @@ static INT32 SlapshotFrame()
 		if (i == 10) { SekSetIRQLine(6, SEK_IRQSTATUS_AUTO); nTaitoCyclesDone[0] += SekRun(200000 - 500); }
 		if (i == (nInterleave - 1)) SekSetIRQLine(5, SEK_IRQSTATUS_AUTO);
 		SekClose();
-
+		
 		ZetOpen(0);
 		BurnTimerUpdate(i * (nTaitoCyclesTotal[1] / nInterleave));
 		ZetClose();
 	}
-
+	
 	ZetOpen(0);
 	BurnTimerEndFrame(nTaitoCyclesTotal[1]);
 	BurnYM2610Update(pBurnSoundOut, nBurnSoundLen);
 	ZetClose();
-
+	
 	TaitoF2HandleSpriteBuffering();
-
+	
 	if (pBurnDraw) TaitoDrawFunction();
-
+	
 	TaitoF2SpriteBufferFunction();
 
 	return 0;
@@ -834,11 +834,11 @@ static INT32 SlapshotFrame()
 static INT32 SlapshotScan(INT32 nAction, INT32 *pnMin)
 {
 	struct BurnArea ba;
-
+	
 	if (pnMin != NULL) {			// Return minimum compatible version
 		*pnMin = 0x029709;
 	}
-
+	
 	if (nAction & ACB_MEMORY_RAM) {
 		memset(&ba, 0, sizeof(ba));
 		ba.Data	  = TaitoRamStart;
@@ -846,17 +846,17 @@ static INT32 SlapshotScan(INT32 nAction, INT32 *pnMin)
 		ba.szName = "All Ram";
 		BurnAcb(&ba);
 	}
-
+	
 	TaitoICScan(nAction);
-
+	
 	TimeKeeperScan(nAction);
-
+	
 	if (nAction & ACB_DRIVER_DATA) {
 		SekScan(nAction);
 		ZetScan(nAction);
 
 		BurnYM2610Scan(nAction, pnMin);
-
+		
 		SCAN_VAR(TC0640FIOInput);
 		SCAN_VAR(TaitoZ80Bank);
 		SCAN_VAR(nTaitoCyclesDone);
@@ -864,27 +864,27 @@ static INT32 SlapshotScan(INT32 nAction, INT32 *pnMin)
 		SCAN_VAR(TaitoF2SpriteBank);
 		SCAN_VAR(TaitoF2SpriteBankBuffered);
 	}
-
+	
 	if (nAction & ACB_WRITE) {
 		if (TaitoZ80Bank) {
 			ZetOpen(0);
 			ZetMapArea(0x4000, 0x7fff, 0, TaitoZ80Rom1 + 0x4000 + (TaitoZ80Bank * 0x4000));
 			ZetMapArea(0x4000, 0x7fff, 2, TaitoZ80Rom1 + 0x4000 + (TaitoZ80Bank * 0x4000));
 			ZetClose();
-		}
+		}		
 	}
-
+	
 	return 0;
 }
 
 static INT32 Opwolf3Scan(INT32 nAction, INT32 *pnMin)
 {
 	INT32 nRet = SlapshotScan(nAction, pnMin);
-
+	
 	if (nAction & ACB_DRIVER_DATA) {
 		BurnGunScan();
 	}
-
+	
 	return nRet;
 }
 

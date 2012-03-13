@@ -7368,7 +7368,7 @@
 1329384750 /media/mmcblk0p1/FBA-Pandora/src/burner/sdl/tchar.h
 	<wchar.h>
 
-1330172457 /media/mmcblk0p1/FBA-Pandora/src/burn/burn.h
+1331482670 /media/mmcblk0p1/FBA-Pandora/src/burn/burn.h
 	<time.h>
 	"state.h"
 	"cheat.h"
@@ -7448,7 +7448,7 @@
 	"konami_intf.h"
 	"arm7_intf.h"
 
-1325619392 /media/mmcblk0p1/FBA-Pandora/src/cpu/vez.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/vez.h
 
 1329252575 /media/mmcblk0p1/FBA-Pandora/src/cpu/sh2/sh2.h
 
@@ -8108,14 +8108,14 @@
 1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/galaxian/gal_stars.cpp
 	"gal.h"
 
-1324577980 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m62.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m62.cpp
 	"tiles_generic.h"
 	"m6800_intf.h"
 	"msm5205.h"
 	"driver.h"
 	"ay8910.h"
 
-1324577980 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m63.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m63.cpp
 	"tiles_generic.h"
 	"i8039.h"
 	"driver.h"
@@ -8124,23 +8124,23 @@
 1322658694 /media/mmcblk0p1/FBA-Pandora/src/cpu/i8039/i8039.h
 	"driver.h"
 
-1330976346 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m72.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m72.cpp
 	"tiles_generic.h"
 	"burn_ym2151.h"
 	"vez.h"
 	"irem_cpu.h"
 	"dac.h"
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/irem_cpu.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/irem_cpu.h
 
-1327521258 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m90.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m90.cpp
 	"tiles_generic.h"
 	"burn_ym2151.h"
 	"vez.h"
 	"irem_cpu.h"
 	"dac.h"
 
-1327521258 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m92.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_m92.cpp
 	"tiles_generic.h"
 	"burn_ym2151.h"
 	"vez.h"
@@ -8150,13 +8150,13 @@
 
 1322658694 /media/mmcblk0p1/FBA-Pandora/src/burn/snd/iremga20.h
 
-1325156820 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_vigilant.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/d_vigilant.cpp
 	"tiles_generic.h"
 	"burn_ym2151.h"
 	"burn_ym2203.h"
 	"dac.h"
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/irem_cpu.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/irem/irem_cpu.cpp
 	"burnint.h"
 	"irem_cpu.h"
 
@@ -9519,22 +9519,22 @@
 	"burn_ym2203.h"
 	"msm6295.h"
 
-1325793640 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_angelkds.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_angelkds.cpp
 	"tiles_generic.h"
 	"burn_ym2203.h"
 	"bitswap.h"
 
-1325793770 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_bankp.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_bankp.cpp
 	"tiles_generic.h"
 	"sn76496.h"
 
-1325157000 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_dotrikun.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_dotrikun.cpp
 	"tiles_generic.h"
 
-1325018000 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_hangon.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_hangon.cpp
 	"sys16.h"
 
-1325790090 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/sys16.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/sys16.h
 	"tiles_generic.h"
 	"burn_ym2151.h"
 	"burn_ym2203.h"
@@ -9548,67 +9548,67 @@
 
 1325790090 /media/mmcblk0p1/FBA-Pandora/src/burn/snd/rf5c68.h
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/genesis_vid.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/genesis_vid.h
 	"driver.h"
 
-1324329052 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_outrun.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_outrun.cpp
 	"sys16.h"
 	"bitswap.h"
 
-1326487722 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_suprloco.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_suprloco.cpp
 	"tiles_generic.h"
 	"sn76496.h"
 
-1326399272 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_sys1.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_sys1.cpp
 	"tiles_generic.h"
 	"sn76496.h"
 	"bitswap.h"
 	"mc8123.h"
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/mc8123.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/mc8123.h
 
-1325018106 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_sys16a.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_sys16a.cpp
 	"sys16.h"
 
-1326224968 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_sys16b.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_sys16b.cpp
 	"sys16.h"
 
-1324410664 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_sys18.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_sys18.cpp
 	"sys16.h"
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_xbrd.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_xbrd.cpp
 	"sys16.h"
 
-1325025158 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_ybrd.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/d_ybrd.cpp
 	"sys16.h"
 
-1325017768 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/fd1089.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/fd1089.cpp
 	"sys16.h"
 	"bitswap.h"
 
-1325017920 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/fd1094.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/fd1094.cpp
 	"burnint.h"
 	"fd1094.h"
 	"bitswap.h"
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/fd1094.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/fd1094.h
 
-1325790090 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/genesis_vid.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/genesis_vid.cpp
 	"genesis_vid.h"
 	"burnint.h"
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/mc8123.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/mc8123.cpp
 	"burnint.h"
 	"bitswap.h"
 
-1329660645 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/sys16_fd1094.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/sys16_fd1094.cpp
 	"sys16.h"
 	"fd1094.h"
 
-1325790090 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/sys16_gfx.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/sys16_gfx.cpp
 	"sys16.h"
 
-1329671381 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/sys16_run.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/sega/sys16_run.cpp
 	"sys16.h"
 	"dac.h"
 	"i8039.h"
@@ -9648,30 +9648,30 @@
 	<stdio.h>
 	"snes.h"
 
-1324323816 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/cchip.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/cchip.cpp
 	"burnint.h"
 	"taito_ic.h"
 	"taito.h"
 
-1325087378 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito_ic.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito_ic.h
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito.h
 
-1325157136 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_arkanoid.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_arkanoid.cpp
 	"tiles_generic.h"
 	"taito_m68705.h"
 	"driver.h"
 	"ay8910.h"
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito_m68705.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito_m68705.h
 	"m6805_intf.h"
 
-1325157140 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_ashnojoe.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_ashnojoe.cpp
 	"tiles_generic.h"
 	"burn_ym2203.h"
 	"msm5205.h"
 
-1324577980 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_asuka.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_asuka.cpp
 	"tiles_generic.h"
 	"burn_ym2151.h"
 	"burn_ym2610.h"
@@ -9679,7 +9679,7 @@
 	"taito_ic.h"
 	"taito.h"
 
-1324577980 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_bublbobl.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_bublbobl.cpp
 	"tiles_generic.h"
 	"m6800_intf.h"
 	"taito_m68705.h"
@@ -9687,33 +9687,33 @@
 	"burn_ym3526.h"
 	"bitswap.h"
 
-1325157114 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_chaknpop.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_chaknpop.cpp
 	"tiles_generic.h"
 	"driver.h"
 	"ay8910.h"
 
-1324577980 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_darius2.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_darius2.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
 	"burn_ym2610.h"
 
-1325157118 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_flstory.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_flstory.cpp
 	"tiles_generic.h"
 	"taito_m68705.h"
 	"driver.h"
 	"dac.h"
 	"ay8910.h"
 
-1325157122 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_lkage.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_lkage.cpp
 	"tiles_generic.h"
 	"taito_m68705.h"
 	"burn_ym2203.h"
 
-1325157124 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_minivdr.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_minivdr.cpp
 	"tiles_generic.h"
 
-1330887429 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_othunder.cpp
+1331489949 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_othunder.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
@@ -9722,13 +9722,13 @@
 	"burn_gun.h"
 	"config.h"
 
-1326487722 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_retofinv.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_retofinv.cpp
 	"tiles_generic.h"
 	"taito_m68705.h"
 	"bitswap.h"
 	"sn76496.h"
 
-1330787764 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_slapshot.cpp
+1331489898 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_slapshot.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
@@ -9738,7 +9738,7 @@
 	"timekpr.h"
 	"config.h"
 
-1325089326 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_superchs.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_superchs.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
@@ -9747,7 +9747,7 @@
 
 1322658694 /media/mmcblk0p1/FBA-Pandora/src/burn/snd/es5506.h
 
-1324577980 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitob.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitob.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
@@ -9757,7 +9757,7 @@
 	"burn_gun.h"
 	"eeprom.h"
 
-1330624823 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitof2.cpp
+1331489800 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitof2.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
@@ -9766,7 +9766,7 @@
 	"msm6295.h"
 	"config.h"
 
-1330889832 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitomisc.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitomisc.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
@@ -9775,14 +9775,14 @@
 	"burn_ym2203.h"
 	"burn_gun.h"
 
-1326487722 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitox.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitox.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
 	"burn_ym2151.h"
 	"burn_ym2610.h"
 
-1329840411 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitoz.cpp
+1331489688 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_taitoz.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
@@ -9793,24 +9793,24 @@
 
 1331198320 /media/mmcblk0p1/FBA-Pandora/src/config.h
 
-1325157134 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_tnzs.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/d_tnzs.cpp
 	"tiles_generic.h"
 	"burn_ym2203.h"
 	"burn_ym2151.h"
 	"tnzs_prot.h"
 	"dac.h"
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tnzs_prot.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tnzs_prot.h
 
-1325087796 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/pc080sn.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/pc080sn.cpp
 	"tiles_generic.h"
 	"taito_ic.h"
 
-1325087506 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/pc090oj.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/pc090oj.cpp
 	"tiles_generic.h"
 	"taito_ic.h"
 
-1324323816 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito.cpp
 	"tiles_generic.h"
 	"taito.h"
 	"taito_ic.h"
@@ -9822,60 +9822,60 @@
 	"eeprom.h"
 	"burn_gun.h"
 
-1324323816 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito_ic.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito_ic.cpp
 	"burnint.h"
 	"taito_ic.h"
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito_m68705.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/taito_m68705.cpp
 	"burnint.h"
 	"taito_m68705.h"
 
-1325087120 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0100scn.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0100scn.cpp
 	"tiles_generic.h"
 	"taito_ic.h"
 
-1324323816 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0110pcr.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0110pcr.cpp
 	"burnint.h"
 	"taito_ic.h"
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0140syt.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0140syt.cpp
 	"burnint.h"
 	"taito_ic.h"
 
-1325086886 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0150rod.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0150rod.cpp
 	"tiles_generic.h"
 	"taito_ic.h"
 
-1324323816 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0180vcu.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0180vcu.cpp
 	"tiles_generic.h"
 	"taito_ic.h"
 	"taito.h"
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0220ioc.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0220ioc.cpp
 	"burnint.h"
 	"taito_ic.h"
 
-1325086698 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0280grd.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0280grd.cpp
 	"tiles_generic.h"
 	"taito_ic.h"
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0360pri.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0360pri.cpp
 	"burnint.h"
 	"taito_ic.h"
 
-1325089506 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0480scp.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0480scp.cpp
 	"tiles_generic.h"
 	"taito_ic.h"
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0510nio.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0510nio.cpp
 	"burnint.h"
 	"taito_ic.h"
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0640fio.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tc0640fio.cpp
 	"burnint.h"
 	"taito_ic.h"
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tnzs_prot.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/burn/drv/taito/tnzs_prot.cpp
 	"burnint.h"
 	"tnzs_prot.h"
 
@@ -10133,7 +10133,7 @@
 	"m6800_intf.h"
 	"s2650_intf.h"
 
-1329425006 source:/media/mmcblk0p1/FBA-Pandora/src/burn/load.cpp
+1331578234 source:/media/mmcblk0p1/FBA-Pandora/src/burn/load.cpp
 	"burnint.h"
 
 1323379094 source:/media/mmcblk0p1/FBA-Pandora/src/burn/snd/ay8910.c
@@ -10450,7 +10450,7 @@
 	"mz64conf.h"
 	"stdint.h"
 
-1329477541 source:/media/mmcblk0p1/FBA-Pandora/src/burner/misc.cpp
+1331486040 source:/media/mmcblk0p1/FBA-Pandora/src/burner/misc.cpp
 	<math.h>
 	"burner.h"
 
@@ -10698,7 +10698,7 @@
 1329659651 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/m68k/m68kops.c
 	"m68kops.h"
 
-1330976379 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/nec/nec.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/nec/nec.cpp
 	<stdlib.h>
 	<stdio.h>
 	"driver.h"
@@ -10712,21 +10712,21 @@
 	"necmodrm.h"
 	"necinstr.c"
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/nec.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/nec.h
 
-1327521272 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necpriv.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necpriv.h
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necinstr.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necinstr.h
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necmacro.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necmacro.h
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necea.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necea.h
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necmodrm.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necmodrm.h
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necinstr.c
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/necinstr.c
 
-1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/nec/v25.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/nec/v25.cpp
 	<stdlib.h>
 	<stdio.h>
 	"driver.h"
@@ -10741,13 +10741,13 @@
 	"necinstr.c"
 	"v25instr.c"
 
-1327521272 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/v25priv.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/v25priv.h
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/v25sfr.c
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/v25sfr.c
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/v25instr.h
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/v25instr.h
 
-1322658694 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/v25instr.c
+1331429470 /media/mmcblk0p1/FBA-Pandora/src/cpu/nec/v25instr.c
 
 1326401344 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/s2650/s2650.cpp
 	"s2650.h"
@@ -10770,7 +10770,7 @@
 	"sh2op.c"
 	"state.h"
 
-1330373014 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/vez.cpp
+1331429470 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/vez.cpp
 	"burnint.h"
 	"vez.h"
 
@@ -10784,7 +10784,7 @@
 1322658694 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/z80/z80daisy.cpp
 	"z80daisy.h"
 
-1331151088 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/zet.cpp
+1331496636 source:/media/mmcblk0p1/FBA-Pandora/src/cpu/zet.cpp
 	"burnint.h"
 
 1328087834 source:/media/mmcblk0p1/FBA-Pandora/src/ezxaudio.cpp
@@ -10802,7 +10802,7 @@
 	<sys/stat.h>
 	<sched.h>
 
-1331234357 source:/media/mmcblk0p1/FBA-Pandora/src/fba_player.cpp
+1331390287 source:/media/mmcblk0p1/FBA-Pandora/src/fba_player.cpp
 	<stdio.h>
 	<stdlib.h>
 	"fba_player.h"
@@ -10901,7 +10901,7 @@
 	"fba_player.h"
 	"SDL/SDL.h"
 
-1331125654 source:/media/mmcblk0p1/FBA-Pandora/src/run.cpp
+1331487834 source:/media/mmcblk0p1/FBA-Pandora/src/run.cpp
 	"burner.h"
 	"gamewidget.h"
 	"snd.h"
@@ -10938,7 +10938,7 @@
 	<linux/joystick.h>
 	"usbjoy.h"
 
-1330611304 source:/media/mmcblk0p1/FBA-Pandora/src/burner/sdl/bzip.cpp
+1331577528 source:/media/mmcblk0p1/FBA-Pandora/src/burner/sdl/bzip.cpp
 	"burner.h"
 
 1330604575 source:/media/mmcblk0p1/FBA-Pandora/src/burner/sdl/config.cpp

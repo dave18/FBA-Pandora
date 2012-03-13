@@ -266,15 +266,15 @@ void ZetWriteRom(unsigned short address,unsigned char data)
     z80_write8( address, data);
     else
     {
-        	if (ZetCPUContext[nOpenedCPU]->pZetMemMap[0x200 | (address >> 8)] != NULL) {
+        if (ZetCPUContext[nOpenedCPU]->pZetMemMap[0x200 | (address >> 8)] != NULL) {
 		ZetCPUContext[nOpenedCPU]->pZetMemMap[0x200 | (address >> 8)][address] = data;
-	}
+        }
 
-	if (ZetCPUContext[nOpenedCPU]->pZetMemMap[0x300 | (address >> 8)] != NULL) {
+        if (ZetCPUContext[nOpenedCPU]->pZetMemMap[0x300 | (address >> 8)] != NULL) {
 		ZetCPUContext[nOpenedCPU]->pZetMemMap[0x300 | (address >> 8)][address] = data;
-	}
+        }
 
-	ZetWriteProg(address, data);
+        ZetWriteProg(address, data);
 
     }
 }
@@ -438,10 +438,8 @@ void ZetSetWriteHandler(void (__fastcall *pHandler)(unsigned short, unsigned cha
 void ZetSetInHandler(unsigned char (__fastcall *pHandler)(unsigned short))
 {
 	//printf("ZetSetInHandler(%p);\n", pHandler);
-	if (cpucore[nOpenedCPU]==0)
-	Doze.z80_in = pHandler;
-	if (cpucore[nOpenedCPU]==2)
-	Doug.z80_in = pHandler;
+	if (cpucore[nOpenedCPU]==0) Doze.z80_in = pHandler;
+	if (cpucore[nOpenedCPU]==2) Doug.z80_in = pHandler;
 	if (cpucore[nOpenedCPU]==1)
 	{
     #if defined FBA_DEBUG
@@ -456,10 +454,8 @@ void ZetSetInHandler(unsigned char (__fastcall *pHandler)(unsigned short))
 void ZetSetOutHandler(void (__fastcall *pHandler)(unsigned short, unsigned char))
 {
 	//printf("ZetSetOutHandler(%p);\n", pHandler);
-	if (cpucore[nOpenedCPU]==0)
-	Doze.z80_out = pHandler;
-	if (cpucore[nOpenedCPU]==2)
-	Doug.z80_out = pHandler;
+	if (cpucore[nOpenedCPU]==0) Doze.z80_out = pHandler;
+	if (cpucore[nOpenedCPU]==2) Doug.z80_out = pHandler;
 	if (cpucore[nOpenedCPU]==1)
 	{
     #if defined FBA_DEBUG
@@ -479,15 +475,16 @@ if (cpucore[nOpenedCPU]==0){
 	for (int i = 0; i < nCPUCount; i++) {
 		ZetCPUContext[i]->nCyclesTotal = 0;
 	}
-	Doze.nCyclesTotal = 0;}
-	else
-	{
+	Doze.nCyclesTotal = 0;
+}
+else
+{
         for (INT32 i = 0; i < nCPUCount; i++) {
 		nZetCyclesDone[i] = 0;
-	}
+        }
         nZetCyclesTotal = 0;
 
-	}
+}
 }
 
 int ZetInit(int nCount)
@@ -562,12 +559,15 @@ int ZetInit(int nCount)
 
 
         printf("C Z80 Core for CPU #%d\n",nCPU);
-        printf("ZET_IRQSTATUS_AUTO %d\n",ZET_IRQSTATUS_AUTO);
         cpucore[nCPU]=1;
-        ZetCPUContext[nCPU] = (struct ZetExt*)BurnMalloc(sizeof(ZetExt));
-        memset (ZetCPUContext[nCPU], 0, sizeof(ZetExt));
+	DebugCPU_ZetInitted = 1;
 
-    if (nCPU == 0) { // not safe!
+	nOpenedCPU = -1;
+
+	ZetCPUContext[nCPU] = (struct ZetExt*)BurnMalloc(sizeof(ZetExt));
+	memset (ZetCPUContext[nCPU], 0, sizeof(ZetExt));
+
+	if (nCPU == 0) { // not safe!
 		Z80Init();
 	}
 
@@ -596,12 +596,17 @@ int ZetInit(int nCount)
 	Z80SetProgramWriteHandler(ZetWriteProg);
 	Z80SetCPUOpReadHandler(ZetReadOp);
 	Z80SetCPUOpArgReadHandler(ZetReadOpArg);
+/*
+    nCPUCount = nCount % MAX_Z80;
 
-    nCPUCount = (nCPU+1) % MAX_Z80;
+	nHasZet = nCount;
+*/
+
+	nCPUCount = (nCPU+1) % MAX_Z80;
 
 	nHasZet = nCPU+1;
 
-	CpuCheatRegister(0x0004, nCPU);
+	//CpuCheatRegister(0x0004, nCPU);
 
 
     }
@@ -833,32 +838,32 @@ void ZetOpen(int nCPU)
         Doze.debugCallback=ZetCPUContext[nCPU]->debugCallback;
 
 	}
-	if (cpucore[nOpenedCPU]==1)
+	if (cpucore[nCPU]==1)
 	{
     Z80SetContext(&ZetCPUContext[nCPU]->reg);
 	nZetCyclesTotal = nZetCyclesDone[nCPU];
 	z80_ICount = nZ80ICount[nCPU];
 	EA = Z80EA[nCPU];
 	}
-	if (cpucore[nOpenedCPU]==2)
+	if (cpucore[nCPU]==2)
 	{
-	    Doug.dz80sppc=ZetCPUContext[nOpenedCPU]->Z80PC & 0xFFFF;
-	    Doug.dz80sppc|=(ZetCPUContext[nOpenedCPU]->Z80SP & 0xFFFF) << 16;
-        Doug.dz80hlfa=ZetCPUContext[nOpenedCPU]->Z80A & 0xFF;
-        Doug.dz80hlfa|=(ZetCPUContext[nOpenedCPU]->Z80F & 0xFF) << 8;
-        Doug.dz80hlfa|=(ZetCPUContext[nOpenedCPU]->Z80HL & 0xFFFF) << 16;
-        Doug.dz80debc=ZetCPUContext[nOpenedCPU]->Z80BC & 0xFFFF;
-        Doug.dz80debc|=(ZetCPUContext[nOpenedCPU]->Z80DE & 0xFFFF) << 16;
-        Doug.dz80hlfa2=ZetCPUContext[nOpenedCPU]->Z80A2 & 0xFF;
-        Doug.dz80hlfa2|=(ZetCPUContext[nOpenedCPU]->Z80F2 & 0xFF) << 8;
-        Doug.dz80hlfa2|=(ZetCPUContext[nOpenedCPU]->Z80HL2 & 0xFFFF) << 16;
-        Doug.dz80debc2=ZetCPUContext[nOpenedCPU]->Z80BC2 & 0xFFFF;
-        Doug.dz80debc2|=(ZetCPUContext[nOpenedCPU]->Z80DE2 & 0xFFFF) << 16;
-        Doug.dz80iyix=ZetCPUContext[nOpenedCPU]->Z80IX & 0xFFFF;
-        Doug.dz80iyix|=(ZetCPUContext[nOpenedCPU]->Z80IY & 0xFFFF) << 16;
-        Doug.dz80flagsir=ZetCPUContext[nOpenedCPU]->Z80R & 0xFF;
-        Doug.dz80flagsir|=(ZetCPUContext[nOpenedCPU]->Z80IF & 0x3) << 30;
-        Doug.dz80flagsir|=(ZetCPUContext[nOpenedCPU]->Z80I & 0xFF) << 8;
+	    Doug.dz80sppc=ZetCPUContext[nCPU]->Z80PC & 0xFFFF;
+	    Doug.dz80sppc|=(ZetCPUContext[nCPU]->Z80SP & 0xFFFF) << 16;
+        Doug.dz80hlfa=ZetCPUContext[nCPU]->Z80A & 0xFF;
+        Doug.dz80hlfa|=(ZetCPUContext[nCPU]->Z80F & 0xFF) << 8;
+        Doug.dz80hlfa|=(ZetCPUContext[nCPU]->Z80HL & 0xFFFF) << 16;
+        Doug.dz80debc=ZetCPUContext[nCPU]->Z80BC & 0xFFFF;
+        Doug.dz80debc|=(ZetCPUContext[nCPU]->Z80DE & 0xFFFF) << 16;
+        Doug.dz80hlfa2=ZetCPUContext[nCPU]->Z80A2 & 0xFF;
+        Doug.dz80hlfa2|=(ZetCPUContext[nCPU]->Z80F2 & 0xFF) << 8;
+        Doug.dz80hlfa2|=(ZetCPUContext[nCPU]->Z80HL2 & 0xFFFF) << 16;
+        Doug.dz80debc2=ZetCPUContext[nCPU]->Z80BC2 & 0xFFFF;
+        Doug.dz80debc2|=(ZetCPUContext[nCPU]->Z80DE2 & 0xFFFF) << 16;
+        Doug.dz80iyix=ZetCPUContext[nCPU]->Z80IX & 0xFFFF;
+        Doug.dz80iyix|=(ZetCPUContext[nCPU]->Z80IY & 0xFFFF) << 16;
+        Doug.dz80flagsir=ZetCPUContext[nCPU]->Z80R & 0xFF;
+        Doug.dz80flagsir|=(ZetCPUContext[nCPU]->Z80IF & 0x3) << 30;
+        Doug.dz80flagsir|=(ZetCPUContext[nCPU]->Z80I & 0xFF) << 8;
 
         Doug.dz80cyclestorun=ZetCPUContext[nCPU]->nCyclesLeft;
 
@@ -892,11 +897,8 @@ void ZetOpen(int nCPU)
 
 int ZetSetVector(int vector) //needs implementing
 {
-    if (cpucore[nOpenedCPU]==0)
-    //printf("call to ZetSetVector\n");
-    Doze.Z80I|=((vector<<8) & 0xFF00);
-    if (cpucore[nOpenedCPU]==1)
-    Z80Vector = vector;
+    if (cpucore[nOpenedCPU]==0) Doze.Z80I|=((vector<<8) & 0xFF00);
+    if (cpucore[nOpenedCPU]==1) Z80Vector = vector;
     if (cpucore[nOpenedCPU]==2)
     {
         Doug.dz80flagsir&=0xFFFF00FF;
@@ -927,10 +929,8 @@ void ZetRaiseIrq(int n)
 
 void ZetLowerIrq()
 {
-    if (cpucore[nOpenedCPU]==0)
-    ZetSetIRQLine(0, ZET_IRQSTATUS_NONE);
-    if (cpucore[nOpenedCPU]==1)
-    ZetSetIRQLine(0, Z80_CLEAR_LINE);
+    if (cpucore[nOpenedCPU]==0) ZetSetIRQLine(0, ZET_IRQSTATUS_NONE);
+    if (cpucore[nOpenedCPU]==1) ZetSetIRQLine(0, Z80_CLEAR_LINE);
 }
 
 
@@ -958,10 +958,9 @@ void ZetSetIRQLine(const int line, const int status)
 
 void Z80SetIrqLine(int irqline, int state)
 {
-    if (cpucore[nOpenedCPU]==0)
-    ZetSetIRQLine(irqline,state);
-    if (cpucore[nOpenedCPU]==1)
-    zZ80SetIrqLine(irqline, state);
+    //ZetSetIRQLine(irqline,state);
+    if (cpucore[nOpenedCPU]==0) ZetSetIRQLine(irqline,state);
+    if (cpucore[nOpenedCPU]==1) zZ80SetIrqLine(irqline, state);
 }
 
 int ZetGetActive()
@@ -1179,6 +1178,7 @@ static void DozeRun()
 int ZetRun(int nCycles)
 {
     //printf("cycles: %d\n",nCycles);
+//    printf("run cpu type: %d\n",cpucore[nOpenedCPU]);
 	if (nCycles <= 0) {
 		return 0;
 	}
@@ -1273,7 +1273,12 @@ int ZetMemCallback(int nStart, int nEnd, int nMode)
     }
     else
     {
-    UINT8 cStart = (nStart >> 8);
+#if defined FBA_DEBUG
+	if (!DebugCPU_ZetInitted) bprintf(PRINT_ERROR, _T("ZetMemCallback called without init\n"));
+	if (nOpenedCPU == -1) bprintf(PRINT_ERROR, _T("ZetMemCallback called when no CPU open\n"));
+#endif
+
+	UINT8 cStart = (nStart >> 8);
 	UINT8 **pMemMap = ZetCPUContext[nOpenedCPU]->pZetMemMap;
 
 	for (UINT16 i = cStart; i <= (nEnd >> 8); i++) {
@@ -1290,6 +1295,7 @@ int ZetMemCallback(int nStart, int nEnd, int nMode)
 				break;
 		}
 	}
+
 
     }
 
@@ -1367,7 +1373,12 @@ int ZetMapArea(int nStart, int nEnd, int nMode, unsigned char *Mem)
     }
     if (cpucore[nOpenedCPU]==1)
     {
-    UINT8 cStart = (nStart >> 8);
+#if defined FBA_DEBUG
+	if (!DebugCPU_ZetInitted) bprintf(PRINT_ERROR, _T("ZetMapArea called without init\n"));
+	if (nOpenedCPU == -1) bprintf(PRINT_ERROR, _T("ZetMapArea called when no CPU open\n"));
+#endif
+
+	UINT8 cStart = (nStart >> 8);
 	UINT8 **pMemMap = ZetCPUContext[nOpenedCPU]->pZetMemMap;
 
 	for (UINT16 i = cStart; i <= (nEnd >> 8); i++) {
@@ -1389,6 +1400,9 @@ int ZetMapArea(int nStart, int nEnd, int nMode, unsigned char *Mem)
 			}
 		}
 	}
+
+	return 0;
+
 
     }
 
@@ -1438,7 +1452,12 @@ int ZetMapArea(int nStart, int nEnd, int nMode, unsigned char *Mem01, unsigned c
     }
     if (cpucore[nOpenedCPU]==1)
     {
-    UINT8 cStart = (nStart >> 8);
+#if defined FBA_DEBUG
+	if (!DebugCPU_ZetInitted) bprintf(PRINT_ERROR, _T("ZetMapArea called without init\n"));
+	if (nOpenedCPU == -1) bprintf(PRINT_ERROR, _T("ZetMapArea called when no CPU open\n"));
+#endif
+
+	UINT8 cStart = (nStart >> 8);
 	UINT8 **pMemMap = ZetCPUContext[nOpenedCPU]->pZetMemMap;
 
 	if (nMode != 2) {
@@ -1449,6 +1468,8 @@ int ZetMapArea(int nStart, int nEnd, int nMode, unsigned char *Mem01, unsigned c
 		pMemMap[0x200 + i] = Mem01 + ((i - cStart) << 8);
 		pMemMap[0x300 + i] = Mem02 + ((i - cStart) << 8);
 	}
+
+	return 0;
 
     }
     if (cpucore[nOpenedCPU]==2)
@@ -1529,7 +1550,12 @@ int ZetNmi()
     }
     if (cpucore[nOpenedCPU]==1)
     {
-    Z80SetIrqLine(Z80_INPUT_LINE_NMI, 1);
+#if defined FBA_DEBUG
+	if (!DebugCPU_ZetInitted) bprintf(PRINT_ERROR, _T("ZetNmi called without init\n"));
+	if (nOpenedCPU == -1) bprintf(PRINT_ERROR, _T("ZetNmi called when no CPU open\n"));
+#endif
+
+	Z80SetIrqLine(Z80_INPUT_LINE_NMI, 1);
 	Z80Execute(0);
 	Z80SetIrqLine(Z80_INPUT_LINE_NMI, 0);
 	Z80Execute(0);
@@ -1581,9 +1607,8 @@ int ZetScan(int nAction)
 	char szText[] = "Z80 #0";
 	for (int i = 0; i < nCPUCount; i++) {
 		szText[5] = '1' + i;
-        if (cpucore[nOpenedCPU]==0)
-        ScanVar(&Doze, 19 * 4 + 16, szText);
-        if (cpucore[nOpenedCPU]==1)
+        if (cpucore[i]==0) ScanVar(&Doze, 19 * 4 + 16, szText);
+        if (cpucore[i]==1)
         {
         ScanVar(&ZetCPUContext[i]->reg, sizeof(Z80_Regs), szText);
 		SCAN_VAR(Z80EA[i]);

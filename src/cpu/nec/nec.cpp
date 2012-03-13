@@ -475,7 +475,6 @@ void necInit(int cpu, int type)
 			nec_state->chip_type=V30_TYPE;
 			nec_state->prefetch_size = 6;		/* 3 words */
 			nec_state->prefetch_cycles = 2;		/* two cycles per byte / four per word */
-			printf("NEC V30 Init\n");
 		}
 		break;
 

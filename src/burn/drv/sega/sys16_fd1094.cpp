@@ -34,7 +34,7 @@ static void fd1094_setstate_and_decrypt(INT32 state)
 {
 	INT32 i;
 	UINT32 addr;
-
+	
 	switch (state & 0x300) {
 		case 0x000:
 		case FD1094_STATE_RESET:
@@ -45,8 +45,13 @@ static void fd1094_setstate_and_decrypt(INT32 state)
 	fd1094_state = state;
 
 	// force a flush of the prefetch cache
+#ifdef EMU_M68K
 	m68k_set_reg(M68K_REG_PREF_ADDR, 0x1000);
-
+#else
+    
+#endif
+    
+	
 	/* set the FD1094 state ready to decrypt.. */
 	state = fd1094_set_state(fd1094_key,state);
 
@@ -112,7 +117,7 @@ static void fd1094_setstate_and_decrypt(INT32 state)
 			SekOpen(nActiveCPU);
 		}
 	}
-
+	
 	fd1094_current_cacheposition++;
 
 	if (fd1094_current_cacheposition>=S16_NUMCACHE)
@@ -131,7 +136,7 @@ INT32 __fastcall fd1094_cmp_callback(UINT32 val, INT32 reg)
 	{
 		fd1094_setstate_and_decrypt((val & 0xffff0000) >> 16);
 	}
-
+	
 	return 0;
 }
 
@@ -145,7 +150,7 @@ INT32 __fastcall fd1094_int_callback (INT32 irq)
 INT32 __fastcall fd1094_rte_callback (void)
 {
 	fd1094_setstate_and_decrypt(FD1094_STATE_RTE);
-
+	
 	return 0;
 }
 
@@ -156,7 +161,7 @@ void fd1094_kludge_reset_values(void)
 	for (i = 0;i < 4;i++) {
 		fd1094_userregion[i] = fd1094_decode(i,fd1094_cpuregion[i],fd1094_key,1);
 	}
-
+		
 	SekOpen(nFD1094CPU);
 	SekMapMemory((UINT8*)fd1094_userregion, 0x000000, 0x0fffff, SM_FETCH);
 	if (System18Banking) SekMapMemory((UINT8*)fd1094_userregion + 0x200000, 0x200000, 0x27ffff, SM_FETCH);
@@ -181,29 +186,29 @@ void fd1094_machine_init(void)
 void fd1094_driver_init(INT32 nCPU)
 {
 	INT32 i;
-
+	
 	nFD1094CPU = nCPU;
 
 	if (nFD1094CPU == 0) {
 		fd1094_cpuregion = (UINT16*)System16Rom;
 		fd1094_cpuregionsize = System16RomSize;
 	}
-
+	
 	if (nFD1094CPU == 1) {
 		fd1094_cpuregion = (UINT16*)System16Rom2;
 		fd1094_cpuregionsize = System16Rom2Size;
 	}
-
+	
 	if (nFD1094CPU >= 2) {
 		bprintf(PRINT_ERROR, _T("Invalid CPU called for FD1094 Driver Init\n"));
 	}
-
+	
 	fd1094_key = System16Key;
 
 	/* punt if no key; this allows us to be called even for non-FD1094 games */
 	if (!fd1094_key)
 		return;
-
+		
 	for (i=0;i<S16_NUMCACHE;i++)
 	{
 		fd1094_cacheregion[i]=(UINT16*)BurnMalloc(fd1094_cpuregionsize);
@@ -211,10 +216,10 @@ void fd1094_driver_init(INT32 nCPU)
 
 	/* flush the cached state array */
 	for (i=0;i<S16_NUMCACHE;i++) fd1094_cached_states[i] = -1;
-
+	
 	fd1094_current_cacheposition = 0;
 	fd1094_state = -1;
-
+	
 	if (System16RomSize > 0x0fffff) System18Banking = true;
 }
 
@@ -222,11 +227,11 @@ void fd1094_exit()
 {
 	System18Banking = false;
 	nFD1094CPU = 0;
-
+	
 	for (INT32 i = 0; i < S16_NUMCACHE; i++) {
 		BurnFree(fd1094_cacheregion[i]);
 	}
-
+	
 	fd1094_current_cacheposition = 0;
 }
 
@@ -235,7 +240,7 @@ void fd1094_scan(INT32 nAction)
 	if (nAction & ACB_DRIVER_DATA) {
 		SCAN_VAR(fd1094_selected_state);
 		SCAN_VAR(fd1094_state);
-
+		
 		if (nAction & ACB_WRITE) {
 			if (fd1094_state != -1)	{
 				INT32 selected_state = fd1094_selected_state;

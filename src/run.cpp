@@ -18,6 +18,10 @@ static int VideoBufferWidth = 0;
 static int VideoBufferHeight = 0;
 static int PhysicalBufferWidth = 0;
 
+/*#ifndef HighCol16(r,g,b,i)
+#define HighCol16(r,g,b,i) ((r<<8)&0xf800)|((g<<3)&0x07e0)|(b>>3)
+#endif
+*/
 
 //static unsigned short BurnVideoBuffer[384 * 224];	// think max enough
 static unsigned short * BurnVideoBuffer = NULL;	// think max enough
@@ -119,7 +123,7 @@ int RunOneFrame(bool bDraw, int fps)
 
 // --------------------------------
 
-static unsigned int HighCol16(int r, int g, int b, int  /* i */)
+/*static unsigned int HighCol16(int r, int g, int b, int )
 {
 	unsigned int t;
 
@@ -127,6 +131,15 @@ static unsigned int HighCol16(int r, int g, int b, int  /* i */)
 	t |= (g << 3) & 0x07E0;
 	t |= (b >> 3) & 0x001F;
 
+	return t;
+}*/
+
+static unsigned int myHighCol16(int r, int g, int b, int /* i */)
+{
+	unsigned int t;
+	t =(r<<8)&0xf800; // rrrr r000 0000 0000
+	t|=(g<<3)&0x07e0; // 0000 0ggg ggg0 0000
+	t|=(b>>3)&0x001f; // 0000 0000 000b bbbb
 	return t;
 }
 
@@ -201,7 +214,7 @@ int VideoInit()
 //	printf("Screen Size: %d x %d\n", VideoBufferWidth, VideoBufferHeight);
 
 	nBurnBpp = 2;
-	BurnHighCol = HighCol16;
+	BurnHighCol = myHighCol16;
 
 	BurnRecalcPal();
 
