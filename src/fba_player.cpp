@@ -368,7 +368,7 @@ void shutdown()
 
 	}
 
-	int tmp;
+/*	int tmp;
     tmp = open("/proc/pandora/nub0/mode", O_WRONLY);
     write (tmp,nub0,10);
     close(tmp);
@@ -377,6 +377,58 @@ void shutdown()
     write (tmp,nub1,10);
     close(tmp);
     printf("Revert nub 1 to %s\n",nub1);
+
+    FILE * joyexists;
+    joyexists=NULL;
+    long timeout;
+    timeout=0;
+    int z=0;
+    if (strcmp(nub0,"absolute"))
+    {
+        while ((z==0) && (timeout<100000))
+        {
+        //   printf(".");
+            z=1;
+            joyexists=fopen("/dev/input/js0","r");
+            if (joyexists)
+            {
+                z=0;
+                fclose(joyexists);
+            }
+            usleep(20);
+
+            timeout++;
+        }
+        if (z==0)
+        {
+            fprintf(stdout,"js0 not deleted!\n");
+        }
+        else fprintf(stdout,"js0 removed\n");
+    }
+    joyexists=NULL;
+    timeout=0;
+    z=0;
+    if (strcmp(nub1,"absolute"))
+    {
+        while ((z==0) && (timeout<100000))
+        {
+        //   printf(".");
+            z=1;
+            joyexists=fopen("/dev/input/js1","r");
+            if (joyexists) {
+                z=0;
+                fclose(joyexists);
+            }
+            usleep(20);
+
+            timeout++;
+        }
+        if (z==0)
+        {
+            fprintf(stdout,"js1 not deleted!\n");
+        }
+        else fprintf(stdout,"js1 removed\n");
+    }*/
 
 	gp2x_terminate(config_options.option_frontend);
 
@@ -549,6 +601,8 @@ void run_fba_emulator(const char *fn)
 
 	frame_count = 0;
 	GameLooping = true;
+
+	//bShowFPS = true;
 
 	if (BurnDrvGetFlags() & BDF_ORIENTATION_FLIPPED) printf("flipped!\n");
 

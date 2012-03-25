@@ -16,6 +16,8 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-w" />
+					<Add option="-mfpu=neon" />
+					<Add option="-mfloat-abi=softfp" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />

@@ -10,5 +10,8 @@ built/savestates
 built/screenshots
 built/support
 built/fbasdl.ini
+built/fba2.sh
+built/omapsdl.old
+built/omapsdl_latest
 makefile
 pbcopy

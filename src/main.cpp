@@ -215,20 +215,63 @@ char path[MAX_PATH];
 	}
 
 
-    int tmp;
+/*    int tmp;
     tmp = open("/proc/pandora/nub0/mode", O_RDWR);
     read (tmp,nub0,10);
     write (tmp,"absolute",9);
     close(tmp);
-    printf("Changed nub 0 to joytick\n");
+    printf("Changed nub 0 to joystick\n");
     tmp = open("/proc/pandora/nub1/mode", O_RDWR);
     read (tmp,nub1,10);
     write (tmp,"absolute",9);
     close(tmp);
-    printf("Changed nub 1 to joytick\n");
+    printf("Changed nub 1 to joystick\n");
 
+    FILE * joyexists;
+    joyexists=NULL;
+    long timeout;
+    timeout=0;
+    while ((joyexists==NULL) && (timeout<100000))
+    {
+     //   printf(".");
+        joyexists=fopen("/dev/input/js0","r");
+        usleep(20);
+        timeout++;
+    }
+    if (joyexists)
+    {
+        printf("js0 now exists\n");
+        fclose(joyexists);
+    }
+    else
+    {
+        printf("timeout creating js0... reverting nub 0 to original setting\n");
+        tmp = open("/proc/pandora/nub0/mode", O_WRONLY);
+        write (tmp,nub0,10);
+        close(tmp);
+    }
 
-
+    joyexists=NULL;
+    timeout=0;
+    while ((joyexists==NULL) && (timeout<100000))
+    {
+        joyexists=fopen("/dev/input/js1","r");
+        usleep(20);
+        timeout++;
+    }
+    if (joyexists)
+    {
+        printf("js1 now exists\n");
+        fclose(joyexists);
+    }
+    else
+    {
+        printf("timeout creating js1... reverting nub 1 to original setting\n");
+        tmp = open("/proc/pandora/nub1/mode", O_WRONLY);
+        write (tmp,nub1,10);
+        close(tmp);
+    }
+*/
 	//Initialize configuration options
 	config_options.option_sound_enable = 2;
 	config_options.option_rescale = 2;

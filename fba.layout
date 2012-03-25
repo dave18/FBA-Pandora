@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="debug" />
-	<File name="src/burn/burn.cpp" open="1" top="0" tabpos="10">
+	<ActiveTarget name="release" />
+	<File name="src/burn/burn.cpp" open="0" top="0" tabpos="10">
 		<Cursor position="10586" topLine="441" />
 	</File>
-	<File name="src/burn/burn.h" open="1" top="0" tabpos="9">
+	<File name="src/burn/burn.h" open="0" top="0" tabpos="9">
 		<Cursor position="12351" topLine="375" />
 	</File>
 	<File name="src/burn/burn_gun.cpp" open="0" top="0" tabpos="0">
@@ -16,7 +16,7 @@
 	<File name="src/burn/burn_memory.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="1701" topLine="62" />
 	</File>
-	<File name="src/burn/burnint.h" open="1" top="0" tabpos="11">
+	<File name="src/burn/burnint.h" open="0" top="0" tabpos="11">
 		<Cursor position="4033" topLine="91" />
 	</File>
 	<File name="src/burn/cheat.cpp" open="0" top="0" tabpos="2">
@@ -94,13 +94,13 @@
 	<File name="src/burn/drv/neogeo/d_neogeo.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="441872" topLine="10389" />
 	</File>
-	<File name="src/burn/drv/neogeo/neo_run.cpp" open="1" top="0" tabpos="5">
+	<File name="src/burn/drv/neogeo/neo_run.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="114838" topLine="4081" />
 	</File>
 	<File name="src/burn/drv/neogeo/neo_sprite.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="811" topLine="38" />
 	</File>
-	<File name="src/burn/drv/neogeo/neogeo.cpp" open="1" top="0" tabpos="4">
+	<File name="src/burn/drv/neogeo/neogeo.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="3196" topLine="100" />
 	</File>
 	<File name="src/burn/drv/pgm/pgm_crypt.cpp" open="0" top="0" tabpos="0">
@@ -178,7 +178,7 @@
 	<File name="src/burn/hiscore.cpp" open="0" top="0" tabpos="6">
 		<Cursor position="11704" topLine="578" />
 	</File>
-	<File name="src/burn/load.cpp" open="1" top="1" tabpos="7">
+	<File name="src/burn/load.cpp" open="0" top="0" tabpos="7">
 		<Cursor position="2171" topLine="78" />
 	</File>
 	<File name="src/burn/snd/burn_ym2151.cpp" open="0" top="0" tabpos="12">
@@ -214,8 +214,8 @@
 	<File name="src/burner/sdl/burner_sdl.h" open="0" top="0" tabpos="3">
 		<Cursor position="163" topLine="8" />
 	</File>
-	<File name="src/burner/sdl/bzip.cpp" open="1" top="0" tabpos="6">
-		<Cursor position="8008" topLine="324" />
+	<File name="src/burner/sdl/bzip.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="6681" topLine="282" />
 	</File>
 	<File name="src/burner/sdl/drv.cpp" open="0" top="0" tabpos="11">
 		<Cursor position="2588" topLine="105" />
@@ -280,20 +280,20 @@
 	<File name="src/cpu/zet.h" open="0" top="0" tabpos="4">
 		<Cursor position="426" topLine="14" />
 	</File>
-	<File name="src/fba_player.cpp" open="1" top="0" tabpos="8">
-		<Cursor position="13686" topLine="500" />
+	<File name="src/fba_player.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="11737" topLine="419" />
 	</File>
 	<File name="src/font.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="9566" topLine="122" />
 	</File>
-	<File name="src/input.cpp" open="0" top="0" tabpos="5">
-		<Cursor position="3005" topLine="106" />
+	<File name="src/input.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="10191" topLine="378" />
 	</File>
-	<File name="src/main.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="582" topLine="14" />
+	<File name="src/main.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="7080" topLine="265" />
 	</File>
 	<File name="src/pandorasdk.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="7216" topLine="224" />
+		<Cursor position="5206" topLine="173" />
 	</File>
 	<File name="src/run.cpp" open="1" top="0" tabpos="2">
 		<Cursor position="516" topLine="11" />

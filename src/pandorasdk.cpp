@@ -135,10 +135,11 @@ void gp2x_initialize()
 
     joyCount=SDL_NumJoysticks();
 	if (joyCount>5) joyCount=5;
+	printf("%d Joystick(s) Found\n",joyCount);
 	//if ((joyCount==1) && (strcmp(SDL_JoystickName(0),"gpio-keys")==0)) joyCount=0;
 	if (joyCount>0)
 	{
-	    printf("%d Joystick(s) Found\n",joyCount);
+
 	    for (int i=0;i<joyCount;i++)
         {
             printf("%s\t",SDL_JoystickName(i));
@@ -146,9 +147,11 @@ void gp2x_initialize()
             printf("Hats %d\t",SDL_JoystickNumHats(joys[i]));
             printf("Buttons %d\t",SDL_JoystickNumButtons(joys[i]));
             printf("Axis %d\n",SDL_JoystickNumAxes(joys[i]));
+            if (strcmp(SDL_JoystickName(i),"nub0")==0) joys[0]=SDL_JoystickOpen(i);
+            if (strcmp(SDL_JoystickName(i),"nub1")==0) joys[1]=SDL_JoystickOpen(i);
         }
-        if (joyCount>1) joys[0]=SDL_JoystickOpen(1);
-        if (joyCount>2) joys[1]=SDL_JoystickOpen(2);
+        //if (joyCount>1) joys[0]=SDL_JoystickOpen(1);
+        //if (joyCount>2) joys[1]=SDL_JoystickOpen(2);
 	}
 	VideoBuffer=(unsigned short*)malloc((WINDOW_WIDTH*2) * WINDOW_HEIGHT);
 	SDL_VideoBuffer=SDL_CreateRGBSurfaceFrom(VideoBuffer,WINDOW_WIDTH*2,WINDOW_HEIGHT,16,WINDOW_WIDTH*2,0xF800,0x7E0,0x1F,0x0);
@@ -184,6 +187,7 @@ int get_pc_keyboard()
     SDL_Event event;
 	while( SDL_PollEvent( &event ) )
 		{
+//		    printf("event\n");
                     /*if ((event.type==SDL_JOYBUTTONUP) && (p[pi].joy<5))
                     {
                         if (event.jbutton.button==p[pi].fire) p[pi].firedown=0;
@@ -265,10 +269,11 @@ int get_pc_keyboard()
 
 
 				}
-
+    //            printf("event=%d\n",event.type);
 				if (event.type== SDL_KEYDOWN)
 				{																	// PC buttons
-				    kinput=event.key.keysym.sym;
+				    kinput=event.key.keysym.scancode;
+  //                      printf("key=%d\n",event.key.keysym.sym);
 
 						if (event.key.keysym.sym==config_keymap.up)
 							UPDOWN=1;
