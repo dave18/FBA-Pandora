@@ -566,7 +566,7 @@ void run_fba_emulator(const char *fn)
 	printf("Attempt to initialise '%s'\n", BurnDrvGetTextA(DRV_FULLNAME));
 
 	memset (titlefb, 0, fwidth*fheight*2);
-	DrawString ("Finalburn Alpha for Pandora (v 0.2.97.21)", titlefb, 10, 20, fwidth);
+	DrawString ("Finalburn Alpha for Pandora (v 0.2.97.24)", titlefb, 10, 20, fwidth);
 	DrawString ("Based on FinalBurnAlpha", titlefb, 10, 35, fwidth);
 	DrawString ("Now loading ... ", titlefb, 10, 105, fwidth);
 	show_rom_loading_text("Open Zip", 0, 0);

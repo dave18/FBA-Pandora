@@ -2,6 +2,7 @@
 // Based on MAME driver by Zsolt Vasvari
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "sn76496.h"
 
 static UINT8 *AllMem;
@@ -259,13 +260,13 @@ static void DrvPaletteInit()
 		bit2 = (DrvColPROM[i] >> 7) & 0x01;
 		b = 0x21 * bit0 + 0x47 * bit1 + 0x97 * bit2;
 
-		DrvPalette[i] = HighCol16(r, g, b, 0);
+		DrvPalette[i] = BurnHighCol(r, g, b, 0);
 
 		if (i >= 256)
 		{
 			if ((i & 0x0f) == 0x09) b = 0xff;
 
-			DrvPalette[i + 0x100] = HighCol16(r, g, b, 0);
+			DrvPalette[i + 0x100] = BurnHighCol(r, g, b, 0);
 		}
 	}
 }

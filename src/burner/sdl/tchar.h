@@ -43,6 +43,13 @@ typedef char TCHAR;
 #define _stricmp strcmp
 #define _strnicmp strncmp
 
+#undef __fastcall
+#undef _fastcall
+#define __fastcall			/*what does this correspond to?*/
+#define _fastcall			/*same as above - what does this correspond to?*/
+
+//#define uintptr_t unsigned int
+
 // FBA function, change this!
 #define dprintf printf
 

@@ -71,7 +71,7 @@ INT32 EEPROMAvailable()
 void EEPROMInit(const eeprom_interface *interface)
 {
 	DebugDev_EEPROMInitted = 1;
-
+	
 	intf = interface;
 
 	if ((1 << intf->address_bits) * intf->data_bits / 8 > MEMORY_SIZE)
@@ -117,10 +117,10 @@ void EEPROMExit()
 
 	INT32 len = ((1 << intf->address_bits) * (intf->data_bits >> 3)) & (MEMORY_SIZE-1);
 
-//	FILE *fz = fopen(output, "wb");
-//	fwrite (eeprom_data, len, 1, fz);
-//	fclose (fz);
-
+	FILE *fz = fopen(output, "wb");
+	fwrite (eeprom_data, len, 1, fz);
+	fclose (fz);
+	
 	DebugDev_EEPROMInitted = 0;
 }
 

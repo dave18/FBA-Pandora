@@ -1,5 +1,6 @@
 #include "tiles_generic.h"
 #include "taito_m68705.h"
+#include "zet.h"
 #include "driver.h"
 #include "dac.h"
 extern "C" {
@@ -667,6 +668,11 @@ UINT8 __fastcall flstory_sound_read(UINT16 address)
 	return 0;
 }
 
+static INT32 flstoryDACSync()
+{
+	return (INT32)(float)(nBurnSoundLen * (ZetTotalCycles() / (4000000.000 / (nBurnFPS / 100.000))));
+}
+
 static INT32 DrvDoReset()
 {
 	DrvReset = 0;
@@ -733,7 +739,7 @@ static INT32 MemIndex()
 	return 0;
 }
 
-static INT32 DrvGfxDecode() // 0, 0x100
+static INT32 DrvGfxDecode()
 {
 	INT32 Plane[4]  = { 0x80000, 0x80004, 0x00000, 0x00004 };
 	INT32 XOffs[16] = { 3, 2, 1, 0, 8+3, 8+2, 8+1, 8+0, 16*8+3, 16*8+2, 16*8+1, 16*8+0, 16*8+8+3, 16*8+8+2, 16*8+8+1, 16*8+8+0 };
@@ -871,8 +877,8 @@ static INT32 DrvInit()
 
 	AY8910Init(0, 2000000, nBurnSoundRate, NULL, NULL, NULL, NULL);
 
-	DACInit(0, 0, 1);
-	DACSetVolShift(0, 4);
+	DACInit(0, 0, 1, flstoryDACSync);
+	DACSetVolShift(0, 2);
 
 	GenericTilesInit();
 
@@ -1086,7 +1092,7 @@ static inline void DrvRecalcPalette()
 		b = (d >> 8) & 0x0f;
 		g = (d >> 4) & 0x0f;
 		r = d & 0x0f;
-		DrvPalette[i] = HighCol16((r << 4) | r, (g << 4) | g, (b << 4) | b, 0);
+		DrvPalette[i] = BurnHighCol((r << 4) | r, (g << 4) | g, (b << 4) | b, 0);
 	}
 }
 
@@ -1128,6 +1134,8 @@ static INT32 DrvFrame()
 		DrvDoReset();
 	}
 
+	ZetNewFrame();
+
 	{
 		memset (DrvInputs, 0xff, 5);
 		for (INT32 i = 0; i < 8; i++) {
@@ -1139,8 +1147,7 @@ static INT32 DrvFrame()
 		}
 	}
 
-	INT32 nSoundBufferPos = 0;
-	INT32 nInterleave = nBurnSoundLen ? nBurnSoundLen : 100;
+	INT32 nInterleave = 100;
 	INT32 nCyclesTotal[3] = { 5366500 / 60, 4000000 / 60, 3072000 / 60 };
 	INT32 nCyclesDone[3]  = { 0, 0, 0 };
 	if (select_game == 2) nCyclesTotal[0] = nCyclesTotal[1];
@@ -1167,53 +1174,30 @@ static INT32 DrvFrame()
 			nCyclesDone[2] += m6805Run(nSegment);
 			m6805Close();
 		}
-
-		if (pBurnSoundOut) {
-			INT32 nSample;
-			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
-			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n];
-				nSample += pAY8910Buffer[1][n];
-				nSample += pAY8910Buffer[2][n];
-
-				nSample /= 4;
-
-				nSample = BURN_SND_CLIP(nSample);
-
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
-
-			DACUpdate(pSoundBuf, nSegmentLength);
-
-			nSoundBufferPos += nSegmentLength;
-		}
 	}
+
+	ZetOpen(1);
 
 	if (pBurnSoundOut) {
 		INT32 nSample;
-		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
-		INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-		if (nSegmentLength) {
-			AY8910Update(0, &pAY8910Buffer[0], nSegmentLength);
-			for (INT32 n = 0; n < nSegmentLength; n++) {
-				nSample  = pAY8910Buffer[0][n];
-				nSample += pAY8910Buffer[1][n];
-				nSample += pAY8910Buffer[2][n];
+		AY8910Update(0, &pAY8910Buffer[0], nBurnSoundLen);
+		for (INT32 n = 0; n < nBurnSoundLen; n++) {
+			nSample  = pAY8910Buffer[0][n];
+			nSample += pAY8910Buffer[1][n];
+			nSample += pAY8910Buffer[2][n];
 
-				nSample /= 4;
+			nSample /= 4;
 
-				nSample = BURN_SND_CLIP(nSample);
+			nSample = BURN_SND_CLIP(nSample);
 
-				pSoundBuf[(n << 1) + 0] = nSample;
-				pSoundBuf[(n << 1) + 1] = nSample;
-			}
-			
-			DACUpdate(pSoundBuf, nSegmentLength);
+			pBurnSoundOut[(n << 1) + 0] = nSample;
+			pBurnSoundOut[(n << 1) + 1] = nSample;
 		}
+			
+		DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
+
+	ZetClose();
 
 	if (pBurnDraw) {
 		BurnDrvRedraw();
@@ -1257,7 +1241,7 @@ static INT32 flstoryInit()
 
 struct BurnDriver BurnDrvFlstory = {
 	"flstory", NULL, NULL, NULL, "1985",
-	"The FairyLand Story\0", NULL, "Taito", "hardware",
+	"The FairyLand Story\0", NULL, "Taito", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_TAITO_MISC, GBF_MISC, 0,
 	NULL, flstoryRomInfo, flstoryRomName, NULL, NULL, FlstoryInputInfo, FlstoryDIPInfo,
@@ -1293,7 +1277,7 @@ STD_ROM_FN(flstoryj)
 
 struct BurnDriver BurnDrvFlstoryj = {
 	"flstoryj", "flstory", NULL, NULL, "1985",
-	"The FairyLand Story (Japan)\0", NULL, "Taito", "hardware",
+	"The FairyLand Story (Japan)\0", NULL, "Taito", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_FLIPPED, 2, HARDWARE_TAITO_MISC, GBF_MISC, 0,
 	NULL, flstoryjRomInfo, flstoryjRomName, NULL, NULL, FlstoryInputInfo, FlstoryDIPInfo,
@@ -1339,7 +1323,7 @@ static INT32 onna34roInit()
 
 struct BurnDriver BurnDrvOnna34ro = {
 	"onna34ro", NULL, NULL, NULL, "1985",
-	"Onna Sansirou - Typhoon Gal (set 1)\0", NULL, "Taito", "hardware",
+	"Onna Sansirou - Typhoon Gal (set 1)\0", NULL, "Taito", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_TAITO_MISC, GBF_MISC, 0,
 	NULL, onna34roRomInfo, onna34roRomName, NULL, NULL, Onna34roInputInfo, Onna34roDIPInfo,
@@ -1378,7 +1362,7 @@ STD_ROM_FN(onna34ra)
 
 struct BurnDriver BurnDrvOnna34ra = {
 	"onna34roa", "onna34ro", NULL, NULL, "1985",
-	"Onna Sansirou - Typhoon Gal (set 2)\0", NULL, "Taito", "hardware",
+	"Onna Sansirou - Typhoon Gal (set 2)\0", NULL, "Taito", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_TAITO_MISC, GBF_MISC, 0,
 	NULL, onna34raRomInfo, onna34raRomName, NULL, NULL, Onna34roInputInfo, Onna34roDIPInfo,
@@ -1428,7 +1412,7 @@ static INT32 victnineInit()
 
 struct BurnDriverD BurnDrvVictnine = {
 	"victnine", NULL, NULL, NULL, "1984",
-	"Victorious Nine\0", NULL, "Taito", "hardware",
+	"Victorious Nine\0", NULL, "Taito", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	0, 2, HARDWARE_TAITO_MISC, GBF_MISC, 0,
 	NULL, victnineRomInfo, victnineRomName, NULL, NULL, VictnineInputInfo, VictnineDIPInfo,

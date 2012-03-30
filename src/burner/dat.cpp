@@ -78,7 +78,6 @@ INT32 write_datfile(INT32 bType, FILE* fDat)
 	if (bType == DAT_PCENGINE_ONLY) _ftprintf(fDat, _T("\t\t<description>") _T(APP_TITLE) _T(" v%s") _T(" PC-Engine Games</description>\n"), szAppBurnVer);
 	if (bType == DAT_TG16_ONLY) _ftprintf(fDat, _T("\t\t<description>") _T(APP_TITLE) _T(" v%s") _T(" TurboGrafx 16 Games</description>\n"), szAppBurnVer);
 	if (bType == DAT_SGX_ONLY) _ftprintf(fDat, _T("\t\t<description>") _T(APP_TITLE) _T(" v%s") _T(" SuprGrafx Games</description>\n"), szAppBurnVer);
-	if (bType == 9) _ftprintf(fDat, _T("\t\t<description>") _T(APP_TITLE) _T(" v%s") _T(" All Games</description>\n"), szAppBurnVer);
 	fprintf(fDat, "\t\t<category>Standard DatFile</category>\n");
 	_ftprintf(fDat, _T("\t\t<version>%s</version>\n"), szAppBurnVer);
 	fprintf(fDat, "\t\t<author>" APP_TITLE "</author>\n");
@@ -100,7 +99,7 @@ INT32 write_datfile(INT32 bType, FILE* fDat)
 		INT32 nPass=0;
 
 		nBurnDrvActive=nGameSelect;									// Switch to driver nGameSelect
-if (bType<9){
+
 		if ((BurnDrvGetFlags() & BDF_BOARDROM) || !strcmp(BurnDrvGetTextA(DRV_NAME), "neogeo")) {
 			continue;
 		}
@@ -128,7 +127,7 @@ if (bType<9){
 		if (((BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) != HARDWARE_PCENGINE_SGX) && (bType == DAT_SGX_ONLY)) {
 			continue;
 		}
-	}
+
 		strcpy(sgName, BurnDrvGetTextA(DRV_NAME));
 		strcpy(spName, "");											// make sure this string is empty before we start
 		strcpy(sbName, "");											// make sure this string is empty before we start

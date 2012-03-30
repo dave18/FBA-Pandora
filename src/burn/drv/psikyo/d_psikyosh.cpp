@@ -290,8 +290,8 @@ static void graphics_bank()
 		if (bank < 0 || bank >= graphics_min_max[1])
 			bank = graphics_min_max[1] - graphics_min_max[0];
 
-		Sh2MapMemory(pPsikyoshTiles + bank, 0x3060000, 0x307ffff, SM_ROM);
-		Sh2MapMemory(pPsikyoshTiles + bank, 0x4060000, 0x407ffff, SM_ROM);
+		Sh2MapMemory(pPsikyoshTiles + bank, 0x3060000, 0x307ffff, SH2_ROM);
+		Sh2MapMemory(pPsikyoshTiles + bank, 0x4060000, 0x407ffff, SH2_ROM);
 	}
 }
 
@@ -539,7 +539,7 @@ static void DrvIRQCallback(INT32, INT32 nStatus)
 
 static INT32 DrvDoReset()
 {
-	Sh2Reset( *(UINT32 *)(DrvSh2ROM + 0), *(UINT32 *)(DrvSh2ROM + 4) );
+	Sh2Reset();
 
 	memset (AllRam, 0, RamEnd - AllRam);
 
@@ -653,7 +653,6 @@ static INT32 DrvInit(INT32 (*LoadCallback)(), INT32 type, INT32 gfx_max, INT32 g
 		}
 
 		BurnSwap32(DrvSh2ROM, 0x100000);
-
 #ifndef LSB_FIRST
 		le_to_be(DrvSh2ROM,0x200000);
 #endif
@@ -667,12 +666,12 @@ static INT32 DrvInit(INT32 (*LoadCallback)(), INT32 type, INT32 gfx_max, INT32 g
 	{
 		Sh2Init(1);
 		Sh2Open(0);
-		Sh2MapMemory(DrvSh2ROM,			0x00000000, 0x000fffff, SM_ROM);
-		Sh2MapMemory(DrvSh2ROM + 0x100000,	0x02000000, 0x020fffff, SM_ROM);
-		Sh2MapMemory(DrvSprRAM,			0x03000000, 0x0300ffff, SM_RAM);
-		Sh2MapMemory(DrvPalRAM,			0x03040000, 0x0304ffff, SM_RAM);
-		Sh2MapMemory(DrvZoomRAM,		0x03050000, 0x0305ffff, SM_ROM);
-		Sh2MapMemory(DrvSh2RAM,			0x06000000, 0x060fffff, SM_RAM);
+		Sh2MapMemory(DrvSh2ROM,			0x00000000, 0x000fffff, SH2_ROM);
+		Sh2MapMemory(DrvSh2ROM + 0x100000,	0x02000000, 0x020fffff, SH2_ROM);
+		Sh2MapMemory(DrvSprRAM,			0x03000000, 0x0300ffff, SH2_RAM);
+		Sh2MapMemory(DrvPalRAM,			0x03040000, 0x0304ffff, SH2_RAM);
+		Sh2MapMemory(DrvZoomRAM,		0x03050000, 0x0305ffff, SH2_ROM);
+		Sh2MapMemory(DrvSh2RAM,			0x06000000, 0x060fffff, SH2_RAM);
 		Sh2SetReadByteHandler (0,		ps3v1_read_byte);
 		Sh2SetWriteByteHandler(0,		ps3v1_write_byte);
 		Sh2SetWriteWordHandler(0,		ps3v1_write_word);
@@ -680,19 +679,19 @@ static INT32 DrvInit(INT32 (*LoadCallback)(), INT32 type, INT32 gfx_max, INT32 g
 	} else {
 		Sh2Init(1);
 		Sh2Open(0);
-		Sh2MapMemory(DrvSh2ROM,			0x00000000, 0x000fffff, SM_ROM);
-		Sh2MapMemory(DrvSprRAM,			0x04000000, 0x0400ffff, SM_RAM);
-		Sh2MapMemory(DrvPalRAM,			0x04040000, 0x0404ffff, SM_RAM);
-		Sh2MapMemory(DrvZoomRAM,		0x04050000, 0x0405ffff, SM_ROM);
-		Sh2MapMemory(DrvSh2ROM + 0x100000,	0x05000000, 0x0507ffff, SM_ROM);
-		Sh2MapMemory(DrvSh2RAM,			0x06000000, 0x060fffff, SM_RAM);
+		Sh2MapMemory(DrvSh2ROM,			0x00000000, 0x000fffff, SH2_ROM);
+		Sh2MapMemory(DrvSprRAM,			0x04000000, 0x0400ffff, SH2_RAM);
+		Sh2MapMemory(DrvPalRAM,			0x04040000, 0x0404ffff, SH2_RAM);
+		Sh2MapMemory(DrvZoomRAM,		0x04050000, 0x0405ffff, SH2_ROM);
+		Sh2MapMemory(DrvSh2ROM + 0x100000,	0x05000000, 0x0507ffff, SH2_ROM);
+		Sh2MapMemory(DrvSh2RAM,			0x06000000, 0x060fffff, SH2_RAM);
 		Sh2SetReadByteHandler (0,		ps5_read_byte);
 		Sh2SetWriteByteHandler(0,		ps5_write_byte);
 		Sh2SetWriteWordHandler(0,		ps5_write_word);
 		Sh2SetWriteLongHandler(0,		psx_write_long);
 	}
 
-	Sh2MapHandler(1, 0x06000000 | speedhack_address, 0x0600ffff | speedhack_address, SM_ROM);
+	Sh2MapHandler(1, 0x06000000 | speedhack_address, 0x0600ffff | speedhack_address, SH2_ROM);
 	Sh2SetReadByteHandler (1,		hack_read_byte);
 	Sh2SetReadWordHandler (1,		hack_read_word);
 	Sh2SetReadLongHandler (1,		hack_read_long);

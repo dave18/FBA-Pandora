@@ -11,15 +11,6 @@
 
 #include "burn.h"
 
-// ---------------------------------------------------------------------------
-// CPU emulation interfaces
-
-// sek.cpp
-#include "sek.h"
-
-// zet.cpp
-#include "zet.h"
-
 #ifdef LSB_FIRST
 typedef union
 {
@@ -118,7 +109,25 @@ inline static void PutPix(UINT8* pPix, UINT32 c)
 // ---------------------------------------------------------------------------
 // Setting up cpus for cheats
 
-void CpuCheatRegister(INT32 type, INT32 num);
+struct cpu_core_config {
+	void (*open)(INT32);		// cpu open
+	void (*close)();		// cpu close
+
+	UINT8 (*read)(UINT32);		// read
+	void (*write)(UINT32, UINT8);	// write
+	INT32 (*active)();		// active cpu
+	INT32 (*totalcycles)();		// total cycles
+	void (*newframe)();		// new frame
+
+	INT32 (*run)(INT32);		// execute cycles
+	void (*runend)();		// end run
+	void (*reset)();		// reset cpu
+
+	UINT64 nMemorySize;		// how large is our memory range?
+	UINT32 nAddressXor;		// fix endianness for some cpus
+};
+
+void CpuCheatRegister(INT32 type, cpu_core_config *config);
 
 // burn_memory.cpp
 void BurnInitMemoryManager();

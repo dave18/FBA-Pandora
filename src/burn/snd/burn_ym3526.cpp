@@ -1,6 +1,8 @@
 #include "burnint.h"
 #include "burn_sound.h"
 #include "burn_ym3526.h"
+#include "sek.h"
+#include "zet.h"
 #include "m6809_intf.h"
 #include "hd6309_intf.h"
 #include "m6800_intf.h"
@@ -567,6 +569,7 @@ void BurnYM3526Scan(INT32 nAction, INT32* pnMin)
 #endif
 
 	BurnTimerScanYM3526(nAction, pnMin);
+	FMOPLScan(FM_OPL_SAVESTATE_YM3526, 0, nAction, pnMin);
 	
 	if (nAction & ACB_DRIVER_DATA) {
 		SCAN_VAR(nYM3526Position);

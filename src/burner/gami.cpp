@@ -95,12 +95,12 @@ void GameInpCheckMouse()
 
 	if (bDrvOkay) {
 		if (!bRunPause) {
-//			InputSetCooperativeLevel(bMouseMapped, bAlwaysProcessKeyboardInput);
+			InputSetCooperativeLevel(bMouseMapped, bAlwaysProcessKeyboardInput);
 		} else {
-//			InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
+			InputSetCooperativeLevel(false, bAlwaysProcessKeyboardInput);
 		}
 	} else {
-		//InputSetCooperativeLevel(false, false);
+		InputSetCooperativeLevel(false, false);
 	}
 }
 
@@ -205,7 +205,7 @@ static void GameInpInitMacros()
 				nKickx3[nPlayer] |= 4;
 				nKickInputs[nPlayer][2] = i;
 			}
-
+			
 			if ((BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) == HARDWARE_SNK_NEOGEO) {
 				if (_stricmp(" Button A", bii.szName + 2) == 0) {
 					nNeogeoButtons[nPlayer][0] = i;
@@ -220,7 +220,7 @@ static void GameInpInitMacros()
 					nNeogeoButtons[nPlayer][3] = i;
 				}
 			}
-
+			
 			if ((BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) == HARDWARE_IGS_PGM) {
 				if (_stricmp(" Button 1", bii.szName + 2) == 0) {
 					nPgmButtons[nPlayer][0] = i;
@@ -286,7 +286,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -299,7 +299,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -312,7 +312,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -325,7 +325,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -338,7 +338,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -351,7 +351,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -367,7 +367,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[2] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -383,7 +383,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[2] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -435,7 +435,7 @@ static void GameInpInitMacros()
 			nMacroCount++;
 			pgi++;
 		}
-
+		
 		if (nFireButtons == 4 && (BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) == HARDWARE_IGS_PGM) {
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
@@ -449,7 +449,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -462,7 +462,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -475,7 +475,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -488,7 +488,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -501,7 +501,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -514,7 +514,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[1] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -530,7 +530,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[2] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -546,7 +546,7 @@ static void GameInpInitMacros()
 			pgi->Macro.nVal[2] = 1;
 			nMacroCount++;
 			pgi++;
-
+			
 			pgi->nInput = GIT_MACRO_AUTO;
 			pgi->nType = BIT_DIGITAL;
 			pgi->Macro.nMode = 0;
@@ -1439,7 +1439,7 @@ INT32 GameInputAutoIni(INT32 nPlayer, TCHAR* lpszFile, bool bOverWrite)
 	UINT32 i;
 
 	nAnalogSpeed = 0x0100;
-
+	
 	FILE* h = _tfopen(lpszFile, _T("rt"));
 	if (h == NULL) {
 		return 1;
@@ -1534,24 +1534,24 @@ INT32 ConfigGameLoadHardwareDefaults()
 	TCHAR *szDefaultPgmFile = _T("config/presets/pgm.ini");
 	TCHAR *szFileName = _T("");
 	INT32 nApplyHardwareDefaults = 0;
-
+	
 	INT32 nHardwareFlag = (BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK);
 
 	if (nHardwareFlag == HARDWARE_CAPCOM_CPS1 || nHardwareFlag == HARDWARE_CAPCOM_CPS1_QSOUND || nHardwareFlag == HARDWARE_CAPCOM_CPS1_GENERIC || nHardwareFlag == HARDWARE_CAPCOM_CPSCHANGER || nHardwareFlag == HARDWARE_CAPCOM_CPS2 || nHardwareFlag == HARDWARE_CAPCOM_CPS3) {
 		szFileName = szDefaultCpsFile;
 		nApplyHardwareDefaults = 1;
 	}
-
+	
 	if (nHardwareFlag == HARDWARE_SNK_NEOGEO) {
 		szFileName = szDefaultNeogeoFile;
 		nApplyHardwareDefaults = 1;
 	}
-
+	
 	if (nHardwareFlag == HARDWARE_IGS_PGM) {
 		szFileName = szDefaultPgmFile;
 		nApplyHardwareDefaults = 1;
 	}
-
+	
 	if (nApplyHardwareDefaults) {
 		for (INT32 nPlayer = 0; nPlayer < nMaxPlayers; nPlayer++) {
 			GameInputAutoIni(nPlayer, szFileName, true);

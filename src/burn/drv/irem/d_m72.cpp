@@ -9,6 +9,7 @@
 */
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "burn_ym2151.h"
 #include "vez.h"
 #include "irem_cpu.h"
@@ -39,7 +40,6 @@ static UINT8 *DrvSprRAM2;
 static UINT8 *scroll;
 
 static UINT8 *RamPrioBitmap;
-static INT16 *dacbuffer;
 
 static UINT8 *soundlatch;
 static UINT8 *video_enable;
@@ -67,7 +67,6 @@ static INT32 nCurrentCycles;
 static INT32 nCyclesDone[2];
 static INT32 nCyclesTotal[2];
 
-static INT32 ym2151_frame = 0;
 static INT32 m72_video_type = 0;
 static INT32 z80_nmi_enable = 0;
 static INT32 enable_z80_reset = 0; // only if z80 is not rom-based!
@@ -944,45 +943,12 @@ static void setvector_callback(INT32 param)
 		case Z80_CLEAR:     irqvector |= 0x20; break;
 	}
 
-	ZetSetVector(irqvector);
-	ZetSetIRQLine(0, (irqvector == 0xff) ? ZET_IRQSTATUS_NONE : ZET_IRQSTATUS_ACK);
-}
-
-static void sync_cpus()
-{
-	INT32 cycles = (INT32)((float)(VezTotalCycles() * 0.447443125));
-
-	cycles -= nCyclesDone[1];
-
-	if (cycles > 0) {
-		if (z80_reset == 0) {
-			nCyclesDone[1] += ZetRun(cycles);
-		} else {
-			nCyclesDone[1] += cycles;
-			ZetIdle(cycles);
-		}
-	}
-}
-
-static void sync_ym2151()
-{
-	if (z80_reset) return;
-
-	INT32 cycles = ((nBurnSoundLen * ZetTotalCycles()) / nCyclesTotal[1]) + 1;
-
-	if (cycles != ym2151_previous) {
-		if (cycles > nBurnSoundLen) return;
-
-		if ((INT32)nCurrentFrame != ym2151_frame) {
-			ym2151_previous = 0;
-			ym2151_frame = (INT32)nCurrentFrame;
-		}
-
-		if (cycles > 0) {
-			BurnYM2151Render(pBurnSoundOut + (ym2151_previous * 2), cycles - ym2151_previous);
-		}
-
-		ym2151_previous = cycles;
+	if (irqvector == 0xff) {
+		ZetSetIRQLine(0, ZET_IRQSTATUS_NONE);
+	} else {
+		ZetSetVector(irqvector);
+		ZetSetIRQLine(0, ZET_IRQSTATUS_ACK);
+		nCyclesDone[1] += ZetRun(1000);
 	}
 }
 
@@ -1003,7 +969,7 @@ static void palette_write(INT32 offset, INT32 offset2)
 	INT32 g = BURN_ENDIAN_SWAP_INT16(pal[offset + 0x200]) & 0x1f;
 	INT32 b = BURN_ENDIAN_SWAP_INT16(pal[offset + 0x400]) & 0x1f;
 
-	DrvPalette[offset3] = HighCol16(((r << 3) | (r >> 2)), ((g << 3) | (g >> 2)), ((b << 3) | (b >> 2)), 0);
+	DrvPalette[offset3] = BurnHighCol((r << 3) | (r >> 2), (g << 3) | (g >> 2), (b << 3) | (b >> 2), 0);
 }
 
 UINT8 __fastcall m72_main_read(UINT32 address)
@@ -1100,8 +1066,6 @@ void __fastcall m72_main_write_port(UINT32 port, UINT8 data)
 
 	//		bprintf (0, _T("%x\n"), data & 0x10);
 			if (enable_z80_reset) {
-				sync_cpus();
-				sync_ym2151();
 				if (data & 0x10) {
 					z80_reset = 0;
 				} else {
@@ -1227,7 +1191,6 @@ void __fastcall m72_sound_write_port(UINT16 port, UINT8 data)
 
 		case 0x01:
 		case 0x41: // poundfor
-			sync_ym2151();
 			BurnYM2151WriteRegister(data);
 		return;
 
@@ -1288,7 +1251,6 @@ UINT8 __fastcall m72_sound_read_port(UINT16 port)
 			return *soundlatch;
 
 		case 0x84:
-			sync_ym2151();
 			return DrvSndROM[sample_address & 0x3ffff];
 	}
 
@@ -1298,6 +1260,11 @@ UINT8 __fastcall m72_sound_read_port(UINT16 port)
 static void m72YM2151IRQHandler(INT32 nStatus)
 {
 	setvector_callback(nStatus ? YM2151_ASSERT : YM2151_CLEAR);
+}
+
+static INT32 m72SyncDAC()
+{
+	return (INT32)(float)(nBurnSoundLen * (ZetTotalCycles() / (3579545.000 / (nBurnFPS / 100.000))));
 }
 
 static INT32 DrvDoReset()
@@ -1670,7 +1637,6 @@ static INT32 MemIndex()
 	DrvSndROM	= Next; Next += 0x040000;
 
 	RamPrioBitmap	= Next; Next += nScreenWidth * nScreenHeight;
-	dacbuffer	= (INT16*)Next; Next += 284 * 2 * sizeof(INT16);
 
 	AllRam	= Next;
 
@@ -1758,7 +1724,7 @@ static INT32 DrvInit(void (*pCPUMapCallback)(), void (*pSNDMapCallback)(), INT32
 	BurnYM2151Init(3579545, 100.0);
 	YM2151SetIrqHandler(0, &m72YM2151IRQHandler);
 
-	DACInit(0, 0, 0);
+	DACInit(0, 0, 1, m72SyncDAC);
 	DACSetVolShift(0, 2); // 25% of max
 
 	DrvDoReset();
@@ -2091,9 +2057,7 @@ static void scanline_interrupts(INT32 scanline)
 			nPreviousLine = scanline + 1;
 		}
 
-		VezSetIRQLineAndVector(0, (m72_irq_base + 8)/4, VEZ_IRQSTATUS_ACK);
-		VezRun(10);
-		VezSetIRQLineAndVector(0, (m72_irq_base + 8)/4, VEZ_IRQSTATUS_NONE);
+		VezSetIRQLineAndVector(0, (m72_irq_base + 8)/4, VEZ_IRQSTATUS_AUTO);
 	}
 	else if (scanline == 256) // vblank
 	{
@@ -2102,10 +2066,7 @@ static void scanline_interrupts(INT32 scanline)
 			nPreviousLine = 0;
 		}
 
-		VezSetIRQLineAndVector(0, (m72_irq_base + 0)/4, VEZ_IRQSTATUS_ACK);
-		VezRun(10);
-		VezSetIRQLineAndVector(0, (m72_irq_base + 0)/4, VEZ_IRQSTATUS_NONE);
-
+		VezSetIRQLineAndVector(0, (m72_irq_base + 0)/4, VEZ_IRQSTATUS_AUTO);
 	}
 
 	if (nPreviousLine >= nScreenHeight) nPreviousLine = 0;
@@ -2113,6 +2074,8 @@ static void scanline_interrupts(INT32 scanline)
 
 static INT32 DrvFrame()
 {
+	INT32 nSoundBufferPos = 0;
+	
 	if (DrvReset) {
 		DrvDoReset();
 	}
@@ -2130,7 +2093,7 @@ static INT32 DrvFrame()
 	VezOpen(0);
 	ZetOpen(0);
 
-	memset (pBurnSoundOut, 0, nBurnSoundLen * 2 * sizeof(INT16));
+//	memset (pBurnSoundOut, 0, nBurnSoundLen * 2 * sizeof(INT16));
 
 	for (INT32 i = 0; i < nInterleave; i++)
 	{
@@ -2138,8 +2101,6 @@ static INT32 DrvFrame()
 
 		for (INT32 j = 0; j < 7; j++) { // increase cpu sync
 			nCyclesDone[0] += VezRun(nCurrentCycles);
-			sync_cpus();
-			sync_ym2151();
 		}
 
 		scanline_interrupts(i);	// run at hblank?
@@ -2150,9 +2111,8 @@ static INT32 DrvFrame()
 		// vertical lines are ~90% of video time, vblank is ~10%
 
 		if (z80_reset == 0) {
-			//nCyclesDone[1] += ZetRun(nCyclesTotal[1] / nInterleave);
-			sync_cpus();
-			sync_ym2151();
+			nCyclesDone[1] += ZetRun(nCyclesTotal[1] / nInterleave);
+
 			if (i & 1) {
 				if (z80_nmi_enable == Z80_FAKE_NMI) {
 					if (DrvSndROM[sample_address]) {
@@ -2162,35 +2122,28 @@ static INT32 DrvFrame()
 				} else if (z80_nmi_enable == Z80_REAL_NMI) {
 					 ZetNmi();
 				}
-
-				DACUpdate(dacbuffer + i, 1);
 			}
 		} else {
-			//nCyclesDone[1] += nCyclesTotal[1] / nInterleave;
-			sync_cpus();
-			sync_ym2151();
-			//ZetIdle(nCyclesTotal[1] / nInterleave);
+			ZetIdle(nCyclesTotal[1] / nInterleave);
 		}
-
-	//	if (i == 35 || i == 71 || i == 106 || i == 142 || i == 177 || i == 213 || i == 148 || i == 283) {
-	//		INT32 len = nBurnSoundLen / 8;
-	//		BurnYM2151Render(pBurnSoundOut + (len * 2) * (i/35), len);
-	//	}
+		
+		if (pBurnSoundOut) {
+			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
+			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
+			BurnYM2151Render(pSoundBuf, nSegmentLength);
+			nSoundBufferPos += nSegmentLength;
+		}
 	}
 
 	if (pBurnSoundOut) {
-		sync_ym2151();
-	//	memset (pBurnSoundOut, 0, nBurnSoundLen * sizeof(INT16));
-	//	BurnYM2151Render(pBurnSoundOut, nBurnSoundLen);
+		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
+		INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
 
-		float step = (142.000000) / nBurnSoundLen;
-
-		INT16 *pbuf = pBurnSoundOut;
-		for (INT32 i = 0; i < nBurnSoundLen; i++, pbuf+=2) {
-			INT32 o = (INT32)((float)(i * step));
-			pbuf[0] += dacbuffer[o * 2 + 0];
-			pbuf[1] += dacbuffer[o * 2 + 1];
+		if (nSegmentLength) {
+			BurnYM2151Render(pSoundBuf, nSegmentLength);
 		}
+
+		DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
 
 	VezClose();

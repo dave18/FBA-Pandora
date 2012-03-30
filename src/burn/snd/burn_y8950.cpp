@@ -1,6 +1,8 @@
 #include "burnint.h"
 #include "burn_sound.h"
 #include "burn_y8950.h"
+#include "sek.h"
+#include "zet.h"
 #include "m6809_intf.h"
 #include "hd6309_intf.h"
 #include "m6800_intf.h"
@@ -568,6 +570,7 @@ void BurnY8950Scan(INT32 nAction, INT32* pnMin)
 #endif
 	
 	BurnTimerScanY8950(nAction, pnMin);
+	FMOPLScan(FM_OPL_SAVESTATE_Y8950, 0, nAction, pnMin);
 	
 	if (nAction & ACB_DRIVER_DATA) {
 		SCAN_VAR(nY8950Position);

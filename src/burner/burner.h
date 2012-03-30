@@ -42,7 +42,9 @@ typedef struct tagIMAGE {
  #include "burner_xbox.h"
 #endif
 
-#include "png.h"
+#if defined (INCLUDE_LIB_PNGH)
+ #include "png.h"
+#endif
 
 // ---------------------------------------------------------------------------
 // OS independent functionality
@@ -157,10 +159,11 @@ INT32 BurnStateDecompress(UINT8* Def, INT32 nDefLen, INT32 bAll);
 // zipfn.cpp
 struct ZipEntry { char* szName;	UINT32 nLen; UINT32 nCrc; };
 
-INT32 ZipOpen(const char* szZip);
+INT32 ZipOpen(char* szZip);
 INT32 ZipClose();
 INT32 ZipGetList(struct ZipEntry** pList, INT32* pnListCount);
 INT32 ZipLoadFile(UINT8* Dest, INT32 nLen, INT32* pnWrote, INT32 nEntry);
+INT32 __cdecl ZipLoadOneFile(char* arcName, const char* fileName, void** Dest, INT32* pnWrote);
 
 // bzip.cpp
 

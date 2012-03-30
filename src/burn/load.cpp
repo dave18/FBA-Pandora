@@ -1,9 +1,6 @@
 // Burn - Rom Loading module
 #include "burnint.h"
 
-int BzipOpenBios(bool bootApp,int b);
-int BzipOpen(bool bootApp);
-
 // Load a rom and separate out the bytes by nGap
 // Dest is the memory block to insert the rom into
 static INT32 LoadRom(UINT8 *Dest, INT32 i, INT32 nGap, INT32 bXor)
@@ -39,17 +36,8 @@ static INT32 LoadRom(UINT8 *Dest, INT32 i, INT32 nGap, INT32 bXor)
 
     // Load in the file
     nRet=BurnExtLoadRom(Load,&nLoadLen,i);
-//	if (bDoIpsPatch) IpsApplyPatches(Load, RomName);
-
-    if (nRet!=0)
-    {
-        if (Load)
-        {
-            free(Load);
-            Load = NULL;
-        }
-        return 1;
-    }
+	//if (bDoIpsPatch) IpsApplyPatches(Load, RomName);
+    if (nRet!=0) { if (Load) { free(Load); Load = NULL; } return 1; }
 
     if (nLoadLen<0) nLoadLen=0;
     if (nLoadLen>nLen) nLoadLen=nLen;
@@ -76,18 +64,7 @@ static INT32 LoadRom(UINT8 *Dest, INT32 i, INT32 nGap, INT32 bXor)
   {
     // If no XOR, and gap of 1, just copy straight in
     nRet=BurnExtLoadRom(Dest,NULL,i);
-//	if (bDoIpsPatch) IpsApplyPatches(Dest, RomName);
-/*if (nRet!=0)
-    {
-        //code to try bios files
-        if (BurnDrvGetHardwareCode() &  HARDWARE_SNK_NEOGEO)
-        {
-            printf("try neogeo bios\n");
-            BzipOpenBios(false,1);
-            nRet=BurnExtLoadRom(Dest,NULL,i);
-            BzipOpen(false);
-        }
-    }*/
+	//if (bDoIpsPatch) IpsApplyPatches(Dest, RomName);
     if (nRet!=0) return 1;
   }
 

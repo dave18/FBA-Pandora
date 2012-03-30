@@ -1,6 +1,10 @@
 #ifndef _CONFIG_H_
 #define _CONFIG_H_
 
+#ifndef MAX_PATH
+#define MAX_PATH 511
+#endif
+
 typedef struct
 {
 	int option_sound_enable;

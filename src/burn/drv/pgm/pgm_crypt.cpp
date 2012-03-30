@@ -8,14 +8,14 @@ void pgm_decrypt_dw2()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i<nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x020890) == 0x000000)				      x ^= 0x0002;
 		if ((i & 0x020000) == 0x020000 && (i & 0x001500) != 0x001400) x ^= 0x0002;
 		if ((i & 0x020400) == 0x000000 && (i & 0x002010) != 0x002010) x ^= 0x0400;
 		if ((i & 0x020000) == 0x020000 && (i & 0x000148) != 0x000140) x ^= 0x0400;
 	
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -24,14 +24,14 @@ void pgm_decrypt_dw3()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x005460) == 0x001400) x ^= 0x0100;
 		if ((i & 0x005450) == 0x001040) x ^= 0x0100;
 		if ((i & 0x005e00) == 0x001c00) x ^= 0x0040;
 		if ((i & 0x005580) == 0x001100) x ^= 0x0040;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -40,14 +40,14 @@ void pgm_decrypt_killbld()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x006d00) == 0x000400) x ^= 0x0008;
 		if ((i & 0x006c80) == 0x000880) x ^= 0x0008;
 		if ((i & 0x007500) == 0x002400) x ^= 0x1000;
 		if ((i & 0x007600) == 0x003200) x ^= 0x1000;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -76,7 +76,7 @@ void pgm_decrypt_kov()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040480) != 0x000080) x ^= 0x0001;
 		if ((i & 0x004008) == 0x004008) x ^= 0x0002;
@@ -89,7 +89,7 @@ void pgm_decrypt_kov()
 
 		x ^= kov_tab[i & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -117,7 +117,7 @@ void pgm_decrypt_kovsh()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040080) != 0x000080) x ^= 0x0001;
 		if ((i & 0x004008) == 0x004008 && (i & 0x180000) != 0x000000) x ^= 0x0002;
@@ -130,7 +130,7 @@ void pgm_decrypt_kovsh()
 
 		x ^= kovsh_tab[i & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -158,7 +158,7 @@ void pgm_decrypt_kovshp()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040080) != 0x000080) x ^= 0x0001;
 		if ((i & 0x004008) == 0x004008 && (i & 0x180000) != 0x000000) x ^= 0x0002;
@@ -171,7 +171,7 @@ void pgm_decrypt_kovshp()
 
 		x ^= kovshp_tab[i & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -199,7 +199,7 @@ void pgm_decrypt_photoy2k()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x40080) != 0x00080) x ^= 0x0001;
 		if ((i & 0x84008) == 0x84008) x ^= 0x0002;
@@ -212,7 +212,7 @@ void pgm_decrypt_photoy2k()
 
 		x ^= photoy2k_tab[i & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -240,7 +240,7 @@ void pgm_decrypt_puzlstar()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x40480) != 0x00080) x ^= 0x0001;
 		if ((i & 0x00030) == 0x00010) x ^= 0x0004;
@@ -252,7 +252,7 @@ void pgm_decrypt_puzlstar()
 
 		x ^= puzlstar_tab[i & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -280,7 +280,7 @@ void pgm_decrypt_puzzli2()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 	    	if ((i & 0x040080) != 0x000080) x ^= 0x0001;
 	    	if ((i & 0x004008) == 0x004008) x ^= 0x0002;
@@ -293,7 +293,7 @@ void pgm_decrypt_puzzli2()
 
 	    	x ^= puzzli2_tab[i & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -321,7 +321,7 @@ void pgm_decrypt_oldsplus()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040480) != 0x000080) x ^= 0x0001;
 		if ((i & 0x004008) == 0x004008) x ^= 0x0002;
@@ -334,7 +334,7 @@ void pgm_decrypt_oldsplus()
 
 		x ^= oldsplus_tab[i & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -362,7 +362,7 @@ void pgm_decrypt_py2k2() // and ddp3
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040480) != 0x000080) x ^= 0x0001;
 		if ((i & 0x084008) == 0x084008) x ^= 0x0002;
@@ -375,7 +375,7 @@ void pgm_decrypt_py2k2() // and ddp3
 
 		x ^= py2k2_tab[i & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -403,7 +403,7 @@ void pgm_decrypt_ketsui()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040480) != 0x000080) x ^= 0x0001;
 		if ((i & 0x004008) == 0x004008) x ^= 0x0002;
@@ -416,7 +416,7 @@ void pgm_decrypt_ketsui()
 
 		x ^= ketsui_tab[i & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -444,7 +444,7 @@ void pgm_decrypt_espgaluda()
 	UINT16 *src = (UINT16 *)PGM68KROM;
 
 	for (INT32 i = 0; i < nPGM68KROMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040480) != 0x000080) x ^= 0x0001;
 		if ((i & 0x084008) == 0x084008) x ^= 0x0002;
@@ -457,7 +457,7 @@ void pgm_decrypt_espgaluda()
 
 		x ^= espgal_tab[i & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -466,7 +466,7 @@ void pgm_decrypt_svg()
 	UINT16 *src = (UINT16 *)PGMUSER0;
 
 	for (INT32 i = 0; i < nPGMExternalARMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040080) != 0x000080) x ^= 0x0001;
 		if ((i & 0x004008) == 0x004008) x ^= 0x0002;
@@ -477,7 +477,49 @@ void pgm_decrypt_svg()
 		if ((i & 0x011800) != 0x010000) x ^= 0x0040;
 		if ((i & 0x000820) == 0x000820) x ^= 0x0080;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
+	}
+}
+
+static const UINT8 svgpcb_tab[0x100] = { // not checked
+       0x49, 0x47, 0x53, 0x30, 0x30, 0x31, 0x37, 0x52, 0x44, 0x31, 0x30, 0x35, 0x30, 0x35, 0x30, 0x34,
+       0x75, 0x0B, 0xF1, 0x6B, 0x6D, 0xD7, 0xA8, 0xE7, 0x0C, 0xC5, 0x28, 0x81, 0x1F, 0xCF, 0x30, 0x15,
+       0xA8, 0x0D, 0xDA, 0x76, 0xF8, 0x7D, 0xD6, 0xE1, 0x0A, 0x11, 0xE3, 0xA4, 0x23, 0xFF, 0x8E, 0x0B,
+       0xA8, 0x44, 0x2F, 0x8B, 0x3F, 0x7A, 0x21, 0x32, 0x2A, 0xDC, 0x41, 0x4E, 0xE0, 0x97, 0xA9, 0x5D,
+       0xED, 0x53, 0xAE, 0x35, 0x0B, 0x02, 0x18, 0x74, 0x82, 0xE8, 0xA1, 0x2A, 0xBD, 0xEB, 0xB0, 0xC6,
+       0x2E, 0x1D, 0x56, 0x3E, 0x63, 0x87, 0x8A, 0x83, 0x69, 0x38, 0xA1, 0x24, 0x61, 0x8F, 0x11, 0x41,
+       0x61, 0xC5, 0x67, 0xB3, 0x8E, 0xBE, 0x85, 0x79, 0x77, 0x10, 0x21, 0x66, 0xB4, 0x54, 0x7B, 0x09,
+       0xBF, 0xAD, 0x5E, 0xDD, 0x12, 0x97, 0x5A, 0xB2, 0x82, 0xF3, 0x40, 0x5B, 0xDB, 0x4F, 0xDE, 0x99,
+       0xBD, 0x7A, 0xFC, 0x48, 0xB6, 0x48, 0x97, 0xC8, 0xA1, 0xA2, 0x5C, 0xAE, 0x3E, 0xD2, 0x68, 0xAC,
+       0x13, 0x0D, 0x3F, 0xBE, 0x82, 0x42, 0x0A, 0x97, 0x2C, 0x22, 0x16, 0x4B, 0x85, 0x70, 0x89, 0x3D,
+       0xB8, 0x8B, 0x66, 0x4C, 0xBD, 0x39, 0xC4, 0x39, 0xB9, 0xB6, 0x4B, 0x5C, 0x96, 0xFC, 0xEF, 0x87,
+       0xE3, 0x55, 0xF1, 0x3B, 0xED, 0x1F, 0x13, 0x0A, 0x1F, 0xDF, 0x1A, 0x4C, 0x97, 0x8A, 0x8A, 0x06,
+       0x0A, 0x0F, 0x9D, 0x17, 0xDA, 0x28, 0x85, 0xA4, 0x75, 0x63, 0xE4, 0xC6, 0xF1, 0x6B, 0x88, 0x73,
+       0xE6, 0x9C, 0x6B, 0xAA, 0x8B, 0xC7, 0xEA, 0xE3, 0x13, 0x42, 0x46, 0xB6, 0x4A, 0x34, 0x59, 0xCA,
+       0x6C, 0x1F, 0x99, 0x01, 0x46, 0xAE, 0x52, 0xE1, 0x90, 0xC1, 0x1F, 0x46, 0x89, 0xB7, 0xAB, 0x46,
+       0xD4, 0xFB, 0xA6, 0x65, 0x92, 0xD1, 0x0A, 0xFA, 0xC1, 0x63, 0x90, 0xE1, 0xD5, 0x07, 0x6D, 0x62
+};
+
+void pgm_decrypt_svgpcb()
+{
+	UINT16 *src = (UINT16 *)PGMUSER0;
+
+	for (INT32 i = 0; i < nPGMExternalARMLen/2; i++) {
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
+
+		// preliminary!
+		if ((i & 0x040080) != 0x000080) x ^= 0x0001; // ok?
+		if ((i & 0x084008) == 0x084008) x ^= 0x0002;
+		if ((i & 0x080030) == 0x080010) x ^= 0x0004;
+		if ((i & 0x000242) != 0x000042) x ^= 0x0008; // ok?
+		if ((i & 0x048100) == 0x048000) x ^= 0x0010; //
+		if ((i & 0x022004) != 0x000004) x ^= 0x0020; // ok?
+		if ((i & 0x011800) != 0x010000) x ^= 0x0040;
+		if ((i & 0x000820) == 0x000820) x ^= 0x0080;
+
+		x ^= svgpcb_tab[(i >> 1) & 0xff] << 8;
+
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -505,7 +547,7 @@ void pgm_decrypt_dfront()
 	UINT16 *src = (UINT16 *)PGMUSER0;
 
 	for (INT32 i = 0; i < nPGMExternalARMLen/2; i++) {
-	    	UINT16 x = src[i];
+	    	UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040080) != 0x000080) x ^= 0x0001;
 		if ((i & 0x104008) == 0x104008) x ^= 0x0002;
@@ -518,7 +560,7 @@ void pgm_decrypt_dfront()
 
 		x ^= dfront_tab[(i >> 1) & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -546,7 +588,7 @@ void pgm_decrypt_ddp2()
 	UINT16 *src = (UINT16 *)PGMUSER0;
 
 	for (INT32 i = 0; i < nPGMExternalARMLen/2; i++) {
-    		UINT16 x = src[i];
+    		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x0480) != 0x0080) x ^= 0x0001;
 		if ((i & 0x0042) != 0x0042) x ^= 0x0008;
@@ -557,7 +599,7 @@ void pgm_decrypt_ddp2()
 
 		x ^= ddp2_tab[(i >> 1) & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -585,7 +627,7 @@ void pgm_decrypt_martmast() // and dw2001
 	UINT16 *src = (UINT16 *)PGMUSER0;
 
 	for (INT32 i = 0; i < nPGMExternalARMLen/2; i++) {
-    		UINT16 x = src[i];
+    		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040480) != 0x000080) x ^= 0x0001;
 		if ((i & 0x004008) == 0x004008) x ^= 0x0002;
@@ -598,7 +640,7 @@ void pgm_decrypt_martmast() // and dw2001
 
 		x ^= mm_tab[(i >> 1) & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -626,7 +668,7 @@ void pgm_decrypt_kov2()
 	UINT16 *src = (UINT16 *)PGMUSER0;
 
 	for (INT32 i = 0; i < nPGMExternalARMLen/2; i++) {
-	    	UINT16 x = src[i];
+	    	UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 	    	if ((i & 0x40080) != 0x00080) x ^= 0x0001;
 	    	if ((i & 0x80030) == 0x80010) x ^= 0x0004;
@@ -638,7 +680,7 @@ void pgm_decrypt_kov2()
 
 	    	x ^= kov2_tab[(i >> 1) & 0xff] << 8;
 
-	    	src[i] = x;
+	    	src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -666,7 +708,7 @@ void pgm_decrypt_kov2p()
 	UINT16 *src = (UINT16*)PGMUSER0;
 
 	for (INT32 i = 0; i < nPGMExternalARMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
     		if ((i & 0x040080) != 0x000080) x ^= 0x0001;
 		if ((i & 0x004008) == 0x004008) x ^= 0x0002;
@@ -679,7 +721,7 @@ void pgm_decrypt_kov2p()
 
 		x ^= kov2p_tab[(i >> 1) & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -707,7 +749,7 @@ void pgm_decrypt_theglad()
 	UINT16 *src = (UINT16*)PGMUSER0;
 
 	for (INT32 i = 0; i < nPGMExternalARMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040080) != 0x000080) x ^= 0x0001;
 		if ((i & 0x104008) == 0x104008) x ^= 0x0002;
@@ -720,7 +762,7 @@ void pgm_decrypt_theglad()
 
 		x ^= theglad_tab[(i >> 1) & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -748,7 +790,7 @@ void pgm_decrypt_killbldp()
 	UINT16 *src = (UINT16*)PGMUSER0;
 
 	for (INT32 i = 0; i< nPGMExternalARMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040480) != 0x000080) x ^= 0x0001;
 		if ((i & 0x104008) == 0x104008) x ^= 0x0002;
@@ -761,7 +803,7 @@ void pgm_decrypt_killbldp()
 
 		x ^= killbldp_tab[(i >> 1) & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -789,7 +831,7 @@ void pgm_decrypt_happy6in1()
 	UINT16 *src = (UINT16*)PGMUSER0;
 
 	for (INT32 i = 0; i < nPGMExternalARMLen/2; i++) {
-		UINT16 x = src[i];
+		UINT16 x = BURN_ENDIAN_SWAP_INT16(src[i]);
 
 		if ((i & 0x040480) != 0x000080) x ^= 0x0001;
 		if ((i & 0x104008) == 0x104008) x ^= 0x0002;
@@ -802,7 +844,7 @@ void pgm_decrypt_happy6in1()
 
 		x ^= happy6in1_tab[(i >> 1) & 0xff] << 8;
 
-		src[i] = x;
+		src[i] = BURN_ENDIAN_SWAP_INT16(x);
 	}
 }
 
@@ -836,7 +878,7 @@ void pgm_decode_kovqhsgs_tile_data(UINT8 *source)
 	{
 		j = BITSWAP24(i, 23, 22, 9, 8, 21, 18, 0, 1, 2, 3, 16, 15, 14, 13, 12, 11, 10, 19, 20, 17, 7, 6, 5, 4);
 
-		dst[j] = BITSWAP16(src[i], 1, 14, 8, 7, 0, 15, 6, 9, 13, 2, 5, 10, 12, 3, 4, 11);
+		dst[j] = BURN_ENDIAN_SWAP_INT16(BITSWAP16(BURN_ENDIAN_SWAP_INT16(src[i]), 1, 14, 8, 7, 0, 15, 6, 9, 13, 2, 5, 10, 12, 3, 4, 11));
 	}
 
 	memcpy (src, dst, 0x800000);
@@ -862,7 +904,7 @@ static void pgm_decode_kovqhsgs_program()
 	{
 		j = BITSWAP24(i, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 6, 7, 5, 4, 3, 2, 1, 0);
 
-		dst[j] = BITSWAP16(src[i], 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 4, 5, 3, 2, 1, 0);
+		dst[j] = BURN_ENDIAN_SWAP_INT16(BITSWAP16(BURN_ENDIAN_SWAP_INT16(src[i]), 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 4, 5, 3, 2, 1, 0));
 	}
 
 	memcpy (src, dst, 0x400000);
@@ -892,7 +934,7 @@ static void pgm_decode_kovlsqh2_program()
 	{
 		j = BITSWAP24(i, 23, 22, 21, 20, 19, 16, 15, 14, 13, 12, 11, 10, 9, 8, 0, 1, 2, 3, 4, 5, 6, 18, 17, 7);
 
-		dst[j] = src[i];
+		dst[j] = BURN_ENDIAN_SWAP_INT16(src[i]);
 	}
 
 	memcpy (src, dst, 0x400000);

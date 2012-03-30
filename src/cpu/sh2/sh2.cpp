@@ -114,19 +114,19 @@ typedef struct
 	UINT32 	timer_cycles;
 	UINT32 	timer_base;
 	int     timer_active;
-
+	
 //	emu_timer *dma_timer[2];
 	UINT32 	dma_timer_cycles[2];
 	UINT32 	dma_timer_base[2];
 	int     dma_timer_active[2];
 
 //	int     is_slave, cpu_number;
-
+	
 	UINT32	cycle_counts;
 	UINT32	sh2_cycles_to_run;
 	INT32	sh2_icount;
 	int     sh2_total_cycles;
-
+	
 	int 	(*irq_callback)(int irqline);
 
 } SH2;
@@ -178,7 +178,7 @@ static void sh2_internal_w(UINT32 offset, UINT32 data, UINT32 mem_mask);
 #define	SH2_MAXHANDLER	(8)
 
 
-typedef struct
+typedef struct 
 {
 	SH2	sh2;
 	unsigned char * MemMap[SH2_PAGE_COUNT * 3];
@@ -188,7 +188,7 @@ typedef struct
 	pSh2WriteWordHandler WriteWord[SH2_MAXHANDLER];
 	pSh2ReadLongHandler ReadLong[SH2_MAXHANDLER];
 	pSh2WriteLongHandler WriteLong[SH2_MAXHANDLER];
-
+	
 	unsigned char * opbase;
 	int suspend;
 } SH2EXT;
@@ -209,7 +209,7 @@ static SH2EXT * Sh2Ext = NULL;
  * 0xc0000000 ~ 0xdfffffff : extend user
  * 0xe0000000 ~ 0xffffffff : internal mem
  */
-
+ 
 int Sh2MapMemory(unsigned char* pMemory, unsigned int nStart, unsigned int nEnd, int nType)
 {
 #if defined FBA_DEBUG
@@ -219,12 +219,12 @@ int Sh2MapMemory(unsigned char* pMemory, unsigned int nStart, unsigned int nEnd,
 	unsigned char* Ptr = pMemory - nStart;
 	unsigned char** pMemMap = pSh2Ext->MemMap + (nStart >> SH2_SHIFT);
 	int need_mirror = (nStart < 0x08000000) ? 1 : 0;
-
+		
 	for (unsigned long long i = (nStart & ~SH2_PAGEM); i <= nEnd; i += SH2_PAGE_SIZE, pMemMap++) {
 		if (nType & 0x01 /*SM_READ*/)  pMemMap[0] 			= Ptr + i;
 		if (nType & 0x02 /*SM_WRITE*/) pMemMap[SH2_WADD] 	= Ptr + i;
 		if (nType & 0x04 /*SM_FETCH*/) pMemMap[SH2_WADD*2]	= Ptr + i;
-
+		
 		if ( need_mirror ) {
 			if (nType & 0x01 /*SM_READ*/)  {
 				pMemMap[0 + (0x08000000 >> SH2_SHIFT)] = Ptr + i;
@@ -258,7 +258,7 @@ int Sh2MapMemory(unsigned char* pMemory, unsigned int nStart, unsigned int nEnd,
 	return 0;
 }
 
-int Sh2MapHandler(long unsigned int nHandler, unsigned int nStart, unsigned int nEnd, int nType)
+int Sh2MapHandler(uintptr_t nHandler, unsigned int nStart, unsigned int nEnd, int nType)
 {
 #if defined FBA_DEBUG
 	if (!DebugCPU_SH2Initted) bprintf(PRINT_ERROR, _T("Sh2MapHandler called without init\n"));
@@ -266,12 +266,12 @@ int Sh2MapHandler(long unsigned int nHandler, unsigned int nStart, unsigned int 
 
 	unsigned char** pMemMap = pSh2Ext->MemMap + (nStart >> SH2_SHIFT);
 	int need_mirror = (nStart < 0x08000000) ? 1 : 0;
-
+	
 	for (unsigned long long i = (nStart & ~SH2_PAGEM); i <= nEnd; i += SH2_PAGE_SIZE, pMemMap++) {
 		if (nType & 0x01 /*SM_READ*/)  pMemMap[0]		 	= (unsigned char*)nHandler;
 		if (nType & 0x02 /*SM_WRITE*/) pMemMap[SH2_WADD] 	= (unsigned char*)nHandler;
 		if (nType & 0x04 /*SM_FETCH*/) pMemMap[SH2_WADD*2]	= (unsigned char*)nHandler;
-
+		
 		if ( need_mirror ) {
 			if (nType & 0x01 /*SM_READ*/)  {
 				pMemMap[0 + (0x08000000 >> SH2_SHIFT)] = (unsigned char*)nHandler;
@@ -301,7 +301,7 @@ int Sh2MapHandler(long unsigned int nHandler, unsigned int nStart, unsigned int 
 				pMemMap[SH2_WADD*2 + (0x38000000 >> SH2_SHIFT)] = (unsigned char*)nHandler;
 			}
 		}
-
+		
 	}
 	return 0;
 }
@@ -378,35 +378,35 @@ int Sh2SetWriteLongHandler(int i, pSh2WriteLongHandler pHandler)
 	return 0;
 }
 
-unsigned char  __fastcall Sh2InnerReadByte(unsigned int a)
-{
+unsigned char  __fastcall Sh2InnerReadByte(unsigned int a) 
+{ 
 #if defined FBA_DEBUG
 	if (!DebugCPU_SH2Initted) bprintf(PRINT_ERROR, _T("Sh2InnerReadByte called without init\n"));
 #endif
 
-	return sh2_internal_r((a & 0x1fc)>>2, ~(0xff << (((~a) & 3)*8))) >> (((~a) & 3)*8);
+	return sh2_internal_r((a & 0x1fc)>>2, ~(0xff << (((~a) & 3)*8))) >> (((~a) & 3)*8); 
 }
 
-unsigned short __fastcall Sh2InnerReadWord(unsigned int a)
-{
+unsigned short __fastcall Sh2InnerReadWord(unsigned int a) 
+{ 
 #if defined FBA_DEBUG
 	if (!DebugCPU_SH2Initted) bprintf(PRINT_ERROR, _T("Sh2InnerReadWord called without init\n"));
 #endif
 
-	return sh2_internal_r((a & 0x1fc)>>2, ~(0xffff << (((~a) & 2)*8))) >> (((~a) & 2)*8);
+	return sh2_internal_r((a & 0x1fc)>>2, ~(0xffff << (((~a) & 2)*8))) >> (((~a) & 2)*8); 
 }
 
-unsigned int   __fastcall Sh2InnerReadLong(unsigned int a)
-{
+unsigned int   __fastcall Sh2InnerReadLong(unsigned int a) 
+{ 
 #if defined FBA_DEBUG
 	if (!DebugCPU_SH2Initted) bprintf(PRINT_ERROR, _T("Sh2InnerReadLong called without init\n"));
 #endif
 
-	return sh2_internal_r((a & 0x1fc)>>2, 0);
+	return sh2_internal_r((a & 0x1fc)>>2, 0); 
 }
 
-void __fastcall Sh2InnerWriteByte(unsigned int a, unsigned char d)
-{
+void __fastcall Sh2InnerWriteByte(unsigned int a, unsigned char d) 
+{ 
 #if defined FBA_DEBUG
 	if (!DebugCPU_SH2Initted) bprintf(PRINT_ERROR, _T("Sh2InnerWriteByte called without init\n"));
 #endif
@@ -415,8 +415,8 @@ void __fastcall Sh2InnerWriteByte(unsigned int a, unsigned char d)
 	sh2_internal_w((a & 0x1fc)>>2, d << (((~a) & 3)*8), ~(0xff << (((~a) & 3)*8)));
 }
 
-void __fastcall Sh2InnerWriteWord(unsigned int a, unsigned short d)
-{
+void __fastcall Sh2InnerWriteWord(unsigned int a, unsigned short d) 
+{ 
 #if defined FBA_DEBUG
 	if (!DebugCPU_SH2Initted) bprintf(PRINT_ERROR, _T("Sh2InnerWriteWord called without init\n"));
 #endif
@@ -424,8 +424,8 @@ void __fastcall Sh2InnerWriteWord(unsigned int a, unsigned short d)
 	sh2_internal_w((a & 0x1fc)>>2, d << (((~a) & 2)*8), ~(0xffff << (((~a) & 2)*8)));
 }
 
-void __fastcall Sh2InnerWriteLong(unsigned int a, unsigned int d)
-{
+void __fastcall Sh2InnerWriteLong(unsigned int a, unsigned int d) 
+{ 
 #if defined FBA_DEBUG
 	if (!DebugCPU_SH2Initted) bprintf(PRINT_ERROR, _T("Sh2InnerWriteLong called without init\n"));
 #endif
@@ -453,11 +453,37 @@ int Sh2Exit()
 		Sh2Ext = NULL;
 	}
 	pSh2Ext = NULL;
-
+	
 	DebugCPU_SH2Initted = 0;
 
 	return 0;
 }
+
+static void Sh2CheatWriteByte(UINT32 a, UINT8 d)
+{
+	Sh2WriteByte(a,d);
+}
+
+static UINT8 Sh2CheatReadByte(UINT32 a)
+{
+	return Sh2ReadByte(a);
+}
+
+static cpu_core_config Sh2CheatCpuConfig =
+{
+	Sh2Open,
+	Sh2Close,
+	Sh2CheatReadByte,
+	Sh2CheatWriteByte,
+	Sh2GetActive,
+	Sh2TotalCycles,
+	Sh2NewFrame,
+	Sh2Run,
+	Sh2StopRun,
+	Sh2Reset,
+	0xffffffff,
+	0
+};
 
 int Sh2Init(int nCount)
 {
@@ -472,8 +498,6 @@ int Sh2Init(int nCount)
 	}
 	memset(Sh2Ext, 0, sizeof(SH2EXT) * nCount);
 
-	extern void CpuCheatRegister(int,int);
-
 	// init default memory handler
 	for (int i=0; i<nCount; i++) {
 		pSh2Ext = Sh2Ext + i;
@@ -486,18 +510,18 @@ int Sh2Init(int nCount)
 		Sh2SetReadByteHandler (SH2_MAXHANDLER - 1, Sh2InnerReadByte);
 		Sh2SetReadWordHandler (SH2_MAXHANDLER - 1, Sh2InnerReadWord);
 		Sh2SetReadLongHandler (SH2_MAXHANDLER - 1, Sh2InnerReadLong);
-		Sh2SetWriteByteHandler(SH2_MAXHANDLER - 1, Sh2InnerWriteByte);
+		Sh2SetWriteByteHandler(SH2_MAXHANDLER - 1, Sh2InnerWriteByte);		
 		Sh2SetWriteWordHandler(SH2_MAXHANDLER - 1, Sh2InnerWriteWord);
 		Sh2SetWriteLongHandler(SH2_MAXHANDLER - 1, Sh2InnerWriteLong);
-
+		
 		Sh2SetReadByteHandler (SH2_MAXHANDLER - 2, Sh2EmptyReadByte);
 		Sh2SetReadWordHandler (SH2_MAXHANDLER - 2, Sh2EmptyReadWord);
 		Sh2SetReadLongHandler (SH2_MAXHANDLER - 2, Sh2EmptyReadLong);
-		Sh2SetWriteByteHandler(SH2_MAXHANDLER - 2, Sh2EmptyWriteByte);
+		Sh2SetWriteByteHandler(SH2_MAXHANDLER - 2, Sh2EmptyWriteByte);		
 		Sh2SetWriteWordHandler(SH2_MAXHANDLER - 2, Sh2EmptyWriteWord);
 		Sh2SetWriteLongHandler(SH2_MAXHANDLER - 2, Sh2EmptyWriteLong);
 
-		CpuCheatRegister(0x0002, i);
+		CpuCheatRegister(i, &Sh2CheatCpuConfig);
 	}
 
 	return 0;
@@ -540,7 +564,7 @@ void Sh2Reset(unsigned int pc, unsigned r15)
 	sh2->pc = pc;
 	sh2->r[15] = r15;
 	sh2->sr = I;
-
+	
 	change_pc(sh2->pc & AM);
 
 	sh2->internal_irq_level = -1;
@@ -550,7 +574,7 @@ void Sh2Reset(unsigned int pc, unsigned r15)
 
 unsigned char program_read_byte_32be(unsigned int /*A*/)
 {
-	return 0;
+	return 0;	
 }
 
 unsigned short program_read_word_32be(unsigned int /*A*/)
@@ -610,16 +634,16 @@ SH2_INLINE UINT8 RB(UINT32 A)
 	if (A >= 0xc0000000) return program_read_byte_32be(A);
 	if (A >= 0x40000000) return 0xa5;
 	return program_read_byte_32be(A & AM); */
-
+	
 	unsigned char * pr;
 	pr = pSh2Ext->MemMap[ A >> SH2_SHIFT ];
-	if ( (long unsigned int)pr >= SH2_MAXHANDLER ) {
+	if ( (uintptr_t)pr >= SH2_MAXHANDLER ) {
 #ifdef LSB_FIRST
 		A ^= 3;
 #endif
 		return pr[A & SH2_PAGEM];
 	}
-	return pSh2Ext->ReadByte[(long unsigned int)pr](A);
+	return pSh2Ext->ReadByte[(uintptr_t)pr](A);
 }
 
 SH2_INLINE UINT16 RW(UINT32 A)
@@ -628,17 +652,17 @@ SH2_INLINE UINT16 RW(UINT32 A)
 	if (A >= 0xc0000000) return program_read_word_32be(A);
 	if (A >= 0x40000000) return 0xa5a5;
 	return program_read_word_32be(A & AM); */
-
+	
 	unsigned char * pr;
 	pr = pSh2Ext->MemMap[ A >> SH2_SHIFT ];
-	if ( (long unsigned int)pr >= SH2_MAXHANDLER ) {
+	if ( (uintptr_t)pr >= SH2_MAXHANDLER ) {
 #ifdef LSB_FIRST
 		A ^= 2;
 #endif
 		//return (pr[A & SH2_PAGEM] << 8) | pr[(A & SH2_PAGEM) + 1];
 		return *((unsigned short *)(pr + (A & SH2_PAGEM)));
 	}
-	return pSh2Ext->ReadWord[(long unsigned int)pr](A);
+	return pSh2Ext->ReadWord[(uintptr_t)pr](A);
 }
 
 SH2_INLINE UINT16 OPRW(UINT32 A)
@@ -646,13 +670,13 @@ SH2_INLINE UINT16 OPRW(UINT32 A)
 
 	unsigned char * pr;
 	pr = pSh2Ext->MemMap[ (A >> SH2_SHIFT) + SH2_WADD * 2 ];
-	if ( (long unsigned int)pr >= SH2_MAXHANDLER ) {
+	if ( (uintptr_t)pr >= SH2_MAXHANDLER ) {
 #ifdef LSB_FIRST
 		A ^= 2;
 #endif
 		return *((unsigned short *)(pr + (A & SH2_PAGEM)));
 	}
-
+	
 	return 0x0000;
 }
 
@@ -662,14 +686,14 @@ SH2_INLINE UINT32 RL(UINT32 A)
 	if (A >= 0xc0000000) return program_read_dword_32be(A);
 	if (A >= 0x40000000) return 0xa5a5a5a5;
 	return program_read_dword_32be(A & AM);		*/
-
+	
 	unsigned char * pr;
 	pr = pSh2Ext->MemMap[ A >> SH2_SHIFT ];
-	if ( (long unsigned int)pr >= SH2_MAXHANDLER ) {
+	if ( (uintptr_t)pr >= SH2_MAXHANDLER ) {
 		//return (pr[(A & SH2_PAGEM) + 0] << 24) | (pr[(A & SH2_PAGEM) + 1] << 16) | (pr[(A & SH2_PAGEM) + 2] <<  8) | (pr[(A & SH2_PAGEM) + 3] <<  0);
 		return *((unsigned int *)(pr + (A & SH2_PAGEM)));
 	}
-	return pSh2Ext->ReadLong[(long unsigned int)pr](A);
+	return pSh2Ext->ReadLong[(uintptr_t)pr](A);
 }
 
 SH2_INLINE void WB(UINT32 A, UINT8 V)
@@ -678,17 +702,17 @@ SH2_INLINE void WB(UINT32 A, UINT8 V)
 	if (A >= 0xc0000000) { program_write_byte_32be(A,V); return; }
 	if (A >= 0x40000000) return;
 	program_write_byte_32be(A & AM,V); */
-
+	
 	unsigned char* pr;
 	pr = pSh2Ext->MemMap[(A >> SH2_SHIFT) + SH2_WADD];
-	if ((long unsigned int)pr >= SH2_MAXHANDLER) {
+	if ((uintptr_t)pr >= SH2_MAXHANDLER) {
 #ifdef LSB_FIRST
 		A ^= 3;
 #endif
 		pr[A & SH2_PAGEM] = (unsigned char)V;
 		return;
 	}
-	pSh2Ext->WriteByte[(long unsigned int)pr](A, V);
+	pSh2Ext->WriteByte[(uintptr_t)pr](A, V);
 }
 
 SH2_INLINE void WW(UINT32 A, UINT16 V)
@@ -700,14 +724,14 @@ SH2_INLINE void WW(UINT32 A, UINT16 V)
 
 	unsigned char * pr;
 	pr = pSh2Ext->MemMap[(A >> SH2_SHIFT) + SH2_WADD];
-	if ((long unsigned int)pr >= SH2_MAXHANDLER) {
+	if ((uintptr_t)pr >= SH2_MAXHANDLER) {
 #ifdef LSB_FIRST
 		A ^= 2;
 #endif
 		*((unsigned short *)(pr + (A & SH2_PAGEM))) = (unsigned short)V;
 		return;
 	}
-	pSh2Ext->WriteWord[(long unsigned int)pr](A, V);
+	pSh2Ext->WriteWord[(uintptr_t)pr](A, V);
 }
 
 SH2_INLINE void WL(UINT32 A, UINT32 V)
@@ -718,11 +742,11 @@ SH2_INLINE void WL(UINT32 A, UINT32 V)
 	program_write_dword_32be(A & AM,V); */
 	unsigned char * pr;
 	pr = pSh2Ext->MemMap[(A >> SH2_SHIFT) + SH2_WADD];
-	if ((long unsigned int)pr >= SH2_MAXHANDLER) {
+	if ((uintptr_t)pr >= SH2_MAXHANDLER) {
 		*((unsigned int *)(pr + (A & SH2_PAGEM))) = (unsigned int)V;
 		return;
 	}
-	pSh2Ext->WriteLong[(long unsigned int)pr](A, V);
+	pSh2Ext->WriteLong[(uintptr_t)pr](A, V);
 }
 
 SH2_INLINE void sh2_exception(/*const char *message,*/ int irqline)
@@ -748,7 +772,7 @@ SH2_INLINE void sh2_exception(/*const char *message,*/ int irqline)
 				//LOG(("SH-2 #%d exception #%d (external vector: $%x) after [%s]\n", cpu_getactivecpu(), irqline, vector, message));
 				//bprintf(0, _T("SH-2 exception #%d (external vector: $%x)\n"), irqline, vector);
 				vector = 64 + irqline/2;
-
+				
 			}
 			else
 			{
@@ -808,7 +832,7 @@ do {											\
 #if USE_JUMPTABLE
 
 	#include "sh2op.c"
-
+	
 #else
 
 /*  code                 cycles  t-bit
@@ -958,7 +982,7 @@ SH2_INLINE void BRA(UINT32 d)
 	{
 		UINT32 next_opcode = RW(sh2->ppc & AM);
 		//UINT32 next_opcode = OPRW(sh2->ppc & AM);
-
+		
 		/* BRA  $
          * NOP
          */
@@ -2782,14 +2806,14 @@ static void sh2_timer_activate(void)
 		if(divider) {
 			max_delta <<= divider;
 			sh2->frc_base = sh2_GetTotalCycles();
-
+			
 			//timer_adjust(sh2->timer, ATTOTIME_IN_CYCLES(max_delta, sh2->cpu_number), sh2->cpu_number, attotime_zero);
 			//bprintf(0, _T("SH2 Timer Actived %d\n"), max_delta);
-
+			
 			sh2->timer_active = 1;
 			sh2->timer_cycles = max_delta;
 			sh2->timer_base = sh2->frc_base;
-
+			
 		} else {
 //			logerror("SH2.%d: Timer event in %d cycles of external clock", sh2->cpu_number, max_delta);
 			//bprintf(0, _T("SH2.0: Timer event in %d cycles of external clock\n"), max_delta);
@@ -2881,7 +2905,7 @@ static void sh2_dmac_callback(int dma)
 	sh2->m[0x63+4*dma] |= 2;
 	sh2->dma_timer_active[dma] = 0;
 	sh2_recalc_irq();
-
+	
 //	cpuintrf_pop_context();
 }
 
@@ -2915,7 +2939,7 @@ static void sh2_dmac_check(int dma)
 			//timer_adjust(sh2->dma_timer[dma], ATTOTIME_IN_CYCLES(2*count+1, sh2->cpu_number), (sh2->cpu_number<<1)|dma, attotime_zero);
 			sh2->dma_timer_cycles[dma] = 2 * count + 1;
 			sh2->dma_timer_base[dma] = sh2_GetTotalCycles();
-
+			
 			src &= AM;
 			dst &= AM;
 
@@ -2960,10 +2984,10 @@ static void sh2_dmac_check(int dma)
 						src -= 4;
 					if(incd == 2)
 						dst -= 4;
-
+						
 					//program_write_dword_32be(dst, program_read_dword_32be(src));
 					WL(dst, RL(src));
-
+					
 					if(incs == 1)
 						src += 4;
 					if(incd == 1)
@@ -3177,7 +3201,7 @@ static UINT32 sh2_internal_r(UINT32 offset, UINT32 /*mem_mask*/)
 {
 	//  logerror("sh2_internal_r:  Read %08x (%x) @ %08x\n", 0xfffffe00+offset*4, offset, mem_mask);
 	//bprintf(0, _T("sh2_internal_r:  Read %08x (%x) @ %08x\n"), 0xfffffe00+offset*4, offset, mem_mask);
-
+	
 	switch( offset )
 	{
 	case 0x04: // TIER, FTCSR, FRC
@@ -3254,9 +3278,9 @@ int Sh2Run(int cycles)
 		}
 
 		sh2->sh2_icount--;
-
-		// timer check
-
+		
+		// timer check 
+		
 		{
 			unsigned int cy = sh2_GetTotalCycles();
 
@@ -3267,15 +3291,15 @@ int Sh2Run(int cycles)
 			if (sh2->dma_timer_active[1])
 				if ((cy - sh2->dma_timer_base[1]) >= sh2->dma_timer_cycles[1])
 					sh2_dmac_callback(1);
-
+	
 			if ( sh2->timer_active )
 				if ((cy - sh2->timer_base) >= sh2->timer_cycles)
 					sh2_timer_callback();
 		}
-
-
+		
+		
 	} while( sh2->sh2_icount > 0 );
-
+	
 	sh2->cycle_counts += cycles - (UINT32)sh2->sh2_icount;
 
 	return cycles - sh2->sh2_icount;
@@ -3291,7 +3315,7 @@ int Sh2Run(int cycles)
 
 	sh2->sh2_icount = cycles;
 	sh2->sh2_cycles_to_run = cycles;
-
+	
 	do
 	{
 
@@ -3299,7 +3323,7 @@ int Sh2Run(int cycles)
 			sh2->sh2_total_cycles += cycles;
 			sh2->sh2_icount = 0;
 			break;
-		}
+		}			
 
 		UINT16 opcode;
 
@@ -3346,9 +3370,9 @@ int Sh2Run(int cycles)
 
 		sh2->sh2_total_cycles++;
 		sh2->sh2_icount--;
-
-		// timer check
-
+		
+		// timer check 
+		
 		{
 			unsigned int cy = sh2_GetTotalCycles();
 
@@ -3360,17 +3384,17 @@ int Sh2Run(int cycles)
 			if (sh2->dma_timer_active[1])
 				if ((cy - sh2->dma_timer_base[1]) >= sh2->dma_timer_cycles[1])
 					sh2_dmac_callback(1);
-
+	
 			if ( sh2->timer_active )
 				if ((cy - sh2->timer_base) >= sh2->timer_cycles)
 					sh2_timer_callback();
 		}
-
-
+		
+		
 	} while( sh2->sh2_icount > 0 );
-
+	
 	sh2->cycle_counts += cycles - (UINT32)sh2->sh2_icount;
-
+	
 	sh2->sh2_cycles_to_run = sh2->sh2_icount;
 
 	return cycles - sh2->sh2_icount;
@@ -3486,6 +3510,11 @@ unsigned char __fastcall Sh2ReadByte(unsigned int a)
 	return RB(a);
 }
 
+void Sh2Reset()
+{
+	Sh2Reset(RL(0), RL(4));
+}
+
 #include "state.h"
 
 int Sh2Scan(int nAction)
@@ -3495,16 +3524,16 @@ int Sh2Scan(int nAction)
 #endif
 
 	if (nAction & ACB_DRIVER_DATA) {
-
+	
 		char szText[] = "SH2 #0";
 
 		for (int i = 0; i < 1 /*nCPUCount*/; i++) {
 			szText[5] = '1' + i;
 			ScanVar(& ( Sh2Ext[i].sh2 ), sizeof(SH2) - 4, szText);
-
+			
 			SCAN_VAR (Sh2Ext[i].suspend);
 			SCAN_VAR (Sh2Ext[i].opbase);
-
+			
 #if FAST_OP_FETCH
 			//	Sh2Ext[i].opbase
 			if (nAction & ACB_WRITE) {
@@ -3514,6 +3543,6 @@ int Sh2Scan(int nAction)
 		}
 
 	}
-
+	
 	return 0;
 }

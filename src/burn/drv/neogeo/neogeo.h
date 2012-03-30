@@ -1,4 +1,6 @@
 #include "burnint.h"
+#include "sek.h"
+#include "zet.h"
 
 // Uncomment the following line to make the display the full 320 pixels wide
 #define NEO_DISPLAY_OVERSCAN
@@ -78,6 +80,8 @@ extern UINT32 nNeo68KROMBank;
 extern UINT8 *NeoSpriteRAM, *NeoTextRAM;
 
 extern bool bNeoEnableGraphics;
+
+extern bool bDisableNeoWatchdog;
 
 INT32 NeoInit();
 INT32 NeoCDInit();

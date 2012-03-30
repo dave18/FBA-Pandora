@@ -13,5 +13,8 @@ built/fbasdl.ini
 built/fba2.sh
 built/omapsdl.old
 built/omapsdl_latest
+built/FBA 0.2.97.24.dat
+built/rominfo.fba
+built/zipname.fba
 makefile
 pbcopy

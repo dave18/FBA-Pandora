@@ -1,5 +1,6 @@
 // Z80 (Zed Eight-Ty) Interface
 #include "burnint.h"
+#include "zet.h"
 //#include "gp2xmemfuncs.h"
 
 #define MAX_Z80		8

@@ -22,12 +22,12 @@
 //
 
 #include "burnint.h"
+#include "zet.h"
 #include "burn_ym3812.h"
 #include "burn_ym2151.h"
 #include "burn_ym2203.h"
 #include "msm6295.h"
 #include "bitswap.h"
-#include "zet.h"
 
 int ZET_IRQSTATUS_NONE;
 int ZET_IRQSTATUS_ACK;

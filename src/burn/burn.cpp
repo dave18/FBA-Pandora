@@ -25,6 +25,8 @@ bool bBurnUseASMCPUEmulation = true;
 
 int bBurnZ80Core = 0;
 
+
+
 #if defined (FBA_DEBUG)
  clock_t starttime = 0;
 #endif
@@ -75,6 +77,7 @@ void Reinitialise()
 {
 
 }
+
 
 extern "C" INT32 BurnLibInit()
 {
@@ -144,7 +147,6 @@ INT32 BurnGetZipName(char** pszName, UINT32 i)
 	}
 
 	strcpy(szFilename, pszGameName);
-	strcat(szFilename, ".zip");
 
 	*pszName = szFilename;
 
@@ -391,7 +393,7 @@ extern "C" TCHAR* BurnDrvGetText(UINT32 i)
 
 
 // Get the ASCII text fields for the driver in ASCII format;
-extern "C" char* BurnDrvGetTextA(unsigned int i)
+extern "C" char* BurnDrvGetTextA(UINT32 i)
 {
 	switch (i) {
 		case DRV_NAME:
@@ -417,15 +419,17 @@ extern "C" char* BurnDrvGetTextA(unsigned int i)
 	}
 }
 
+#if defined (_UNICODE)
 void BurnLocalisationSetName(char *szName, TCHAR *szLongName)
 {
 	for (UINT32 i = 0; i < nBurnDrvCount; i++) {
 		nBurnDrvActive = i;
 		if (!strcmp(szName, pDriver[i]->szShortName)) {
-			pDriver[i]->szFullNameW = (wchar_t *)szLongName;
+			pDriver[i]->szFullNameW = szLongName;
 		}
 	}
 }
+#endif
 
 // Get the zip names for the driver
 extern "C" INT32 BurnDrvGetZipName(char** pszName, UINT32 i)
@@ -771,7 +775,6 @@ INT32 BurnSetRefreshRate(double dFrameRate)
 	if (!bForce60Hz) {
 		nBurnFPS = (INT32)(100.0 * dFrameRate);
 	}
-	if (nBurnFPS>5900) nBurnFPS=6000;
 
 	return 0;
 }

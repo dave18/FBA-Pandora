@@ -6,6 +6,7 @@
 
 extern char szAppBurnVer[16];
 
+
 struct NGCDGAME games[] =
 {
 // ---------------------------------------------------------------------------------------------------------------------------------------------//
@@ -128,9 +129,8 @@ void SetNeoCDTitle(TCHAR* pszTitle)
 {
 	TCHAR szText[1024] = _T("");
 	_stprintf(szText, _T(APP_TITLE) _T( " v%.20s") _T(SEPERATOR_1) _T("%s") _T(SEPERATOR_1) _T("%s"), szAppBurnVer, BurnDrvGetText(DRV_FULLNAME), pszTitle);
-	#ifdef WIN32
-	SetWindowText(hScrnWnd, szText);
-	#endif
+
+	//SetWindowText(hScrnWnd, szText);
 }
 
 NGCDGAME* game;
@@ -484,6 +484,7 @@ int GetNeoGeoCD_Identifier()
 	}
 
 	return 1;*/
+
 }
 
 int NeoCDInfo_Init()

@@ -5,6 +5,7 @@
 
 #include "burnint.h"
 #include "sekdebug.h"
+#include "sek.h"
 
 #ifdef EMU_M68K
 INT32 nSekM68KContextSize[SEK_MAX];
@@ -717,7 +718,8 @@ else
 	nSekCyclesTotal = 0;
 	nSekCyclesScanline = 0;
 
-	CpuCheatRegister(0x0000, nCount);
+	//CpuCheatRegister(0x0000, nCount);
+	//CpuCheatRegister(nCount,&SekCheatCpuConfig);
 
 	return 0;
 

@@ -13,6 +13,8 @@
  ********************************************************************************/
 
 #include "burnint.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym2151.h"
 #include "msm6295.h"
 
@@ -1572,7 +1574,7 @@ static INT32 shadfrceScan(INT32 nAction,INT32 *pnMin)
 
 struct BurnDriver BurnDrvShadfrce = {
 	"shadfrce", NULL, NULL, NULL, "1993",
-	"Shadow Force (US Version 2)\0", NULL, "Technos Japan", "misc",
+	"Shadow Force (US Version 2)\0", NULL, "Technos Japan", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
 	NULL, shadfrceRomInfo, shadfrceRomName, NULL, NULL, shadfrceInputInfo, shadfrceDIPInfo,
@@ -1582,7 +1584,7 @@ struct BurnDriver BurnDrvShadfrce = {
 
 struct BurnDriver BurnDrvShadfrcj = {
 	"shadfrcej", "shadfrce", NULL, NULL, "1993",
-	"Shadow Force (Japan Version 3)\0", NULL, "Technos Japan", "misc",
+	"Shadow Force (Japan Version 3)\0", NULL, "Technos Japan", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
 	NULL, shadfrcjRomInfo, shadfrcjRomName, NULL, NULL, shadfrceInputInfo, shadfrceDIPInfo,
@@ -1592,7 +1594,7 @@ struct BurnDriver BurnDrvShadfrcj = {
 
 struct BurnDriver BurnDrvShadfrcjv2 = {
 	"shadfrcejv2", "shadfrce", NULL, NULL, "1993",
-	"Shadow Force (Japan Version 2)\0", NULL, "Technos Japan", "misc",
+	"Shadow Force (Japan Version 2)\0", NULL, "Technos Japan", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_16BIT_ONLY | BDF_CLONE, 2, HARDWARE_TECHNOS, GBF_SCRFIGHT, 0,
 	NULL, shadfrcjv2RomInfo, shadfrcjv2RomName, NULL, NULL, shadfrceInputInfo, shadfrceDIPInfo,

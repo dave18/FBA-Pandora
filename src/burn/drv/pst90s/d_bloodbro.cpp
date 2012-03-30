@@ -3,6 +3,8 @@
 // Based on MAME driver by Carlos A. Lozano Baides and Richard Bush
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "seibusnd.h"
 
 static UINT8 *AllMem;
@@ -29,8 +31,8 @@ static UINT32 *DrvPalette;
 static UINT8 DrvRecalc;
 
 static UINT8 DrvJoy1[2];
-static UINT8 DrvJoy2[15];
-static UINT8 DrvJoy3[13];
+static UINT8 DrvJoy2[16];
+static UINT8 DrvJoy3[16];
 static UINT8 DrvDips[2];
 static UINT8 DrvReset;
 static UINT16 DrvInputs[3];
@@ -434,7 +436,7 @@ void __fastcall bloodbro_write_word(UINT32 address, UINT16 data)
 	}
 
 	if ((address & 0xfffff80) == 0xc0000) {
-		*((UINT16*)(DrvScrollRAM + (address & 0x7e))) = data;
+		*((UINT16*)(DrvScrollRAM + (address & 0x7e))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;	
 	}
 }
@@ -713,8 +715,8 @@ static void draw_layer(UINT8 *src, INT32 palette_offset, INT32 transp, INT32 scr
 
 		if (sx >= nScreenWidth || sy >= nScreenHeight) continue;
 
-		INT32 code = (vram[offs] & 0xfff) | (transp << 12);
-		INT32 color = vram[offs] >> 12;
+		INT32 code = (BURN_ENDIAN_SWAP_INT16(vram[offs]) & 0xfff) | (transp << 12);
+		INT32 color = BURN_ENDIAN_SWAP_INT16(vram[offs]) >> 12;
 
 		if (transp) {
 			Render16x16Tile_Mask_Clip(pTransDraw, code, sx, sy, color, 4, 15, palette_offset, DrvGfxROM1);
@@ -730,12 +732,12 @@ static void draw_text_layer()
 
 	for (INT32 offs = 0x40; offs < 0x3c0; offs++)
 	{
-		INT32 code = vram[offs] & 0xfff;
+		INT32 code = BURN_ENDIAN_SWAP_INT16(vram[offs]) & 0xfff;
 		if (!code) continue;
 
 		INT32 sx = (offs & 0x1f) << 3;
 		INT32 sy = (offs >> 5) << 3;
-		INT32 color = vram[offs] >> 12;
+		INT32 color = BURN_ENDIAN_SWAP_INT16(vram[offs]) >> 12;
 
 		Render8x8Tile_Mask(pTransDraw, code, sx, sy-16, color, 4, 15, 0x700, DrvGfxROM0);
 	}
@@ -747,15 +749,15 @@ static void draw_sprites(INT32 priority)
 
 	for (INT32 offs = 0x800-4; offs >= 0; offs -= 4)
 	{
-		INT32 attr = ram[offs];
+		INT32 attr = BURN_ENDIAN_SWAP_INT16(ram[offs]);
 		INT32 prio = (attr & 0x0800) >> 11;
 		if (attr & 0x8000 || prio != priority) continue;
 
 		INT32 width   = (attr >> 7) & 7;
 		INT32 height  = (attr >> 4) & 7;
-		INT32 code    = ram[offs+1] & 0x1fff;
-		INT32 sx      = ram[offs+2] & 0x01ff;
-		INT32 sy      = ram[offs+3] & 0x01ff;
+		INT32 code    = BURN_ENDIAN_SWAP_INT16(ram[offs+1]) & 0x1fff;
+		INT32 sx      = BURN_ENDIAN_SWAP_INT16(ram[offs+2]) & 0x01ff;
+		INT32 sy      = BURN_ENDIAN_SWAP_INT16(ram[offs+3]) & 0x01ff;
 		if (sx > 255) sx -= 512;
 		if (sy > 255) sy -= 512;
 		sy -= 16;
@@ -796,7 +798,7 @@ static inline void DrvRecalcPalette()
 
 	for (INT32 i = 0; i < 0x1000/2; i++)
 	{
-		INT32 data = p[i];
+		INT32 data = BURN_ENDIAN_SWAP_INT16(p[i]);
 
 		r = (data >> 0) & 0x0f;
 		g = (data >> 4) & 0x0f;
@@ -819,11 +821,11 @@ static INT32 DrvDraw()
 	UINT16 *scroll = (UINT16*)DrvScrollRAM;
 	scroll += 0x10 >> (nGameSelect & 1); // skysmash
 
-	draw_layer(DrvBgRAM, 0x400, 0, scroll[0] & 0x1ff, scroll[1] & 0x0ff);
+	draw_layer(DrvBgRAM, 0x400, 0, BURN_ENDIAN_SWAP_INT16(scroll[0]) & 0x1ff, BURN_ENDIAN_SWAP_INT16(scroll[1]) & 0x0ff);
 
 	draw_sprites(1);
 
-	draw_layer(DrvFgRAM, 0x500, 1, scroll[2] & 0x1ff, scroll[3] & 0x0ff);
+	draw_layer(DrvFgRAM, 0x500, 1, BURN_ENDIAN_SWAP_INT16(scroll[2]) & 0x1ff, BURN_ENDIAN_SWAP_INT16(scroll[3]) & 0x0ff);
 
 	draw_sprites(0);
 
@@ -925,8 +927,8 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 // Blood Bros. (set 1)
 
 static struct BurnRomInfo bloodbroRomDesc[] = {
-	{ "bb_02.bin",	0x020000, 0xc0fdc3e4, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
-	{ "bb_01.bin",	0x020000, 0x2d7e0fdf, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "2j.u021",	0x020000, 0xc0fdc3e4, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
+	{ "1j.i022",	0x020000, 0x2d7e0fdf, 1 | BRF_PRG | BRF_ESS }, //  1
 	{ "bb_04.bin",	0x020000, 0xfd951c2c, 1 | BRF_PRG | BRF_ESS }, //  2
 	{ "bb_03.bin",	0x020000, 0x18d3c460, 1 | BRF_PRG | BRF_ESS }, //  3
 

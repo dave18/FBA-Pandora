@@ -3,6 +3,8 @@
 // F1 Dream protection code by Eric Hustvedt
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym2203.h"
 #include "msm5205.h"
 
@@ -1144,7 +1146,7 @@ static INT32 TigeroadInit()
 
 struct BurnDriver BurnDrvTigeroad = {
 	"tigeroad", NULL, NULL, NULL, "1987",
-	"Tiger Road (US)\0", NULL, "Capcom (Romstar license)", "hardware",
+	"Tiger Road (US)\0", NULL, "Capcom (Romstar license)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARWARE_CAPCOM_MISC, GBF_SCRFIGHT | GBF_PLATFORM, 0,
 	NULL, tigeroadRomInfo, tigeroadRomName, NULL, NULL, TigeroadInputInfo, TigeroadDIPInfo,
@@ -1196,7 +1198,7 @@ static INT32 ToramichInit()
 
 struct BurnDriver BurnDrvToramich = {
 	"toramich", "tigeroad", NULL, NULL, "1987",
-	"Tora-he no Michi (Japan)\0", NULL, "Capcom", "hardware",
+	"Tora-he no Michi (Japan)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARWARE_CAPCOM_MISC, GBF_SCRFIGHT | GBF_PLATFORM, 0,
 	NULL, toramichRomInfo, toramichRomName, NULL, NULL, TigeroadInputInfo, ToramichDIPInfo,
@@ -1273,7 +1275,7 @@ static INT32 TigerodbInit()
 
 struct BurnDriver BurnDrvTigerodb = {
 	"tigeroadb", "tigeroad", NULL, NULL, "1987",
-	"Tiger Road (US bootleg)\0", NULL, "bootleg", "hardware",
+	"Tiger Road (US bootleg)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARWARE_CAPCOM_MISC, GBF_SCRFIGHT | GBF_PLATFORM, 0,
 	NULL, tigerodbRomInfo, tigerodbRomName, NULL, NULL, TigeroadInputInfo, TigeroadDIPInfo,
@@ -1346,7 +1348,7 @@ static INT32 F1dreamInit()
 
 struct BurnDriver BurnDrvF1dream = {
 	"f1dream", NULL, NULL, NULL, "1988",
-	"F-1 Dream\0", NULL, "Capcom (Romstar license)", "hardware",
+	"F-1 Dream\0", NULL, "Capcom (Romstar license)", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARWARE_CAPCOM_MISC, GBF_RACING, 0,
 	NULL, f1dreamRomInfo, f1dreamRomName, NULL, NULL, TigeroadInputInfo, F1dreamDIPInfo,
@@ -1419,7 +1421,7 @@ static INT32 F1dreambInit()
 
 struct BurnDriver BurnDrvF1dreamb = {
 	"f1dreamb", "f1dream", NULL, NULL, "1988",
-	"F-1 Dream (bootleg)\0", NULL, "bootleg", "hardware",
+	"F-1 Dream (bootleg)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARWARE_CAPCOM_MISC, GBF_RACING, 0,
 	NULL, f1dreambRomInfo, f1dreambRomName, NULL, NULL, TigeroadInputInfo, F1dreamDIPInfo,

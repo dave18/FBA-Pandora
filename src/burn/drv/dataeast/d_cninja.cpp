@@ -2,6 +2,8 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "h6280_intf.h"
 #include "bitswap.h"
 #include "deco16ic.h"
@@ -1082,15 +1084,15 @@ static void cninja_patch()
 
 	for (INT32 i = 0; i < 0x80000 / 2; i++)
 	{
-		if (rom[i] == 0x66ff || rom[i] == 0x67ff)
+		if (rom[i] == BURN_ENDIAN_SWAP_INT16(0x66ff) || rom[i] == BURN_ENDIAN_SWAP_INT16(0x67ff))
 		{
-			if (rom[i - 4] == 0x0c39 || rom[i - 4] == 0x0839)
+			if (rom[i - 4] == BURN_ENDIAN_SWAP_INT16(0x0c39) || rom[i - 4] == BURN_ENDIAN_SWAP_INT16(0x0839))
 			{
-				rom[i - 0] = 0x4e71;
-				rom[i - 1] = 0x4e71;
-				rom[i - 2] = 0x4e71;
-				rom[i - 3] = 0x4e71;
-				rom[i - 4] = 0x4e71;
+				rom[i - 0] = BURN_ENDIAN_SWAP_INT16(0x4e71);
+				rom[i - 1] = BURN_ENDIAN_SWAP_INT16(0x4e71);
+				rom[i - 2] = BURN_ENDIAN_SWAP_INT16(0x4e71);
+				rom[i - 3] = BURN_ENDIAN_SWAP_INT16(0x4e71);
+				rom[i - 4] = BURN_ENDIAN_SWAP_INT16(0x4e71);
 			}
 		}
 	}
@@ -1749,11 +1751,11 @@ static void cninja_draw_sprites()
 	for (INT32 offs = 0x400 - 4; offs >=0 ; offs -= 4)
 	{
 		INT32 x, y, sprite, color, multi, flipx, flipy, inc, flash, mult, pri = 0;
-		sprite = buffered_spriteram[offs + 1];
+		sprite = BURN_ENDIAN_SWAP_INT16(buffered_spriteram[offs + 1]);
 		if (!sprite)
 			continue;
 
-		x = buffered_spriteram[offs + 2];
+		x = BURN_ENDIAN_SWAP_INT16(buffered_spriteram[offs + 2]);
 
 		switch (x & 0xc000)
 		{
@@ -1763,7 +1765,7 @@ static void cninja_draw_sprites()
 			case 0xc000: pri = 0xf0 | 0xcc; break;
 		}
 
-		y = buffered_spriteram[offs];
+		y = BURN_ENDIAN_SWAP_INT16(buffered_spriteram[offs]);
 		flash = y & 0x1000;
 		if (flash && (nCurrentFrame & 1))
 			continue;
@@ -1819,7 +1821,7 @@ static void cninjabl_draw_sprites()
 	endoffs = 0x400 - 4;
 	for (offs = 0; offs < 0x400 - 4 ; offs += 4)
 	{
-		INT32 y = buffered_spriteram[offs + 1];
+		INT32 y = BURN_ENDIAN_SWAP_INT16(buffered_spriteram[offs + 1]);
 
 		if (y == 0x180)
 		{
@@ -1832,13 +1834,13 @@ static void cninjabl_draw_sprites()
 	{
 		INT32 x, y, sprite, colour, multi, fx, fy, inc, flash, mult, pri = 0;
 
-		sprite = buffered_spriteram[offs + 0];
-		y = buffered_spriteram[offs + 1];
+		sprite = BURN_ENDIAN_SWAP_INT16(buffered_spriteram[offs + 0]);
+		y = BURN_ENDIAN_SWAP_INT16(buffered_spriteram[offs + 1]);
 
 		if (!sprite)
 			continue;
 
-		x = buffered_spriteram[offs + 2];
+		x = BURN_ENDIAN_SWAP_INT16(buffered_spriteram[offs + 2]);
 
 		switch (x & 0xc000)
 		{
@@ -1928,19 +1930,19 @@ static void mutantf_draw_sprites(UINT8 *ram, UINT8 *gfx, INT32 colbank, INT32 gf
 			continue;
 		}
 
-		sx = spriteptr[offs + 1];
+		sx = BURN_ENDIAN_SWAP_INT16(spriteptr[offs + 1]);
 
-		h = (spriteptr[offs + 2] & 0xf000) >> 12;
-		w = (spriteptr[offs + 2] & 0x0f00) >>  8;
+		h = (BURN_ENDIAN_SWAP_INT16(spriteptr[offs + 2]) & 0xf000) >> 12;
+		w = (BURN_ENDIAN_SWAP_INT16(spriteptr[offs + 2]) & 0x0f00) >>  8;
 
-		sy = spriteptr[offs];
+		sy = BURN_ENDIAN_SWAP_INT16(spriteptr[offs]);
 		if ((sy & 0x2000) && (nCurrentFrame & 1))
 		{
 			offs += inc;
 			continue;
 		}
 
-		colour = (spriteptr[offs + 2] >> 0) & 0x1f;
+		colour = (BURN_ENDIAN_SWAP_INT16(spriteptr[offs + 2]) >> 0) & 0x1f;
 
 		if (gfxbank == 4)
 		{
@@ -1948,8 +1950,8 @@ static void mutantf_draw_sprites(UINT8 *ram, UINT8 *gfx, INT32 colbank, INT32 gf
 			colour &= 0xf;
 		}
 
-		fx = (spriteptr[offs + 0] & 0x4000);
-		fy = (spriteptr[offs + 0] & 0x8000);
+		fx = (BURN_ENDIAN_SWAP_INT16(spriteptr[offs + 0]) & 0x4000);
+		fy = (BURN_ENDIAN_SWAP_INT16(spriteptr[offs + 0]) & 0x8000);
 
 		if (*flipscreen)
 		{
@@ -2383,7 +2385,7 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 	struct BurnArea ba;
 	
 	if (pnMin != NULL) {
-		*pnMin = 0x029682;
+		*pnMin = 0x029722;
 	}
 
 	if (nAction & ACB_MEMORY_RAM) {
@@ -2396,14 +2398,10 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 
 	if (nAction & ACB_DRIVER_DATA) {
 		SekScan(nAction);
-	//	huc6280
+	
+		deco16SoundScan(nAction, pnMin);
 
 		deco16Scan();
-
-		BurnYM2203Scan(nAction, pnMin);
-		BurnYM2151Scan(nAction);
-		MSM6295Scan(0, nAction);
-		MSM6295Scan(1, nAction);
 
 		SCAN_VAR(scanline);
 		SCAN_VAR(irq_mask);
@@ -2411,6 +2409,41 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 
 		SCAN_VAR(DrvOkiBank);
 		DrvYM2151WritePort(0, DrvOkiBank);
+	}
+
+	return 0;
+}
+
+static INT32 StoneageScan(INT32 nAction, INT32 *pnMin)
+{
+	struct BurnArea ba;
+	
+	if (pnMin != NULL) {
+		*pnMin = 0x029722;
+	}
+
+	if (nAction & ACB_MEMORY_RAM) {
+		memset(&ba, 0, sizeof(ba));
+		ba.Data	  = AllRam;
+		ba.nLen	  = RamEnd-AllRam;
+		ba.szName = "All Ram";
+		BurnAcb(&ba);
+	}
+
+	if (nAction & ACB_DRIVER_DATA) {
+		SekScan(nAction);
+		ZetScan(nAction);
+		BurnYM2151Scan(nAction);
+		MSM6295Scan(0, nAction);
+		MSM6295Scan(1, nAction);
+	
+		deco16Scan();
+
+		SCAN_VAR(scanline);
+		SCAN_VAR(irq_mask);
+		SCAN_VAR(irq_timer);
+
+		SCAN_VAR(DrvOkiBank);
 	}
 
 	return 0;
@@ -2454,10 +2487,55 @@ STD_ROM_FN(cninja)
 
 struct BurnDriver BurnDrvCninja = {
 	"cninja", NULL, NULL, NULL, "1991",
-	"Caveman Ninja (World ver 4)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Caveman Ninja (World ver 4)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM, 0,
 	NULL, cninjaRomInfo, cninjaRomName, NULL, NULL, DrvInputInfo, CninjaDIPInfo,
+	CninjaInit, DrvExit, CninjaFrame, CninjaDraw, DrvScan, &DrvRecalc, 0x800,
+	256, 240, 4, 3
+};
+
+// Caveman Ninja (alternate)
+
+static struct BurnRomInfo cninjaaRomDesc[] = {
+	{ "1.1k",			0x020000, 0xa6c40959, 1 | BRF_PRG | BRF_ESS }, //  0 68k Code
+	{ "4.3k",			0x020000, 0x2e01d1fd, 1 | BRF_PRG | BRF_ESS }, //  1
+	{ "2.2j",			0x020000, 0x18f0527c, 1 | BRF_PRG | BRF_ESS }, //  2
+	{ "5.3j",			0x020000, 0xea4b6d53, 1 | BRF_PRG | BRF_ESS }, //  3
+	{ "gn-00.rom",		0x020000, 0x0b110b16, 1 | BRF_PRG | BRF_ESS }, //  4
+	{ "gn-03.rom",		0x020000, 0x1e28e697, 1 | BRF_PRG | BRF_ESS }, //  5
+
+	{ "gl-07.rom",		0x010000, 0xca8bef96, 2 | BRF_PRG | BRF_ESS }, //  6 Huc6280 Code
+
+	{ "gl-08.rom",		0x010000, 0x33a2b400, 3 | BRF_GRA }, 	       //  7 Characters
+	{ "gl-09.rom",		0x010000, 0x5a2d4752, 3 | BRF_GRA }, 	       //  8
+
+	{ "mag-02.rom",		0x080000, 0xde89c69a, 4 | BRF_GRA }, 	       //  9 Foreground Tiles
+ 
+	{ "mag-00.rom",		0x080000, 0xa8f05d33, 5 | BRF_GRA }, 	       // 10 Background Tiles
+	{ "mag-01.rom",		0x080000, 0x5b399eed, 5 | BRF_GRA }, 	       // 11
+
+	{ "mag-03.rom",		0x080000, 0x2220eb9f, 6 | BRF_GRA }, 	       // 12 Sprites
+	{ "mag-05.rom",		0x080000, 0x56a53254, 6 | BRF_GRA }, 	       // 13
+	{ "mag-04.rom",		0x080000, 0x144b94cc, 6 | BRF_GRA }, 	       // 14
+	{ "mag-06.rom",		0x080000, 0x82d44749, 6 | BRF_GRA }, 	       // 15
+
+	{ "gl-06.rom",		0x020000, 0xd92e519d, 7 | BRF_SND }, 	       // 16 OKI M6295 Samples 0
+
+	{ "mag-07.rom",		0x080000, 0x08eb5264, 8 | BRF_SND }, 	       // 17 OKI M6295 Samples 1
+
+	{ "mb7122h.7v",		0x000400, 0xa1267336, 0 | BRF_OPT }, 	       // 18 Unused PROMs
+};
+
+STD_ROM_PICK(cninjaa)
+STD_ROM_FN(cninjaa)
+
+struct BurnDriver BurnDrvCninjaa = {
+	"cninjaa", "cninja", NULL, NULL, "1991",
+	"Caveman Ninja (alternate)\0", NULL, "Data East Corporation", "DECO IC16",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM, 0,
+	NULL, cninjaaRomInfo, cninjaaRomName, NULL, NULL, DrvInputInfo, CninjaDIPInfo,
 	CninjaInit, DrvExit, CninjaFrame, CninjaDraw, DrvScan, &DrvRecalc, 0x800,
 	256, 240, 4, 3
 };
@@ -2500,7 +2578,7 @@ STD_ROM_FN(cninja1)
 
 struct BurnDriver BurnDrvCninja1 = {
 	"cninja1", "cninja", NULL, NULL, "1991",
-	"Caveman Ninja (World ver 1)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Caveman Ninja (World ver 1)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM, 0,
 	NULL, cninja1RomInfo, cninja1RomName, NULL, NULL, DrvInputInfo, CninjaDIPInfo,
@@ -2546,7 +2624,7 @@ STD_ROM_FN(cninjau)
 
 struct BurnDriver BurnDrvCninjau = {
 	"cninjau", "cninja", NULL, NULL, "1991",
-	"Caveman Ninja (US ver 4)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Caveman Ninja (US ver 4)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM, 0,
 	NULL, cninjauRomInfo, cninjauRomName, NULL, NULL, DrvInputInfo, CninjauDIPInfo,
@@ -2592,7 +2670,7 @@ STD_ROM_FN(joemac)
 
 struct BurnDriver BurnDrvJoemac = {
 	"joemac", "cninja", NULL, NULL, "1991",
-	"Tatakae Genshizin Joe & Mac (Japan ver 1)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Tatakae Genshizin Joe & Mac (Japan ver 1)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM, 0,
 	NULL, joemacRomInfo, joemacRomName, NULL, NULL, DrvInputInfo, CninjaDIPInfo,
@@ -2634,11 +2712,11 @@ STD_ROM_FN(stoneage)
 
 struct BurnDriver BurnDrvStoneage = {
 	"stoneage", "cninja", NULL, NULL, "1991",
-	"Stoneage (bootleg of Caveman Ninja)\0", NULL, "bootleg", "Miscellaneous",
+	"Stoneage (bootleg of Caveman Ninja)\0", NULL, "bootleg", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM, 0,
 	NULL, stoneageRomInfo, stoneageRomName, NULL, NULL, DrvInputInfo, CninjaDIPInfo,
-	StoneageInit, DrvExit, StoneageFrame, CninjaDraw, DrvScan, &DrvRecalc, 0x800,
+	StoneageInit, DrvExit, StoneageFrame, CninjaDraw, StoneageScan, &DrvRecalc, 0x800,
 	256, 240, 4, 3
 };
 
@@ -2662,11 +2740,11 @@ STD_ROM_FN(cninjabl)
 
 struct BurnDriver BurnDrvCninjabl = {
 	"cninjabl", "cninja", NULL, NULL, "1991",
-	"Caveman Ninja (bootleg)\0", NULL, "bootleg", "Miscellaneous",
+	"Caveman Ninja (bootleg)\0", NULL, "bootleg", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM, 0,
 	NULL, cninjablRomInfo, cninjablRomName, NULL, NULL, DrvInputInfo, CninjaDIPInfo,
-	CninjablInit, DrvExit, StoneageFrame, CninjablDraw, DrvScan, &DrvRecalc, 0x800,
+	CninjablInit, DrvExit, StoneageFrame, CninjablDraw, StoneageScan, &DrvRecalc, 0x800,
 	256, 240, 4, 3
 };
 
@@ -2711,7 +2789,7 @@ STD_ROM_FN(mutantf)
 
 struct BurnDriver BurnDrvMutantf = {
 	"mutantf", NULL, NULL, NULL, "1992",
-	"Mutant Fighter (World ver EM-5)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Mutant Fighter (World ver EM-5)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_DATAEAST, GBF_VSFIGHT, 0,
 	NULL, mutantfRomInfo, mutantfRomName, NULL, NULL, DrvInputInfo, MutantfDIPInfo,
@@ -2760,7 +2838,7 @@ STD_ROM_FN(mutantf4)
 
 struct BurnDriver BurnDrvMutantf4 = {
 	"mutantf4", "mutantf", NULL, NULL, "1992",
-	"Mutant Fighter (World ver EM-4)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Mutant Fighter (World ver EM-4)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_VSFIGHT, 0,
 	NULL, mutantf4RomInfo, mutantf4RomName, NULL, NULL, DrvInputInfo, MutantfDIPInfo,
@@ -2809,7 +2887,7 @@ STD_ROM_FN(mutantf3)
 
 struct BurnDriver BurnDrvMutantf3 = {
 	"mutantf3", "mutantf", NULL, NULL, "1992",
-	"Mutant Fighter (World ver EM-3)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Mutant Fighter (World ver EM-3)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_VSFIGHT, 0,
 	NULL, mutantf3RomInfo, mutantf3RomName, NULL, NULL, DrvInputInfo, MutantfDIPInfo,
@@ -2858,7 +2936,7 @@ STD_ROM_FN(deathbrd)
 
 struct BurnDriver BurnDrvDeathbrd = {
 	"deathbrd", "mutantf", NULL, NULL, "1992",
-	"Death Brade (Japan ver JM-3)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Death Brade (Japan ver JM-3)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_VSFIGHT, 0,
 	NULL, deathbrdRomInfo, deathbrdRomName, NULL, NULL, DrvInputInfo, MutantfDIPInfo,
@@ -2912,7 +2990,7 @@ STD_ROM_FN(edrandy)
 
 struct BurnDriver BurnDrvEdrandy = {
 	"edrandy", NULL, NULL, NULL, "1990",
-	"The Cliffhanger - Edward Randy (World ver 3)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"The Cliffhanger - Edward Randy (World ver 3)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, edrandyRomInfo, edrandyRomName, NULL, NULL, DrvInputInfo, EdrandyDIPInfo,
@@ -2966,7 +3044,7 @@ STD_ROM_FN(edrandy2)
 
 struct BurnDriver BurnDrvEdrandy2 = {
 	"edrandy2", "edrandy", NULL, NULL, "1990",
-	"The Cliffhanger - Edward Randy (World ver 2)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"The Cliffhanger - Edward Randy (World ver 2)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, edrandy2RomInfo, edrandy2RomName, NULL, NULL, DrvInputInfo, EdrandcDIPInfo,
@@ -3020,7 +3098,7 @@ STD_ROM_FN(edrandy1)
 
 struct BurnDriver BurnDrvEdrandy1 = {
 	"edrandy1", "edrandy", NULL, NULL, "1990",
-	"The Cliffhanger - Edward Randy (World ver 1)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"The Cliffhanger - Edward Randy (World ver 1)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, edrandy1RomInfo, edrandy1RomName, NULL, NULL, DrvInputInfo, EdrandcDIPInfo,
@@ -3074,7 +3152,7 @@ STD_ROM_FN(edrandyj)
 
 struct BurnDriver BurnDrvEdrandyj = {
 	"edrandyj", "edrandy", NULL, NULL, "1990",
-	"The Cliffhanger - Edward Randy (Japan ver 3)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"The Cliffhanger - Edward Randy (Japan ver 3)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, edrandyjRomInfo, edrandyjRomName, NULL, NULL, DrvInputInfo, EdrandcDIPInfo,
@@ -3126,7 +3204,7 @@ STD_ROM_FN(robocop2)
 
 struct BurnDriver BurnDrvRobocop2 = {
 	"robocop2", NULL, NULL, NULL, "1991",
-	"Robocop 2 (Euro/Asia v0.10)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Robocop 2 (Euro/Asia v0.10)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, robocop2RomInfo, robocop2RomName, NULL, NULL, Robocop2InputInfo, Robocop2DIPInfo,
@@ -3178,7 +3256,7 @@ STD_ROM_FN(robocop2u)
 
 struct BurnDriver BurnDrvRobocop2u = {
 	"robocop2u", "robocop2", NULL, NULL, "1991",
-	"Robocop 2 (US v0.05)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Robocop 2 (US v0.05)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, robocop2uRomInfo, robocop2uRomName, NULL, NULL, Robocop2InputInfo, Robocop2DIPInfo,
@@ -3230,7 +3308,7 @@ STD_ROM_FN(robocop2j)
 
 struct BurnDriver BurnDrvRobocop2j = {
 	"robocop2j", "robocop2", NULL, NULL, "1991",
-	"Robocop 2 (Japan v0.11)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Robocop 2 (Japan v0.11)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, robocop2jRomInfo, robocop2jRomName, NULL, NULL, Robocop2InputInfo, Robocop2DIPInfo,

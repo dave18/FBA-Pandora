@@ -2,6 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "h6280_intf.h"
 #include "deco16ic.h"
 #include "burn_ym2203.h"
@@ -285,7 +286,7 @@ static INT32 MemIndex()
 	priority	= (UINT16*)Next; Next += 0x000002 * sizeof(UINT16);
 
 	RamEnd		= Next;
-
+	
 	SoundBuffer = (INT16*)Next; Next += nBurnSoundLen * 2 * sizeof(INT16);
 
 	MemEnd		= Next;
@@ -401,7 +402,7 @@ static INT32 DrvExit()
 	deco16Exit();
 
 	SekExit();
-
+	
 	deco16SoundExit();
 
 	BurnFree (AllMem);
@@ -528,7 +529,7 @@ static INT32 DrvFrame()
 	}
 
 	{
-		memset (DrvInputs, 0xff, 2 * sizeof(INT16));
+		memset (DrvInputs, 0xff, 2 * sizeof(INT16)); 
 		for (INT32 i = 0; i < 16; i++) {
 			DrvInputs[0] ^= (DrvJoy1[i] & 1) << i;
 			DrvInputs[1] ^= (DrvJoy2[i] & 1) << i;
@@ -541,7 +542,7 @@ static INT32 DrvFrame()
 	INT32 nCyclesDone[2] = { 0, 0 };
 
 	h6280NewFrame();
-
+	
 	SekOpen(0);
 	h6280Open(0);
 
@@ -553,7 +554,7 @@ static INT32 DrvFrame()
 		nCyclesDone[1] += h6280Run(nCyclesTotal[1] / nInterleave);
 
 		if (i == 248) deco16_vblank = 0x08;
-
+		
 		INT32 nSegmentLength = nBurnSoundLen / nInterleave;
 		INT16* pSoundBuf = SoundBuffer + (nSoundBufferPos << 1);
 		deco16SoundUpdate(pSoundBuf, nSegmentLength);
@@ -561,19 +562,19 @@ static INT32 DrvFrame()
 	}
 
 	SekSetIRQLine(6, SEK_IRQSTATUS_AUTO);
-
+	
 	BurnTimerEndFrame(nCyclesTotal[1]);
 
 	if (pBurnSoundOut) {
 		BurnYM2203Update(pBurnSoundOut, nBurnSoundLen);
-
+		
 		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
 		INT16* pSoundBuf = SoundBuffer + (nSoundBufferPos << 1);
 
 		if (nSegmentLength) {
 			deco16SoundUpdate(pSoundBuf, nSegmentLength);
 		}
-
+		
 		for (INT32 i = 0; i < nBurnSoundLen; i++) {
 			pBurnSoundOut[(i << 1) + 0] += SoundBuffer[(i << 1) + 0];
 			pBurnSoundOut[(i << 1) + 1] += SoundBuffer[(i << 1) + 1];
@@ -593,9 +594,9 @@ static INT32 DrvFrame()
 static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 {
 	struct BurnArea ba;
-
+	
 	if (pnMin != NULL) {
-		*pnMin = 0x029682;
+		*pnMin = 0x029722;
 	}
 
 	if (nAction & ACB_MEMORY_RAM) {
@@ -608,7 +609,8 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 
 	if (nAction & ACB_DRIVER_DATA) {
 		SekScan(nAction);
-	//	huc6280
+	
+		deco16SoundScan(nAction, pnMin);
 
 		deco16Scan();
 	}
@@ -658,7 +660,7 @@ static INT32 VaportraInit()
 
 struct BurnDriver BurnDrvVaportra = {
 	"vaportra", NULL, NULL, NULL, "1989",
-	"Vapor Trail - Hyper Offence Formation (World revision 1)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Vapor Trail - Hyper Offence Formation (World revision 1)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_PREFIX_DATAEAST, GBF_VERSHOOT, 0,
 	NULL, vaportraRomInfo, vaportraRomName, NULL, NULL, VaportraInputInfo, VaportraDIPInfo,
@@ -693,7 +695,7 @@ static struct BurnRomInfo vaportraw3RomDesc[] = {
 	{ "fj05",			0x20000, 0x39cda2b5, 7 | BRF_SND },           // 14 OKI M6295 Samples 1
 
 	{ "fj-27.bin",		0x00200, 0x65045742, 8 | BRF_OPT },           // 15 Unknown PROMs
-
+	
 	{ "pal16l8a.6l",	0x00104, 0xee748e8f, 9 | BRF_OPT },           // 13 PLDs
 	{ "pal16l8b.13g",	0x00104, 0x6da13bda, 9 | BRF_OPT },           // 14
 	{ "pal16l8b.13h",	0x00104, 0x62a9e098, 9 | BRF_OPT },           // 15
@@ -711,7 +713,7 @@ static INT32 Vaportraw3Init()
 
 struct BurnDriver BurnDrvVaportraw3 = {
 	"vaportra3", "vaportra", NULL, NULL, "1989",
-	"Vapor Trail - Hyper Offence Formation (World revision 3)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Vapor Trail - Hyper Offence Formation (World revision 3)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_PREFIX_DATAEAST, GBF_VERSHOOT, 0,
 	NULL, vaportraw3RomInfo, vaportraw3RomName, NULL, NULL, VaportraInputInfo, VaportraDIPInfo,
@@ -756,7 +758,7 @@ STD_ROM_FN(vaportrau)
 
 struct BurnDriver BurnDrvVaportrau = {
 	"vaportrau", "vaportra", NULL, NULL, "1989",
-	"Vapor Trail - Hyper Offence Formation (US)\0", NULL, "Data East USA", "Miscellaneous",
+	"Vapor Trail - Hyper Offence Formation (US)\0", NULL, "Data East USA", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_PREFIX_DATAEAST, GBF_VERSHOOT, 0,
 	NULL, vaportrauRomInfo, vaportrauRomName, NULL, NULL, VaportraInputInfo, VaportraDIPInfo,
@@ -795,7 +797,7 @@ STD_ROM_FN(kuhga)
 
 struct BurnDriver BurnDrvKuhga = {
 	"kuhga", "vaportra", NULL, NULL, "1989",
-	"Kuhga - Operation Code 'Vapor Trail' (Japan revision 3)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Kuhga - Operation Code 'Vapor Trail' (Japan revision 3)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_PREFIX_DATAEAST, GBF_VERSHOOT, 0,
 	NULL, kuhgaRomInfo, kuhgaRomName, NULL, NULL, VaportraInputInfo, VaportraDIPInfo,

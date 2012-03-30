@@ -1,4 +1,6 @@
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym2151.h"
 #include "msm5205.h"
 
@@ -997,7 +999,7 @@ static void draw_characters()
 
 		if (sx < 64 || sx > 447) continue;
 
-		INT32 attr = fg_ram[offs];
+		INT32 attr = BURN_ENDIAN_SWAP_INT16(fg_ram[offs]);
 		INT32 code = attr & 0x3ff;
 		if (Gfx3Trans[code]) continue;
 
@@ -1044,10 +1046,10 @@ static void draw_sprites()
 
 	for (INT32 offs = 0x1000-0x20;offs >= 0;offs -= 0x20)
 	{
-		INT32 c = sf_objectram[offs];
-		INT32 attr = sf_objectram[offs+1];
-		INT32 sy = sf_objectram[offs+2];
-		INT32 sx = sf_objectram[offs+3];
+		INT32 c = BURN_ENDIAN_SWAP_INT16(sf_objectram[offs]);
+		INT32 attr = BURN_ENDIAN_SWAP_INT16(sf_objectram[offs+1]);
+		INT32 sy = BURN_ENDIAN_SWAP_INT16(sf_objectram[offs+2]);
+		INT32 sx = BURN_ENDIAN_SWAP_INT16(sf_objectram[offs+3]);
 		INT32 color = attr & 0x000f;
 		INT32 flipx = attr & 0x0100;
 		INT32 flipy = attr & 0x0200;
@@ -1409,7 +1411,7 @@ static INT32 SfInit()
 
 struct BurnDriver BurnDrvsf = {
 	"sf", NULL, NULL, NULL, "1987",
-	"Street Fighter (World)\0", NULL, "Capcom", "Misc",
+	"Street Fighter (World)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARWARE_CAPCOM_MISC, GBF_VSFIGHT, FBF_SF,
 	NULL, sfRomInfo, sfRomName, NULL, NULL, SfInputInfo, SfDIPInfo,
@@ -1486,7 +1488,7 @@ static INT32 SfusInit()
 
 struct BurnDriver BurnDrvsfu = {
 	"sfu", "sf", NULL, NULL, "1987",
-	"Street Fighter (US set 1)\0", NULL, "Capcom", "Misc",
+	"Street Fighter (US set 1)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARWARE_CAPCOM_MISC, GBF_VSFIGHT, FBF_SF,
 	NULL, sfuRomInfo, sfuRomName, NULL, NULL, SfusInputInfo, SfusDIPInfo,
@@ -1564,7 +1566,7 @@ static INT32 SfuaInit()
 
 struct BurnDriver BurnDrvsfua = {
 	"sfua", "sf", NULL, NULL, "1987",
-	"Street Fighter (US set 2)\0", NULL, "Capcom", "Misc",
+	"Street Fighter (US set 2)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARWARE_CAPCOM_MISC, GBF_VSFIGHT, FBF_SF,
 	NULL, sfuaRomInfo, sfuaRomName, NULL, NULL, SfjpInputInfo, SfusDIPInfo,
@@ -1642,7 +1644,7 @@ static INT32 SfjpInit()
 
 struct BurnDriver BurnDrvsfjp = {
 	"sfj", "sf", NULL, NULL, "1987",
-	"Street Fighter (Japan)\0", NULL, "Capcom", "Misc",
+	"Street Fighter (Japan)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARWARE_CAPCOM_MISC, GBF_VSFIGHT, FBF_SF,
 	NULL, sfjpRomInfo, sfjpRomName, NULL, NULL, SfjpInputInfo, SfusDIPInfo,
@@ -1711,7 +1713,7 @@ static INT32 SfpInit()
 
 struct BurnDriver BurnDrvsfp = {
 	"sfp", "sf", NULL, NULL, "1987",
-	"Street Fighter (Prototype)\0", NULL, "Capcom", "Misc",
+	"Street Fighter (Prototype)\0", NULL, "Capcom", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_PROTOTYPE, 2, HARWARE_CAPCOM_MISC, GBF_VSFIGHT, FBF_SF,
 	NULL, sfpRomInfo, sfpRomName, NULL, NULL, SfInputInfo, SfDIPInfo,

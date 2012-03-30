@@ -2,6 +2,10 @@
 #include "ymz280b.h"
 #include "eeprom.h"
 #include "timer.h"
+#include "config.h"
+
+extern CFG_OPTIONS config_options;
+
 
 // Battle Bakraid.
 
@@ -50,7 +54,7 @@ static struct BurnRomInfo bkraiduRomDesc[] = {
 	{ "rom6.829",     0x400000, 0x8848B4A0, BRF_SND },			 //  9 YMZ280B (AD)PCM data
 	{ "rom7.830",     0x400000, 0xD6224267, BRF_SND },			 // 10
 	{ "rom8.831",     0x400000, 0xA101DFB0, BRF_SND },			 // 11
-	
+
 	{ "eeprom-bbakraid-new.bin", 0x00200, 0x35c9275a, BRF_PRG },
 };
 
@@ -74,7 +78,7 @@ static struct BurnRomInfo bkraidjRomDesc[] = {
 	{ "rom6.829",     0x400000, 0x8848B4A0, BRF_SND },			 //  9 YMZ280B (AD)PCM data
 	{ "rom7.830",     0x400000, 0xD6224267, BRF_SND },			 // 10
 	{ "rom8.831",     0x400000, 0xA101DFB0, BRF_SND },			 // 11
-	
+
 	{ "eeprom-bbakraid.bin", 0x00200, 0x7f97d347, BRF_PRG },
 };
 
@@ -98,7 +102,7 @@ static struct BurnRomInfo bkraidujRomDesc[] = {
 	{ "rom6.829",     0x400000, 0x8848B4A0, BRF_SND },			 //  9 YMZ280B (AD)PCM data
 	{ "rom7.830",     0x400000, 0xD6224267, BRF_SND },			 // 10
 	{ "rom8.831",     0x400000, 0xA101DFB0, BRF_SND },			 // 11
-	
+
 	{ "eeprom-bbakraid-new.bin", 0x00200, 0x35c9275a, BRF_PRG },
 };
 
@@ -407,9 +411,9 @@ static INT32 LoadRoms()
 	BurnLoadRom(YMZ280BROM + 0x000000, 9, 1);
 	BurnLoadRom(YMZ280BROM + 0x400000, 10, 1);
 	BurnLoadRom(YMZ280BROM + 0x800000, 11, 1);
-	
+
 	BurnLoadRom(DefaultEEPROM, 12, 1);
-	
+
 	return 0;
 }
 
@@ -751,9 +755,9 @@ static INT32 DrvDoReset()
 	nSoundlatchAck = 0;
 
 	YMZ280BReset();
-	
+
 	nCyclesDone[0] = nCyclesDone[1] = 0;
-	
+
 	BurnTimerReset();
 	ZetOpen(0);
 	BurnTimerSetRetrig(0, 1.0 / 445.0);
@@ -794,7 +798,7 @@ static INT32 bbakraidInit()
 	}
 	memset(Mem, 0, nLen);										// blank all memory
 	MemIndex();													// Index the allocated memory
-	
+
 	// Load the roms into memory
 	if (LoadRoms()) {
 		return 1;
@@ -803,7 +807,7 @@ static INT32 bbakraidInit()
 	EEPROMInit(&eeprom_interface_93C66);
 
 		// Make sure we use Musashi
-		if (bBurnUseASMCPUEmulation) {
+		if ((bBurnUseASMCPUEmulation) && (config_options.option_forcec68k==0)) {
 #if 1 && defined FBA_DEBUG
 			bprintf(PRINT_NORMAL, _T("Switching to Musashi 68000 core\n"));
 #endif
@@ -816,7 +820,7 @@ static INT32 bbakraidInit()
 //	}
 
 	if (!EEPROMAvailable()) EEPROMFill(DefaultEEPROM, 0, 0x200);
-	
+
 	{
 		SekInit(0, 0x68000);									// Allocate 68000
 	    SekOpen(0);
@@ -951,7 +955,7 @@ static INT32 DrvFrame()
 #endif
 
 	SekOpen(0);
-	
+
 	SekSetCyclesScanline(nCyclesTotal[0] / 262);
 	nToaCyclesDisplayStart = nCyclesTotal[0] - ((nCyclesTotal[0] * (TOA_VBLANK_LINES + 240)) / 262);
 	nToaCyclesVBlankStart = nCyclesTotal[0] - ((nCyclesTotal[0] * TOA_VBLANK_LINES) / 262);
@@ -1019,7 +1023,7 @@ static INT32 DrvFrame()
 	nCyclesDone[1] = ZetTotalCycles() - nCyclesTotal[1];
 
 	SekClose();
-	
+
 	{
 		// Make sure the buffer is entirely filled.
 		if (pBurnSoundOut) {
@@ -1030,7 +1034,7 @@ static INT32 DrvFrame()
 			}
 		}
 	}
-	
+
 	ZetClose();
 
 	return 0;

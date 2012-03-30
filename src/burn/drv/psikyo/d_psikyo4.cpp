@@ -245,6 +245,7 @@ STDDIPINFO(Hotgmck)
 static void le_to_be(unsigned char * p, int size)
 {
         unsigned char c;
+
         for(int i=0; i<size; i+=4, p+=4) {
                 c = *(p+0);     *(p+0) = *(p+3);        *(p+3) = c;
                 c = *(p+1);     *(p+1) = *(p+2);        *(p+2) = c;
@@ -334,7 +335,6 @@ UINT16 __fastcall ps4_read_word(UINT32 address)
 #ifdef LSB_FIRST
 	address ^= 2;
 #endif
-
 	if (address >= 0x03000000 && address <= 0x030037ff) {
 		return *((UINT16 *)(DrvSprRAM + (address & 0x3ffe)));
 	}
@@ -449,7 +449,7 @@ void __fastcall ps4_write_byte(UINT32 address, UINT8 data)
 #ifdef LSB_FIRST
 		DrvSprRAM[(address ^ 3) & 0x3fff] = data;
 #else
-		DrvSprRAM[(address) & 0x3fff] = data;
+		DrvSprRAM((address) & 0x3fff] = data;
 #endif
 		return;
 	}
@@ -602,7 +602,7 @@ static INT32 MemIndex(INT32 gfx_len)
 
 static INT32 DrvDoReset()
 {
-	Sh2Reset( *(UINT32 *)(DrvSh2ROM + 0), *(UINT32 *)(DrvSh2ROM + 4) );
+	Sh2Reset();
 
 	memset (AllRam, 0, RamEnd - AllRam);
 
@@ -703,9 +703,9 @@ static INT32 DrvInit(INT32 (*LoadCallback)(), INT32 gfx_len)
 
 	Sh2Init(1);
 	Sh2Open(0);
-	Sh2MapMemory(DrvSh2ROM,			0x00000000, 0x000fffff, SM_ROM);
-	Sh2MapMemory(DrvSh2ROM + 0x100000,	0x02000000, 0x021fffff, SM_ROM);
-	Sh2MapMemory(DrvSh2RAM,			0x06000000, 0x060fffff, SM_RAM);
+	Sh2MapMemory(DrvSh2ROM,			0x00000000, 0x000fffff, SH2_ROM);
+	Sh2MapMemory(DrvSh2ROM + 0x100000,	0x02000000, 0x021fffff, SH2_ROM);
+	Sh2MapMemory(DrvSh2RAM,			0x06000000, 0x060fffff, SH2_RAM);
 	Sh2SetReadByteHandler (0,		ps4_read_byte);
 	Sh2SetReadWordHandler (0,		ps4_read_word);
 	Sh2SetReadLongHandler (0,		ps4_read_long);
@@ -713,7 +713,7 @@ static INT32 DrvInit(INT32 (*LoadCallback)(), INT32 gfx_len)
 	Sh2SetWriteWordHandler(0,		ps4_write_word);
 	Sh2SetWriteLongHandler(0,		ps4_write_long);
 
-	Sh2MapHandler(1, 0x06000000 | speedhack_address, 0x0600ffff | speedhack_address, SM_ROM);
+	Sh2MapHandler(1, 0x06000000 | speedhack_address, 0x0600ffff | speedhack_address, SH2_ROM);
 	Sh2SetReadByteHandler (1,		ps4hack_read_byte);
 	Sh2SetReadWordHandler (1,		ps4hack_read_word);
 	Sh2SetReadLongHandler (1,		ps4hack_read_long);

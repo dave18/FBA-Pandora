@@ -97,10 +97,6 @@ extern INT32 (__cdecl *BurnExtCartridgeSetupCallback)(BurnCartrigeCommand nComma
 // Application-defined colour conversion function
 extern UINT32 (__cdecl *BurnHighCol) (INT32 r, INT32 g, INT32 b, INT32 i);
 
-#define HighCol16(r,g,b,i) ((r<<8)&0xf800)|((g<<3)&0x07e0)|(b>>3)
-#define HighCol15(r,g,b,i) ((r<<7)&0x7c00)||((g<<2)&0x03e0)|(b>>3)
-
-
 // ---------------------------------------------------------------------------
 
 extern UINT32 nCurrentFrame;
@@ -236,9 +232,8 @@ void BurnLocalisationSetName(char *szName, TCHAR *szLongName);
 
 // ---------------------------------------------------------------------------
 // Retrieve driver information
-#ifndef DRV_NAME
+
 #define DRV_NAME		 (0)
-#endif
 #define DRV_DATE		 (1)
 #define DRV_FULLNAME	 (2)
 //#define DRV_MEDIUMNAME	 (3)
@@ -254,7 +249,7 @@ void BurnLocalisationSetName(char *szName, TCHAR *szLongName);
 #define DRV_UNICODEONLY	 (1 << 13)
 
 TCHAR* BurnDrvGetText(UINT32 i);
-char* BurnDrvGetTextA(unsigned int i);
+char* BurnDrvGetTextA(UINT32 i);
 
 INT32 BurnDrvGetZipName(char** pszName, UINT32 i);
 INT32 BurnDrvGetRomInfo(struct BurnRomInfo *pri, UINT32 i);

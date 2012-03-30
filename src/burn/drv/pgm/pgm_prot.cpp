@@ -560,7 +560,7 @@ static void IGS022_do_dma(UINT16 src, UINT16 dst, UINT16 size, UINT16 mode)
 		{
 			for (INT32 x = 0; x < size; x++)
 			{
-				UINT16 dat2 = PROTROM[src + x];
+				UINT16 dat2 = BURN_ENDIAN_SWAP_INT16(PROTROM[src + x]);
 
 				UINT8 extraoffset = param & 0xfe;
 				UINT8* dectable = (UINT8 *)PROTROM;
@@ -573,10 +573,10 @@ static void IGS022_do_dma(UINT16 src, UINT16 dst, UINT16 size, UINT16 mode)
 				if (mode==2) dat2 += extraxor;
 				if (mode==1) dat2 -= extraxor;
 
-				sharedprotram[dst + x] = dat2;
+				sharedprotram[dst + x] = BURN_ENDIAN_SWAP_INT16(dat2);
 			}
 
-			if ((mode==3) && (param==0x54) && (src*2==0x2120) && (dst*2==0x2600)) sharedprotram[0x2600 / 2] = 0x4e75; // hack
+			if ((mode==3) && (param==0x54) && (src*2==0x2120) && (dst*2==0x2600)) sharedprotram[0x2600 / 2] = BURN_ENDIAN_SWAP_INT16(0x4e75); // hack
 		}
 		break;
 
@@ -610,12 +610,12 @@ static void IGS022_do_dma(UINT16 src, UINT16 dst, UINT16 size, UINT16 mode)
 
 static void IGS022_handle_command()
 {
-	UINT16 cmd = sharedprotram[0x200/2];
+	UINT16 cmd = BURN_ENDIAN_SWAP_INT16(sharedprotram[0x200/2]);
 
 	if (cmd == 0x6d) // Store values to asic ram
 	{
-		UINT32 p1 = (sharedprotram[0x298/2] << 16) | sharedprotram[0x29a/2];
-		UINT32 p2 = (sharedprotram[0x29c/2] << 16) | sharedprotram[0x29e/2];
+		UINT32 p1 = BURN_ENDIAN_SWAP_INT16((sharedprotram[0x298/2] << 16)) | BURN_ENDIAN_SWAP_INT16(sharedprotram[0x29a/2]);
+		UINT32 p2 = BURN_ENDIAN_SWAP_INT16((sharedprotram[0x29c/2] << 16)) | BURN_ENDIAN_SWAP_INT16(sharedprotram[0x29e/2]);
 
 		if ((p2 & 0xffff) == 0x9)	// Set value
 		{
@@ -638,17 +638,17 @@ static void IGS022_handle_command()
 		if ((p2 & 0xffff) == 0xa)	// Get value
 		{
 			INT32 reg = (p1 >> 16) & 0x00ff;
-			sharedprotram[0x29c/2] = (kb_regs[reg] >> 16) & 0xffff;
-			sharedprotram[0x29e/2] = (kb_regs[reg] >>  0) & 0xffff;
+			sharedprotram[0x29c/2] = BURN_ENDIAN_SWAP_INT16((kb_regs[reg] >> 16) & 0xffff);
+			sharedprotram[0x29e/2] = BURN_ENDIAN_SWAP_INT16((kb_regs[reg] >>  0) & 0xffff);
 		}
 	}
 
 	if (cmd == 0x4f) // memcpy with encryption / scrambling
 	{
-		UINT16 src  = sharedprotram[0x290 / 2] >> 1; // ?
-		UINT16 dst  = sharedprotram[0x292 / 2];
-		UINT16 size = sharedprotram[0x294 / 2];
-		UINT16 mode = sharedprotram[0x296 / 2];
+		UINT16 src  = BURN_ENDIAN_SWAP_INT16(sharedprotram[0x290 / 2]) >> 1; // ?
+		UINT16 dst  = BURN_ENDIAN_SWAP_INT16(sharedprotram[0x292 / 2]);
+		UINT16 size = BURN_ENDIAN_SWAP_INT16(sharedprotram[0x294 / 2]);
+		UINT16 mode = BURN_ENDIAN_SWAP_INT16(sharedprotram[0x296 / 2]);
 
 		IGS022_do_dma(src, dst, size, mode);
 	}
@@ -1143,27 +1143,50 @@ static inline void pgm_cpu_sync()
 	}
 }
 
-static void __fastcall asic27a_write_byte(UINT32 /*address*/, UINT8 /*data*/)
+static void __fastcall asic27a_write_byte(UINT32 address, UINT8 data)
 {
+#if 0
+	if ((address & 0xff0000) == 0xd00000) {
+		//pgm_cpu_sync();
+		PGMARMShareRAM[(address & 0xffff)^1] = data;
+		return;
+	}
+#endif
 
+	if ((address & 0xfffffe) == 0xd10000) {	// ddp2
+		pgm_cpu_sync();
+		asic27a_to_arm = data;
+		Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_ASSERT_LINE);
+		return;
+	}
 }
 
 static void __fastcall asic27a_write_word(UINT32 address, UINT16 data)
 {
+#if 0
+	if ((address & 0xff0000) == 0xd00000) {
+		//pgm_cpu_sync();
+		*((UINT16*)(PGMARMShareRAM + (address & 0xfffe))) = BURN_ENDIAN_SWAP_INT16(data);
+		return;
+	}
+#endif
+
 	if ((address & 0xfffffe) == 0xd10000) {
-	//	pgm_cpu_sync();
+		pgm_cpu_sync();
 		asic27a_to_arm = data & 0xff;
-		Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_HOLD_LINE);
+		Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_ASSERT_LINE);
 		return;
 	}
 }
 
 static UINT8 __fastcall asic27a_read_byte(UINT32 address)
 {
+#if 0
 	if ((address & 0xff0000) == 0xd00000) {
-		pgm_cpu_sync();
+		//pgm_cpu_sync();
 		return PGMARMShareRAM[(address & 0xffff)^1];
 	}
+#endif
 
 	if ((address & 0xfffffc) == 0xd10000) {
 		pgm_cpu_sync();
@@ -1175,10 +1198,12 @@ static UINT8 __fastcall asic27a_read_byte(UINT32 address)
 
 static UINT16 __fastcall asic27a_read_word(UINT32 address)
 {
+#if 0
 	if ((address & 0xff0000) == 0xd00000) {
-		pgm_cpu_sync();
-		return *((UINT16*)(PGMARMShareRAM + (address & 0xfffe)));
+		//pgm_cpu_sync();
+		return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(PGMARMShareRAM + (address & 0xfffe))));
 	}
+#endif
 
 	if ((address & 0xfffffc) == 0xd10000) {
 		pgm_cpu_sync();
@@ -1203,6 +1228,7 @@ static UINT8 asic27a_arm7_read_byte(UINT32 address)
 	switch (address)
 	{
 		case 0x38000000:
+			Arm7SetIRQLine(ARM7_FIRQ_LINE, ARM7_CLEAR_LINE);
 			return asic27a_to_arm;
 	}
 
@@ -1216,15 +1242,13 @@ void install_protection_asic27a_martmast()
 
 	SekOpen(0);
 
-	SekMapMemory(PGMARMShareRAM,	0xd00000, 0xd0ffff, SM_FETCH | SM_WRITE);
+	SekMapMemory(PGMARMShareRAM,	0xd00000, 0xd0ffff, SM_RAM);
 
-	SekMapHandler(4,		0xd00000, 0xd10003, SM_READ);
-	SekMapHandler(5,		0xd10000, 0xd10003, SM_WRITE);
-
+	SekMapHandler(4,		0xd10000, 0xd10003, SM_READ | SM_WRITE);
 	SekSetReadWordHandler(4, asic27a_read_word);
 	SekSetReadByteHandler(4, asic27a_read_byte);
-	SekSetWriteWordHandler(5, asic27a_write_word);
-	SekSetWriteByteHandler(5, asic27a_write_byte);
+	SekSetWriteWordHandler(4, asic27a_write_word);
+	SekSetWriteByteHandler(4, asic27a_write_byte);
 	SekClose();
 
 	Arm7Init(1);
@@ -1269,7 +1293,7 @@ static void __fastcall kovsh_asic27a_write_word(UINT32 address, UINT16 data)
 static UINT16 __fastcall kovsh_asic27a_read_word(UINT32 address)
 {
 	if ((address & 0xffffc0) == 0x4f0000) {
-		return *((UINT16*)(PGMARMShareRAM + (address & 0x3e)));
+		return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(PGMARMShareRAM + (address & 0x3e))));
 	}
 
 	switch (address)
@@ -1292,7 +1316,7 @@ static void kovsh_asic27a_arm7_write_word(UINT32 address, UINT16 data)
 {
 	// written... but never read?
 	if ((address & 0xffffff80) == 0x50800000) {
-		*((UINT16*)(PGMARMShareRAM + ((address>>1) & 0x3e))) = data;
+		*((UINT16*)(PGMARMShareRAM + ((address>>1) & 0x3e))) = BURN_ENDIAN_SWAP_INT16(data);
 		return;
 	}
 }
@@ -1495,7 +1519,7 @@ static UINT16 __fastcall olds_mainram_read_word(UINT32 address)
 {
 	if (SekGetPC(-1) >= 0x100000 && address != 0x8178d8) SekWriteWord(0x8178f4, SekReadWord(0x8178D8));
 
-	return *((UINT16*)(PGM68KRAM + (address & 0x1fffe)));
+	return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(PGM68KRAM + (address & 0x1fffe))));
 }
 
 static UINT8 __fastcall olds_mainram_read_byte(UINT32 address)
@@ -1532,7 +1556,7 @@ void install_protection_asic25_asic28_olds()
 		UINT16 *gptr = (UINT16*)(PGMUSER0 + 0x10000);
 
 		for(INT32 i = 0; i < 0x4000 / 2; i++) {
-			if (gptr[i] == (0xffff - i)) gptr[i] = 0x4e75;
+			if (gptr[i] == (0xffff - i)) gptr[i] = BURN_ENDIAN_SWAP_INT16(0x4e75);
 		}
 	}
 
@@ -2022,7 +2046,7 @@ static void __fastcall svg_write_word(UINT32 address, UINT16 data)
 	pgm_cpu_sync();
 
 	if ((address & 0xffe0000) == 0x0500000) {
-		*((UINT16*)(svg_ram[svg_ram_sel^1] + (address & 0x1fffe))) = data;
+		*((UINT16*)(svg_ram[svg_ram_sel^1] + (address & 0x1fffe))) = BURN_ENDIAN_SWAP_INT16(data);
 		
 		return;
 	}
@@ -2063,7 +2087,7 @@ static UINT16 __fastcall svg_read_word(UINT32 address)
 	if ((address & 0xffe0000) == 0x0500000) {
 		pgm_cpu_sync();
 
-		return *((UINT16*)(svg_ram[svg_ram_sel^1] + (address & 0x1fffe)));
+		return BURN_ENDIAN_SWAP_INT16(*((UINT16*)(svg_ram[svg_ram_sel^1] + (address & 0x1fffe))));
 	}
 
 	switch (address)
@@ -2561,86 +2585,4 @@ INT32 ddp3Scan(INT32 nAction, INT32 *)
 	}
 
 	return 0;
-}
-
-//-------------------------------------------------------------------------------------------
-// ddp2 - preliminary (kludgy)
-
-static INT32 ddp2_asic27_0xd10000 = 0;
-
-static void __fastcall Ddp2WriteByte(UINT32 address, UINT8 data)
-{
-	if ((address & 0xffe000) == 0xd00000) {
-		PGMUSER0[(address & 0x1fff)^1] = data;
-		*((UINT16*)(PGMUSER0 + 0x0010)) = 0;
-		*((UINT16*)(PGMUSER0 + 0x0020)) = 1;
-		return;
-	}
-
-	if ((address & 0xffffffe) == 0xd10000) {
-		ddp2_asic27_0xd10000=data;
-		return;
-	}
-}
-
-static void __fastcall Ddp2WriteWord(UINT32 address, UINT16 data)
-{
-	if ((address & 0xffe000) == 0xd00000) {
-		*((UINT16*)(PGMUSER0 + (address & 0x1ffe))) = data;
-		*((UINT16*)(PGMUSER0 + 0x0010)) = 0;
-		*((UINT16*)(PGMUSER0 + 0x0020)) = 1;
-		return;
-	}
-
-	if ((address & 0xffffffe) == 0xd10000) {
-		ddp2_asic27_0xd10000=data;
-		return;
-	}
-}
-
-static UINT8 __fastcall Ddp2ReadByte(UINT32 address)
-{
-	if ((address & 0xfffffe) == 0xd10000) {
-		ddp2_asic27_0xd10000++;
-		ddp2_asic27_0xd10000&=0x7f;
-		return ddp2_asic27_0xd10000;
-	}
-
-	if ((address & 0xffe000) == 0xd00000) {
-		*((UINT16*)(PGMUSER0 + 0x0002)) = PgmInput[7]; // region
-		*((UINT16*)(PGMUSER0 + 0x1f00)) = 0;
-		return PGMUSER0[(address & 0x1fff)^1];
-	}
-
-	return 0;
-}
-
-static UINT16 __fastcall Ddp2ReadWord(UINT32 address)
-{
-	if ((address & 0xfffffe) == 0xd10000) {
-		ddp2_asic27_0xd10000++;
-		ddp2_asic27_0xd10000&=0x7f;
-		return ddp2_asic27_0xd10000;
-	}
-
-	if ((address & 0xffe000) == 0xd00000) {
-		*((UINT16*)(PGMUSER0 + 0x0002)) = PgmInput[7]; // region
-		*((UINT16*)(PGMUSER0 + 0x1f00)) = 0;
-      		return *((UINT16*)(PGMUSER0 + (address & 0x1ffe)));
-	}
-
-	return 0;
-}
-
-void install_protection_asic27a_ddp2()
-{
-	memset (PGMUSER0, 0, 0x2000);
-
-	SekOpen(0);
-	SekMapHandler(4,             0xd00000, 0xd1ffff, SM_READ | SM_WRITE);
-	SekSetReadWordHandler(4,    Ddp2ReadWord);
-	SekSetReadByteHandler(4,    Ddp2ReadByte);
-	SekSetWriteWordHandler(4,    Ddp2WriteWord);
-	SekSetWriteByteHandler(4,    Ddp2WriteByte);
-	SekClose();
 }

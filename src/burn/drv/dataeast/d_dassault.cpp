@@ -2,6 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "h6280_intf.h"
 #include "bitswap.h"
 #include "deco16ic.h"
@@ -923,7 +924,7 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 	struct BurnArea ba;
 	
 	if (pnMin != NULL) {
-		*pnMin = 0x029682;
+		*pnMin = 0x029722;
 	}
 
 	if (nAction & ACB_MEMORY_RAM) {
@@ -936,14 +937,10 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 
 	if (nAction & ACB_DRIVER_DATA) {
 		SekScan(nAction);
-	//	huc6280
+	
+		deco16SoundScan(nAction, pnMin);
 
 		deco16Scan();
-
-		BurnYM2203Scan(nAction, pnMin);
-		BurnYM2151Scan(nAction);
-		MSM6295Scan(0, nAction);
-		MSM6295Scan(1, nAction);
 
 		SCAN_VAR(DrvOkiBank);
 		DrvYM2151WritePort(0, DrvOkiBank);
@@ -1012,7 +1009,7 @@ STD_ROM_FN(thndzone)
 
 struct BurnDriver BurnDrvThndzone = {
 	"thndzone", NULL, NULL, NULL, "1991",
-	"Thunder Zone (World)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Thunder Zone (World)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 4, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, thndzoneRomInfo, thndzoneRomName, NULL, NULL, ThndzoneInputInfo, ThndzoneDIPInfo,
@@ -1080,7 +1077,7 @@ STD_ROM_FN(dassault)
 
 struct BurnDriver BurnDrvDassault = {
 	"dassault", "thndzone", NULL, NULL, "1991",
-	"Desert Assault (US)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Desert Assault (US)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, dassaultRomInfo, dassaultRomName, NULL, NULL, ThndzoneInputInfo, DassaultDIPInfo,
@@ -1148,7 +1145,7 @@ STD_ROM_FN(dassault4)
 
 struct BurnDriver BurnDrvDassault4 = {
 	"dassault4", "thndzone", NULL, NULL, "1991",
-	"Desert Assault (US 4 Players)\0", NULL, "Data East Corporation", "Miscellaneous",
+	"Desert Assault (US 4 Players)\0", NULL, "Data East Corporation", "DECO IC16",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 4, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, dassault4RomInfo, dassault4RomName, NULL, NULL, ThndzoneInputInfo, Dassault4DIPInfo,

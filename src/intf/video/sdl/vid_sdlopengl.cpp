@@ -3,33 +3,33 @@
 #include "vid_support.h"
 #include "vid_softfx.h"
 
-#include <GLES/gl.h>
-//#include <GL/glu.h>
-#include <GLES/glext.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <GL/glext.h>
 
 #ifdef frame_timer
 #include <sys/time.h>
 #endif
-
+ 
 static int nInitedSubsytems = 0;
 
 static int nGamesWidth = 0, nGamesHeight = 0;			// screen size
 
 static SDL_Surface* screen=NULL;
 static unsigned char* texture = NULL;
-static unsigned char* gamescreen=NULL;
-
+static unsigned char* gamescreen=NULL; 
+  
 static GLint color_type = GL_RGB;
 static GLint texture_type= GL_UNSIGNED_BYTE;
-
+  
 static int nTextureWidth=512;
 static int nTextureHeight=512;
-
+   
 static int nSize;
 static int nUseBlitter;
 
 static int nRotateGame = 0;
-unsigned int g_Texture[1];
+unsigned int g_Texture[1];  
 
 static int PrimClear()
 {
@@ -86,7 +86,7 @@ static int BlitFXInit()
 	nBurnPitch=nVidImagePitch;
 
 	texture = (unsigned char*)malloc(nTextureWidth*nTextureHeight*nVidImageBPP);
-
+	
 	if (gamescreen) {
 		memset(gamescreen, 0, nMemLen);
 		pVidImage = gamescreen + nVidImagePitch;
@@ -111,6 +111,50 @@ static int Exit()
 	return 0;
 }
 
+void init_gl()
+{
+	const unsigned char * glVersion;
+	int isGL12=GL_FALSE;
+	printf("opengl config\n");
+
+ 	if ((BurnDrvGetFlags() & BDF_16BIT_ONLY)||(nVidImageBPP!=3))
+	{
+		texture_type= GL_UNSIGNED_SHORT_5_6_5_REV;
+	}
+	else
+	{
+		texture_type=GL_UNSIGNED_BYTE;
+	}
+
+    	glShadeModel (GL_FLAT);
+    	glDisable (GL_POLYGON_SMOOTH);
+    	glDisable (GL_LINE_SMOOTH);
+    	glDisable (GL_POINT_SMOOTH);
+  	glDisable(GL_BLEND); 
+	glDisable(GL_DEPTH_TEST);
+  	glDepthMask(GL_FALSE);
+  	glDisable(GL_CULL_FACE);
+	glEnable(GL_TEXTURE_2D);
+  	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  	glTexParameterf(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  	glTexImage2D(GL_TEXTURE_2D, 0, nVidImageBPP, nTextureWidth, nTextureHeight, 0,GL_RGB, texture_type, texture);
+	
+	glMatrixMode(GL_PROJECTION);
+  	glLoadIdentity();
+	if (!nRotateGame)
+	{
+		glRotatef(0.0, 0.0, 0.0, 1.0);
+	 	glOrtho(0, nGamesWidth, nGamesHeight, 0, -1,1);
+	}
+	else
+	{
+		glRotatef(90.0, 0.0, 0.0, 1.0);
+	 	glOrtho(0, nGamesHeight, nGamesWidth, 0, -1,5);
+	}
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	printf("opengl config done . . . \n");
+}
 
 int VidSScaleImage(RECT* pRect)
 {
@@ -134,7 +178,7 @@ int VidSScaleImage(RECT* pRect)
 
 	nScrnWidth =nGameAspectX;
 	nScrnHeight = nGameAspectY;
-
+	
 	int nWidthScratch;
 	nWidthScratch = nHeight * nVidScrnAspectY * nGameAspectX * nScrnWidth / (nScrnHeight * nVidScrnAspectX * nGameAspectY);
 		if (nWidthScratch > nWidth) {			// The image is too wide
@@ -164,42 +208,42 @@ static int Init()
 	if (!(nInitedSubsytems & SDL_INIT_VIDEO)) {
 		SDL_InitSubSystem(SDL_INIT_VIDEO);
 	}
-	nGamesWidth = nVidImageWidth;
+	nGamesWidth = nVidImageWidth; 
 	nGamesHeight = nVidImageHeight;
 
 	nRotateGame = 0;
-	if (bDrvOkay)
+	if (bDrvOkay) 
 	{
 		// Get the game screen size
 		BurnDrvGetVisibleSize(&nGamesWidth, &nGamesHeight);
 
-	    	if (BurnDrvGetFlags() & BDF_ORIENTATION_VERTICAL)
+	    	if (BurnDrvGetFlags() & BDF_ORIENTATION_VERTICAL) 
 		{
-			if (nVidRotationAdjust & 1)
+			if (nVidRotationAdjust & 1) 
 			{
 				int n = nGamesWidth;
 				nGamesWidth = nGamesHeight;
 				nGamesHeight = n;
 				nRotateGame |= (nVidRotationAdjust & 2);
-			}
-			else
+			} 
+			else 
 			{
 				nRotateGame |= 1;
 			}
 		}
 
-		if (BurnDrvGetFlags() & BDF_ORIENTATION_FLIPPED)
+		if (BurnDrvGetFlags() & BDF_ORIENTATION_FLIPPED) 
 		{
 			nRotateGame ^= 2;
 		}
 	}
-
+	
 	if(!nRotateGame)
 	{
 		nTextureWidth=GetTextureSize(nGamesWidth);
 		nTextureHeight=GetTextureSize(nGamesHeight);
 	}else
-	{
+	{	
 		nTextureWidth=GetTextureSize(nGamesHeight);
 		nTextureHeight=GetTextureSize(nGamesWidth);
 	}
@@ -220,6 +264,7 @@ static int Init()
 	// Initialize the buffer surfaces
 	BlitFXInit();
 	//Init opengl
+	init_gl();
 	return 0;
 }
 
@@ -231,16 +276,16 @@ static int Frame(bool bRedraw)						// bRedraw = 0
 		return 1;
 	}
 
-	if (bDrvOkay)
+	if (bDrvOkay) 
 	{
-		if (bRedraw)
+		if (bRedraw) 
 		{								// Redraw current frame
-			if (BurnDrvRedraw())
+			if (BurnDrvRedraw()) 
 			{
 				BurnDrvFrame();						// No redraw function provided, advance one frame
 			}
-		}
-		else
+		} 
+		else 
 		{
 			BurnDrvFrame();							// Run one frame and draw the screen
 		}
@@ -254,15 +299,15 @@ void SurfToTex()
 	unsigned char* Surf = (unsigned char*)gamescreen;
 	int nPitch = nVidImagePitch;
 	//printf("nvidImagePitch %d\n",nVidImagePitch);
-
+	
 	unsigned char* VidSurf = (unsigned char*)texture;
 	int nVidPitch = nTextureWidth*nVidImageBPP;
-
+	
 	unsigned char *pd, *ps;
-
+	
 	int nHeight = nGamesHeight;
 	pd = VidSurf; ps = Surf;
-	for (int y = 0; y < nHeight; y++, pd += nVidPitch, ps += nPitch)
+	for (int y = 0; y < nHeight; y++, pd += nVidPitch, ps += nPitch) 
 	{
 		memcpy(pd, ps, nPitch);
 	}
@@ -271,7 +316,7 @@ void SurfToTex()
 
 void TexToQuad()
 {
-	/*glBegin(GL_QUADS);
+	glBegin(GL_QUADS);
    	glTexCoord2f(0,0);
 	glVertex2i(0,0);
     glTexCoord2f(0,1);
@@ -281,7 +326,7 @@ void TexToQuad()
 	glTexCoord2f(1,0);
 	glVertex2i(nTextureWidth,0);
 	glEnd();
-	glFinish();*/
+	glFinish();
  }
 
 
@@ -292,11 +337,11 @@ static int Paint(int bValidate)
 	timeval start , end;
         time_t sec;
         suseconds_t usec;
-	gettimeofday(&start,NULL);
+	gettimeofday(&start,NULL); 
 #endif
 	SurfToTex();
 	TexToQuad();
-	SDL_GL_SwapBuffers();
+	SDL_GL_SwapBuffers();  
 
 #ifdef frame_timer
 	gettimeofday(&end,NULL);

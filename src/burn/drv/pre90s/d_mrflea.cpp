@@ -2,6 +2,7 @@
 // Based on MAME driver by Phil Stroffolino
 
 #include "burnint.h"
+#include "zet.h"
 #include "bitswap.h"
 #include "driver.h"
 extern "C" {
@@ -634,7 +635,7 @@ STD_ROM_FN(mrflea)
 
 struct BurnDriver BurnDrvmrflea = {
 	"mrflea", NULL, NULL, NULL, "1982",
-	"The Amazing Adventures of Mr. F. Lea\0", NULL, "Pacific Novelty", "misc",
+	"The Amazing Adventures of Mr. F. Lea\0", NULL, "Pacific Novelty", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 1, HARDWARE_MISC_PRE90S, GBF_PLATFORM, 0,
 	NULL, mrfleaRomInfo, mrfleaRomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,

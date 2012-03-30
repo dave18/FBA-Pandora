@@ -1,9 +1,9 @@
 #include "burner.h"
-//#include <shlobj.h>
+#include <shlobj.h>
 
-//static HWND hTabControl 	= NULL;
+static HWND hTabControl 	= NULL;
 static int nInitTabSelect 	= 0;
-//static HWND hParent			= NULL;
+static HWND hParent			= NULL;
 
 TCHAR szAppPreviewsPath[MAX_PATH]	= _T("support/previews/");
 TCHAR szAppTitlesPath[MAX_PATH]		= _T("support/titles/");
@@ -28,10 +28,10 @@ static void IconsDirPathChanged() {
 		// load icons
 		LoadDrvIcons();
 		bIconsLoaded = 1;
-	}
+	}	
 }
 
-/*static INT_PTR CALLBACK DefInpProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DefInpProc(HWND hDlg, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	int var;
 
@@ -50,18 +50,18 @@ static void IconsDirPathChanged() {
 			// Setup the tabs
 			hTabControl = GetDlgItem(hDlg, IDC_SPATH_TAB);
 
-			TC_ITEM tcItem;
+			TC_ITEM tcItem; 
 			tcItem.mask = TCIF_TEXT;
 
 			UINT idsString[9] = { IDS_SPATH_PREVIEW, IDS_SPATH_TITLES, IDS_SPATH_ICONS, IDS_SPATH_CHEATS, IDS_SPATH_HISCORE, IDS_SPATH_SAMPLES, IDS_SPATH_IPS, IDS_SPATH_NGCD_ISOS, IDS_SPATH_NGCD_COVERS };
-
+			
 			for(int nIndex = 0; nIndex < 9; nIndex++) {
 				tcItem.pszText = FBALoadStringEx(hAppInst, idsString[nIndex], true);
 				TabCtrl_InsertItem(hTabControl, nIndex, &tcItem);
 			}
 
 			int TabPage = TabCtrl_GetCurSel(hTabControl);
-
+			
 			// hide all controls excluding the selected controls
 			for(int x = 0; x < 9; x++) {
 				if(x != TabPage) {
@@ -76,7 +76,7 @@ static void IconsDirPathChanged() {
 
 			WndInMid(hDlg, hParent);
 			SetFocus(hDlg);											// Enable Esc=close
-
+			
 			if (nInitTabSelect) {
 				SendMessage(hTabControl, TCM_SETCURSEL, nInitTabSelect, 0);
 				// hide all controls excluding the selected controls
@@ -90,7 +90,7 @@ static void IconsDirPathChanged() {
 					}
 				}
 			}
-
+				
 			break;
 		}
 
@@ -101,7 +101,7 @@ static void IconsDirPathChanged() {
 			if (pNmHdr->code == TCN_SELCHANGE) {
 
 				int TabPage = TabCtrl_GetCurSel(hTabControl);
-
+				
 				// hide all controls excluding the selected controls
 				for(int x = 0; x < 9; x++) {
 					if(x != TabPage) {
@@ -113,7 +113,7 @@ static void IconsDirPathChanged() {
 				// Show the proper controls
 				ShowWindow(GetDlgItem(hDlg, IDC_SUPPORTDIR_BR1 + TabPage), SW_SHOW);		// browse buttons
 				ShowWindow(GetDlgItem(hDlg, IDC_SUPPORTDIR_EDIT1 + TabPage), SW_SHOW);		// edit controls
-
+				
 				UpdateWindow(hDlg);
 
 				return FALSE;
@@ -126,7 +126,7 @@ static void IconsDirPathChanged() {
 			BROWSEINFO bInfo;
 			ITEMIDLIST* pItemIDList = NULL;
 			TCHAR buffer[MAX_PATH];
-
+			
 			if (LOWORD(wParam) == IDOK) {
 				GetDlgItemText(hDlg, IDC_SUPPORTDIR_EDIT1, szAppPreviewsPath,	sizeof(szAppPreviewsPath));
 				GetDlgItemText(hDlg, IDC_SUPPORTDIR_EDIT2, szAppTitlesPath,		sizeof(szAppTitlesPath));
@@ -150,7 +150,7 @@ static void IconsDirPathChanged() {
 					break;
 				}
 			}
-
+			
 			SHGetMalloc(&pMalloc);
 
 			memset(&bInfo, 0, sizeof(bInfo));
@@ -175,10 +175,10 @@ static void IconsDirPathChanged() {
 				pMalloc->Free(pItemIDList);
 			}
 			pMalloc->Release();
-
+			
 			break;
 		}
-
+		
 		case WM_CLOSE: {
 			EndDialog(hDlg, 0);
 			// If Icons directory path has been changed do the proper action
@@ -190,24 +190,24 @@ static void IconsDirPathChanged() {
 	}
 
 	return 0;
-}*/
+}
 
-/*int SupportDirCreate(HWND hParentWND)
+int SupportDirCreate(HWND hParentWND)
 {
 	hParent = hParentWND;
-
+	
 	_stprintf(szCheckIconsPath, szAppIconsPath);
-
+	
 	return FBADialogBox(hAppInst, MAKEINTRESOURCE(IDD_SUPPORTDIR), hParentWND, (DLGPROC)DefInpProc);
 }
 
 int SupportDirCreateTab(int nTab, HWND hParentWND)
 {
 	nInitTabSelect = nTab - IDC_SUPPORTDIR_EDIT1;
-
+	
 	hParent = hParentWND;
-
+	
 	_stprintf(szCheckIconsPath, szAppIconsPath);
-
+	
 	return FBADialogBox(hAppInst, MAKEINTRESOURCE(IDD_SUPPORTDIR), hParentWND, (DLGPROC)DefInpProc);
 }

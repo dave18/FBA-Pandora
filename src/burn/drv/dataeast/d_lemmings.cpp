@@ -2,6 +2,7 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "burn_ym2151.h"
 #include "m6809_intf.h"
 #include "msm6295.h"
@@ -710,7 +711,7 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 	struct BurnArea ba;
 	
 	if (pnMin != NULL) {
-		*pnMin = 0x029682;
+		*pnMin = 0x029722;
 	}
 
 	if (nAction & ACB_MEMORY_RAM) {
@@ -726,6 +727,9 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 
 		BurnYM2151Scan(nAction);
 		MSM6295Scan(0, nAction);
+		
+		SCAN_VAR(FakeTrackBallX);
+		SCAN_VAR(FakeTrackBallY);
 	}
 
 	return 0;

@@ -7,6 +7,12 @@
 #ifndef HARDWARE_CAPCOM_CPS3_NO_CD
 	#define HARDWARE_CAPCOM_CPS3_NO_CD	HARDWARE_CAPCOM_CPS3
 #endif
+/*
+#ifndef FASTCALL
+    #undef __fastcall
+    #define __fastcall
+#endif
+*/
 
 extern UINT8 cps3_reset;
 extern UINT8 cps3_palette_change;
@@ -28,7 +34,7 @@ INT32 cps3Exit();
 INT32 cps3Frame();
 INT32 cps3Scan(INT32 nAction,INT32 *pnMin);
 
-// sound 
+// sound
 
 UINT8 __fastcall cps3SndReadByte(UINT32 addr);
 UINT16 __fastcall cps3SndReadWord(UINT32 addr);

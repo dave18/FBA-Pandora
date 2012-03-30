@@ -25,6 +25,11 @@ extern int ZET_IRQSTATUS_AUTO;
  #include "davez80.h"
 #endif
 
+#ifndef FASTCALL
+    #undef __fastcall
+    #define __fastcall
+#endif
+
 #include "z80.h"
 
 extern int nHasZet;

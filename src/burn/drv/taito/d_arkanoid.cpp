@@ -2,6 +2,7 @@
 // Based on MAME driver by Brad Oliver and MANY others.
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "taito_m68705.h"
 #include "driver.h"
 extern "C" {
@@ -947,7 +948,7 @@ static void DrvPaletteInit()
 		bit3 = (DrvColPROM[i + len * 2] >> 3) & 0x01;
 		b = 0x0e * bit0 + 0x1f * bit1 + 0x43 * bit2 + 0x8f * bit3;
 
-		DrvPalette[i] = HighCol16(r, g, b, 0);
+		DrvPalette[i] = BurnHighCol(r, g, b, 0);
 	}
 }
 

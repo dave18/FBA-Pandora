@@ -1,10 +1,11 @@
 #include "toaplan.h"
 #include "config.h"
 
+extern CFG_OPTIONS config_options;
+
+
 #define REFRESHRATE 60
 #define VBLANK_LINES (32)
-
-extern CFG_OPTIONS config_options;
 
 static UINT8 *AllMem;
 static UINT8 *MemEnd;

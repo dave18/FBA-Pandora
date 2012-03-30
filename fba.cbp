@@ -112,6 +112,7 @@
 			<Add directory="src/intf/video/scalers" />
 			<Add directory="src" />
 			<Add directory="src/cpu/davez80" />
+			<Add directory="src/burn/drv/pce" />
 		</Compiler>
 		<Linker>
 			<Add library="SDL_image" />
@@ -210,6 +211,7 @@
 		<Unit filename="src/burn/drv/cps3/cps3snd.cpp" />
 		<Unit filename="src/burn/drv/cps3/d_cps3.cpp" />
 		<Unit filename="src/burn/drv/d_parent.cpp" />
+		<Unit filename="src/burn/drv/dataeast/d_actfancr.cpp" />
 		<Unit filename="src/burn/drv/dataeast/d_backfire.cpp" />
 		<Unit filename="src/burn/drv/dataeast/d_boogwing.cpp" />
 		<Unit filename="src/burn/drv/dataeast/d_cbuster.cpp" />
@@ -222,6 +224,7 @@
 		<Unit filename="src/burn/drv/dataeast/d_funkyjet.cpp" />
 		<Unit filename="src/burn/drv/dataeast/d_karnov.cpp" />
 		<Unit filename="src/burn/drv/dataeast/d_lemmings.cpp" />
+		<Unit filename="src/burn/drv/dataeast/d_pktgaldx.cpp" />
 		<Unit filename="src/burn/drv/dataeast/d_rohga.cpp" />
 		<Unit filename="src/burn/drv/dataeast/d_sidepckt.cpp" />
 		<Unit filename="src/burn/drv/dataeast/d_simpl156.cpp" />
@@ -297,6 +300,8 @@
 		<Unit filename="src/burn/drv/neogeo/neo_upd4990a.cpp" />
 		<Unit filename="src/burn/drv/neogeo/neogeo.cpp" />
 		<Unit filename="src/burn/drv/neogeo/neogeo.h" />
+		<Unit filename="src/burn/drv/pce/d_pce.cpp" />
+		<Unit filename="src/burn/drv/pce/pce.cpp" />
 		<Unit filename="src/burn/drv/pgm/d_pgm.cpp" />
 		<Unit filename="src/burn/drv/pgm/pgm.h" />
 		<Unit filename="src/burn/drv/pgm/pgm_crypt.cpp" />
@@ -343,13 +348,13 @@
 		<Unit filename="src/burn/drv/pre90s/d_meijinsn.cpp" />
 		<Unit filename="src/burn/drv/pre90s/d_mitchell.cpp" />
 		<Unit filename="src/burn/drv/pre90s/d_mole.cpp" />
+		<Unit filename="src/burn/drv/pre90s/d_momoko.cpp" />
 		<Unit filename="src/burn/drv/pre90s/d_mrdo.cpp" />
 		<Unit filename="src/burn/drv/pre90s/d_mrflea.cpp" />
 		<Unit filename="src/burn/drv/pre90s/d_mystston.cpp" />
 		<Unit filename="src/burn/drv/pre90s/d_pac2650.cpp" />
 		<Unit filename="src/burn/drv/pre90s/d_pacland.cpp" />
 		<Unit filename="src/burn/drv/pre90s/d_pacman.cpp" />
-		<Unit filename="src/burn/drv/pre90s/d_pce.cpp" />
 		<Unit filename="src/burn/drv/pre90s/d_pkunwar.cpp" />
 		<Unit filename="src/burn/drv/pre90s/d_prehisle.cpp" />
 		<Unit filename="src/burn/drv/pre90s/d_quizo.cpp" />
@@ -419,6 +424,7 @@
 		<Unit filename="src/burn/drv/pst90s/d_gaelco.cpp" />
 		<Unit filename="src/burn/drv/pst90s/d_gaiden.cpp" />
 		<Unit filename="src/burn/drv/pst90s/d_galpanic.cpp" />
+		<Unit filename="src/burn/drv/pst90s/d_galspnbl.cpp" />
 		<Unit filename="src/burn/drv/pst90s/d_gotcha.cpp" />
 		<Unit filename="src/burn/drv/pst90s/d_gumbo.cpp" />
 		<Unit filename="src/burn/drv/pst90s/d_hyperpac.cpp" />
@@ -434,7 +440,6 @@
 		<Unit filename="src/burn/drv/pst90s/d_ohmygod.cpp" />
 		<Unit filename="src/burn/drv/pst90s/d_pass.cpp" />
 		<Unit filename="src/burn/drv/pst90s/d_pirates.cpp" />
-		<Unit filename="src/burn/drv/pst90s/d_pktgaldx.cpp" />
 		<Unit filename="src/burn/drv/pst90s/d_powerins.cpp" />
 		<Unit filename="src/burn/drv/pst90s/d_pushman.cpp" />
 		<Unit filename="src/burn/drv/pst90s/d_raiden.cpp" />
@@ -668,9 +673,7 @@
 		<Unit filename="src/burn/version.h" />
 		<Unit filename="src/burner/burner.h" />
 		<Unit filename="src/burner/conc.cpp" />
-		<Unit filename="src/burner/cong.cpp" />
 		<Unit filename="src/burner/dat.cpp" />
-		<Unit filename="src/burner/gamc.cpp" />
 		<Unit filename="src/burner/image.cpp" />
 		<Unit filename="src/burner/ioapi.c">
 			<Option compilerVar="CC" />

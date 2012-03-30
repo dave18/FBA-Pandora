@@ -9,7 +9,6 @@ static char szPlay[4][4]={"p1 ", "p2 ", "p3 ", "p4 "};
 // Configure the misc game controls
 INT32 GamcMisc(struct GameInp* pgi, char* szi, INT32 nPlayer)
 {
-    /*
 	switch (nPlayer) {
 		case 0:
 			// Set general controls according to Player 1 settings
@@ -41,133 +40,133 @@ INT32 GamcMisc(struct GameInp* pgi, char* szi, INT32 nPlayer)
 				KEY(FBK_T);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "op menu" ) == 0) {
 				KEY(FBK_F1);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "clear credit" ) == 0) {
 				KEY(FBK_G);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "hopper" ) == 0) {
 				KEY(FBK_H);
 				return 0;
 			}
-
+			
 			// Mahjong controls
 			if (strcmp(szi, "mah a") == 0) {
 				KEY(FBK_A);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah b") == 0) {
 				KEY(FBK_B);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah c") == 0) {
 				KEY(FBK_C);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah d") == 0) {
 				KEY(FBK_D);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah e") == 0) {
 				KEY(FBK_E);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah f") == 0) {
 				KEY(FBK_F);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah g") == 0) {
 				KEY(FBK_G);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah h") == 0) {
 				KEY(FBK_H);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah i") == 0) {
 				KEY(FBK_I);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah j") == 0) {
 				KEY(FBK_J);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah k") == 0) {
 				KEY(FBK_K);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah l") == 0) {
 				KEY(FBK_L);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah m") == 0) {
 				KEY(FBK_M);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah n") == 0) {
 				KEY(FBK_N);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah kan") == 0) {
 				KEY(FBK_LCONTROL);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah pon") == 0) {
 				KEY(FBK_LALT);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah chi") == 0) {
 				KEY(FBK_SPACE);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah reach") == 0) {
 				KEY(FBK_LSHIFT);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah ron") == 0) {
 				KEY(FBK_Z);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah ff") == 0) {
 				KEY(FBK_Y);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah lc") == 0) {
 				KEY(FBK_RALT);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah bet") == 0) {
 				KEY(FBK_2);
 				return 0;
 			}
-
+			
 			if (strcmp(szi, "mah score") == 0) {
 				KEY(FBK_RCONTROL);
 				return 0;
@@ -246,13 +245,12 @@ INT32 GamcMisc(struct GameInp* pgi, char* szi, INT32 nPlayer)
 			return 0;
 		}
 	}
-*/
+
 	return 0;
 }
 
 static void SetSliderKey(struct GameInp* pgi, INT32 k0, INT32 k1, INT32 nSlide)
 {
-    /*
 	pgi->nInput = GIT_KEYSLIDER;
 	pgi->Input.Slider.SliderAxis.nSlider[0] = (UINT8)k0;
 	pgi->Input.Slider.SliderAxis.nSlider[1] = (UINT8)k1;
@@ -266,12 +264,10 @@ static void SetSliderKey(struct GameInp* pgi, INT32 k0, INT32 k1, INT32 nSlide)
 		pgi->Input.Slider.nSliderSpeed = 0x0E00;
 		pgi->Input.Slider.nSliderCenter = 10;
 	}
-	*/
 }
 
 INT32 GamcAnalogKey(struct GameInp* pgi, char* szi, INT32 nPlayer, INT32 nSlide)
 {
-    /*
 	char *szSearch = NULL;
 	INT32 k0 = 0, k1 = 0;
 	szSearch = szPlay[nPlayer & 3];
@@ -307,12 +303,10 @@ INT32 GamcAnalogKey(struct GameInp* pgi, char* szi, INT32 nPlayer, INT32 nSlide)
 	SetSliderKey(pgi, k0, k1, nSlide);
 
 	return 0;
-	*/
 }
 
 INT32 GamcAnalogJoy(struct GameInp* pgi, char* szi, INT32 nPlayer, INT32 nJoy, INT32 nSlide)
 {
-    /*
 	INT32 nAxis = 0;
 
 	char* szSearch = szPlay[nPlayer & 3];
@@ -379,7 +373,7 @@ INT32 GamcAnalogJoy(struct GameInp* pgi, char* szi, INT32 nPlayer, INT32 nJoy, I
 			pgi->Input.JoyAxis.nAxis = nAxis;
 			pgi->Input.JoyAxis.nJoy = (UINT8)nJoy;
 	}
-*/
+
 	return 0;
 }
 
@@ -387,15 +381,14 @@ INT32 GamcAnalogJoy(struct GameInp* pgi, char* szi, INT32 nPlayer, INT32 nJoy, I
 // -2 = nothing  -1 == keyboard, 0 == joystick 1, 1 == joystick 2 etc...
 INT32 GamcPlayer(struct GameInp* pgi, char* szi, INT32 nPlayer, INT32 nDevice)
 {
-    /*
 	char* szSearch = szPlay[nPlayer & 3];
 	INT32 nJoyBase = 0;
-
+	
 	if (_strnicmp(szSearch, szi, 3) != 0) {	// Not our player
 		return 1;
 	}
 	szi += 3;
-
+	
 	if (nDevice <= -2) {
 		INT32 bOurs = 0;
 		if (strcmp(szi, "up") == 0 || strcmp(szi, "y-axis-neg") == 0) {
@@ -547,13 +540,12 @@ INT32 GamcPlayer(struct GameInp* pgi, char* szi, INT32 nPlayer, INT32 nDevice)
 		}
 		KEY(nJoyBase + 0x80 + nButton);
 	}
-*/
+
 	return 0;
 }
 
 INT32 GamcPlayerHotRod(struct GameInp* pgi, char* szi, INT32 nPlayer, INT32 nFlags, INT32 nSlide)
 {
-    /*
 	char *szSearch = NULL;
 	szSearch = szPlay[nPlayer & 3];
 	INT32 k0 = 0, k1 = 0;
@@ -775,7 +767,7 @@ INT32 GamcPlayerHotRod(struct GameInp* pgi, char* szi, INT32 nPlayer, INT32 nFla
 			return 0;
 		}
 	}
-*/
+
 	return 1;												// Couldn't map input
 }
 

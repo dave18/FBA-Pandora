@@ -1,4 +1,5 @@
 #include "tiles_generic.h"
+#include "zet.h"
 #include "namco_snd.h"
 #include "samples.h"
 
@@ -317,7 +318,11 @@ STD_ROM_PICK(Jungler)
 STD_ROM_FN(Jungler)
 
 static struct BurnSampleInfo RallyxSampleDesc[] = {
+#if !defined (ROM_VERIFY)
    { "bang.wav", SAMPLE_NOLOOP },
+#else
+	{ "bang", SAMPLE_NOLOOP },
+#endif
    { "", 0 }
 };
 

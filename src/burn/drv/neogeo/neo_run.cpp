@@ -1,3 +1,8 @@
+#include "config.h"
+
+extern CFG_OPTIONS config_options;
+
+
 /*
 
 struct NeoMediaInfo {
@@ -239,6 +244,8 @@ static INT32 nIRQCycles;
 #if defined EMULATE_WATCHDOG
 static INT32 nNeoWatchdog;
 #endif
+
+bool bDisableNeoWatchdog = false;
 
 static INT32 nNeoCDIRQVector;
 static INT32 nNeoCDIRQVectorAck;
@@ -631,6 +638,7 @@ static INT32 LoadRoms()
 	if (!strcmp("alpham2p", BurnDrvGetTextA(DRV_NAME))) nYM2610ADPCMASize[nNeoActiveSlot] = 0x200000;
 	if (!strcmp("burningfp", BurnDrvGetTextA(DRV_NAME))) nYM2610ADPCMASize[nNeoActiveSlot] = 0x180000;
 	if (!strcmp("kotm2p", BurnDrvGetTextA(DRV_NAME))) nYM2610ADPCMASize[nNeoActiveSlot] = 0x300000;
+	if (!strcmp("sbp", BurnDrvGetTextA(DRV_NAME))) nYM2610ADPCMASize[nNeoActiveSlot] = 0x800000;
 
 //	bprintf(PRINT_NORMAL, _T("%x\n"), nYM2610ADPCMASize[nNeoActiveSlot]);
 
@@ -742,9 +750,11 @@ static INT32 LoadRoms()
 
 		pADPCMData = YM2610ADPCMAROM[nNeoActiveSlot];
 
-		// pbobblen needs this (V ROMs are v3 & v4), note aof/wh1/wh1h/kotm2 (V ROMs are v2 & v4)
-		if (pInfo->nADPCMANum == 2 && pName[FindType(pName) + 1] == '3') {
-			pADPCMData += ri.nLen * 2;
+		if (strcmp(BurnDrvGetTextA(DRV_NAME), "sbp") != 0) { // not for sbp!
+			// pbobblen needs this (V ROMs are v3 & v4), note aof/wh1/wh1h/kotm2 (V ROMs are v2 & v4)
+			if (pInfo->nADPCMANum == 2 && pName[FindType(pName) + 1] == '3') {
+				pADPCMData += ri.nLen * 2;
+			}
 		}
 		if (!strcmp(BurnDrvGetTextA(DRV_NAME), "pbobblenb")) {
 			pADPCMData = YM2610ADPCMAROM[nNeoActiveSlot] + 0x200000;
@@ -3693,7 +3703,7 @@ static INT32 neogeoReset()
 
 static void SwitchToMusashi()
 {
-	if (bBurnUseASMCPUEmulation) {
+	if ((bBurnUseASMCPUEmulation) && (config_options.option_forcec68k==0)) {
 #if 1 && defined FBA_DEBUG
 		bprintf(PRINT_NORMAL, _T("Switching to Musashi 68000 core\n"));
 #endif
@@ -4247,6 +4257,8 @@ INT32 NeoExit()
 
 	recursing = false;
 
+	bDisableNeoWatchdog = false;
+
 	// release the NeoGeo CD information object if needed
 	NeoCDInfo_Exit();
 
@@ -4544,12 +4556,14 @@ INT32 NeoFrame()
 	// If the watchdog isn't reset every 8 frames, reset the system
 	// This can't be 100% accurate, as the 68000 instruction timings are not 100%
 	if ((nNeoSystemType & NEO_SYS_CART) && nNeoWatchdog > nCyclesTotal[0] * 8) {
+		if (bDisableNeoWatchdog == false) {
 #if 1 && defined FBA_DEBUG
-		SekOpen(0);
-		bprintf(PRINT_IMPORTANT, _T(" ** Watchdog triggered system reset (PC: 0x%06X)\n"), SekGetPC(-1));
-		SekClose();
+			SekOpen(0);
+			bprintf(PRINT_IMPORTANT, _T(" ** Watchdog triggered system reset (PC: 0x%06X)\n"), SekGetPC(-1));
+			SekClose();
 #endif
-		neogeoReset();
+			neogeoReset();
+		}
 	}
 #endif
 //bprintf(PRINT_NORMAL, _T("***\n"));

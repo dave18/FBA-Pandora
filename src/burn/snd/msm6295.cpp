@@ -2,6 +2,7 @@
 #include "burnint.h"
 #include "msm6295.h"
 #include "burn_sound.h"
+#include "stdint.h"
 
 UINT8* MSM6295ROM;
 UINT8* MSM6295SampleInfo[MAX_MSM6295][4];
@@ -83,13 +84,13 @@ INT32 MSM6295Scan(INT32 nChip, INT32 /*nAction*/)
 	SCAN_VAR(nMSM6295Status[nChip]);
 
 	for (INT32 i = 0; i < 4; i++) {
-		MSM6295SampleInfo[nChip][i] -= (unsigned long)MSM6295ROM;
+		MSM6295SampleInfo[nChip][i] -= (uintptr_t)MSM6295ROM;
 		SCAN_VAR(MSM6295SampleInfo[nChip][i]);
-		MSM6295SampleInfo[nChip][i] += (unsigned long)MSM6295ROM;
+		MSM6295SampleInfo[nChip][i] += (uintptr_t)MSM6295ROM;
 
-		MSM6295SampleData[nChip][i] -= (unsigned long)MSM6295ROM;
+		MSM6295SampleData[nChip][i] -= (uintptr_t)MSM6295ROM;
 		SCAN_VAR(MSM6295SampleData[nChip][i]);
-		MSM6295SampleData[nChip][i] += (unsigned long)MSM6295ROM;
+		MSM6295SampleData[nChip][i] += (uintptr_t)MSM6295ROM;
 	}
 
 	return 0;

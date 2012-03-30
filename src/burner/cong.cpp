@@ -1,6 +1,8 @@
 // Burner Config for Game file module
 #include "burner.h"
 
+extern char szAppBurnVer[16];
+
 const INT32 nConfigMinVersion = 0x020921;
 
 bool bSaveInputs = true;
@@ -16,7 +18,6 @@ static TCHAR* GameConfigName()
 // Read in the config file for the game-specific inputs
 INT32 ConfigGameLoad(bool bOverWrite)
 {
-    /*
 	TCHAR szLine[256];
 	INT32 nFileVersion = 0;
 
@@ -78,14 +79,13 @@ INT32 ConfigGameLoad(bool bOverWrite)
 		}
 	}
 
-	fclose(h);*/
+	fclose(h);
 	return 0;
 }
 
 // Write out the config file for the game-specific inputs
 INT32 ConfigGameSave(bool bSave)
 {
-    /*
 	FILE* h;
 
 	if (!bSave) {
@@ -115,7 +115,6 @@ INT32 ConfigGameSave(bool bSave)
 	GameInpWrite(h);
 
 	fclose(h);
-	*/
 	return 0;
 }
 

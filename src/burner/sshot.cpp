@@ -1,4 +1,5 @@
 #include "burner.h"
+#include "png.h"
 
 #define SSHOT_NOERROR 0
 #define SSHOT_ERROR_BPP_NOTSUPPORTED 1
@@ -9,6 +10,7 @@
 
 extern char szAppBurnVer[16];
 
+
 static UINT8* pSShot = NULL;
 static UINT8* pConvertedImage = NULL;
 static png_bytep* pSShotImageRows = NULL;
@@ -17,8 +19,7 @@ static FILE* ff;
 INT32 MakeScreenShot()
 {
 	char szAuthor[256]; char szDescription[256]; char szCopyright[256];	char szSoftware[256]; char szSource[256];
-	//png_text text_ptr[8] = { { 0, 0, 0, 0, 0, 0, 0 }, };
-	png_text text_ptr[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	png_text text_ptr[8] = { 0, 0, 0, 0, 0, 0, 0 };
 	INT32 num_text = 8;
 
     time_t currentTime;
@@ -59,7 +60,7 @@ INT32 MakeScreenShot()
 		return SSHOT_LIBPNG_ERROR;
     }
 
-/*	if (pVidImage == NULL) {
+	/*if (pVidImage == NULL) {
 		return SSHOT_OTHER_ERROR;
 	}
 

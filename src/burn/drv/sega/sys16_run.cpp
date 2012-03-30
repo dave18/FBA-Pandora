@@ -1115,9 +1115,6 @@ static INT32 System16LoadRoms(bool bLoad)
 		// Tile Roms
 		Offset = 0;
 		System16TempGfx = (UINT8*)BurnMalloc(System16TileRomSize);
-        if (!System16TempGfx) {
-            printf("Major issue: not enough ram for System16TempGfx\n");
-        }
 		for (i = System16RomNum + System16Rom2Num + System16Rom3Num; i < System16RomNum + System16Rom2Num + System16Rom3Num + System16TileRomNum; i++) {
 			nRet = BurnLoadRom(System16TempGfx + Offset, i, 1); if (nRet) return 1;
 			
@@ -1444,6 +1441,11 @@ static void System16UPD7759DrqCallback(INT32 state)
 	if (state) ZetNmi();
 }
 
+static INT32 System16ASyncDAC()
+{
+	return (INT32)(float)(nBurnSoundLen * (I8039TotalCycles() / ((6000000.0000 / 15) / (nBurnFPS / 100.0000))));
+}
+
 /*====================================================
 Multiply Protection Chip Emulation
 ====================================================*/
@@ -1742,8 +1744,8 @@ Main Driver Init function
 INT32 System16Init()
 {
 	INT32 nRet = 0, nLen;
-    
-    // Allocate and Blank all required memory
+	
+	// Allocate and Blank all required memory
 	Mem = NULL;
 	System16LoadRoms(0); // Get required rom sizes
 	System16MemIndex();
@@ -1771,7 +1773,9 @@ INT32 System16Init()
 	if ((BurnDrvGetHardwareCode() & HARDWARE_SEGA_FD1094_ENC) || (BurnDrvGetHardwareCode() & HARDWARE_SEGA_FD1094_ENC_CPU2)) {
 		// Make sure we use Musashi
 		if (bBurnUseASMCPUEmulation) {
-			//printf("Switching to Musashi 68000 core\n");
+#if 1 && defined FBA_DEBUG
+			bprintf(PRINT_NORMAL, _T("Switching to Musashi 68000 core\n"));
+#endif
 			bUseAsm68KCoreOldValue = bBurnUseASMCPUEmulation;
 			bBurnUseASMCPUEmulation = false;
 		}
@@ -1847,7 +1851,7 @@ INT32 System16Init()
 			N7751SetCPUOpReadArgHandler(N7751Read);
 			
 			YM2151SetPortWriteHandler(0, &System16N7751ControlWrite);
-			DACInit(0, 0, 1);
+			DACInit(0, 0, 1, System16ASyncDAC);
 		}
 		
 		System16TileBankSize = 0x1000;
@@ -2503,7 +2507,9 @@ INT32 System16Exit()
 		
 		// Switch back CPU core if needed
 		if (bUseAsm68KCoreOldValue) {
-			//printf("Switching back to C68K core\n");
+#if 1 && defined FBA_DEBUG
+			bprintf(PRINT_NORMAL, _T("Switching back to A68K core\n"));
+#endif
 			bUseAsm68KCoreOldValue = false;
 			bBurnUseASMCPUEmulation = true;
 		}
@@ -2518,7 +2524,7 @@ Frame Functions
 
 INT32 System16AFrame()
 {
-	INT32 nInterleave = nBurnSoundLen; // for the DAC
+	INT32 nInterleave = 100; // alien syndrome needs high interleave for the DAC sounds to be processed
 	
 	if (System16Reset) System16DoReset();
 
@@ -2533,6 +2539,7 @@ INT32 System16AFrame()
 
 	SekNewFrame();
 	ZetNewFrame();
+	I8039NewFrame();
 
 	SekOpen(0);
 	for (INT32 i = 0; i < nInterleave; i++) {
@@ -2567,9 +2574,8 @@ INT32 System16AFrame()
 
 			ZetOpen(0);
 			BurnYM2151Render(pSoundBuf, nSegmentLength);
-			ZetClose();
-			if (System167751ProgSize) DACUpdate(pSoundBuf, nSegmentLength);
 			nSoundBufferPos += nSegmentLength;
+			ZetClose();
 		}
 	}
 
@@ -2587,8 +2593,9 @@ INT32 System16AFrame()
 			ZetOpen(0);
 			BurnYM2151Render(pSoundBuf, nSegmentLength);
 			ZetClose();
-			if (System167751ProgSize) DACUpdate(pSoundBuf, nSegmentLength);
 		}
+		
+		if (System167751ProgSize) DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
 	
 	if (pBurnDraw) System16ARender();

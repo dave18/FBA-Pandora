@@ -1,4 +1,5 @@
 #include "tiles_generic.h"
+#include "sek.h"
 #include "m6502_intf.h"
 #include "msm6295.h"
 #include "burn_ym2203.h"
@@ -1855,21 +1856,21 @@ UINT16 __fastcall Dec068KReadWord(UINT32 a)
 		UINT16 *RAM = (UINT16*)DrvCharRam;
 		INT32 Offset = (a - 0x244000) >> 1;
 		if (DrvTileRamBank[0] & 0x01) Offset += 0x1000;
-		return RAM[Offset];
+		return BURN_ENDIAN_SWAP_INT16(RAM[Offset]);
 	}
 	
 	if (a >= 0x24a000 && a <= 0x24a7ff) {
 		UINT16 *RAM = (UINT16*)DrvVideo1Ram;
 		INT32 Offset = (a - 0x24a000) >> 1;
 		if (DrvTileRamBank[1] & 0x01) Offset += 0x1000;
-		return RAM[Offset];
+		return BURN_ENDIAN_SWAP_INT16(RAM[Offset]);
 	}	
 	
 	if (a >= 0x24d000 && a <= 0x24d7ff) {
 		UINT16 *RAM = (UINT16*)DrvVideo2Ram;
 		INT32 Offset = (a - 0x24d000) >> 1;
 		if (DrvTileRamBank[2] & 0x01) Offset += 0x1000;
-		return RAM[Offset];
+		return BURN_ENDIAN_SWAP_INT16(RAM[Offset]);
 	}
 	
 	if (a >= 0x300000 && a <= 0x30001f) {
@@ -1908,7 +1909,7 @@ void __fastcall Dec068KWriteWord(UINT32 a, UINT16 d)
 		UINT16 *RAM = (UINT16*)DrvCharRam;
 		INT32 Offset = (a - 0x244000) >> 1;
 		if (DrvTileRamBank[0] & 0x01) Offset += 0x1000;
-		RAM[Offset] = d;
+		RAM[Offset] = BURN_ENDIAN_SWAP_INT16(d);
 		return;
 	}
 	
@@ -1916,7 +1917,7 @@ void __fastcall Dec068KWriteWord(UINT32 a, UINT16 d)
 		UINT16 *RAM = (UINT16*)DrvVideo1Ram;
 		INT32 Offset = (a - 0x24a000) >> 1;
 		if (DrvTileRamBank[1] & 0x01) Offset += 0x1000;
-		RAM[Offset] = d;
+		RAM[Offset] = BURN_ENDIAN_SWAP_INT16(d);
 		return;
 	}	
 	
@@ -1924,7 +1925,7 @@ void __fastcall Dec068KWriteWord(UINT32 a, UINT16 d)
 		UINT16 *RAM = (UINT16*)DrvVideo2Ram;
 		INT32 Offset = (a - 0x24d000) >> 1;
 		if (DrvTileRamBank[2] & 0x01) Offset += 0x1000;
-		RAM[Offset] = d;
+		RAM[Offset] = BURN_ENDIAN_SWAP_INT16(d);
 		return;
 	}
 	
@@ -1944,7 +1945,7 @@ void __fastcall Dec068KWriteWord(UINT32 a, UINT16 d)
 		case 0x240004:
 		case 0x240006: {		
 			UINT16 *Control0 = (UINT16*)DrvCharCtrl0Ram;
-			Control0[(a - 0x240000) >> 1] = d;
+			Control0[(a - 0x240000) >> 1] = BURN_ENDIAN_SWAP_INT16(d);
 			if (a == 0x240004) {
 				DrvTileRamBank[0] = d & 0x01;
 				if (DrvTileRamBank[0]) bprintf(PRINT_IMPORTANT, _T("68K Set Tile RAM Bank 0\n"));
@@ -1957,7 +1958,7 @@ void __fastcall Dec068KWriteWord(UINT32 a, UINT16 d)
 		case 0x240014:
 		case 0x240016: {		
 			UINT16 *Control1 = (UINT16*)DrvCharCtrl1Ram;
-			Control1[(a - 0x240010) >> 1] = d;
+			Control1[(a - 0x240010) >> 1] = BURN_ENDIAN_SWAP_INT16(d);
 			return;
 		}
 		
@@ -1966,7 +1967,7 @@ void __fastcall Dec068KWriteWord(UINT32 a, UINT16 d)
 		case 0x246004:
 		case 0x246006: {		
 			UINT16 *Control0 = (UINT16*)DrvVideo1Ctrl0Ram;
-			Control0[(a - 0x246000) >> 1] = d;
+			Control0[(a - 0x246000) >> 1] = BURN_ENDIAN_SWAP_INT16(d);
 			if (a == 0x246004) {
 				DrvTileRamBank[1] = d & 0x01;
 				if (DrvTileRamBank[1]) bprintf(PRINT_IMPORTANT, _T("68K Set Tile RAM Bank 1\n"));
@@ -1979,7 +1980,7 @@ void __fastcall Dec068KWriteWord(UINT32 a, UINT16 d)
 		case 0x246014:
 		case 0x246016: {		
 			UINT16 *Control1 = (UINT16*)DrvVideo1Ctrl1Ram;
-			Control1[(a - 0x246010) >> 1] = d;
+			Control1[(a - 0x246010) >> 1] = BURN_ENDIAN_SWAP_INT16(d);
 			return;
 		}
 		
@@ -1988,7 +1989,7 @@ void __fastcall Dec068KWriteWord(UINT32 a, UINT16 d)
 		case 0x24c004:
 		case 0x24c006: {		
 			UINT16 *Control0 = (UINT16*)DrvVideo2Ctrl0Ram;
-			Control0[(a - 0x24c000) >> 1] = d;
+			Control0[(a - 0x24c000) >> 1] = BURN_ENDIAN_SWAP_INT16(d);
 			if (a == 0x24c004) {
 				DrvTileRamBank[2] = d & 0x01;
 				if (DrvTileRamBank[2]) bprintf(PRINT_IMPORTANT, _T("68K Set Tile RAM Bank 2\n"));
@@ -2001,7 +2002,7 @@ void __fastcall Dec068KWriteWord(UINT32 a, UINT16 d)
 		case 0x24c014:
 		case 0x24c016: {		
 			UINT16 *Control1 = (UINT16*)DrvVideo2Ctrl1Ram;
-			Control1[(a - 0x24c010) >> 1] = d;
+			Control1[(a - 0x24c010) >> 1] = BURN_ENDIAN_SWAP_INT16(d);
 			return;
 		}
 		
@@ -2358,7 +2359,7 @@ UINT16 __fastcall Slyspy68KReadWord(UINT32 a)
 		case 0x244000: {
 			DrvSlyspyProtValue++;
 			DrvSlyspyProtValue = DrvSlyspyProtValue % 4;
-			SlyspySetProtectionMap(DrvSlyspyProtValue);			
+			SlyspySetProtectionMap(DrvSlyspyProtValue);
 			return 0;
 		}
 		
@@ -3765,9 +3766,9 @@ static void DrvCalcPalette()
 	INT32 r, g, b;
 	
 	for (INT32 i = 0; i < 0x400; i++) {
-		r = (PaletteRam[i] >> 0) & 0xff;
-		g = (PaletteRam[i] >> 8) & 0xff;
-		b = (Palette2Ram[i] >> 0) & 0xff;
+		r = (BURN_ENDIAN_SWAP_INT16(PaletteRam[i]) >> 0) & 0xff;
+		g = (BURN_ENDIAN_SWAP_INT16(PaletteRam[i]) >> 8) & 0xff;
+		b = (BURN_ENDIAN_SWAP_INT16(Palette2Ram[i]) >> 0) & 0xff;
 		
 		DrvPalette[i] = BurnHighCol(r, g, b, 0);
 	}
@@ -3780,9 +3781,9 @@ static void Dec1CalcPalette()
 	INT32 r, g, b;
 	
 	for (INT32 i = 0; i < 0x400; i++) {
-		r = pal4bit(PaletteRam[i] >> 0);
-		g = pal4bit(PaletteRam[i] >> 4);
-		b = pal4bit(PaletteRam[i] >> 8);
+		r = pal4bit(BURN_ENDIAN_SWAP_INT16(PaletteRam[i]) >> 0);
+		g = pal4bit(BURN_ENDIAN_SWAP_INT16(PaletteRam[i]) >> 4);
+		b = pal4bit(BURN_ENDIAN_SWAP_INT16(PaletteRam[i]) >> 8);
 		
 		DrvPalette[i] = BurnHighCol(r, g, b, 0);
 	}
@@ -3952,12 +3953,12 @@ static void Dec0Render16x16Tile_Mask_FlipXY(UINT16* pDestDraw, INT32 nTileNumber
 static void DrvRenderCustomTilemap(UINT16 *pSrc, UINT16 *pControl0, UINT16 *pControl1, UINT16 *RowScrollRam, UINT16 *ColScrollRam, INT32 TilemapWidth, INT32 TilemapHeight, INT32 Opaque, INT32 DrawLayer)
 {
 	INT32 x, y, xSrc, ySrc, ColOffset = 0, pPixel;
-	UINT32 xScroll = pControl1[0];
-	UINT32 yScroll = pControl1[1];
+	UINT32 xScroll = BURN_ENDIAN_SWAP_INT16(pControl1[0]);
+	UINT32 yScroll = BURN_ENDIAN_SWAP_INT16(pControl1[1]);
 	INT32 WidthMask = TilemapWidth - 1;
 	INT32 HeightMask = TilemapHeight - 1;
-	INT32 RowScrollEnabled = pControl0[0] & 0x04;
-	INT32 ColScrollEnabled = pControl0[0] & 0x08;
+	INT32 RowScrollEnabled = BURN_ENDIAN_SWAP_INT16(pControl0[0]) & 0x04;
+	INT32 ColScrollEnabled = BURN_ENDIAN_SWAP_INT16(pControl0[0]) & 0x08;
 	
 	ySrc = yScroll;
 	
@@ -3965,7 +3966,7 @@ static void DrvRenderCustomTilemap(UINT16 *pSrc, UINT16 *pControl0, UINT16 *pCon
 	
 	for (y = 0; y < nScreenHeight; y++) {
 		if (RowScrollEnabled) {
-			xSrc = xScroll + RowScrollRam[(ySrc >> (pControl1[3] & 0x0f)) & (0x1ff >> (pControl1[3] & 0x0f))];
+			xSrc = xScroll + BURN_ENDIAN_SWAP_INT16(RowScrollRam[(ySrc >> (BURN_ENDIAN_SWAP_INT16(pControl1[3]) & 0x0f)) & (0x1ff >> (BURN_ENDIAN_SWAP_INT16(pControl1[3]) & 0x0f))]);
 		} else {
 			xSrc = xScroll;
 		}
@@ -3975,7 +3976,7 @@ static void DrvRenderCustomTilemap(UINT16 *pSrc, UINT16 *pControl0, UINT16 *pCon
 		if (DrvFlipScreen) xSrc = -xSrc;
 		
 		for (x = 0; x < nScreenWidth; x++) {
-			if (ColScrollEnabled) ColOffset = ColScrollRam[((xSrc >> 3) >> (pControl1[2] & 0x0f)) & (0x3f >> (pControl1[2] & 0x0f))];
+			if (ColScrollEnabled) ColOffset = BURN_ENDIAN_SWAP_INT16(ColScrollRam[((xSrc >> 3) >> (BURN_ENDIAN_SWAP_INT16(pControl1[2]) & 0x0f)) & (0x3f >> (BURN_ENDIAN_SWAP_INT16(pControl1[2]) & 0x0f))]);
 			
 			pPixel = pSrc[(((ySrc + ColOffset) & HeightMask) * TilemapWidth) + (xSrc & WidthMask)];
 			
@@ -4000,7 +4001,7 @@ static void DrvRenderTile1Layer(INT32 Opaque, INT32 DrawLayer)
 	UINT16 *Control0 = (UINT16*)DrvVideo1Ctrl0Ram;
 	UINT16 *VideoRam = (UINT16*)DrvVideo1Ram;
 	
-	INT32 RenderType = Control0[3] & 0x03;
+	INT32 RenderType = BURN_ENDIAN_SWAP_INT16(Control0[3]) & 0x03;
 	
 	switch (RenderType) {
 		case 0x00: {
@@ -4031,7 +4032,7 @@ static void DrvRenderTile1Layer(INT32 Opaque, INT32 DrawLayer)
 			if (RenderType == 2) TileIndex = (mx & 0x0f) + ((my & 0x3f) << 4);
 			if (DrvTileRamBank[1] & 0x01) TileIndex += 0x1000;			
 			
-			Attr = VideoRam[TileIndex];
+			Attr = BURN_ENDIAN_SWAP_INT16(VideoRam[TileIndex]);
 			Code = Attr & 0xfff;
 			Colour = Attr >> 12;
 			Layer = (Attr >> 12) > 7;
@@ -4074,7 +4075,7 @@ static void DrvRenderTile2Layer(INT32 Opaque, INT32 DrawLayer)
 	UINT16 *Control0 = (UINT16*)DrvVideo2Ctrl0Ram;
 	UINT16 *VideoRam = (UINT16*)DrvVideo2Ram;
 	
-	INT32 RenderType = Control0[3] & 0x03;
+	INT32 RenderType = BURN_ENDIAN_SWAP_INT16(Control0[3]) & 0x03;
 	
 	switch (RenderType) {
 		case 0x00: {
@@ -4105,7 +4106,7 @@ static void DrvRenderTile2Layer(INT32 Opaque, INT32 DrawLayer)
 			if (RenderType == 2) TileIndex = (mx & 0x0f) + ((my & 0x3f) << 4);
 			if (DrvTileRamBank[2] & 0x01) TileIndex += 0x1000;
 			
-			Attr = VideoRam[TileIndex];
+			Attr = BURN_ENDIAN_SWAP_INT16(VideoRam[TileIndex]);
 			Code = Attr & 0xfff;
 			Colour = Attr >> 12;
 			Layer = (Attr >> 12) > 7;
@@ -4148,7 +4149,7 @@ static void DrvRenderCharLayer()
 	UINT16 *Control0 = (UINT16*)DrvCharCtrl0Ram;
 	UINT16 *CharRam = (UINT16*)DrvCharRam;
 	
-	INT32 RenderType = Control0[3] & 0x03;
+	INT32 RenderType = BURN_ENDIAN_SWAP_INT16(Control0[3]) & 0x03;
 	
 	switch (RenderType) {
 		case 0x00: {
@@ -4179,7 +4180,7 @@ static void DrvRenderCharLayer()
 			if (RenderType == 2) TileIndex = (mx & 0x1f) + ((my & 0x7f) << 5);
 			if (DrvTileRamBank[0] & 0x01) TileIndex += 0x1000;
 			
-			Attr = CharRam[TileIndex];
+			Attr = BURN_ENDIAN_SWAP_INT16(CharRam[TileIndex]);
 			Code = Attr & 0xfff;
 			Colour = Attr >> 12;
 			
@@ -4208,10 +4209,10 @@ static void DrvRenderSprites(INT32 PriorityMask, INT32 PriorityVal)
 	for (UINT32 Offset = 0; Offset < 0x400; Offset += 4) {
 		INT32 x, y, Code, Colour, Multi, xFlip, yFlip, Inc, Flash, Mult, yPlot, CodePlot;
 
-		y = SpriteRam[Offset + 0];
+		y = BURN_ENDIAN_SWAP_INT16(SpriteRam[Offset + 0]);
 		if ((y & 0x8000) == 0) continue;
 
-		x = SpriteRam[Offset + 2];
+		x = BURN_ENDIAN_SWAP_INT16(SpriteRam[Offset + 2]);
 		Colour = x >> 12;
 		if ((Colour & PriorityMask) != PriorityVal) continue;
 
@@ -4222,7 +4223,7 @@ static void DrvRenderSprites(INT32 PriorityMask, INT32 PriorityVal)
 		yFlip = y & 0x4000;
 		Multi = (1 << ((y & 0x1800) >> 11)) - 1;
 
-		Code = SpriteRam[Offset + 1] & 0xfff;
+		Code = BURN_ENDIAN_SWAP_INT16(SpriteRam[Offset + 1]) & 0xfff;
 
 		x = x & 0x01ff;
 		y = y & 0x01ff;
@@ -4614,7 +4615,7 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 	struct BurnArea ba;
 	
 	if (pnMin != NULL) {
-		*pnMin = 0x029719;
+		*pnMin = 0x029722;
 	}
 
 	if (nAction & ACB_MEMORY_RAM) {
@@ -4627,7 +4628,6 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 	
 	if (nAction & ACB_DRIVER_DATA) {	
 		SekScan(nAction);
-		M6502Scan(nAction);
 		BurnYM2203Scan(nAction, pnMin);
 		BurnYM3812Scan(nAction, pnMin);
 		MSM6295Scan(0, nAction);	
@@ -4637,15 +4637,36 @@ static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 		SCAN_VAR(DrvSoundLatch);
 		SCAN_VAR(DrvFlipScreen);
 		SCAN_VAR(DrvPriority);
+		SCAN_VAR(DrvTileRamBank);
+		SCAN_VAR(DrvSlyspyProtValue);
+		SCAN_VAR(DrvMidresAnalogInput);
 	}
 
 	return 0;
 }
 
+static INT32 BaddudesScan(INT32 nAction, INT32 *pnMin)
+{
+	if (nAction & ACB_DRIVER_DATA) {
+		M6502Scan(nAction);
+	}
+	
+	return DrvScan(nAction, pnMin);
+}
+
 static INT32 RobocopScan(INT32 nAction, INT32 *pnMin)
 {
 	if (nAction & ACB_DRIVER_DATA) {
-//		h6280Scan(nAction);
+		h6280CpuScan(nAction);
+	}
+
+	return BaddudesScan(nAction, pnMin);
+}
+
+static INT32 SlyspyScan(INT32 nAction, INT32 *pnMin)
+{
+	if (nAction & ACB_DRIVER_DATA) {
+		h6280CpuScan(nAction);
 	}
 
 	return DrvScan(nAction, pnMin);
@@ -4657,7 +4678,7 @@ struct BurnDriver BurnDrvBaddudes = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, BaddudesRomInfo, BaddudesRomName, NULL, NULL, Dec0InputInfo, BaddudesDIPInfo,
-	BaddudesInit, BaddudesExit, DrvFrame, NULL, DrvScan,
+	BaddudesInit, BaddudesExit, DrvFrame, NULL, BaddudesScan,
 	NULL, 0x400, 256, 240, 4, 3
 };
 
@@ -4667,7 +4688,7 @@ struct BurnDriver BurnDrvDrgninja = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_SCRFIGHT, 0,
 	NULL, DrgninjaRomInfo, DrgninjaRomName, NULL, NULL, Dec0InputInfo, BaddudesDIPInfo,
-	BaddudesInit, BaddudesExit, DrvFrame, NULL, DrvScan,
+	BaddudesInit, BaddudesExit, DrvFrame, NULL, BaddudesScan,
 	NULL, 0x400, 256, 240, 4, 3
 };
 
@@ -4677,7 +4698,7 @@ struct BurnDriver BurnDrvBouldash = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_DATAEAST, GBF_MAZE, 0,
 	NULL, BouldashRomInfo, BouldashRomName, NULL, NULL, Dec1InputInfo, BouldashDIPInfo,
-	BouldashInit, SlyspyExit, Dec1Frame, NULL, DrvScan,
+	BouldashInit, SlyspyExit, Dec1Frame, NULL, SlyspyScan,
 	NULL, 0x400, 256, 240, 4, 3
 };
 
@@ -4687,7 +4708,7 @@ struct BurnDriver BurnDrvBouldashj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_MAZE, 0,
 	NULL, BouldashjRomInfo, BouldashjRomName, NULL, NULL, Dec1InputInfo, BouldashDIPInfo,
-	BouldashInit, SlyspyExit, Dec1Frame, NULL, DrvScan,
+	BouldashInit, SlyspyExit, Dec1Frame, NULL, SlyspyScan,
 	NULL, 0x400, 256, 240, 4, 3
 };
 
@@ -4697,7 +4718,7 @@ struct BurnDriver BurnDrvHbarrel = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_PREFIX_DATAEAST, GBF_VERSHOOT, 0,
 	NULL, HbarrelRomInfo, HbarrelRomName, NULL, NULL, Dec0InputInfo, HbarrelDIPInfo,
-	HbarrelInit, BaddudesExit, DrvFrame, NULL, DrvScan,
+	HbarrelInit, BaddudesExit, DrvFrame, NULL, BaddudesScan,
 	NULL, 0x400, 240, 256, 3, 4
 };
 
@@ -4707,7 +4728,7 @@ struct BurnDriver BurnDrvHbarrelw = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_PREFIX_DATAEAST, GBF_VERSHOOT, 0,
 	NULL, HbarrelwRomInfo, HbarrelwRomName, NULL, NULL, Dec0InputInfo, HbarrelDIPInfo,
-	HbarrelInit, BaddudesExit, DrvFrame, NULL, DrvScan,
+	HbarrelInit, BaddudesExit, DrvFrame, NULL, BaddudesScan,
 	NULL, 0x400, 240, 256, 3, 4
 };
 
@@ -4747,7 +4768,7 @@ struct BurnDriver BurnDrvMidres = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_DATAEAST, GBF_SHOOT, 0,
 	NULL, MidresRomInfo, MidresRomName, NULL, NULL, MidresInputInfo, MidresDIPInfo,
-	MidresInit, SlyspyExit, Dec1Frame, NULL, DrvScan,
+	MidresInit, SlyspyExit, Dec1Frame, NULL, SlyspyScan,
 	NULL, 0x400, 256, 240, 4, 3
 };
 
@@ -4757,7 +4778,7 @@ struct BurnDriver BurnDrvMidresu = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_SHOOT, 0,
 	NULL, MidresuRomInfo, MidresuRomName, NULL, NULL, MidresInputInfo, MidresuDIPInfo,
-	MidresInit, SlyspyExit, Dec1Frame, NULL, DrvScan,
+	MidresInit, SlyspyExit, Dec1Frame, NULL, SlyspyScan,
 	NULL, 0x400, 256, 240, 4, 3
 };
 
@@ -4767,7 +4788,7 @@ struct BurnDriver BurnDrvMidresj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_SHOOT, 0,
 	NULL, MidresjRomInfo, MidresjRomName, NULL, NULL, MidresInputInfo, MidresuDIPInfo,
-	MidresInit, SlyspyExit, Dec1Frame, NULL, DrvScan,
+	MidresInit, SlyspyExit, Dec1Frame, NULL, SlyspyScan,
 	NULL, 0x400, 256, 240, 4, 3
 };
 
@@ -4827,7 +4848,7 @@ struct BurnDriver BurnDrvRobocopb = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 2, HARDWARE_PREFIX_DATAEAST, GBF_HORSHOOT, 0,
 	NULL, RobocopbRomInfo, RobocopbRomName, NULL, NULL, Dec0InputInfo, RobocopDIPInfo,
-	RobocopbInit, BaddudesExit, DrvFrame, NULL, DrvScan,
+	RobocopbInit, BaddudesExit, DrvFrame, NULL, BaddudesScan,
 	NULL, 0x400, 256, 240, 4, 3
 };
 
@@ -4837,7 +4858,7 @@ struct BurnDriver BurnDrvSlyspy = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_DATAEAST, GBF_MISC, 0,
 	NULL, SlyspyRomInfo, SlyspyRomName, NULL, NULL, Dec1InputInfo, SlyspyDIPInfo,
-	SlyspyInit, SlyspyExit, Dec1Frame, NULL, DrvScan,
+	SlyspyInit, SlyspyExit, Dec1Frame, NULL, SlyspyScan,
 	NULL, 0x400, 256, 240, 4, 3
 };
 
@@ -4847,7 +4868,7 @@ struct BurnDriver BurnDrvSlyspy2 = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_MISC, 0,
 	NULL, Slyspy2RomInfo, Slyspy2RomName, NULL, NULL, Dec1InputInfo, SlyspyDIPInfo,
-	SlyspyInit, SlyspyExit, Dec1Frame, NULL, DrvScan,
+	SlyspyInit, SlyspyExit, Dec1Frame, NULL, SlyspyScan,
 	NULL, 0x400, 256, 240, 4, 3
 };
 
@@ -4857,6 +4878,6 @@ struct BurnDriver BurnDrvSecretag = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_MISC, 0,
 	NULL, SecretagRomInfo, SecretagRomName, NULL, NULL, Dec1InputInfo, SlyspyDIPInfo,
-	SlyspyInit, SlyspyExit, Dec1Frame, NULL, DrvScan,
+	SlyspyInit, SlyspyExit, Dec1Frame, NULL, SlyspyScan,
 	NULL, 0x400, 256, 240, 4, 3
 };

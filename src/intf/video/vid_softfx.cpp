@@ -6,12 +6,10 @@
 typedef unsigned long uint32;
 typedef unsigned short uint16;
 typedef unsigned char uint8;
-/*
+
 #ifndef _WIN32
-    #ifndef unsigned long
-        typedef unsigned long unsigned long;
-    #endif
-#endif*/
+ typedef unsigned long DWORD;
+#endif
 
 void _2xpm_lq(void *SrcPtr, void *DstPtr, unsigned long SrcPitch, unsigned long DstPitch, unsigned long SrcW, unsigned long SrcH, int nDepth);
 void _2xpm_hq(void *SrcPtr, void *DstPtr, unsigned long SrcPitch, unsigned long DstPitch, unsigned long SrcW, unsigned long SrcH, int nDepth);
@@ -65,9 +63,9 @@ extern "C" void __cdecl _2xSaISuper2xSaILine(uint8* srcPtr, uint8* deltaPtr, uin
 extern "C" void __cdecl Init_2xSaIMMX(uint32 BitFormat);
 
 extern "C" {
-	void __cdecl hq2x_32(unsigned char*, unsigned char*, unsigned long, unsigned long, unsigned long);
-	void __cdecl hq3x_32(unsigned char*, unsigned char*, unsigned long, unsigned long, unsigned long);
-	void __cdecl hq4x_32(unsigned char*, unsigned char*, unsigned long, unsigned long, unsigned long);
+	void __cdecl hq2x_32(unsigned char*, unsigned char*, DWORD, DWORD, DWORD);
+	void __cdecl hq3x_32(unsigned char*, unsigned char*, DWORD, DWORD, DWORD);
+	void __cdecl hq4x_32(unsigned char*, unsigned char*, DWORD, DWORD, DWORD);
 
 	unsigned int LUT16to32[65536];
 	unsigned int RGBtoYUV[65536];
@@ -217,7 +215,7 @@ int VidSoftFXInit(int nBlitter, int nRotate)
 {
 	nSoftFXBlitter = nBlitter;
 	nSoftFXEnlarge = true;
-
+	
 	if ((MMXSupport() == false && (SoftFXInfo[nSoftFXBlitter].nFlags & FXF_MMX)) || VidSoftFXCheckDepth(nSoftFXBlitter, nVidImageDepth) == 0) {
 		VidSoftFXExit();
 		return 1;
@@ -268,7 +266,7 @@ int VidSoftFXInit(int nBlitter, int nRotate)
 		}
 #endif
 	}
-
+	
 	if (nSoftFXBlitter >= FILTER_SUPEREAGLE_VBA && nSoftFXBlitter <= FILTER_SUPER_2XSAI_VBA) {
 		int nMemLen = (nSoftFXImageHeight + /*2*/4) * nSoftFXImagePitch;
 		pSoftFXXBuffer = (unsigned char*)malloc(nMemLen);
@@ -335,11 +333,11 @@ int VidSoftFXInit(int nBlitter, int nRotate)
 		}
 	}
 #endif
-
+	
 	if (nSoftFXBlitter >= FILTER_HQ2XS_VBA && nSoftFXBlitter <= FILTER_HQ3XS_VBA) {
                 hq2xS_init(nVidImageDepth);
         }
-
+        
         if (nSoftFXBlitter == FILTER_HQ2XS_SNES9X || nSoftFXBlitter == FILTER_HQ3XS_SNES9X || nSoftFXBlitter == FILTER_HQ2XBOLD || nSoftFXBlitter == FILTER_HQ3XBOLD) {
         	InitLUTs();
         }
@@ -672,11 +670,11 @@ void VidSoftFXApplyEffect(unsigned char* ps, unsigned char* pd, int nPitch)
 #if defined BUILD_X86_ASM
 		case FILTER_2XPM_LQ: {
 			_2xpm_lq(ps, pd, (unsigned long)nSoftFXImagePitch, (unsigned long)nPitch, (unsigned long)nSoftFXImageWidth, (unsigned long)nSoftFXImageHeight, nVidImageDepth);
-			break;
+			break;			
 		}
 		case FILTER_2XPM_HQ: {
 			_2xpm_hq(ps, pd, (unsigned long)nSoftFXImagePitch, (unsigned long)nPitch, (unsigned long)nSoftFXImageWidth, (unsigned long)nSoftFXImageHeight, nVidImageDepth);
-			break;
+			break;			
 		}
 		case FILTER_EAGLE: {
 			int nWidth = nSoftFXImageWidth * 2;
@@ -774,7 +772,7 @@ void VidSoftFXApplyEffect(unsigned char* ps, unsigned char* pd, int nPitch)
 			UINT16 *src2=(UINT16 *)(ps + nSoftFXImagePitch);
 			UINT64 mask = 0x7BEF7BEF7BEF7BEFLL;
 			if (nVidImageDepth == 15) mask = 0x3DEF3DEF3DEF3DEFLL;
-
+			
 			for (int y = 0; y < nSoftFXImageHeight; y++) {
 				superscale_line(src0, src1, src2, dst0, nSoftFXImageWidth, &mask);
 				superscale_line(src2, src1, src0, dst1, nSoftFXImageWidth, &mask);
@@ -806,7 +804,7 @@ void VidSoftFXApplyEffect(unsigned char* ps, unsigned char* pd, int nPitch)
 			UINT16 *src2=(UINT16 *)(ps + nSoftFXImagePitch);
 			UINT64 mask = 0x7BEF7BEF7BEF7BEFLL;
 			if (nVidImageDepth == 15) mask = 0x3DEF3DEF3DEF3DEFLL;
-
+			
 			for (int y = 0; y < nSoftFXImageHeight; y++) {
 				superscale_line(src0, src1, src2, dst0, nSoftFXImageWidth, &mask);
 				superscale_line_75(src2, src1, src0, dst1, nSoftFXImageWidth, &mask);

@@ -1,5 +1,6 @@
 #include "tiles_generic.h"
 #include "sh2.h"
+#include "sek.h"
 
 static UINT8 DrvInputPort0[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 static UINT8 DrvInputPort1[8] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -51,7 +52,7 @@ static struct BurnInputInfo CyvernInputList[] =
 	{"P1 Right"          , BIT_DIGITAL  , DrvInputPort0 + 3, "p1 right"  },
 	{"P1 Fire 1"         , BIT_DIGITAL  , DrvInputPort0 + 4, "p1 fire 1" },
 	{"P1 Fire 2"         , BIT_DIGITAL  , DrvInputPort0 + 5, "p1 fire 2" },
-	
+
 	{"P2 Up"             , BIT_DIGITAL  , DrvInputPort1 + 0, "p2 up"     },
 	{"P2 Down"           , BIT_DIGITAL  , DrvInputPort1 + 1, "p2 down"   },
 	{"P2 Left"           , BIT_DIGITAL  , DrvInputPort1 + 2, "p2 left"   },
@@ -103,15 +104,15 @@ static struct BurnDIPInfo DrvDIPList[]=
 	{0   , 0xfe, 0   , 2   , "Test Mode"              },
 	{0x13, 0x01, 0x01, 0x01, "Off"                    },
 	{0x13, 0x01, 0x01, 0x00, "On"                     },
-	
+
 	{0   , 0xfe, 0   , 2   , "Flip Screen"            },
 	{0x13, 0x01, 0x02, 0x02, "Off"                    },
 	{0x13, 0x01, 0x02, 0x00, "On"                     },
-	
+
 	{0   , 0xfe, 0   , 2   , "Use backup RAM"         },
 	{0x13, 0x01, 0x40, 0x00, "No"                     },
 	{0x13, 0x01, 0x40, 0x40, "Yes"                    },
-	
+
 	{0   , 0xfe, 0   , 2   , "Freeze"                 },
 	{0x13, 0x01, 0x80, 0x80, "Off"                    },
 	{0x13, 0x01, 0x80, 0x00, "On"                     },
@@ -121,16 +122,16 @@ STDDIPINFO(Drv)
 
 static struct BurnRomInfo CyvernRomDesc[] = {
 	{ "sknsj1.u10",    0x080000, 0x7e2b836c, BRF_ESS | BRF_PRG }, //  0	BIOS
-	
+
 	{ "cvj-even.u10",  0x100000, 0x802fadb4, BRF_ESS | BRF_PRG }, //  1	SH-2 Program
 	{ "cvj-odd.u8",    0x100000, 0xf8a0fbdd, BRF_ESS | BRF_PRG }, //  2
-	
+
 	{ "cv100-00.u24",  0x400000, 0xcd4ae88a, BRF_GRA },	     //   3	Sprites
 	{ "cv101-00.u20",  0x400000, 0xa6cb3f0b, BRF_GRA },	     //   4
-	
+
 	{ "cv200-00.u16",  0x400000, 0xddc8c67e, BRF_GRA },	     //   5	Tiles Plane A
 	{ "cv201-00.u13",  0x400000, 0x65863321, BRF_GRA },	     //   6
-	
+
 	{ "cv210-00.u18",  0x400000, 0x7486bf3a, BRF_GRA },	     //   7	Tiles Plane B
 
 	{ "cv300-00.u4",   0x400000, 0xfbeda465, BRF_SND },	     //   8	Samples
@@ -412,7 +413,7 @@ static INT32 DrvDoReset()
 	Sh2Open(0);
 	Sh2Reset(*(UINT32 *)(DrvBiosRom + 0), *(UINT32 *)(DrvBiosRom + 4));
 	Sh2Close();
-	
+
 	return 0;
 }
 
@@ -423,12 +424,12 @@ UINT8 __fastcall CyvernReadByte(UINT32 a)
 			//???
 			return 0;
 		}
-		
+
 		default: {
 			bprintf(PRINT_NORMAL, _T("Read byte => %08X\n"), a);
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -439,23 +440,23 @@ void __fastcall CyvernWriteByte(UINT32 a, UINT8 d)
 			// unknown i/o write;
 			return;
 		}
-		
+
 		case 0x00c00000:
 		case 0x00c00001: {
 			//sound write
 			return;
 		}
-		
+
 		case 0x01800000: {
 			SknsHit2Write(0, d);
 			return;
 		}
-		
+
 		case 0x2040000e: {
 			//???
 			return;
 		}
-		
+
 		default: {
 			bprintf(PRINT_NORMAL, _T("Write byte => %08X, %02X\n"), a, d);
 		}
@@ -468,16 +469,16 @@ UINT16 __fastcall CyvernReadWord(UINT32 a)
 		if (a >= 0x06000028 && a <= 0x0600002b) bprintf(PRINT_NORMAL, _T("Read Word Bios Skip %x, %x\n"), a, Sh2GetPC(0));
 		UINT32 Offset = (a - 0x06000000) / 2;
 		UINT16 *Ram = (UINT16*)DrvPrgRam;
-		
+
 		return Ram[Offset];
 	}
-	
+
 	switch (a) {
 		default: {
 			bprintf(PRINT_NORMAL, _T("Read word => %08X\n"), a);
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -488,7 +489,7 @@ void __fastcall CyvernWriteWord(UINT32 a, UINT16 d)
 			// ???
 			return;
 		}
-		
+
 		default: {
 			bprintf(PRINT_NORMAL, _T("Write word => %08X, %04X\n"), a, d);
 		}
@@ -499,15 +500,15 @@ UINT32 __fastcall CyvernReadLong(UINT32 a)
 {
 	if (a >= 0x02f00000 && a <= 0x02f000ff) {
 		UINT32 Offset = (a - 0x02f00000) / 4;
-		
+
 		return SknsHitRead(Offset);
 	}
-	
+
 	if (a >= 0x06000000 && a <= 0x06ffffff) {
 		if (a >= 0x06000028 && a <= 0x0600002b) bprintf(PRINT_NORMAL, _T("Read Long Bios Skip %x, %x\n"), a, Sh2GetPC(0) / 4);
 		UINT32 Offset = (a - 0x06000000) / 4;
 		UINT32 *Ram = (UINT32*)DrvPrgRam;
-		
+
 		return Ram[Offset];
 	}
 
@@ -516,7 +517,7 @@ UINT32 __fastcall CyvernReadLong(UINT32 a)
 			bprintf(PRINT_NORMAL, _T("Read long => %08X\n"), a);
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -524,11 +525,11 @@ void __fastcall CyvernWriteLong(UINT32 a, UINT32 d)
 {
 	if (a >= 0x02f00000 && a <= 0x02f000ff) {
 		UINT32 Offset = (a - 0x02f00000) / 4;
-		
+
 		SknsHitWrite(Offset, d);
 		return;
 	}
-	
+
 	switch (a) {
 		default: {
 			bprintf(PRINT_NORMAL, _T("Write long => %08X, %04X\n"), a, d);
@@ -543,7 +544,7 @@ UINT8 __fastcall BiosSkipReadByte(UINT32 a)
 			bprintf(PRINT_NORMAL, _T("Read Bios Skip byte => %08X\n"), a);
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -554,7 +555,7 @@ UINT16 __fastcall BiosSkipReadWord(UINT32 a)
 			bprintf(PRINT_NORMAL, _T("Read Bios Skip word => %08X\n"), a);
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -565,7 +566,7 @@ UINT32 __fastcall BiosSkipReadLong(UINT32 a)
 			bprintf(PRINT_NORMAL, _T("Read Bios Skip long => %08X\n"), a);
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -581,7 +582,7 @@ static void be_to_le(UINT8 * p, INT32 size)
 static INT32 CyvernInit()
 {
 	INT32 nRet = 0, nLen;
-	
+
 	BurnSetRefreshRate(59.5971);
 
 	// Allocate and Blank all required memory
@@ -597,17 +598,17 @@ static INT32 CyvernInit()
 	// Load BIOS Rom
 	nRet = BurnLoadRom(DrvBiosRom + 0x000000, 0, 1); if (nRet != 0) return 1;
 	be_to_le(DrvBiosRom, 0x00080000);
-	
+
 	// Load Program Rom
 	nRet = BurnLoadRom(DrvPrgRom  + 0x000000, 1, 2); if (nRet != 0) return 1;
 	nRet = BurnLoadRom(DrvPrgRom  + 0x000001, 2, 2); if (nRet != 0) return 1;
 	be_to_le(DrvPrgRom, 0x00200000);
-	
+
 	if (DrvTempRom) {
 		free(DrvTempRom);
 		DrvTempRom = NULL;
 	}
-	
+
 	// Setup the 68000 emulation
 	Sh2Init(1);
 	Sh2Open(0);
@@ -636,7 +637,7 @@ static INT32 CyvernInit()
 //	Sh2SetReadWordHandler (1, BiosSkipReadWord);
 //	Sh2SetReadLongHandler (1, BiosSkipReadLong);
 	Sh2Close();
-	
+
 	GenericTilesInit();
 
 	// Reset the driver
@@ -648,9 +649,9 @@ static INT32 CyvernInit()
 static INT32 DrvExit()
 {
 	Sh2Exit();
-	
+
 	GenericTilesExit();
-	
+
 	BurnFree(Mem);
 
 	return 0;
@@ -659,16 +660,16 @@ static INT32 DrvExit()
 static void DrvCalcPalette()
 {
 	UINT32 *PaletteRam = (UINT32*)DrvPaletteRam;
-	
+
 	for (INT32 Offset = 0; Offset <= 32768; Offset++) {
 		INT32 r = (PaletteRam[Offset] >>  0) & 0x1f;
 		INT32 g = (PaletteRam[Offset] >>  5) & 0x1f;
 		INT32 b = (PaletteRam[Offset] >> 10) & 0x1f;
-		
+
 		r <<= 3;
 		g <<= 3;
 		b <<= 3;
-		
+
 		DrvPalette[Offset] = BurnHighCol(r, g, b, 0);
 	}
 }
@@ -676,30 +677,30 @@ static void DrvCalcPalette()
 static void DrvRenderTileALayer()
 {
 	INT32 mx, my, Code, Colour, x, y, TileIndex = 0;
-	
+
 	UINT32 *VideoRam = (UINT32*)DrvTileARam;
-	
+
 	for (my = 0; my < 64; my++) {
 		for (mx = 0; mx < 64; mx++) {
 			Code = VideoRam[TileIndex] & 0x001fffff;
 			Colour = (VideoRam[TileIndex] & 0x3f000000) >> 24;
-			
+
 			if (Code) bprintf(PRINT_NORMAL, _T("%x, %x\n"), Code, Colour);
-			
+
 			x = 16 * mx;
 			y = 16 * my;
-			
+
 //			x -= DrvFgScrollX;
 //			y -= DrvFgScrollY;
 			if (x < -16) x += 1024;
 			if (y < -16) y += 1024;
-			
+
 			if (x > 16 && x < 304 && y > 16 && y < 224) {
 				Render16x16Tile_Mask(pTransDraw, Code, x, y, Colour, 8, 0, 0, DrvTilesA8Bpp);
 			} else {
 				Render16x16Tile_Mask_Clip(pTransDraw, Code, x, y, Colour, 8, 0, 0, DrvTilesA8Bpp);
 			}
-			
+
 			TileIndex++;
 		}
 	}
@@ -709,7 +710,7 @@ static void DrvDraw()
 {
 	BurnTransferClear();
 	DrvCalcPalette();
-	
+
 	DrvRenderTileALayer();
 	BurnTransferCopy(DrvPalette);
 }
@@ -738,7 +739,7 @@ static INT32 DrvFrame()
 		if (i == 9) Sh2SetIRQLine(5, SH2_IRQSTATUS_AUTO);
 		Sh2Close();
 	}
-	
+
 	if (pBurnDraw) DrvDraw();
 
 	return 0;
@@ -747,7 +748,7 @@ static INT32 DrvFrame()
 static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 {
 	struct BurnArea ba;
-	
+
 	if (pnMin != NULL) {			// Return minimum compatible version
 		*pnMin = 0x029693;
 	}

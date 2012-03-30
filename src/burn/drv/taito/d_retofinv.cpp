@@ -2,6 +2,7 @@
 // Based on MAME driver by Jarek Parchanski and Andrea Mazzoleni
 
 #include "tiles_generic.h"
+#include "zet.h"
 #include "taito_m68705.h"
 #include "bitswap.h"
 #include "sn76496.h"
@@ -749,7 +750,7 @@ static INT32 DrvDraw()
 	if (DrvRecalc) {
 		for (INT32 i = 0; i < 0xa00; i++) {
 			INT32 d = Palette[i];
-			DrvPalette[i] = HighCol16(d >> 16, (d >> 8) & 0xff, d & 0xff, 0);
+			DrvPalette[i] = BurnHighCol(d >> 16, (d >> 8) & 0xff, d & 0xff, 0);
 		}
 		DrvRecalc = 0;
 	}

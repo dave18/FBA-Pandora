@@ -48,8 +48,7 @@ static struct BurnInputInfo DrvInputList[] =
 	{"Start 1"           , BIT_DIGITAL  , DrvInputPort0 + 6, "p1 start"  },
 	{"Coin 2"            , BIT_DIGITAL  , DrvInputPort1 + 6, "p2 coin"   },
 	{"Start 2"           , BIT_DIGITAL  , DrvInputPort0 + 7, "p2 start"  },
-	{"Coin 3"            , BIT_DIGITAL  , DrvInputPort2 + 6, "p3 coin"   },
-
+	
 	{"Up"                , BIT_DIGITAL  , DrvInputPort0 + 2, "p1 up"     },
 	{"Down"              , BIT_DIGITAL  , DrvInputPort0 + 3, "p1 down"   },
 	{"Left"              , BIT_DIGITAL  , DrvInputPort0 + 1, "p1 left"   },
@@ -65,6 +64,7 @@ static struct BurnInputInfo DrvInputList[] =
 	{"Fire 2 (Cocktail)" , BIT_DIGITAL  , DrvInputPort1 + 5, "p2 fire 2" },
 	
 	{"Reset"             , BIT_DIGITAL  , &DrvReset        , "reset"     },
+	{"Service"           , BIT_DIGITAL  , DrvInputPort2 + 6, "service"   },
 	{"Dip 1"             , BIT_DIPSWITCH, DrvDip + 0       , "dip"       },
 	{"Dip 2"             , BIT_DIPSWITCH, DrvDip + 1       , "dip"       },
 };
@@ -88,7 +88,7 @@ static struct BurnDIPInfo DrvDIPList[]=
 {
 	// Default Values
 	{0x12, 0xff, 0xff, 0xff, NULL                     },
-	{0x13, 0xff, 0xff, 0x8b, NULL                     },
+	{0x13, 0xff, 0xff, 0xfb, NULL                     },
 	
 	// Dip 1
 	{0   , 0xfe, 0   , 4   , "Coin A"                 },
@@ -119,9 +119,99 @@ static struct BurnDIPInfo DrvDIPList[]=
 	{0x13, 0x01, 0x0c, 0x08, "3"                      },
 	{0x13, 0x01, 0x0c, 0x0c, "6"                      },
 	{0x13, 0x01, 0x0c, 0x00, "Infinite"               },
+	
+	{0   , 0xfe, 0   , 4   , "Bonus Life"             },
+	{0x13, 0x01, 0x30, 0x30, "10k 60k 50k+"           },
+	{0x13, 0x01, 0x30, 0x20, "20k 70k 50k+"           },
+	{0x13, 0x01, 0x30, 0x10, "30k 80k 50k+"           },
+	{0x13, 0x01, 0x30, 0x00, "20k 70k 50k+"           },
 };
 
 STDDIPINFO(Drv)
+
+static struct BurnDIPInfo DrvjDIPList[]=
+{
+	// Default Values
+	{0x12, 0xff, 0xff, 0xff, NULL                     },
+	{0x13, 0xff, 0xff, 0xfb, NULL                     },
+	
+	// Dip 1
+	{0   , 0xfe, 0   , 4   , "Coin A"                 },
+	{0x12, 0x01, 0x0c, 0x00, "2 Coins 1 Credit"       },
+	{0x12, 0x01, 0x0c, 0x0c, "1 Coin  1 Credit"       },
+	{0x12, 0x01, 0x0c, 0x08, "1 Coin  2 Credits"      },
+	{0x12, 0x01, 0x0c, 0x04, "1 Coin  3 Credits"      },
+	
+	{0   , 0xfe, 0   , 4   , "Coin B"                 },
+	{0x12, 0x01, 0x03, 0x00, "2 Coins 1 Credit"       },
+	{0x12, 0x01, 0x03, 0x03, "1 Coin  1 Credit"       },
+	{0x12, 0x01, 0x03, 0x02, "1 Coin  2 Credits"      },
+	{0x12, 0x01, 0x03, 0x01, "1 Coin  3 Credits"      },
+	
+	{0   , 0xfe, 0   , 2   , "Demo Sounds"            },
+	{0x12, 0x01, 0x40, 0x00, "Off"                    },
+	{0x12, 0x01, 0x40, 0x40, "On"                     },
+
+	// Dip 2	
+	{0   , 0xfe, 0   , 4   , "Timer Speed"            },
+	{0x13, 0x01, 0x03, 0x00, "Stopped"                },
+	{0x13, 0x01, 0x03, 0x03, "Slow"                   },
+	{0x13, 0x01, 0x03, 0x02, "Medium"                 },
+	{0x13, 0x01, 0x03, 0x01, "Fast"                   },
+	
+	{0   , 0xfe, 0   , 4   , "Lives"                  },
+	{0x13, 0x01, 0x0c, 0x04, "2"                      },
+	{0x13, 0x01, 0x0c, 0x08, "3"                      },
+	{0x13, 0x01, 0x0c, 0x0c, "6"                      },
+	{0x13, 0x01, 0x0c, 0x00, "Infinite"               },
+	
+	{0   , 0xfe, 0   , 4   , "Bonus Life"             },
+	{0x13, 0x01, 0x30, 0x30, "10k 60k 50k+"           },
+	{0x13, 0x01, 0x30, 0x20, "20k 70k 50k+"           },
+	{0x13, 0x01, 0x30, 0x10, "30k 80k 50k+"           },
+	{0x13, 0x01, 0x30, 0x00, "20k 70k 50k+"           },
+};
+
+STDDIPINFO(Drvj)
+
+static struct BurnDIPInfo DrvbDIPList[]=
+{
+	// Default Values
+	{0x12, 0xff, 0xff, 0xff, NULL                     },
+	{0x13, 0xff, 0xff, 0xfb, NULL                     },
+	
+	// Dip 1
+	{0   , 0xfe, 0   , 4   , "Coin A"                 },
+	{0x12, 0x01, 0x0c, 0x00, "4 Coins 1 Credit"       },
+	{0x12, 0x01, 0x0c, 0x04, "3 Coins 1 Credit"       },
+	{0x12, 0x01, 0x0c, 0x08, "2 Coins 1 Credit"       },
+	{0x12, 0x01, 0x0c, 0x0c, "1 Coin  1 Credit"       },
+	
+	{0   , 0xfe, 0   , 4   , "Coin B"                 },
+	{0x12, 0x01, 0x03, 0x03, "1 Coin  2 Credits"      },
+	{0x12, 0x01, 0x03, 0x02, "1 Coin  3 Credits"      },
+	{0x12, 0x01, 0x03, 0x01, "1 Coin  4 Credits"      },
+	{0x12, 0x01, 0x03, 0x00, "1 Coin  6 Credits"      },
+	
+	{0   , 0xfe, 0   , 2   , "Demo Sounds"            },
+	{0x12, 0x01, 0x40, 0x00, "Off"                    },
+	{0x12, 0x01, 0x40, 0x40, "On"                     },
+
+	// Dip 2	
+	{0   , 0xfe, 0   , 4   , "Timer Speed"            },
+	{0x13, 0x01, 0x03, 0x00, "Stopped"                },
+	{0x13, 0x01, 0x03, 0x03, "Medium"                 },
+	{0x13, 0x01, 0x03, 0x02, "Fast"                   },
+	{0x13, 0x01, 0x03, 0x01, "Fastest"                },
+	
+	{0   , 0xfe, 0   , 4   , "Lives"                  },
+	{0x13, 0x01, 0x0c, 0x04, "2"                      },
+	{0x13, 0x01, 0x0c, 0x08, "3"                      },
+	{0x13, 0x01, 0x0c, 0x0c, "6"                      },
+	{0x13, 0x01, 0x0c, 0x00, "Infinite"               },
+};
+
+STDDIPINFO(Drvb)
 
 static struct BurnRomInfo DrvRomDesc[] = {
 	{ "dh00",          0x10000, 0x251b316e, BRF_ESS | BRF_PRG }, 	//  0	M6809 Program Code
@@ -187,6 +277,27 @@ static struct BurnRomInfo DrvbRomDesc[] = {
 
 STD_ROM_PICK(Drvb)
 STD_ROM_FN(Drvb)
+
+static struct BurnRomInfo Drvb2RomDesc[] = {
+	{ "b-9.2a",        0x04000, 0x40fd0d85, BRF_ESS | BRF_PRG }, 	//  0	M6809 Program Code
+	{ "b-8.3a",        0x08000, 0x26e0116a, BRF_ESS | BRF_PRG }, 	//  1
+	
+	{ "b-4.7a",        0x08000, 0xd076e62e, BRF_ESS | BRF_PRG }, 	//  2	M6502 Program Code
+
+	{ "b-7.9m",        0x08000, 0x9d6f7969, BRF_GRA },	    		//  3	Chars
+	{ "b-6.8m",        0x08000, 0x580e4e43, BRF_GRA },	     		//  4
+	{ "b-5.7m",        0x08000, 0x05ab71d2, BRF_GRA },	     		//  5
+	
+	{ "b-1.1p",        0x08000, 0xa2cdfbea, BRF_GRA },	     		//  6	Sprites
+	{ "b-2.1r",        0x08000, 0xeeb5c3e7, BRF_GRA },	     		//  7
+	{ "b-3.1t",        0x08000, 0x8e18d21d, BRF_GRA },	     		//  8
+	
+	{ "dh-09.bpr",     0x00100, 0xce049b4f, BRF_GRA },	     		//  9	PROMS
+	{ "dh-08.bpr",     0x00100, 0xcdf2180f, BRF_GRA },	     		// 10
+};
+
+STD_ROM_PICK(Drvb2)
+STD_ROM_FN(Drvb2)
 
 static INT32 MemIndex()
 {
@@ -839,17 +950,27 @@ struct BurnDriver BurnDrvSidepcktj = {
 	"Side Pocket (Japan)\0", NULL, "Data East Corporation", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 3, HARDWARE_PREFIX_DATAEAST, GBF_SPORTSMISC, 0,
-	NULL, DrvjRomInfo, DrvjRomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,
+	NULL, DrvjRomInfo, DrvjRomName, NULL, NULL, DrvInputInfo, DrvjDIPInfo,
 	SidepcktjInit, DrvExit, DrvFrame, NULL, DrvScan,
 	NULL, 0x100, 256, 224, 4, 3
 };
 
 struct BurnDriver BurnDrvSidepcktb = {
 	"sidepcktb", "sidepckt", NULL, NULL, "1986",
-	"Side Pocket (bootleg)\0", NULL, "bootleg", "Miscellaneous",
+	"Side Pocket (bootleg set 1)\0", NULL, "bootleg", "Miscellaneous",
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 3, HARDWARE_PREFIX_DATAEAST, GBF_SPORTSMISC, 0,
-	NULL, DrvbRomInfo, DrvbRomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,
+	NULL, DrvbRomInfo, DrvbRomName, NULL, NULL, DrvInputInfo, DrvbDIPInfo,
+	SidepcktbInit, DrvExit, DrvFrame, NULL, DrvScan,
+	NULL, 0x100, 256, 224, 4, 3
+};
+
+struct BurnDriver BurnDrvSidepcktb2 = {
+	"sidepcktb2", "sidepckt", NULL, NULL, "1986",
+	"Side Pocket (bootleg set 2)\0", NULL, "bootleg", "Miscellaneous",
+	NULL, NULL, NULL, NULL,
+	BDF_GAME_WORKING | BDF_CLONE | BDF_BOOTLEG, 3, HARDWARE_PREFIX_DATAEAST, GBF_SPORTSMISC, 0,
+	NULL, Drvb2RomInfo, Drvb2RomName, NULL, NULL, DrvInputInfo, DrvDIPInfo,
 	SidepcktbInit, DrvExit, DrvFrame, NULL, DrvScan,
 	NULL, 0x100, 256, 224, 4, 3
 };

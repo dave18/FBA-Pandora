@@ -2,9 +2,14 @@
 // Based on MAME driver by Bryan McPhail
 
 #include "tiles_generic.h"
+#include "sek.h"
 #include "m6502_intf.h"
 #include "burn_ym2203.h"
 #include "burn_ym3526.h"
+#include "config.h"
+
+extern CFG_OPTIONS config_options;
+
 
 static UINT8 *AllMem;
 static UINT8 *AllRam;
@@ -341,7 +346,7 @@ static void karnov_i8751_w(INT32 data)
 	if (data==0x407) i8751_return=0x421e; /* Desert */
 	if (data==0x401) i8751_return=0x4138; /* ^Whistling wind */
 	if (data==0x408) i8751_return=0x4276; /* ^Heavy Gates */
-	
+
 	SekSetIRQLine(6, SEK_IRQSTATUS_AUTO); /* Signal main cpu task is complete */
 	i8751_needs_ack=1;
 }
@@ -541,11 +546,11 @@ static void karnov_control_w(INT32 offset, INT32 data)
 
 		case 2:
 			*soundlatch = data;
-			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);			
+			M6502SetIRQ(M6502_INPUT_LINE_NMI, M6502_IRQSTATUS_AUTO);
 			break;
 
 		case 4:
-			memcpy (DrvSprBuf, DrvSprRAM, 0x1000); 
+			memcpy (DrvSprBuf, DrvSprRAM, 0x1000);
 			break;
 
 		case 6:
@@ -676,7 +681,7 @@ UINT8 karnov_sound_read(UINT16 address)
 }
 
 static void DrvYM3526FMIRQHandler(INT32, INT32 nStatus)
-{	
+{
 	if (nStatus) {
 		M6502SetIRQ(M6502_IRQ_LINE, M6502_IRQSTATUS_ACK);
 	} else {
@@ -850,7 +855,7 @@ static INT32 DrvInit()
 			if (BurnLoadRom(DrvGfxROM2 + 0x20000, 13, 1)) return 1;
 			if (BurnLoadRom(DrvGfxROM2 + 0x40000, 14, 1)) return 1;
 			if (BurnLoadRom(DrvGfxROM2 + 0x60000, 15, 1)) return 1;
-	
+
 			if (BurnLoadRom(DrvColPROM + 0x00000, 16, 1)) return 1;
 			if (BurnLoadRom(DrvColPROM + 0x00400, 17, 1)) return 1;
 		} else {
@@ -862,7 +867,7 @@ static INT32 DrvInit()
 			if (BurnLoadRom(DrvGfxROM2 + 0x50000, 17, 1)) return 1;
 			if (BurnLoadRom(DrvGfxROM2 + 0x60000, 18, 1)) return 1;
 			if (BurnLoadRom(DrvGfxROM2 + 0x70000, 19, 1)) return 1;
-	
+
 			if (BurnLoadRom(DrvColPROM + 0x00000, 20, 1)) return 1;
 			if (BurnLoadRom(DrvColPROM + 0x00400, 21, 1)) return 1;
 		}
@@ -873,7 +878,7 @@ static INT32 DrvInit()
 
 	// These games really don't like the ASM core, so disable it for now
 	// and restore it on exit.
-	if (bBurnUseASMCPUEmulation) {
+	if ((bBurnUseASMCPUEmulation) && (config_options.option_forcec68k==0)) {
 		bUseAsm68KCoreOldValue = bBurnUseASMCPUEmulation;
 		bBurnUseASMCPUEmulation = false;
 	}
@@ -987,7 +992,7 @@ static void draw_bg_layer()
 
 		INT32 attr = vram[offs];
 		INT32 code = attr & 0x7ff;
-		INT32 color= attr >> 12;	
+		INT32 color= attr >> 12;
 
 		if (*flipscreen) {
 			Render16x16Tile_FlipXY_Clip(pTransDraw, code, 240 - sx, (240 - sy) - 8, color, 4, 0x200, DrvGfxROM1);
@@ -1144,15 +1149,15 @@ static INT32 DrvFrame()
 		}
 
 		BurnTimerUpdate(i * (nCyclesTotal[0] / nInterleave));
-		
+
 		BurnTimerUpdateYM3526(i * (nCyclesTotal[1] / nInterleave));
 	}
 
 	BurnTimerEndFrame(nCyclesTotal[0]);
 	BurnTimerEndFrameYM3526(nCyclesTotal[1]);
-	
+
 	if (pBurnSoundOut) {
-		BurnYM3526Update(pBurnSoundOut, nBurnSoundLen);	
+		BurnYM3526Update(pBurnSoundOut, nBurnSoundLen);
 		BurnYM2203Update(pBurnSoundOut, nBurnSoundLen);
 	}
 
@@ -1170,7 +1175,7 @@ static INT32 DrvFrame()
 static INT32 DrvScan(INT32 nAction, INT32 *pnMin)
 {
 	struct BurnArea ba;
-	
+
 	if (pnMin != NULL) {
 		*pnMin = 0x029707;
 	}
@@ -1231,7 +1236,7 @@ static struct BurnRomInfo karnovRomDesc[] = {
 
 	{ "karnprom.21",	0x00400, 0xaab0bb93, 6 | BRF_GRA},            // 20 Color Color Proms
 	{ "karnprom.20",	0x00400, 0x02f78ffb, 6 | BRF_GRA},            // 21
-	
+
 	{ "karnov_i8751",  0x01000, 0x00000000, BRF_OPT | BRF_NODUMP},
 };
 
@@ -1252,7 +1257,7 @@ struct BurnDriver BurnDrvKarnov = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, karnovRomInfo, karnovRomName, NULL, NULL, KarnovInputInfo, KarnovDIPInfo,
-	KarnovInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 
+	KarnovInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	&DrvRecalc, 0x300, 256, 240, 4, 3
 };
 
@@ -1288,7 +1293,7 @@ static struct BurnRomInfo karnovjRomDesc[] = {
 
 	{ "karnprom.21",	0x00400, 0xaab0bb93, 6 | BRF_GRA},            // 20 Color Proms
 	{ "karnprom.20",	0x00400, 0x02f78ffb, 6 | BRF_GRA},            // 21
-	
+
 	{ "karnovj_i8751",  0x01000, 0x00000000, BRF_OPT | BRF_NODUMP},
 };
 
@@ -1309,7 +1314,7 @@ struct BurnDriver BurnDrvKarnovj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, karnovjRomInfo, karnovjRomName, NULL, NULL, KarnovInputInfo, KarnovDIPInfo,
-	KarnovjInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 
+	KarnovjInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	&DrvRecalc, 0x300, 256, 240, 4, 3
 };
 
@@ -1344,7 +1349,7 @@ static struct BurnRomInfo wndrplntRomDesc[] = {
 
 	{ "ea21.prm",		0x00400, 0xc8beab49, 6 | BRF_GRA},            // 20 Color Proms
 	{ "ea20.prm",		0x00400, 0x619f9d1e, 6 | BRF_GRA},            // 21
-	
+
 	{ "wndrplnt_i8751",  0x01000, 0x00000000, BRF_OPT | BRF_NODUMP},
 };
 
@@ -1365,7 +1370,7 @@ struct BurnDriver BurnDrvWndrplnt = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_ORIENTATION_VERTICAL, 2, HARDWARE_PREFIX_DATAEAST, GBF_VERSHOOT, 0,
 	NULL, wndrplntRomInfo, wndrplntRomName, NULL, NULL, KarnovInputInfo, WndrplntDIPInfo,
-	WndrplntInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 
+	WndrplntInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	&DrvRecalc, 0x300, 240, 256, 3, 4
 };
 
@@ -1396,7 +1401,7 @@ static struct BurnRomInfo chelnovRomDesc[] = {
 
 	{ "ee21.k8",		0x00400, 0xb1db6586, 6 | BRF_GRA},            // 16 Color Proms
 	{ "ee20.l6",		0x00400, 0x41816132, 6 | BRF_GRA},            // 17
-	
+
 	{ "chelnov_i8751",  0x01000, 0x00000000, BRF_OPT | BRF_NODUMP},
 };
 
@@ -1424,7 +1429,7 @@ struct BurnDriver BurnDrvChelnov = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, chelnovRomInfo, chelnovRomName, NULL, NULL, ChelnovInputInfo, ChelnovDIPInfo,
-	ChelnovInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 
+	ChelnovInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	&DrvRecalc, 0x300, 256, 240, 4, 3
 };
 
@@ -1455,7 +1460,7 @@ static struct BurnRomInfo chelnovuRomDesc[] = {
 
 	{ "ee21.k8",		0x00400, 0xb1db6586, 6 | BRF_GRA},            // 16 Color Proms
 	{ "ee20.l6",		0x00400, 0x41816132, 6 | BRF_GRA},            // 17
-	
+
 	{ "chelnovu_i8751",  0x01000, 0x00000000, BRF_OPT | BRF_NODUMP},
 };
 
@@ -1483,7 +1488,7 @@ struct BurnDriver BurnDrvChelnovu = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, chelnovuRomInfo, chelnovuRomName, NULL, NULL, ChelnovInputInfo, ChelnovuDIPInfo,
-	ChelnovuInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 
+	ChelnovuInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	&DrvRecalc, 0x300, 256, 240, 4, 3
 };
 
@@ -1514,7 +1519,7 @@ static struct BurnRomInfo chelnovjRomDesc[] = {
 
 	{ "a-k7.bin",		0x00400, 0x309c49d8, 6 | BRF_GRA},            // 16 Color Proms
 	{ "ee20.l6",		0x00400, 0x41816132, 6 | BRF_GRA},            // 17
-	
+
 	{ "chelnovj_i8751",  0x01000, 0x00000000, BRF_OPT | BRF_NODUMP},
 };
 
@@ -1542,6 +1547,6 @@ struct BurnDriver BurnDrvChelnovj = {
 	NULL, NULL, NULL, NULL,
 	BDF_GAME_WORKING | BDF_CLONE, 2, HARDWARE_PREFIX_DATAEAST, GBF_PLATFORM | GBF_HORSHOOT, 0,
 	NULL, chelnovjRomInfo, chelnovjRomName, NULL, NULL, ChelnovInputInfo, ChelnovuDIPInfo,
-	ChelnovjInit, DrvExit, DrvFrame, DrvDraw, DrvScan, 
+	ChelnovjInit, DrvExit, DrvFrame, DrvDraw, DrvScan,
 	&DrvRecalc, 0x300, 256, 240, 4, 3
 };

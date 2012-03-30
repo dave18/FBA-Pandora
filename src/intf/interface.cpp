@@ -1,6 +1,5 @@
 #include "burner.h"
 
-
 #define INT_INFO_STRINGS (8)
 
 INT32 IntInfoFree(InterfaceInfo* pInfo)

@@ -1,7 +1,6 @@
 // Burner Input module
 #include "burner.h"
 
-
 UINT32 nInputSelect = 0;
 bool bInputOkay = false;
 

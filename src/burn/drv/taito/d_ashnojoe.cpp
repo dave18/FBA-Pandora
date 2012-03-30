@@ -2,6 +2,8 @@
 // Based on MAME driver by driver by David Haywood and Pierpaolo Prazzoli
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "burn_ym2203.h"
 #include "msm5205.h"
 
@@ -444,7 +446,7 @@ static inline void DrvRecalcPalette()
 		g = (g << 3) | (g >> 2);
 		b = (b << 3) | (b >> 2);
 
-		DrvPalette[i] = HighCol16(r, g, b, 0);
+		DrvPalette[i] = BurnHighCol(r, g, b, 0);
 	}
 }
 

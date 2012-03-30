@@ -188,7 +188,7 @@ void parse_cmd(int argc, char *argv[], char *path)
 
 int main( int argc, char **argv )
 {
-    strcpy(szAppBurnVer,"0.2.97.21");
+    strcpy(szAppBurnVer,"0.2.97.24");
 char path[MAX_PATH];
 
 

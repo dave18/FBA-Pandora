@@ -6,6 +6,8 @@
 //	master of weapon title screen is incorrect
 
 #include "tiles_generic.h"
+#include "sek.h"
+#include "zet.h"
 #include "taito.h"
 #include "taito_ic.h"
 #include "burn_ym2610.h"
@@ -1934,7 +1936,7 @@ static void DrvPaletteUpdate()
 		g |= g << 4;
 		b |= b << 4;
 
-		TaitoPalette[i] = HighCol16(r, g, b, 0);
+		TaitoPalette[i] = BurnHighCol(r, g, b, 0);
 	}
 }
 
