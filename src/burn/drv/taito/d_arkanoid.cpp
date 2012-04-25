@@ -70,7 +70,7 @@ static struct BurnInputInfo DrvInputList[] = {
 	{"P2 start"  ,    BIT_DIGITAL  , DrvJoy1 + 1,	"p2 start" },
 	{"P2 Button 1"  , BIT_DIGITAL  , DrvJoy2 + 2,	"p2 fire 1"},
 
-	A("P2 Right / left",	BIT_ANALOG_REL, DrvAxis + 1,	"p1 x-axis"),
+	A("P2 Right / left",	BIT_ANALOG_REL, DrvAxis + 1,	"p2 x-axis"),
 
 	{"Tilt",	  BIT_DIGITAL,   DrvJoy1 + 3,	"tilt"     },
 	{"Service",	  BIT_DIGITAL,   DrvJoy1 + 2,   "diag"     },
@@ -833,7 +833,7 @@ void __fastcall arkanoid_write(UINT16 address, UINT8 data)
 			*paddleselect= (data >> 2) & 1;
 		}
 		break;
-	
+
 		case 0xd010: // watchdog
 		break;
 
@@ -1270,7 +1270,7 @@ static INT32 DrvScan(INT32 nAction,INT32 *pnMin)
 		*pnMin = 0x029707;
 	}
 
-	if (nAction & ACB_VOLATILE) {		
+	if (nAction & ACB_VOLATILE) {
 		memset(&ba, 0, sizeof(ba));
 
 		ba.Data	  = AllRam;
@@ -1323,7 +1323,7 @@ static struct BurnRomInfo arkanoidRomDesc[] = {
 	{ "a75-07.ic24",  0x0200, 0x0af8b289, 4 | BRF_GRA },	       //  6 Color Proms
 	{ "a75-08.ic23",  0x0200, 0xabb002fb, 4 | BRF_GRA },	       //  7
 	{ "a75-09.ic22",  0x0200, 0xa7c6c277, 4 | BRF_GRA },	       //  8
-	
+
 	{ "arkanoid1_68705p3.ic14", 0x0800, 0x1b68e2d8, 0 | BRF_PRG | BRF_OPT },  //  9 Decapped roms
 	{ "arkanoid_mcu.ic14",      0x0800, 0x4e44b50a, 0 | BRF_PRG | BRF_OPT },  // 10
 	{ "arkanoid_68705p5.ic14",  0x0800, 0x0be83647, 0 | BRF_PRG | BRF_OPT },  // 11
@@ -1572,7 +1572,7 @@ struct BurnDriver BurnDrvarkangc = {
 static struct BurnRomInfo arkangc2RomDesc[] = {
 	{ "1.81",         0x8000, 0xbd6eb996, 1 | BRF_ESS | BRF_PRG }, //  0 Z80 Code
 	{ "2.82",         0x8000, 0x29dbe452, 1 | BRF_ESS | BRF_PRG }, //  1
- 
+
 	{ "a75-03.rom",   0x8000, 0x038b74ba, 3 | BRF_GRA },	       //  2 Graphics
 	{ "a75-04.rom",   0x8000, 0x71fae199, 3 | BRF_GRA },	       //  3
 	{ "a75-05.rom",   0x8000, 0xc76374e2, 3 | BRF_GRA },	       //  4
@@ -1684,14 +1684,14 @@ static struct BurnRomInfo arkgcblRomDesc[] = {
 	{ "a75-03.rom",   0x8000, 0x038b74ba, 3 | BRF_GRA },	       //  2 Graphics
 	{ "a75-04.rom",   0x8000, 0x71fae199, 3 | BRF_GRA },	       //  3
 	{ "a75-05.rom",   0x8000, 0xc76374e2, 3 | BRF_GRA },	       //  4
-	
+
 	{ "82s129.5k",    0x0100, 0xfa70b64d, 4 | BRF_GRA },	       //  5 Color Proms
 	{ "82s129.5jk",   0x0100, 0xcca69884, 4 | BRF_GRA },	       //  6
 	{ "82s129.5l",    0x0100, 0x3e4d2bf5, 4 | BRF_GRA },	       //  7
 	{ "82s129.5kl",   0x0100, 0x085d625a, 4 | BRF_GRA },	       //  8
 	{ "82s129.5mn",   0x0100, 0x0fe0b108, 4 | BRF_GRA },	       //  9
 	{ "63s141.5m",    0x0100, 0x5553f675, 4 | BRF_GRA },	       //  10
-	
+
 	{ "pal16r8.5f",   0x0104, 0x36471917, 0 | BRF_OPT | BRF_GRA }, //  11 PAL
 };
 

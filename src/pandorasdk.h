@@ -1,6 +1,7 @@
 #ifndef _GP2XSDK_
 #define _GP2XSDK_
 
+
 #include <math.h>
 #include <fcntl.h>
 #include <linux/fb.h>
@@ -71,7 +72,7 @@ void gp2x_initialize();
 void gp2x_terminate(char *frontend);
 //void gp2x_setvideo_mode(int hw, int vh);
 unsigned long gp2x_joystick_read(void);
-void gp2x_video_flip(void);
+void gp2x_video_flip(bool);
 void gp2x_clear_framebuffers();
 void * UpperMalloc(size_t size);
 void UpperFree(void* mem);

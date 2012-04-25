@@ -11051,7 +11051,7 @@
 
 1333109335 /media/mmcblk0p1/fba_src_029724/src/config.h
 
-1328031702 /media/mmcblk0p1/fba_src_029724/src/pandorasdk.h
+1333481750 /media/mmcblk0p1/fba_src_029724/src/pandorasdk.h
 	<math.h>
 	<fcntl.h>
 	<linux/fb.h>
@@ -11132,7 +11132,7 @@
 1325274674 /media/mmcblk0p1/fba_src_029724/src/burn/tiles_generic.h
 	"burnint.h"
 
-1332966455 source:/media/mmcblk0p1/fba_src_029724/src/burn/burn.cpp
+1333495829 source:/media/mmcblk0p1/fba_src_029724/src/burn/burn.cpp
 	"version.h"
 	"burnint.h"
 	"burn_sound.h"
@@ -11846,7 +11846,7 @@
 1331671564 /media/mmcblk0p1/fba_src_029724/src/cpu/i8039/i8039.h
 	"driver.h"
 
-1332277482 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/irem/d_m72.cpp
+1335374452 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/irem/d_m72.cpp
 	"tiles_generic.h"
 	"zet.h"
 	"burn_ym2151.h"
@@ -13396,6 +13396,1066 @@
 	"msm6295.h"
 	"es8712.h"
 
+1322662294 /media/mmcblk0p1/fba_src_029724/src/bu<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+1322662294 _layout_file>
+	<ActiveTarget name="debug" />
+	<File name="src/burn/burn.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="27028" topLine="1113" />
+	</File>
+	<File name="src/burn/burn.h" open="0" top="0" tabpos="9">
+		<Cursor position="4139" topLine="168" />
+	</File>
+	<File name="src/burn/burn_gun.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2655" topLine="86" />
+	</File>
+	<File name="src/burn/burn_led.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="43" topLine="0" />
+	</File>
+	<File name="src/burn/burn_memory.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1701" topLine="62" />
+	</File>
+	<File name="src/burn/burnint.h" open="0" top="0" tabpos="11">
+		<Cursor position="7301" topLine="193" />
+	</File>
+	<File name="src/burn/cheat.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="12265" topLine="510" />
+	</File>
+	<File name="src/burn/cheat.h" open="0" top="0" tabpos="0">
+		<Cursor position="125" topLine="0" />
+	</File>
+	<File name="src/burn/devices/seibusnd.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="807" topLine="22" />
+	</File>
+	<File name="src/burn/driverlist.h" open="0" top="0" tabpos="1">
+		<Cursor position="86924" topLine="3692" />
+	</File>
+	<File name="src/burn/drv/capcom/cps.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1717" topLine="45" />
+	</File>
+	<File name="src/burn/drv/capcom/cps_obj.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1281" topLine="62" />
+	</File>
+	<File name="src/burn/drv/capcom/cps_pal.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2777" topLine="132" />
+	</File>
+	<File name="src/burn/drv/capcom/cps_run.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="4581" topLine="224" />
+	</File>
+	<File name="src/burn/drv/capcom/cps_rw.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="8277" topLine="461" />
+	</File>
+	<File name="src/burn/drv/capcom/ctv.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="388" topLine="6" />
+	</File>
+	<File name="src/burn/drv/capcom/d_cps1.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="512531" topLine="11430" />
+	</File>
+	<File name="src/burn/drv/capcom/ps.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="95" topLine="0" />
+	</File>
+	<File name="src/burn/drv/capcom/ps_m.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1066" topLine="47" />
+	</File>
+	<File name="src/burn/drv/capcom/ps_z.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="3327" topLine="170" />
+	</File>
+	<File name="src/burn/drv/cps3/cps3.h" open="0" top="0" tabpos="0">
+		<Cursor position="282" topLine="0" />
+	</File>
+	<File name="src/burn/drv/cps3/cps3run.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="53132" topLine="1789" />
+	</File>
+	<File name="src/burn/drv/cps3/d_cps3.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="49602" topLine="1223" />
+	</File>
+	<File name="src/burn/drv/dataeast/d_backfire.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="13673" topLine="525" />
+	</File>
+	<File name="src/burn/drv/dataeast/d_karnov.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="25286" topLine="873" />
+	</File>
+	<File name="src/burn/drv/dataeast/d_vaportra.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="10191" topLine="380" />
+	</File>
+	<File name="src/burn/drv/dataeast/deco16ic.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="70442" topLine="1484" />
+	</File>
+	<File name="src/burn/drv/galaxian/d_galaxian.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="283684" topLine="7242" />
+	</File>
+	<File name="src/burn/drv/irem/d_m62.cpp" open="0" top="0" tabpos="7">
+		<Cursor position="158920" topLine="3921" />
+	</File>
+	<File name="src/burn/drv/irem/d_m72.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="111816" topLine="3336" />
+	</File>
+	<File name="src/burn/drv/irem/d_m90.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="52597" topLine="1655" />
+	</File>
+	<File name="src/burn/drv/irem/d_m92.cpp" open="0" top="0" tabpos="10">
+		<Cursor position="57335" topLine="1766" />
+	</File>
+	<File name="src/burn/drv/konami/d_gberet.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="13961" topLine="399" />
+	</File>
+	<File name="src/burn/drv/megadrive/megadrive.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="23383" topLine="801" />
+	</File>
+	<File name="src/burn/drv/neogeo/d_neogeo.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="441872" topLine="10389" />
+	</File>
+	<File name="src/burn/drv/neogeo/neo_run.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="105222" topLine="3698" />
+	</File>
+	<File name="src/burn/drv/neogeo/neo_sprite.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="811" topLine="38" />
+	</File>
+	<File name="src/burn/drv/neogeo/neogeo.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="3196" topLine="100" />
+	</File>
+	<File name="src/burn/drv/pgm/pgm_crypt.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="11550" topLine="238" />
+	</File>
+	<File name="src/burn/drv/pgm/pgm_draw.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="17" topLine="0" />
+	</File>
+	<File name="src/burn/drv/pgm/pgm_prot.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="58369" topLine="2576" />
+	</File>
+	<File name="src/burn/drv/pgm/pgm_run.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="15681" topLine="626" />
+	</File>
+	<File name="src/burn/drv/pre90s/d_1942.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="16679" topLine="388" />
+	</File>
+	<File name="src/burn/drv/pre90s/d_1943.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="24674" topLine="571" />
+	</File>
+	<File name="src/burn/drv/pre90s/d_ladybug.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="30993" topLine="1145" />
+	</File>
+	<File name="src/burn/drv/pre90s/d_mrdo.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="4371" topLine="129" />
+	</File>
+	<File name="src/burn/drv/psikyo/psikyo_tile.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="616" topLine="28" />
+	</File>
+	<File name="src/burn/drv/pst90s/d_seta.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="205475" topLine="6314" />
+	</File>
+	<File name="src/burn/drv/pst90s/d_suna16.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="14877" topLine="450" />
+	</File>
+	<File name="src/burn/drv/pst90s/d_suprnova.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="60" topLine="0" />
+	</File>
+	<File name="src/burn/drv/sega/d_angelkds.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="12611" topLine="457" />
+	</File>
+	<File name="src/burn/drv/sega/d_bankp.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="8689" topLine="317" />
+	</File>
+	<File name="src/burn/drv/sega/d_outrun.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="163" topLine="0" />
+	</File>
+	<File name="src/burn/drv/sega/d_sys16a.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="116781" topLine="2867" />
+	</File>
+	<File name="src/burn/drv/sega/sys16_fd1094.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="1442" topLine="40" />
+	</File>
+	<File name="src/burn/drv/sega/sys16_gfx.cpp" open="1" top="0" tabpos="6">
+		<Cursor position="59449" topLine="1600" />
+	</File>
+	<File name="src/burn/drv/sega/sys16_run.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="73372" topLine="2344" />
+	</File>
+	<File name="src/burn/drv/taito/d_othunder.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="225" topLine="0" />
+	</File>
+	<File name="src/burn/drv/taito/d_slapshot.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="14597" topLine="479" />
+	</File>
+	<File name="src/burn/drv/taito/d_taitof2.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="265990" topLine="7430" />
+	</File>
+	<File name="src/burn/drv/taito/d_taitomisc.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2886" topLine="60" />
+	</File>
+	<File name="src/burn/drv/taito/d_taitoz.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="225" topLine="0" />
+	</File>
+	<File name="src/burn/drv/taito/taito.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1796" topLine="40" />
+	</File>
+	<File name="src/burn/drv/toaplan/d_bbakraid.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="21678" topLine="802" />
+	</File>
+	<File name="src/burn/drv/toaplan/d_demonwld.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="9507" topLine="425" />
+	</File>
+	<File name="src/burn/drv/toaplan/d_snowbro2.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="492" topLine="14" />
+	</File>
+	<File name="src/burn/drv/toaplan/d_tekipaki.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="808" topLine="28" />
+	</File>
+	<File name="src/burn/drv/toaplan/toa_bcu2.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="320" topLine="17" />
+	</File>
+	<File name="src/burn/hiscore.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="11704" topLine="578" />
+	</File>
+	<File name="src/burn/load.cpp" open="0" top="0" tabpos="7">
+		<Cursor position="676" topLine="14" />
+	</File>
+	<File name="src/burn/snd/burn_ym2151.cpp" open="0" top="0" tabpos="12">
+		<Cursor position="4119" topLine="121" />
+	</File>
+	<File name="src/burn/snd/burn_ym2151.h" open="0" top="0" tabpos="13">
+		<Cursor position="1450" topLine="31" />
+	</File>
+	<File name="src/burn/snd/burn_ym3526.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="535" topLine="18" />
+	</File>
+	<File name="src/burn/snd/msm6295.cpp" open="0" top="0" tabpos="7">
+		<Cursor position="103" topLine="0" />
+	</File>
+	<File name="src/burn/snd/ym2151.c" open="0" top="0" tabpos="14">
+		<Cursor position="69114" topLine="2458" />
+	</File>
+	<File name="src/burn/tiles_generic.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1319" topLine="31" />
+	</File>
+	<File name="src/burner/burner.h" open="0" top="0" tabpos="0">
+		<Cursor position="1559" topLine="50" />
+	</File>
+	<File name="src/burner/conc.cpp" open="0" top="0" tabpos="7">
+		<Cursor position="6739" topLine="286" />
+	</File>
+	<File name="src/burner/dat.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="152" topLine="0" />
+	</File>
+	<File name="src/burner/image.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="407" topLine="23" />
+	</File>
+	<File name="src/burner/misc.cpp" open="1" top="0" tabpos="7">
+		<Cursor position="1908" topLine="71" />
+	</File>
+	<File name="src/burner/neocdlist.h" open="0" top="0" tabpos="11">
+		<Cursor position="535" topLine="23" />
+	</File>
+	<File name="src/burner/sdl/burner_sdl.h" open="0" top="0" tabpos="3">
+		<Cursor position="163" topLine="8" />
+	</File>
+	<File name="src/burner/sdl/bzip.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="6681" topLine="282" />
+	</File>
+	<File name="src/burner/sdl/drv.cpp" open="0" top="0" tabpos="11">
+		<Cursor position="3135" topLine="132" />
+	</File>
+	<File name="src/burner/sdl/stringset.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="778" topLine="25" />
+	</File>
+	<File name="src/burner/sshot.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="1605" topLine="66" />
+	</File>
+	<File name="src/burner/win32/neocdlist.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="20411" topLine="458" />
+	</File>
+	<File name="src/burner/zipfn.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="332" topLine="5" />
+	</File>
+	<File name="src/cpu/davez80/davez80.h" open="0" top="0" tabpos="0">
+		<Cursor position="141" topLine="0" />
+	</File>
+	<File name="src/cpu/davez80/davez80.s" open="0" top="0" tabpos="5">
+		<Cursor position="240313" topLine="8055" />
+	</File>
+	<File name="src/cpu/drz80/DrZ80.h" open="0" top="0" tabpos="0">
+		<Cursor position="1017" topLine="17" />
+	</File>
+	<File name="src/cpu/drz80/DrZ80.s" open="0" top="0" tabpos="4">
+		<Cursor position="264" topLine="0" />
+	</File>
+	<File name="src/cpu/m6805/m6805.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="10635" topLine="311" />
+	</File>
+	<File name="src/cpu/m68k/m68kcpu.c" open="0" top="0" tabpos="0">
+		<Cursor position="1318" topLine="27" />
+	</File>
+	<File name="src/cpu/m68k/m68kcpu.h" open="0" top="0" tabpos="0">
+		<Cursor position="61444" topLine="1928" />
+	</File>
+	<File name="src/cpu/m68k/m68kopdm.c" open="0" top="0" tabpos="8">
+		<Cursor position="95024" topLine="4704" />
+	</File>
+	<File name="src/cpu/nec/nec.cpp" open="0" top="0" tabpos="9">
+		<Cursor position="11449" topLine="471" />
+	</File>
+	<File name="src/cpu/nec/v25.cpp" open="0" top="0" tabpos="9">
+		<Cursor position="11764" topLine="466" />
+	</File>
+	<File name="src/cpu/sek.cpp" open="0" top="0" tabpos="7">
+		<Cursor position="5552" topLine="226" />
+	</File>
+	<File name="src/cpu/sek.h" open="0" top="0" tabpos="7">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="src/cpu/sh2/sh2.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="19152" topLine="640" />
+	</File>
+	<File name="src/cpu/sh2/sh2.h" open="0" top="0" tabpos="0">
+		<Cursor position="18" topLine="0" />
+	</File>
+	<File name="src/cpu/vez.cpp" open="0" top="0" tabpos="8">
+		<Cursor position="5560" topLine="211" />
+	</File>
+	<File name="src/cpu/z80/z80.cpp" open="0" top="0" tabpos="11">
+		<Cursor position="170344" topLine="3558" />
+	</File>
+	<File name="src/cpu/z80/z80.h" open="0" top="0" tabpos="0">
+		<Cursor position="1323" topLine="56" />
+	</File>
+	<File name="src/cpu/zet.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="54" topLine="0" />
+	</File>
+	<File name="src/cpu/zet.h" open="0" top="0" tabpos="4">
+		<Cursor position="370" topLine="11" />
+	</File>
+	<File name="src/fba_player.cpp" open="1" top="1" tabpos="5">
+		<Cursor position="10298" topLine="367" />
+	</File>
+	<File name="src/font.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="9566" topLine="122" />
+	</File>
+	<File name="src/input.cpp" open="0" top="0" tabpos="4">
+		<Cursor position="242" topLine="6" />
+	</File>
+	<File name="src/main.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="5655" topLine="210" />
+	</File>
+	<File name="src/pandorasdk.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="4992" topLine="156" />
+	</File>
+	<File name="src/run.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="6681" topLine="277" />
+	</File>
+	<File name="src/snd.cpp" open="0" top="0" tabpos="6">
+		<Cursor position="7003" topLine="254" />
+	</File>
+
+1322662294 s_layout_file>
+	"burnint.h"
+	"burn_sound.h"
+	"burn_ymf278b.h"
+
+1327524782 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/c6280.cpp
+	"burnint.h"
+	"h6280_intf.h"
+	"math.h"
+
+1332448666 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/dac.cpp
+	"burnint.h"
+	"burn_sound.h"
+
+1326404792 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/es5506.cpp
+	"burnint.h"
+	"es5506.h"
+	"wavwrite.h"
+
+1323120962 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/es8712.cpp
+	"burnint.h"
+	"math.h"
+	"es8712.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/fm.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<stdarg.h>
+	<math.h>
+	"driver.h"
+	"state.h"
+	"deftypes.h"
+	"support.h"
+	"ay8910.h"
+	"fm.h"
+	"ymdeltat.h"
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/burn/snd/ymdeltat.h
+
+1329426188 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/fmopl.c
+	<stdio.h>
+	<stdlib.h>
+	<math.h>
+	"driver.h"
+	"state.h"
+	"ymdeltat.h"
+	"fmopl.h"
+
+1331973586 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ics2115.cpp
+	"burnint.h"
+	"zet.h"
+	"msm6295.h"
+	"burn_sound.h"
+	"ics2115.h"
+
+1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/iremga20.cpp
+	"burnint.h"
+	"iremga20.h"
+
+1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/k007232.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"k007232.h"
+
+1324581592 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/k051649.cpp
+	"burnint.h"
+
+1324581592 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/k053260.cpp
+	"burnint.h"
+
+1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/k054539.cpp
+	"burnint.h"
+	"math.h"
+	"k054539.h"
+
+1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/msm5205.cpp
+	"burnint.h"
+	"msm5205.h"
+	"math.h"
+
+1333053733 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/msm6295.cpp
+	<math.h>
+	"burnint.h"
+	"msm6295.h"
+	"burn_sound.h"
+	"stdint.h"
+
+1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/namco_snd.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"namco_snd.h"
+
+1325793690 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/rf5c68.cpp
+	"burnint.h"
+	"rf5c68.h"
+	"burn_sound.h"
+
+1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/saa1099.cpp
+	"burnint.h"
+	"saa1099.h"
+
+1331585328 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/samples.cpp
+	"burnint.h"
+	"samples.h"
+
+1325793690 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/segapcm.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"segapcm.h"
+
+1326402872 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/sn76496.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"sn76496.h"
+
+1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/upd7759.cpp
+	"burnint.h"
+	"burn_sound.h"
+	"upd7759.h"
+
+1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/x1010.cpp
+	"burnint.h"
+	"msm6295.h"
+	"burn_sound.h"
+	"x1010.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ym2151.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<math.h>
+	"driver.h"
+	"state.h"
+	"ym2151.h"
+
+1329426248 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ym2413.c
+	"driver.h"
+	"state.h"
+	"ym2413.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ymdeltat.c
+	"driver.h"
+	"state.h"
+	"ymdeltat.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ymf278b.c
+	<math.h>
+	"driver.h"
+	"ymf278b.h"
+	"cpuintrf.h"
+	"ymf278b.h"
+
+1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ymz280b.cpp
+	<math.h>
+	"burnint.h"
+	"ymz280b.h"
+	"burn_sound.h"
+
+1323208370 source:/media/mmcblk0p1/fba_src_029724/src/burn/tiles_generic.cpp
+	"tiles_generic.h"
+
+1331973598 source:/media/mmcblk0p1/fba_src_029724/src/burn/timer.cpp
+	"burnint.h"
+	"timer.h"
+	"sek.h"
+	"zet.h"
+	"m6809_intf.h"
+	"hd6309_intf.h"
+	"m6800_intf.h"
+	"m6502_intf.h"
+	"sh2.h"
+	"h6280_intf.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burn/vector.cpp
+	"tiles_generic.h"
+	"math.h"
+
+1332448666 source:/media/mmcblk0p1/fba_src_029724/src/burner/conc.cpp
+	"burner.h"
+
+1332974772 source:/media/mmcblk0p1/fba_src_029724/src/burner/cong.cpp
+	"burner.h"
+
+1333097388 source:/media/mmcblk0p1/fba_src_029724/src/burner/dat.cpp
+	"burner.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burner/gamc.cpp
+	"burner.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burner/image.cpp
+	"burner.h"
+	"png.h"
+
+1331398344 source:/media/mmcblk0p1/fba_src_029724/src/burner/ioapi.c
+	"ioapi.h"
+
+1324328986 /media/mmcblk0p1/fba_src_029724/src/burner/ioapi.h
+	<stdio.h>
+	<stdlib.h>
+	"zlib.h"
+	<stdint.h>
+	"mz64conf.h"
+	"stdint.h"
+
+1333614754 source:/media/mmcblk0p1/fba_src_029724/src/burner/misc.cpp
+	<math.h>
+	"burner.h"
+
+1332103656 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/bzip.cpp
+	"burner.h"
+
+1330604575 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/config.cpp
+	"burner.h"
+
+1329526825 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/drv.cpp
+	"burner.h"
+	"snd.h"
+
+1325511140 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/stated.cpp
+	"burner.h"
+
+1325511140 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/stringset.cpp
+	"burner.h"
+
+1329424311 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/support_paths.cpp
+	"burner.h"
+
+1333103247 source:/media/mmcblk0p1/fba_src_029724/src/burner/sshot.cpp
+	"burner.h"
+	"png.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burner/state.cpp
+	"burner.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burner/statec.cpp
+	"zlib.h"
+	"burnint.h"
+
+1324328986 source:/media/mmcblk0p1/fba_src_029724/src/burner/unzip.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"zlib.h"
+	"unzip.h"
+	<stddef.h>
+	<string.h>
+	<stdlib.h>
+	<errno.h>
+	"crypt.h"
+
+1324328986 /media/mmcblk0p1/fba_src_029724/src/burner/unzip.h
+	"zlib.h"
+	"ioapi.h"
+	"bzlib.h"
+
+1333103582 source:/media/mmcblk0p1/fba_src_029724/src/burner/win32/neocdlist.cpp
+	"burner.h"
+	"neocdlist.h"
+
+1329513970 source:/media/mmcblk0p1/fba_src_029724/src/burner/zipfn.cpp
+	"burner.h"
+	"unzip.h"
+	"un7z.h"
+
+1329402902 /media/mmcblk0p1/fba_src_029724/src/burner/un7z.h
+	"driver.h"
+	"7z.h"
+	"7zCrc.h"
+	"7zVersion.h"
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/arm/arm.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"burnint.h"
+	"arm_intf.h"
+
+1323377002 source:/media/mmcblk0p1/fba_src_029724/src/cpu/arm7/arm7.cpp
+	"burnint.h"
+	"arm7core.h"
+	"arm7_intf.h"
+	"arm7core.c"
+	"arm7exec.c"
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/arm7/arm7core.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/arm7/arm7core.c
+	<stdarg.h>
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/arm7/arm7exec.c
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/arm7_intf.cpp
+	"burnint.h"
+	"arm7_intf.h"
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/arm_intf.cpp
+	"burnint.h"
+	"arm_intf.h"
+
+1174079306 source:/media/mmcblk0p1/fba_src_029724/src/cpu/cyclone/cyclone.s
+
+1331150795 source:/media/mmcblk0p1/fba_src_029724/src/cpu/davez80/davez80.s
+
+1328482144 source:/media/mmcblk0p1/fba_src_029724/src/cpu/drz80/DrZ80.s
+
+1327611120 source:/media/mmcblk0p1/fba_src_029724/src/cpu/h6280/h6280.cpp
+	"burnint.h"
+	"h6280.h"
+	"h6280_intf.h"
+	"h6280ops.h"
+	"tblh6280.c"
+
+1327611120 /media/mmcblk0p1/fba_src_029724/src/cpu/h6280/h6280.h
+
+1327098528 /media/mmcblk0p1/fba_src_029724/src/cpu/h6280/h6280ops.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/h6280/tblh6280.c
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/h6280_intf.cpp
+	"burnint.h"
+	"h6280.h"
+	"h6280_intf.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/cpu/hd6309/hd6309.cpp
+	"burnint.h"
+	"hd6309.h"
+	"6309tbl.c"
+	"6309ops.c"
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/hd6309/6309tbl.c
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/hd6309/6309ops.c
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/hd6309_intf.cpp
+	"burnint.h"
+	"hd6309_intf.h"
+
+1331973598 source:/media/mmcblk0p1/fba_src_029724/src/cpu/i8039/i8039.cpp
+	"burnint.h"
+	"i8039.h"
+
+1326404840 source:/media/mmcblk0p1/fba_src_029724/src/cpu/konami/konami.cpp
+	"burnint.h"
+	"konami.h"
+	"konami_intf.h"
+	"konamtbl.c"
+	"konamops.c"
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/konami/konami.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/konami/konamtbl.c
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/konami/konamops.c
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/konami_intf.cpp
+	"burnint.h"
+	"konami_intf.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6502/m6502.cpp
+	"burnint.h"
+	"m6502.h"
+	"ops02.h"
+	"ill02.h"
+	"t6502.c"
+	"opsn2a03.h"
+	"tn2a03.c"
+	"opsc02.h"
+	"t65c02.c"
+	"t65sc02.c"
+	"tdeco16.c"
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/ops02.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/ill02.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/t6502.c
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/opsn2a03.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/tn2a03.c
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/opsc02.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/t65c02.c
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/t65sc02.c
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/tdeco16.c
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6502_intf.cpp
+	"burnint.h"
+	"m6502_intf.h"
+
+1326404882 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6800/m6800.cpp
+	"burnint.h"
+	"m6800.h"
+	"6800tbl.c"
+	"6800ops.c"
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6800/6800tbl.c
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6800/6800ops.c
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6800_intf.cpp
+	"burnint.h"
+	"m6800_intf.h"
+
+1326404910 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6805/m6805.cpp
+	"burnint.h"
+	"driver.h"
+	"m6805_intf.h"
+	"6805ops.c"
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6805/6805ops.c
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6805_intf.cpp
+	"burnint.h"
+	"m6805_intf.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6809/m6809.cpp
+	"burnint.h"
+	"m6809.h"
+	"6809tbl.c"
+	"6809ops.c"
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6809/6809tbl.c
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6809/6809ops.c
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6809_intf.cpp
+	"burnint.h"
+	"m6809_intf.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kcpu.c
+	"m68kops.h"
+	"m68kcpu.h"
+	<setjmp.h>
+	<stdio.h>
+	"state.h"
+
+1333003213 /media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kops.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kcpu.h
+	<stdio.h>
+	"m68k.h"
+	<limits.h>
+	<setjmp.h>
+	<setjmp.h>
+	<stdio.h>
+
+1333003213 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kopac.c
+	"m68kcpu.h"
+
+1333209377 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kopdm.c
+	"m68kcpu.h"
+
+1333003213 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kopnz.c
+	"m68kcpu.h"
+
+1333003213 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kops.c
+	"m68kops.h"
+
+1330378784 source:/media/mmcblk0p1/fba_src_029724/src/cpu/nec/nec.cpp
+	<stdlib.h>
+	<stdio.h>
+	"driver.h"
+	"state.h"
+	"vez.h"
+	"bitswap.h"
+	"nec.h"
+	"necpriv.h"
+	"necinstr.h"
+	"necmacro.h"
+	"necea.h"
+	"necmodrm.h"
+	"necinstr.c"
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/nec.h
+
+1327524872 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necpriv.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necinstr.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necmacro.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necea.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necmodrm.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necinstr.c
+
+1328215080 source:/media/mmcblk0p1/fba_src_029724/src/cpu/nec/v25.cpp
+	<stdlib.h>
+	<stdio.h>
+	"driver.h"
+	"state.h"
+	"vez.h"
+	"bitswap.h"
+	"v25priv.h"
+	"v25sfr.c"
+	"v25instr.h"
+	"necmacro.h"
+	"necea.h"
+	"necmodrm.h"
+	"necinstr.c"
+	"v25instr.c"
+
+1327524872 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/v25priv.h
+
+1328215080 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/v25sfr.c
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/v25instr.h
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/v25instr.c
+
+1326404944 source:/media/mmcblk0p1/fba_src_029724/src/cpu/s2650/s2650.cpp
+	"s2650.h"
+	"burnint.h"
+	"s2650_intf.h"
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/s2650/s2650.h
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/s2650_intf.cpp
+	"burnint.h"
+	"s2650_intf.h"
+
+1333003840 source:/media/mmcblk0p1/fba_src_029724/src/cpu/sek.cpp
+	"burnint.h"
+	"sekdebug.h"
+	"sek.h"
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/sh2/sh2.cpp
+	"burnint.h"
+	"sh2.h"
+	"sh2op.c"
+	"state.h"
+
+1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/vez.cpp
+	"burnint.h"
+	"vez.h"
+
+1332965328 source:/media/mmcblk0p1/fba_src_029724/src/cpu/z80/z80.cpp
+	"burnint.h"
+	"z80.h"
+	"z80daisy.h"
+
+1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/z80/z80daisy.h
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/cpu/z80/z80daisy.cpp
+	"z80daisy.h"
+
+1333003899 source:/media/mmcblk0p1/fba_src_029724/src/cpu/zet.cpp
+	"burnint.h"
+	"zet.h"
+
+1328087834 source:/media/mmcblk0p1/fba_src_029724/src/ezxaudio.cpp
+	"ezxaudio.h"
+	<stdlib.h>
+	<stdio.h>
+	<unistd.h>
+	<string.h>
+	<ctype.h>
+	<errno.h>
+	<fcntl.h>
+	<sys/ioctl.h>
+	<sys/wait.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<sched.h>
+
+1333495838 source:/media/mmcblk0p1/fba_src_029724/src/fba_player.cpp
+	<stdio.h>
+	<stdlib.h>
+	"fba_player.h"
+	"ezxaudio.h"
+	"font.h"
+	"snd.h"
+	"burnint.h"
+	"config.h"
+	"cache.h"
+	"SDL/SDL.h"
+	"pandorasdk.h"
+
+1198349706 /media/mmcblk0p1/fba_src_029724/src/font.h
+
+1182708098 /media/mmcblk0p1/fba_src_029724/src/cache.h
+
+1215102356 source:/media/mmcblk0p1/fba_src_029724/src/font.cpp
+	<string.h>
+	"font.h"
+
+1327776232 source:/media/mmcblk0p1/fba_src_029724/src/gamewidget.cpp
+	<stdio.h>
+	<time.h>
+	"moose.h"
+	"gamewidget.h"
+	"configfile.h"
+	"font.h"
+	<time.h>
+	<sys/time.h>
+	<errno.h>
+
+1181159504 /media/mmcblk0p1/fba_src_029724/src/moose.h
+
+1324338432 source:/media/mmcblk0p1/fba_src_029724/src/burner/gami.cpp
+	"burner.h"
+
+1331665914 source:/media/mmcblk0p1/fba_src_029724/src/input.cpp
+	"burner.h"
+	"pandorasdk.h"
+	"SDL/SDL.h"
+
+1325197268 source:/media/mmcblk0p1/fba_src_029724/src/intf/cd/cd_interface.cpp
+	"burner.h"
+
+1322662294 source:/media/mmcblk0p1/fba_src_029724/src/intf/interface.cpp
+	"burner.h"
+
+1333820300 source:/media/mmcblk0p1/fba_src_029724/src/pandorasdk.cpp
+	"pandorasdk.h"
+	"burner.h"
+	"config.h"
+	"snd.h"
+	<getopt.h>
+	"fba_player.h"
+	"SDL/SDL.h"
+
+1335366631 source:/media/mmcblk0p1/fba_src_029724/src/run.cpp
+	"burner.h"
+	"gamewidget.h"
+	"snd.h"
+	"font.h"
+	"pandorasdk.h"
+	"config.h"
+	"SDL/SDL.h"
+
+1331386954 source:/media/mmcblk0p1/fba_src_029724/src/snd.cpp
+	<unistd.h>
+	<fcntl.h>
+	<pthread.h>
+	<sys/types.h>
+	<sys/ioctl.h>
+	<stdlib.h>
+	<stdio.h>
+	<semaphore.h>
+	"burner.h"
+	"snd.h"
+	"config.h"
+	"SDL/SDL.h"
+	"gamewidget.h"
+
+1185304866 source:/media/mmcblk0p1/fba_src_029724/src/usbjoy.c
+	<stdlib.h>
+	<stdio.h>
+	<sys/types.h>
+	<sys/stat.h>
+	<sys/ioctl.h>
+	<fcntl.h>
+	<unistd.h>
+	<string.h>
+	<limits.h>
+	<linux/joystick.h>
+	"usbjoy.h"
+
+1329858252 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/pce/d_pce.cpp
+	"burnint.h"
+	"pce.h"
+
+1329515628 /media/mmcblk0p1/fba_src_029724/src/burn/drv/pce/pce.h
+
+1329515620 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/pce/pce.cpp
+	"tiles_generic.h"
+	"pce.h"
+	"h6280_intf.h"
+	"vdc.h"
+	"c6280.h"
+	"bitswap.h"
+
+1327098528 /media/mmcblk0p1/fba_src_029724/src/burn/devices/vdc.h
+
+1327098526 /media/mmcblk0p1/fba_src_029724/src/burn/snd/c6280.h
+
+1328387952 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/dataeast/d_actfancr.cpp
+	"tiles_generic.h"
+	"m6502_intf.h"
+	"h6280_intf.h"
+	"burn_ym2203.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+
+1332278468 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/pst90s/d_galspnbl.cpp
+	"tiles_generic.h"
+	"sek.h"
+	"zet.h"
+	"burn_ym3812.h"
+	"msm6295.h"
+	"bitswap.h"
+
+1331973592 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/dataeast/d_pktgaldx.cpp
+	"tiles_generic.h"
+	"sek.h"
+	"deco16ic.h"
+	"msm6295.h"
+
+1331973592 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/pre90s/d_momoko.cpp
+	"tiles_generic.h"
+	"zet.h"
+	"burn_ym2203.h"
+
 1322662294 /media/mmcblk0p1/fba_src_029724/src/burn/snd/es8712.h
 
 1331973596 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/pst90s/d_welltris.cpp
@@ -13532,16 +14592,17 @@
 	"sys16.h"
 	"fd1094.h"
 
-1325793690 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/sega/sys16_gfx.cpp
+1333562307 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/sega/sys16_gfx.cpp
 	"sys16.h"
 
-1331847088 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/sega/sys16_run.cpp
+1333814396 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/sega/sys16_run.cpp
 	"sys16.h"
 	"dac.h"
 	"i8039.h"
 	"mc8123.h"
 	"upd7759.h"
 	"segapcm.h"
+	"SDL/SDL.h"
 
 1322662294 /media/mmcblk0p1/fba_src_029724/src/burn/snd/segapcm.h
 
@@ -13584,7 +14645,7 @@
 
 1322662294 /media/mmcblk0p1/fba_src_029724/src/burn/drv/taito/taito.h
 
-1331973588 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/taito/d_arkanoid.cpp
+1334337741 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/taito/d_arkanoid.cpp
 	"tiles_generic.h"
 	"zet.h"
 	"taito_m68705.h"
@@ -14174,709 +15235,4 @@
 	"burnint.h"
 	"burn_sound.h"
 	"burn_ymf278b.h"
-
-1327524782 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/c6280.cpp
-	"burnint.h"
-	"h6280_intf.h"
-	"math.h"
-
-1332448666 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/dac.cpp
-	"burnint.h"
-	"burn_sound.h"
-
-1326404792 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/es5506.cpp
-	"burnint.h"
-	"es5506.h"
-	"wavwrite.h"
-
-1323120962 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/es8712.cpp
-	"burnint.h"
-	"math.h"
-	"es8712.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/fm.c
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<stdarg.h>
-	<math.h>
-	"driver.h"
-	"state.h"
-	"deftypes.h"
-	"support.h"
-	"ay8910.h"
-	"fm.h"
-	"ymdeltat.h"
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/burn/snd/ymdeltat.h
-
-1329426188 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/fmopl.c
-	<stdio.h>
-	<stdlib.h>
-	<math.h>
-	"driver.h"
-	"state.h"
-	"ymdeltat.h"
-	"fmopl.h"
-
-1331973586 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ics2115.cpp
-	"burnint.h"
-	"zet.h"
-	"msm6295.h"
-	"burn_sound.h"
-	"ics2115.h"
-
-1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/iremga20.cpp
-	"burnint.h"
-	"iremga20.h"
-
-1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/k007232.cpp
-	"burnint.h"
-	"burn_sound.h"
-	"k007232.h"
-
-1324581592 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/k051649.cpp
-	"burnint.h"
-
-1324581592 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/k053260.cpp
-	"burnint.h"
-
-1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/k054539.cpp
-	"burnint.h"
-	"math.h"
-	"k054539.h"
-
-1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/msm5205.cpp
-	"burnint.h"
-	"msm5205.h"
-	"math.h"
-
-1333053733 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/msm6295.cpp
-	<math.h>
-	"burnint.h"
-	"msm6295.h"
-	"burn_sound.h"
-	"stdint.h"
-
-1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/namco_snd.cpp
-	"burnint.h"
-	"burn_sound.h"
-	"namco_snd.h"
-
-1325793690 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/rf5c68.cpp
-	"burnint.h"
-	"rf5c68.h"
-	"burn_sound.h"
-
-1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/saa1099.cpp
-	"burnint.h"
-	"saa1099.h"
-
-1331585328 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/samples.cpp
-	"burnint.h"
-	"samples.h"
-
-1325793690 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/segapcm.cpp
-	"burnint.h"
-	"burn_sound.h"
-	"segapcm.h"
-
-1326402872 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/sn76496.cpp
-	"burnint.h"
-	"burn_sound.h"
-	"sn76496.h"
-
-1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/upd7759.cpp
-	"burnint.h"
-	"burn_sound.h"
-	"upd7759.h"
-
-1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/x1010.cpp
-	"burnint.h"
-	"msm6295.h"
-	"burn_sound.h"
-	"x1010.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ym2151.c
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	<math.h>
-	"driver.h"
-	"state.h"
-	"ym2151.h"
-
-1329426248 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ym2413.c
-	"driver.h"
-	"state.h"
-	"ym2413.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ymdeltat.c
-	"driver.h"
-	"state.h"
-	"ymdeltat.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ymf278b.c
-	<math.h>
-	"driver.h"
-	"ymf278b.h"
-	"cpuintrf.h"
-	"ymf278b.h"
-
-1323204802 source:/media/mmcblk0p1/fba_src_029724/src/burn/snd/ymz280b.cpp
-	<math.h>
-	"burnint.h"
-	"ymz280b.h"
-	"burn_sound.h"
-
-1323208370 source:/media/mmcblk0p1/fba_src_029724/src/burn/tiles_generic.cpp
-	"tiles_generic.h"
-
-1331973598 source:/media/mmcblk0p1/fba_src_029724/src/burn/timer.cpp
-	"burnint.h"
-	"timer.h"
-	"sek.h"
-	"zet.h"
-	"m6809_intf.h"
-	"hd6309_intf.h"
-	"m6800_intf.h"
-	"m6502_intf.h"
-	"sh2.h"
-	"h6280_intf.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burn/vector.cpp
-	"tiles_generic.h"
-	"math.h"
-
-1332448666 source:/media/mmcblk0p1/fba_src_029724/src/burner/conc.cpp
-	"burner.h"
-
-1332974772 source:/media/mmcblk0p1/fba_src_029724/src/burner/cong.cpp
-	"burner.h"
-
-1333097388 source:/media/mmcblk0p1/fba_src_029724/src/burner/dat.cpp
-	"burner.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burner/gamc.cpp
-	"burner.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burner/image.cpp
-	"burner.h"
-	"png.h"
-
-1331398344 source:/media/mmcblk0p1/fba_src_029724/src/burner/ioapi.c
-	"ioapi.h"
-
-1324328986 /media/mmcblk0p1/fba_src_029724/src/burner/ioapi.h
-	<stdio.h>
-	<stdlib.h>
-	"zlib.h"
-	<stdint.h>
-	"mz64conf.h"
-	"stdint.h"
-
-1333104162 source:/media/mmcblk0p1/fba_src_029724/src/burner/misc.cpp
-	<math.h>
-	"burner.h"
-
-1332103656 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/bzip.cpp
-	"burner.h"
-
-1330604575 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/config.cpp
-	"burner.h"
-
-1329526825 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/drv.cpp
-	"burner.h"
-	"snd.h"
-
-1325511140 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/stated.cpp
-	"burner.h"
-
-1325511140 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/stringset.cpp
-	"burner.h"
-
-1329424311 source:/media/mmcblk0p1/fba_src_029724/src/burner/sdl/support_paths.cpp
-	"burner.h"
-
-1333103247 source:/media/mmcblk0p1/fba_src_029724/src/burner/sshot.cpp
-	"burner.h"
-	"png.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burner/state.cpp
-	"burner.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/burner/statec.cpp
-	"zlib.h"
-	"burnint.h"
-
-1324328986 source:/media/mmcblk0p1/fba_src_029724/src/burner/unzip.c
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	"zlib.h"
-	"unzip.h"
-	<stddef.h>
-	<string.h>
-	<stdlib.h>
-	<errno.h>
-	"crypt.h"
-
-1324328986 /media/mmcblk0p1/fba_src_029724/src/burner/unzip.h
-	"zlib.h"
-	"ioapi.h"
-	"bzlib.h"
-
-1333103582 source:/media/mmcblk0p1/fba_src_029724/src/burner/win32/neocdlist.cpp
-	"burner.h"
-	"neocdlist.h"
-
-1329513970 source:/media/mmcblk0p1/fba_src_029724/src/burner/zipfn.cpp
-	"burner.h"
-	"unzip.h"
-	"un7z.h"
-
-1329402902 /media/mmcblk0p1/fba_src_029724/src/burner/un7z.h
-	"driver.h"
-	"7z.h"
-	"7zCrc.h"
-	"7zVersion.h"
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/arm/arm.cpp
-	<stdio.h>
-	<stdlib.h>
-	<string.h>
-	"burnint.h"
-	"arm_intf.h"
-
-1323377002 source:/media/mmcblk0p1/fba_src_029724/src/cpu/arm7/arm7.cpp
-	"burnint.h"
-	"arm7core.h"
-	"arm7_intf.h"
-	"arm7core.c"
-	"arm7exec.c"
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/arm7/arm7core.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/arm7/arm7core.c
-	<stdarg.h>
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/arm7/arm7exec.c
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/arm7_intf.cpp
-	"burnint.h"
-	"arm7_intf.h"
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/arm_intf.cpp
-	"burnint.h"
-	"arm_intf.h"
-
-1174079306 source:/media/mmcblk0p1/fba_src_029724/src/cpu/cyclone/cyclone.s
-
-1331150795 source:/media/mmcblk0p1/fba_src_029724/src/cpu/davez80/davez80.s
-
-1328482144 source:/media/mmcblk0p1/fba_src_029724/src/cpu/drz80/DrZ80.s
-
-1327611120 source:/media/mmcblk0p1/fba_src_029724/src/cpu/h6280/h6280.cpp
-	"burnint.h"
-	"h6280.h"
-	"h6280_intf.h"
-	"h6280ops.h"
-	"tblh6280.c"
-
-1327611120 /media/mmcblk0p1/fba_src_029724/src/cpu/h6280/h6280.h
-
-1327098528 /media/mmcblk0p1/fba_src_029724/src/cpu/h6280/h6280ops.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/h6280/tblh6280.c
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/h6280_intf.cpp
-	"burnint.h"
-	"h6280.h"
-	"h6280_intf.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/cpu/hd6309/hd6309.cpp
-	"burnint.h"
-	"hd6309.h"
-	"6309tbl.c"
-	"6309ops.c"
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/hd6309/6309tbl.c
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/hd6309/6309ops.c
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/hd6309_intf.cpp
-	"burnint.h"
-	"hd6309_intf.h"
-
-1331973598 source:/media/mmcblk0p1/fba_src_029724/src/cpu/i8039/i8039.cpp
-	"burnint.h"
-	"i8039.h"
-
-1326404840 source:/media/mmcblk0p1/fba_src_029724/src/cpu/konami/konami.cpp
-	"burnint.h"
-	"konami.h"
-	"konami_intf.h"
-	"konamtbl.c"
-	"konamops.c"
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/konami/konami.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/konami/konamtbl.c
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/konami/konamops.c
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/konami_intf.cpp
-	"burnint.h"
-	"konami_intf.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6502/m6502.cpp
-	"burnint.h"
-	"m6502.h"
-	"ops02.h"
-	"ill02.h"
-	"t6502.c"
-	"opsn2a03.h"
-	"tn2a03.c"
-	"opsc02.h"
-	"t65c02.c"
-	"t65sc02.c"
-	"tdeco16.c"
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/ops02.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/ill02.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/t6502.c
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/opsn2a03.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/tn2a03.c
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/opsc02.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/t65c02.c
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/t65sc02.c
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6502/tdeco16.c
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6502_intf.cpp
-	"burnint.h"
-	"m6502_intf.h"
-
-1326404882 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6800/m6800.cpp
-	"burnint.h"
-	"m6800.h"
-	"6800tbl.c"
-	"6800ops.c"
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6800/6800tbl.c
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6800/6800ops.c
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6800_intf.cpp
-	"burnint.h"
-	"m6800_intf.h"
-
-1326404910 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6805/m6805.cpp
-	"burnint.h"
-	"driver.h"
-	"m6805_intf.h"
-	"6805ops.c"
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6805/6805ops.c
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6805_intf.cpp
-	"burnint.h"
-	"m6805_intf.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6809/m6809.cpp
-	"burnint.h"
-	"m6809.h"
-	"6809tbl.c"
-	"6809ops.c"
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6809/6809tbl.c
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m6809/6809ops.c
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m6809_intf.cpp
-	"burnint.h"
-	"m6809_intf.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kcpu.c
-	"m68kops.h"
-	"m68kcpu.h"
-	<setjmp.h>
-	<stdio.h>
-	"state.h"
-
-1333003213 /media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kops.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kcpu.h
-	<stdio.h>
-	"m68k.h"
-	<limits.h>
-	<setjmp.h>
-	<setjmp.h>
-	<stdio.h>
-
-1333003213 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kopac.c
-	"m68kcpu.h"
-
-1333003213 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kopdm.c
-	"m68kcpu.h"
-
-1333003213 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kopnz.c
-	"m68kcpu.h"
-
-1333003213 source:/media/mmcblk0p1/fba_src_029724/src/cpu/m68k/m68kops.c
-	"m68kops.h"
-
-1330378784 source:/media/mmcblk0p1/fba_src_029724/src/cpu/nec/nec.cpp
-	<stdlib.h>
-	<stdio.h>
-	"driver.h"
-	"state.h"
-	"vez.h"
-	"bitswap.h"
-	"nec.h"
-	"necpriv.h"
-	"necinstr.h"
-	"necmacro.h"
-	"necea.h"
-	"necmodrm.h"
-	"necinstr.c"
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/nec.h
-
-1327524872 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necpriv.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necinstr.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necmacro.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necea.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necmodrm.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/necinstr.c
-
-1328215080 source:/media/mmcblk0p1/fba_src_029724/src/cpu/nec/v25.cpp
-	<stdlib.h>
-	<stdio.h>
-	"driver.h"
-	"state.h"
-	"vez.h"
-	"bitswap.h"
-	"v25priv.h"
-	"v25sfr.c"
-	"v25instr.h"
-	"necmacro.h"
-	"necea.h"
-	"necmodrm.h"
-	"necinstr.c"
-	"v25instr.c"
-
-1327524872 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/v25priv.h
-
-1328215080 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/v25sfr.c
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/v25instr.h
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/nec/v25instr.c
-
-1326404944 source:/media/mmcblk0p1/fba_src_029724/src/cpu/s2650/s2650.cpp
-	"s2650.h"
-	"burnint.h"
-	"s2650_intf.h"
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/s2650/s2650.h
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/s2650_intf.cpp
-	"burnint.h"
-	"s2650_intf.h"
-
-1333003840 source:/media/mmcblk0p1/fba_src_029724/src/cpu/sek.cpp
-	"burnint.h"
-	"sekdebug.h"
-	"sek.h"
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/sh2/sh2.cpp
-	"burnint.h"
-	"sh2.h"
-	"sh2op.c"
-	"state.h"
-
-1327832800 source:/media/mmcblk0p1/fba_src_029724/src/cpu/vez.cpp
-	"burnint.h"
-	"vez.h"
-
-1332965328 source:/media/mmcblk0p1/fba_src_029724/src/cpu/z80/z80.cpp
-	"burnint.h"
-	"z80.h"
-	"z80daisy.h"
-
-1322662294 /media/mmcblk0p1/fba_src_029724/src/cpu/z80/z80daisy.h
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/cpu/z80/z80daisy.cpp
-	"z80daisy.h"
-
-1333003899 source:/media/mmcblk0p1/fba_src_029724/src/cpu/zet.cpp
-	"burnint.h"
-	"zet.h"
-
-1328087834 source:/media/mmcblk0p1/fba_src_029724/src/ezxaudio.cpp
-	"ezxaudio.h"
-	<stdlib.h>
-	<stdio.h>
-	<unistd.h>
-	<string.h>
-	<ctype.h>
-	<errno.h>
-	<fcntl.h>
-	<sys/ioctl.h>
-	<sys/wait.h>
-	<sys/types.h>
-	<sys/stat.h>
-	<sched.h>
-
-1332272456 source:/media/mmcblk0p1/fba_src_029724/src/fba_player.cpp
-	<stdio.h>
-	<stdlib.h>
-	"fba_player.h"
-	"ezxaudio.h"
-	"font.h"
-	"snd.h"
-	"burnint.h"
-	"config.h"
-	"cache.h"
-	"SDL/SDL.h"
-	"pandorasdk.h"
-
-1198349706 /media/mmcblk0p1/fba_src_029724/src/font.h
-
-1182708098 /media/mmcblk0p1/fba_src_029724/src/cache.h
-
-1215102356 source:/media/mmcblk0p1/fba_src_029724/src/font.cpp
-	<string.h>
-	"font.h"
-
-1327776232 source:/media/mmcblk0p1/fba_src_029724/src/gamewidget.cpp
-	<stdio.h>
-	<time.h>
-	"moose.h"
-	"gamewidget.h"
-	"configfile.h"
-	"font.h"
-	<time.h>
-	<sys/time.h>
-	<errno.h>
-
-1181159504 /media/mmcblk0p1/fba_src_029724/src/moose.h
-
-1324338432 source:/media/mmcblk0p1/fba_src_029724/src/burner/gami.cpp
-	"burner.h"
-
-1331665914 source:/media/mmcblk0p1/fba_src_029724/src/input.cpp
-	"burner.h"
-	"pandorasdk.h"
-	"SDL/SDL.h"
-
-1325197268 source:/media/mmcblk0p1/fba_src_029724/src/intf/cd/cd_interface.cpp
-	"burner.h"
-
-1322662294 source:/media/mmcblk0p1/fba_src_029724/src/intf/interface.cpp
-	"burner.h"
-
-1332272456 source:/media/mmcblk0p1/fba_src_029724/src/pandorasdk.cpp
-	"pandorasdk.h"
-	"burner.h"
-	"config.h"
-	"snd.h"
-	<getopt.h>
-	"fba_player.h"
-	"SDL/SDL.h"
-
-1331487834 source:/media/mmcblk0p1/fba_src_029724/src/run.cpp
-	"burner.h"
-	"gamewidget.h"
-	"snd.h"
-	"font.h"
-	"pandorasdk.h"
-	"config.h"
-	"SDL/SDL.h"
-
-1331386954 source:/media/mmcblk0p1/fba_src_029724/src/snd.cpp
-	<unistd.h>
-	<fcntl.h>
-	<pthread.h>
-	<sys/types.h>
-	<sys/ioctl.h>
-	<stdlib.h>
-	<stdio.h>
-	<semaphore.h>
-	"burner.h"
-	"snd.h"
-	"config.h"
-	"SDL/SDL.h"
-	"gamewidget.h"
-
-1185304866 source:/media/mmcblk0p1/fba_src_029724/src/usbjoy.c
-	<stdlib.h>
-	<stdio.h>
-	<sys/types.h>
-	<sys/stat.h>
-	<sys/ioctl.h>
-	<fcntl.h>
-	<unistd.h>
-	<string.h>
-	<limits.h>
-	<linux/joystick.h>
-	"usbjoy.h"
-
-1329858252 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/pce/d_pce.cpp
-	"burnint.h"
-	"pce.h"
-
-1329515628 /media/mmcblk0p1/fba_src_029724/src/burn/drv/pce/pce.h
-
-1329515620 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/pce/pce.cpp
-	"tiles_generic.h"
-	"pce.h"
-	"h6280_intf.h"
-	"vdc.h"
-	"c6280.h"
-	"bitswap.h"
-
-1327098528 /media/mmcblk0p1/fba_src_029724/src/burn/devices/vdc.h
-
-1327098526 /media/mmcblk0p1/fba_src_029724/src/burn/snd/c6280.h
-
-1328387952 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/dataeast/d_actfancr.cpp
-	"tiles_generic.h"
-	"m6502_intf.h"
-	"h6280_intf.h"
-	"burn_ym2203.h"
-	"burn_ym3812.h"
-	"msm6295.h"
-
-1332278468 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/pst90s/d_galspnbl.cpp
-	"tiles_generic.h"
-	"sek.h"
-	"zet.h"
-	"burn_ym3812.h"
-	"msm6295.h"
-	"bitswap.h"
-
-1331973592 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/dataeast/d_pktgaldx.cpp
-	"tiles_generic.h"
-	"sek.h"
-	"deco16ic.h"
-	"msm6295.h"
-
-1331973592 source:/media/mmcblk0p1/fba_src_029724/src/burn/drv/pre90s/d_momoko.cpp
-	"tiles_generic.h"
-	"zet.h"
-	"burn_ym2203.h"
 

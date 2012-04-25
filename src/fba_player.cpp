@@ -56,6 +56,7 @@ extern "C"
 #include "pandorasdk.h"
 };
 
+
 void uploadfb(void);
 extern char szAppBurnVer[16];
 
@@ -284,9 +285,27 @@ void show_rom_loading_text(char * szText, int nSize, int nTotalSize)
 
 	//if (config_options.option_rescale<3) memcpy (VideoBuffer, titlefb, fwidth*fheight*2); else memcpy (VideoBuffer, titlefb, pwidth*fwidth*2);
 	memcpy (VideoBuffer,titlefb, fwidth*fheight*2);
-	gp2x_video_flip();
+	gp2x_video_flip(true);
 
 }
+
+void fbadrawSprite(SDL_Surface* imageSurface, SDL_Surface* screenSurface, int srcX, int srcY, int dstX, int dstY, int width, int height)
+{
+	SDL_Rect srcRect;
+	srcRect.x = srcX;
+	srcRect.y = srcY;
+	srcRect.w = width;
+	srcRect.h = height;
+
+	SDL_Rect dstRect;
+	dstRect.x = dstX;
+	dstRect.y = dstY;
+	dstRect.w = width;
+	dstRect.h = height;
+
+	SDL_BlitSurface(imageSurface, &srcRect, screenSurface, &dstRect);
+}
+
 
 void show_rom_error_text(char * szText)
 {
@@ -305,7 +324,7 @@ void show_rom_error_text(char * szText)
 
 
 	memcpy (VideoBuffer, titlefb, fwidth*fheight*2);
-	gp2x_video_flip();
+	gp2x_video_flip(true);
 	SDL_Event event;
 	while (event.type!=SDL_KEYDOWN)
         SDL_WaitEvent(&event);
@@ -480,6 +499,8 @@ void load_keymap(char * nm)
 
 }
 
+void runshowprof();
+
 void run_fba_emulator(const char *fn)
 {
     atexit(shutdown);
@@ -570,7 +591,7 @@ void run_fba_emulator(const char *fn)
 	DrawString ("Based on FinalBurnAlpha", titlefb, 10, 35, fwidth);
 	DrawString ("Now loading ... ", titlefb, 10, 105, fwidth);
 	show_rom_loading_text("Open Zip", 0, 0);
-	memcpy (VideoBuffer, titlefb, fwidth*fheight*2); gp2x_video_flip();
+	memcpy (VideoBuffer, titlefb, fwidth*fheight*2); gp2x_video_flip(true);
 
 	InpInit();
 	InpDIP();
@@ -627,6 +648,10 @@ if (config_options.option_sound_enable==2)
           //  nBurnFPS=6000;
         int now, done=0, timer = 0, ticks=0, tick=0, i=0, fps = 0;
 	unsigned int frame_limit = nBurnFPS/100, frametime = 100000000/nBurnFPS;
+	int fbaprofframes=0;
+	int fbaproftot=0;
+	int fbaprofframe=0;
+	int fbaprofsnd=0;
         while (GameLooping)
 		{
 			timer = EZX_GetTicks()/frametime;;
@@ -638,6 +663,7 @@ if (config_options.option_sound_enable==2)
 			}
 			now = timer;
 			ticks=now-done;
+			//printf("ticks %d\n",ticks);
 			if(ticks<1) continue;
 			if(ticks>10) ticks=10;
 			for (i=0; i<ticks-1; i++)
@@ -652,6 +678,7 @@ if (config_options.option_sound_enable==2)
 			}
 
 			done = now;
+			fbaprofframes++;
 		}
         }
 }
@@ -736,6 +763,7 @@ if (config_options.option_sound_enable==2)
 
 finish:
 	printf("---- Shutdown Finalburn Alpha plus ----\n\n");
+	runshowprof();
 	ConfigAppSave();
 /*	DrvExit();
 	printf("DrvExit()\n");

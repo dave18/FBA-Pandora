@@ -31,8 +31,8 @@ static int screen_mode = 0;
 char LEFTDOWN,RIGHTDOWN,ADOWN,BDOWN,XDOWN,YDOWN,UPDOWN,DOWNDOWN,STARTDOWN,SELECTDOWN,LSDOWN,RSDOWN,QDOWN,VUDOWN,VDDOWN,PAUSEDOWN=0;
 int kinput=0;
 
-int WINDOW_WIDTH;
-int WINDOW_HEIGHT;
+extern int WINDOW_WIDTH;
+extern int WINDOW_HEIGHT;
 
 
 static int currentframebuffer = 0;
@@ -42,9 +42,9 @@ char joyCount = 0;
 SDL_Joystick *joys[4];
 const char* WINDOW_TITLE = "FBA";
 
-SDL_Surface* myscreen;
+extern SDL_Surface* myscreen;
 SDL_Surface* framebuffer[4];
-SDL_Surface* SDL_VideoBuffer;
+extern SDL_Surface* SDL_VideoBuffer;
 
 #define FBIO_WAITFORVSYNC _IOW('F', 0x20, __u32)
 unsigned long fbdev;
@@ -156,11 +156,13 @@ void gp2x_initialize()
 	VideoBuffer=(unsigned short*)malloc((WINDOW_WIDTH*2) * WINDOW_HEIGHT);
 	SDL_VideoBuffer=SDL_CreateRGBSurfaceFrom(VideoBuffer,WINDOW_WIDTH*2,WINDOW_HEIGHT,16,WINDOW_WIDTH*2,0xF800,0x7E0,0x1F,0x0);
 	SDL_LockSurface(SDL_VideoBuffer);
-    gp2x_video_flip();
+    gp2x_video_flip(true);
 }
 
 void gp2x_terminate(char *frontend)
 {
+//    SDL_UnlockSurface(SDL_VideoBuffer);
+//    SDL_UnlockSurface(myscreen);
     struct stat info;
     SDL_Quit();
     if( (lstat(frontend, &info) == 0) && S_ISREG(info.st_mode) )
@@ -389,13 +391,21 @@ void gp2x_clear_framebuffers()
     memset(VideoBuffer,0,WINDOW_HEIGHT*WINDOW_WIDTH*2);
 }
 
-void gp2x_video_flip()
+void gp2x_video_flip(bool ds)
 {
-    SDL_UnlockSurface(SDL_VideoBuffer);
-    drawSprite(SDL_VideoBuffer,myscreen,0,0,0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
-    if (nBurnFPS>5900) ioctl(fbdev,FBIO_WAITFORVSYNC,&vb); //use vblank if running at 60 hz
+    //SDL_VideoBuffer=myscreen;
+    //myscreen->pixels=SDL_VideoBuffer->pixels;
+    //SDL_UnlockSurface(SDL_VideoBuffer);
+
+    if (ds)
+    {
+        SDL_UnlockSurface(SDL_VideoBuffer);
+        drawSprite(SDL_VideoBuffer,myscreen,0,0,0,0,WINDOW_WIDTH,WINDOW_HEIGHT);
+        SDL_LockSurface(SDL_VideoBuffer);
+    }
+    //if (nBurnFPS>5900) ioctl(fbdev,FBIO_WAITFORVSYNC,&vb); //use vblank if running at 60 hz
     SDL_Flip(myscreen);
-    SDL_LockSurface(SDL_VideoBuffer);
+    //SDL_LockSurface(SDL_VideoBuffer);
 }
 
 

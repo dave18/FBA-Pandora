@@ -14,10 +14,13 @@
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-O3" />
 					<Add option="-w" />
 					<Add option="-mfpu=neon" />
 					<Add option="-mfloat-abi=softfp" />
+					<Add option="-finline" />
+					<Add option="-fsigned-char" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -31,7 +34,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/turfmast.zip " />
+				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/gigawing.zip " />
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-g" />
@@ -50,7 +53,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-march=armv7-a -mtune=cortex-a8" />
-			<Add option="-finline -finline-functions" />
+			<Add option="-fsigned-char" />
 			<Add option="-DBUILD_SDL" />
 			<Add option="-DLSB_FIRST" />
 			<Add option="-DEMU_C68K" />

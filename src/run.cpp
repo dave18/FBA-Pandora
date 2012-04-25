@@ -1,4 +1,4 @@
-// Run module
+//** Run module
 #include "burner.h"
 #include "gamewidget.h"
 #include "snd.h"
@@ -8,6 +8,10 @@
 #include "config.h"
 #include "SDL/SDL.h"
 
+SDL_Surface * myscreen;
+SDL_Surface* SDL_VideoBuffer;
+int WINDOW_WIDTH;
+int WINDOW_HEIGHT;
 
 extern int fps;
 extern unsigned int FBA_KEYPAD[4];
@@ -17,6 +21,9 @@ extern void do_keypad();
 static int VideoBufferWidth = 0;
 static int VideoBufferHeight = 0;
 static int PhysicalBufferWidth = 0;
+
+unsigned long profframes=0;
+unsigned long profframe=0;
 
 /*#ifndef HighCol16(r,g,b,i)
 #define HighCol16(r,g,b,i) ((r<<8)&0xf800)|((g<<3)&0x07e0)|(b>>3)
@@ -71,8 +78,14 @@ static int GetInput(bool bCopy)
 }
 */
 
+extern void runshowprof()
+{
+    printf("total runoneframe %dms\n",(profframe/profframes));
+}
+
 int RunOneFrame(bool bDraw, int fps)
 {
+    unsigned long proftmp=SDL_GetTicks();
     //long profile=SDL_GetTicks();
 	do_keypad();
 	InpMake(FBA_KEYPAD);
@@ -91,34 +104,51 @@ int RunOneFrame(bool bDraw, int fps)
 		pBurnDraw = (unsigned char *)&BurnVideoBuffer[0];
 	}
 //    printf("vbupdate %2d  ",(SDL_GetTicks()-profile));
+    //profframe+=(SDL_GetTicks()-proftmp);
+
 	BurnDrvFrame();
+	//profframe+=(SDL_GetTicks()-proftmp);
+
  //   printf("bdframe %2d  \n",(SDL_GetTicks()-profile));
 	pBurnDraw = NULL;
 	if ( bDraw )
 	{
-		VideoTrans();
+        VideoTrans();
 		if (bShowFPS)
 		{
 			char buf[10];
 			int x;
 			sprintf(buf, "FPS: %2d/%2d", fps,(nBurnFPS/100));
 			//draw_text(buf, x, 0, 0xBDF7, 0x2020);
-			DrawRect((uint16 *) (unsigned short *) &VideoBuffer[0],0, 0, 60, 9, 0,PhysicalBufferWidth);
-			DrawString (buf, (unsigned short *) &VideoBuffer[0], 0, 0,PhysicalBufferWidth);
+			//DrawRect((uint16 *) (unsigned short *) &BurnVideoBuffer[0],0, 0, 60, 9, 0,PhysicalBufferWidth);
+			//DrawString (buf, (unsigned short *) &BurnVideoBuffer[0], 0, 0,PhysicalBufferWidth);
+			SDL_LockSurface(myscreen);
+			DrawRect((uint16 *) (unsigned short *) myscreen->pixels,0, 0, 62, 9, 0,myscreen->w);
+			DrawString (buf, (unsigned short *) myscreen->pixels, 0, 0,myscreen->w);
+			SDL_UnlockSurface(myscreen);
 		}
+		//VideoTrans();
 
-		gp2x_video_flip();
+		gp2x_video_flip(false);
 	}
+//	profframe+=(SDL_GetTicks()-proftmp);
 	}
+	profframe+=(SDL_GetTicks()-proftmp);
 	if (bPauseOn)
 	{
 	//    GetInput(false);
-	    DrawString ("PAUSED", (unsigned short *) &VideoBuffer[0], (PhysicalBufferWidth>>1)-24, 120,PhysicalBufferWidth);
-	    gp2x_video_flip();
+
+	    DrawString ("PAUSED", (unsigned short *) &BurnVideoBuffer[0], (PhysicalBufferWidth>>1)-24, 120,PhysicalBufferWidth);
+	    VideoTrans();
+	    gp2x_video_flip(false);
 	}
 /*	if (config_options.option_sound_enable)
 		SndPlay();
-*/	return 0;
+
+*/
+    //profframe+=(SDL_GetTicks()-proftmp);
+    profframes++;
+    return 0;
 }
 
 // --------------------------------
@@ -152,8 +182,11 @@ static void (*BurnerVideoTrans) () = BurnerVideoTransDemo;
 
 static void BurnerVideoTrans_rotate()
 {
+    //unsigned long pf=SDL_GetTicks();
     int z=VideoBufferHeight*VideoBufferWidth+1;
-	unsigned short * p = &VideoBuffer[0];
+	//unsigned short * p = &VideoBuffer[0];
+	SDL_LockSurface(myscreen);
+	unsigned short * p = (unsigned short *)myscreen->pixels;
 	unsigned short * q = &BurnVideoBuffer[VideoBufferWidth-1];
     for (int j=0; j<VideoBufferWidth; j++,q-=z)
     {
@@ -164,12 +197,16 @@ static void BurnerVideoTrans_rotate()
             q+=VideoBufferWidth;
         }
     }
+    SDL_UnlockSurface(myscreen);
+    //printf("ms = %d\n",SDL_GetTicks()-pf);
 }
 
 static void BurnerVideoTrans_flipped()
 {
     int z=VideoBufferHeight*VideoBufferWidth+1;
-	unsigned short * p = &VideoBuffer[0];
+	//unsigned short * p = &VideoBuffer[0];
+	SDL_LockSurface(myscreen);
+	unsigned short * p = (unsigned short *)myscreen->pixels;
 	unsigned short * q = &BurnVideoBuffer[VideoBufferWidth*(VideoBufferHeight-1)];
     for (int j=0; j<VideoBufferWidth; j++,q+=z)
     {
@@ -180,23 +217,29 @@ static void BurnerVideoTrans_flipped()
             q-=VideoBufferWidth;
         }
     }
+    SDL_UnlockSurface(myscreen);
 }
 
 static void BurnerVideoTrans_flipped_horiz()
 {
-    unsigned short * p = &VideoBuffer[0];
+    //unsigned short * p = &VideoBuffer[0];
+    SDL_LockSurface(myscreen);
+	unsigned short * p = (unsigned short *)myscreen->pixels;
 	unsigned short * q = &BurnVideoBuffer[(VideoBufferHeight-1)*VideoBufferWidth];
     for (int j=0; j<VideoBufferHeight; j++,q-=VideoBufferWidth,p+=VideoBufferWidth)
     {
         memcpy(p,q,VideoBufferWidth<<1);
     }
+    SDL_UnlockSurface(myscreen);
 }
 
 static void BurnerVideoTrans_flipped_horiz2()
 {
-    unsigned short * p = &VideoBuffer[0];
+    //unsigned short * p = &VideoBuffer[0];
+    SDL_LockSurface(myscreen);
+	unsigned short * p = (unsigned short *)myscreen->pixels;
 	unsigned short * q = &BurnVideoBuffer[VideoBufferHeight*VideoBufferWidth-1];
-       for (int j=0; j<VideoBufferHeight; j++)
+    for (int j=0; j<VideoBufferHeight; j++)
     {
         for (int i=0; i<VideoBufferWidth; i++)
         {
@@ -205,6 +248,46 @@ static void BurnerVideoTrans_flipped_horiz2()
             q--;
         }
     }
+    SDL_UnlockSurface(myscreen);
+}
+
+static void BurnerVideoTrans_norm()
+{
+/*    SDL_Rect r;
+    r.x=WINDOW_WIDTH>>1;
+    r.y=0;
+    r.w=WINDOW_WIDTH;
+    r.h=WINDOW_HEIGHT;
+    BurnVideoBuffer = &VideoBuffer[0];
+    SDL_UnlockSurface(SDL_VideoBuffer);
+    SDL_BlitSurface(SDL_VideoBuffer, &r, myscreen, NULL);
+    SDL_LockSurface(SDL_VideoBuffer);*/
+/*    //unsigned short * p = &VideoBuffer[0];
+    SDL_LockSurface(myscreen);
+	//unsigned short * p = (unsigned short *)myscreen->pixels;
+	//unsigned short * q = &BurnVideoBuffer[0];
+	unsigned char * p = (unsigned char *)myscreen->pixels;
+	unsigned char * q = (unsigned char *)BurnVideoBuffer;
+	for (int j=0; j<VideoBufferHeight; j++)
+    {
+        for (int i=0; i<VideoBufferWidth; i++)
+        {
+            memcpy(p,q,2);
+            p++;
+            p++;
+            q++;
+        }
+    }
+    SDL_UnlockSurface(myscreen);*/
+    //unsigned short * p = &VideoBuffer[0];
+    SDL_LockSurface(myscreen);
+	//unsigned short * p = (unsigned short *)myscreen->pixels;
+	//unsigned short * q = &BurnVideoBuffer[0];
+	unsigned short * p = (unsigned short *)myscreen->pixels;
+	unsigned short * q = (unsigned short *)BurnVideoBuffer;
+    memcpy(p,q,VideoBufferWidth * VideoBufferHeight *2);
+
+    SDL_UnlockSurface(myscreen);
 }
 
 int VideoInit()
@@ -237,8 +320,8 @@ int VideoInit()
     else
     {
         BurnVideoBuffer = &VideoBuffer[0];
-        BurnVideoBufferAlloced = false;
-        BurnerVideoTrans = BurnerVideoTransDemo;
+        BurnVideoBufferAlloced = true;
+        BurnerVideoTrans = BurnerVideoTrans_norm;
         PhysicalBufferWidth	= VideoBufferWidth;
         nBurnPitch  = VideoBufferWidth * 2;
 

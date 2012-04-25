@@ -80,9 +80,9 @@ static UINT32 __cdecl HighCol24Gamma(INT32 r, INT32 g, INT32 b, INT32  /* i */)
 
 INT32 SetBurnHighCol(INT32 nDepth)
 {
-/*	VidRecalcPal();
+//	VidRecalcPal();
 
-	if (bDoGamma && ((nVidFullscreen && !bVidUseHardwareGamma) || (!nVidFullscreen && !bHardwareGammaOnly))) {
+/*	if (bDoGamma && ((nVidFullscreen && !bVidUseHardwareGamma) || (!nVidFullscreen && !bHardwareGammaOnly))) {
 		if (nDepth == 15) {
 			VidHighCol = HighCol15Gamma;
 		}
@@ -92,8 +92,8 @@ INT32 SetBurnHighCol(INT32 nDepth)
 		if (nDepth > 16) {
 			VidHighCol = HighCol24Gamma;
 		}
-	} else {
-		if (nDepth == 15) {
+	} else {*/
+/*		if (nDepth == 15) {
 			VidHighCol = HighCol15;
 		}
 		if (nDepth == 16) {
@@ -102,7 +102,7 @@ INT32 SetBurnHighCol(INT32 nDepth)
 		if (nDepth > 16) {
 			VidHighCol = HighCol24;
 		}
-	}
+	//}
 	if ((bDrvOkay && !(BurnDrvGetFlags() & BDF_16BIT_ONLY)) || nDepth <= 16) {
 		BurnHighCol = VidHighCol;
 	}
