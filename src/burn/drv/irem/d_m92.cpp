@@ -798,7 +798,7 @@ static struct BurnDIPInfo LethalthDIPList[]=
 	{0x14, 0x01, 0x03, 0x03, "700K & 1.5M"				},
 	{0x14, 0x01, 0x03, 0x00, "700K, 1.5M, 3M & 4.5M"		},
 	{0x14, 0x01, 0x03, 0x01, "1M & 2M"				},
-};	
+};
 
 STDDIPINFO(Lethalth)
 
@@ -1313,7 +1313,7 @@ UINT8 __fastcall m92ReadPort(UINT32 port)
 		case 0x06: return ~DrvInput[2];	// player 3
 		case 0x07: return ~DrvInput[3];	// player 4
 
-		case 0x08: VezSetIRQLineAndVector(0, (m92_irq_vectorbase + 12)/4, VEZ_IRQSTATUS_NONE); return sound_status[0]; 
+		case 0x08: VezSetIRQLineAndVector(0, (m92_irq_vectorbase + 12)/4, VEZ_IRQSTATUS_NONE); return sound_status[0];
 		case 0x09: VezSetIRQLineAndVector(0, (m92_irq_vectorbase + 12)/4, VEZ_IRQSTATUS_NONE); return sound_status[1];
 
 		case 0x18: return (m92_kludge == 3) ? MSM6295ReadStatus(0) : 0; // ppan
@@ -1688,7 +1688,7 @@ static INT32 DrvInit(INT32 (*pRomLoadCallback)(), const UINT8 *sound_decrypt_tab
 	MemIndex(gfxlen1, gfxlen2);
 
 	if (pRomLoadCallback) {
-		if (pRomLoadCallback()) return 1; 
+		if (pRomLoadCallback()) return 1;
 	}
 
 	{
@@ -1772,7 +1772,7 @@ static INT32 DrvExit()
 	VezExit();
 
 	BurnFree(Mem);
-	
+
 	nPrevScreenPos = 0;
 	m92_kludge = 0;
 	nScreenOffsets[0] = nScreenOffsets[1] = 0;
@@ -1833,7 +1833,7 @@ static void draw_sprites()
 
 			offs += 4 * x_multi;
 			if (pri_s != k) continue;
-	
+
 			if (flipx) x+=16 * (x_multi - 1);
 
 			for (INT32 j = 0; j < x_multi; j++)
@@ -1893,10 +1893,10 @@ static void draw_layer_byline(INT32 start, INT32 finish, INT32 layer, INT32 forc
 			INT32 color =(attr & 0x007f) << 4;
 			INT32 flipy = attr & 0x0400;
 			INT32 flipx = attr & 0x0200;
-	
+
 			INT32 group = 0;
 			if (attr & 0x0180) group = (attr & 0x0100) ? 2 : 1;
-		
+
 			{
 				INT32 x_xor = 0;
 				INT32 romoff = romoff_1;
@@ -1924,6 +1924,7 @@ static void draw_layer_byline(INT32 start, INT32 finish, INT32 layer, INT32 forc
 
 static void DrawLayers(INT32 start, INT32 finish)
 {
+    if (!pBurnDraw) return;
 	memset (RamPrioBitmap + (start * nScreenWidth), 0, nScreenWidth * (finish - start)); // clear priority
 
 	if (~nBurnLayer & 1) memset (pTransDraw + (start * nScreenWidth), 0, nScreenWidth * (finish - start) * sizeof(INT16));
@@ -2072,10 +2073,10 @@ static INT32 DrvFrame()
 		if (pBurnSoundOut) {
 			INT32 nSegmentLength = nBurnSoundLen / nInterleave;
 			INT16* pSoundBuf = pBurnSoundOut + (nSoundBufferPos << 1);
-			
+
 			BurnYM2151Render(pSoundBuf, nSegmentLength);
 			iremga20_update(0, pSoundBuf, nSegmentLength);
-			
+
 			nSoundBufferPos += nSegmentLength;
 		}
 		VezClose();
@@ -2091,7 +2092,7 @@ static INT32 DrvFrame()
 			iremga20_update(0, pSoundBuf, nSegmentLength);
 		}
 	}
-	
+
 	VezClose();
 
 	return 0;
@@ -2121,7 +2122,7 @@ static INT32 PpanFrame()
 	if (pBurnSoundOut) {
 		MSM6295Render(0, pBurnSoundOut, nBurnSoundLen);
 	}
-	
+
 	VezClose();
 
 	return 0;
@@ -2137,7 +2138,7 @@ static INT32 DrvScan(INT32 nAction,INT32 *pnMin)
 	struct BurnArea ba;
 
 	if (nAction & ACB_MEMORY_RAM)
-	{	
+	{
 		memset(&ba, 0, sizeof(ba));
 		ba.Data	  = RamStart;
 		ba.nLen	  = RamEnd-RamStart;

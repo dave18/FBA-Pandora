@@ -163,6 +163,14 @@ void parse_cmd(int argc, char *argv[], char *path)
                     read (clk,config_options.option_startspeed,5);
                     write (clk,config_options.option_selectspeed,strlen(config_options.option_selectspeed)+1);
                     close(clk);
+                    clk = open("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", O_RDWR);
+                    char sg[20];
+                    int sgl;
+                    read (clk,sg,20);
+                    sgl=strlen(sg)+1;
+                    if (sgl>20) sgl=20;
+                    write (clk,sg,sgl);
+                    close(clk);
                     printf("start speed=%s   new speed=%s\n",config_options.option_startspeed,config_options.option_selectspeed);
 				}
 				break;

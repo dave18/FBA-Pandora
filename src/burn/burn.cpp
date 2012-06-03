@@ -108,6 +108,7 @@ INT32 BurnGetZipName(char** pszName, UINT32 i)
 
 	if (i == 0) {
 		pszGameName = pDriver[nBurnDrvActive]->szShortName;
+		printf("pszGameName = %s\n",pszGameName);
 	} else {
 		INT32 nOldBurnDrvSelect = nBurnDrvActive;
 		UINT32 j = pDriver[nBurnDrvActive]->szBoardROM ? 1 : 0;
@@ -434,9 +435,9 @@ void BurnLocalisationSetName(char *szName, TCHAR *szLongName)
 // Get the zip names for the driver
 extern "C" INT32 BurnDrvGetZipName(char** pszName, UINT32 i)
 {
-	if (pDriver[nBurnDrvActive]->GetZipName) {									// Forward to drivers function
-		return pDriver[nBurnDrvActive]->GetZipName(pszName, i);
-	}
+	//if (pDriver[nBurnDrvActive]->GetZipName) {									// Forward to drivers function
+//		return pDriver[nBurnDrvActive]->GetZipName(pszName, i);
+	//}
 
 	return BurnGetZipName(pszName, i);											// Forward to general function
 }

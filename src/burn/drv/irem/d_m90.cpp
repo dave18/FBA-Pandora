@@ -819,7 +819,7 @@ static inline void update_palette_entry(INT32 entry)
 	UINT8 r = (d >>  0) & 0x1f;
 	UINT8 g = (d >>  5) & 0x1f;
 	UINT8 b = (d >> 10) & 0x1f;
-	
+
 	r = (r << 3) | (r >> 2);
 	g = (g << 3) | (g >> 2);
 	b = (b << 3) | (b >> 2);
@@ -872,7 +872,7 @@ void __fastcall m90_main_write_port(UINT32 port, UINT8 data)
 
 		case 0x90:
 	//	case 0x91: // nop dynablsb
-		return; 
+		return;
 
 		//default:
 		//	bprintf (0, _T("Writing %2.2x to port %2.2x wp\n"), data, port);
@@ -954,7 +954,7 @@ UINT8 __fastcall m90_sound_read_port(UINT16 port)
 			ZetSetVector(0xff);
 			ZetSetIRQLine(0, ZET_IRQSTATUS_NONE);
 			return *soundlatch;
-	
+
 		case 0x84:
 			return DrvSndROM[sample_address & 0x3fff];
 	}
@@ -1086,7 +1086,7 @@ static void map_main_cpu(UINT8 *decrypt_table, INT32 codesize, INT32 spriteram)
 	if (spriteram) {
 		VezMapArea(0x00000 + spriteram, 0x00fff + spriteram, 0, DrvSprRAM); // 00e - fff // ??
 		VezMapArea(0x00000 + spriteram, 0x00fff + spriteram, 1, DrvSprRAM);
-		VezMapArea(0x00000 + spriteram, 0x00fff + spriteram, 2, DrvSprRAM);	
+		VezMapArea(0x00000 + spriteram, 0x00fff + spriteram, 2, DrvSprRAM);
 	}
 
 	VezSetReadHandler(m90_main_read);
@@ -1126,7 +1126,7 @@ static INT32 DrvInit(INT32 codesize, INT32 gfxlen, INT32 samples, INT32 bank, IN
 	memset(AllMem, 0, nLen);
 	MemIndex();
 
-	if (DrvLoadRoms(codesize, samples, bank)) return 1; 
+	if (DrvLoadRoms(codesize, samples, bank)) return 1;
 
 	DrvGfxDecode();
 
@@ -1249,7 +1249,7 @@ static void draw_layer(INT32 layer)
 	INT32 wide = (control & 0x04) ? 128 : 64;
 
 	INT32 trans = layer ? 0xff : 0;
-	
+
 	INT32 pmask = (wide == 128) ? 2 : 3;
 	UINT16 *vram = (UINT16*)(DrvVidRAM + (control & pmask) * 0x4000);
 
@@ -1278,7 +1278,7 @@ static void draw_layer(INT32 layer)
 		}
 
 		INT32 romoff_1 = (scrolly_1 & 0x07) << 3;
-		
+
 		for (INT32 sx = 0; sx < nScreenWidth + 8; sx+=8)
 		{
 			INT32 scrollx_2 = (scrollx_1 + sx) & ((wide * 8) - 1);
@@ -1291,7 +1291,7 @@ static void draw_layer(INT32 layer)
 			INT32 flipy = color & 0x80;
 			INT32 flipx = color & 0x40;
 			INT32 group =(color & 0x30) ? 0 : 1;
-			color &= 0x0f;	
+			color &= 0x0f;
 
 			{
 				color <<= 4;
@@ -1320,6 +1320,7 @@ static void draw_layer(INT32 layer)
 
 static INT32 DrvDraw()
 {
+    if (!pBurnDraw) return 0;
 	if (DrvRecalc) {
 		for (INT32 i = 0; i < 0x400; i+=2) {
 			update_palette_entry(i);
@@ -1367,7 +1368,7 @@ static INT32 DrvFrame()
 	}
 
 	compile_inputs();
-	
+
 	INT32 nInterleave = 128; // nmi pulses for sound cpu
 	INT32 nCyclesTotal[2];
 	INT32 nCyclesDone[2];
@@ -1376,7 +1377,7 @@ static INT32 DrvFrame()
 	nCyclesTotal[0] = (INT32)((INT64)(8000000 / 60) * nBurnCPUSpeedAdjust / 0x0100);
 	nCyclesTotal[1] = (INT32)((INT64)(3579545 / 60) * nBurnCPUSpeedAdjust / 0x0100);
 	nCyclesDone[0] = nCyclesDone[1] = 0;
-	
+
 	VezNewFrame();
 	ZetNewFrame();
 

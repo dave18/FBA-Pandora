@@ -384,6 +384,15 @@ void shutdown()
 	    clk = open("/proc/pandora/cpu_mhz_max", O_WRONLY);
 	    write (clk,config_options.option_startspeed,strlen(config_options.option_startspeed)+1);
 	    close(clk);
+	    clk = open("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor", O_RDWR);
+        char sg[20];
+        int sgl;
+        read (clk,sg,20);
+        sgl=strlen(sg)+1;
+        if (sgl>20) sgl=20;
+        write (clk,sg,sgl);
+        close(clk);
+
 
 	}
 
@@ -624,7 +633,7 @@ void run_fba_emulator(const char *fn)
 	GameLooping = true;
 
 	//bShowFPS = true;
-
+    printf("sound mode=%d\n",config_options.option_sound_enable);
 	if (BurnDrvGetFlags() & BDF_ORIENTATION_FLIPPED) printf("flipped!\n");
 
     {
@@ -646,6 +655,7 @@ if (config_options.option_sound_enable==2)
             EZX_StartTicks();
 
           //  nBurnFPS=6000;
+          printf("here\n");
         int now, done=0, timer = 0, ticks=0, tick=0, i=0, fps = 0;
 	unsigned int frame_limit = nBurnFPS/100, frametime = 100000000/nBurnFPS;
 	int fbaprofframes=0;
@@ -654,6 +664,7 @@ if (config_options.option_sound_enable==2)
 	int fbaprofsnd=0;
         while (GameLooping)
 		{
+//		    printf("here\n");
 			timer = EZX_GetTicks()/frametime;;
 			if(timer-tick>frame_limit && bShowFPS)
 			{
@@ -763,7 +774,7 @@ if (config_options.option_sound_enable==2)
 
 finish:
 	printf("---- Shutdown Finalburn Alpha plus ----\n\n");
-	runshowprof();
+	//runshowprof();
 	ConfigAppSave();
 /*	DrvExit();
 	printf("DrvExit()\n");

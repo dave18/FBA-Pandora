@@ -771,6 +771,12 @@ static void pce_refresh_line(int which, int /*line*/, int external_input, UINT8 
 
 void pce_interrupt()
 {
+    if (!pBurnDraw)
+    {
+        vce_current_bitmap_line = (vce_current_bitmap_line + 1) % VDC_LPF;
+        vdc_advance_line(0);
+        return;
+    }
 	int which = 0; // only 1 on pce
 
 	if (vce_current_bitmap_line >= 14 && vce_current_bitmap_line < 256)
@@ -805,6 +811,13 @@ void pce_interrupt()
 
 void sgx_interrupt()
 {
+    if (!pBurnDraw)
+    {
+        vce_current_bitmap_line = ( vce_current_bitmap_line + 1 ) % VDC_LPF;
+        vdc_advance_line( 0 );
+        vdc_advance_line( 1 );
+        return;
+    }
 	if (vce_current_bitmap_line >= 14 && vce_current_bitmap_line < 256)
 	{
 		draw_sgx_overscan_line(vce_current_bitmap_line);
@@ -821,6 +834,7 @@ void sgx_interrupt()
 			vdc_yscroll[0] = ( vdc_current_segment_line[0] == 0 ) ? vdc_data[0][BYR] : ( vdc_yscroll[0] + 1 );
 			vdc_yscroll[1] = ( vdc_current_segment_line[1] == 0 ) ? vdc_data[1][BYR] : ( vdc_yscroll[1] + 1 );
 
+
 			pce_refresh_line( 0, vdc_current_segment_line[0], 0, drawn[0], temp_buffer[0]);
 
 			if(vdc_data[0][CR] & CR_SB)
@@ -836,6 +850,7 @@ void sgx_interrupt()
 			}
 
 			line_buffer = vdc_tmp_draw + (vce_current_bitmap_line * 684) + 86;
+
 
 			for( i = 0; i < 512; i++ )
 			{
@@ -930,7 +945,7 @@ void sgx_interrupt()
 	}
 	else
 	{
-		draw_black_line(vce_current_bitmap_line);
+		if (pBurnDraw) draw_black_line(vce_current_bitmap_line);
 	}
 
 	/* bump current scanline */

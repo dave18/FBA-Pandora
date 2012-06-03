@@ -2352,7 +2352,7 @@ INT32 System16Exit()
 {
 	INT32 i;
 
-	if (profileframes>0) printf("cpu %dms, gfx %dms, snd %dms, 8751 %dms, total %dms\n",(profilecpu/profileframes),(profilegfx/profileframes),(profilesnd/profileframes),(profile8751/profileframes),(profiletotal/profileframes));
+//	if (profileframes>0) printf("cpu %dms, gfx %dms, snd %dms, 8751 %dms, total %dms\n",(profilecpu/profileframes),(profilegfx/profileframes),(profilesnd/profileframes),(profile8751/profileframes),(profiletotal/profileframes));
 
 
 	SekExit();
@@ -2536,9 +2536,9 @@ Frame Functions
 
 INT32 System16AFrame()
 {
-    long profiletmr=0;
-    long profiletmr2=0;
-    profiletmr2=SDL_GetTicks();
+    //long profiletmr=0;
+    //long profiletmr2=0;
+    //profiletmr2=SDL_GetTicks();
 	INT32 nInterleave = 100; // alien syndrome needs high interleave for the DAC sounds to be processed
 
 	if (System16Reset) System16DoReset();
@@ -2556,7 +2556,7 @@ INT32 System16AFrame()
 	ZetNewFrame();
 	I8039NewFrame();
 
-	profiletmr=SDL_GetTicks();
+	//profiletmr=SDL_GetTicks();
 
 	SekOpen(0);
 	for (INT32 i = 0; i < nInterleave; i++) {
@@ -2599,13 +2599,13 @@ INT32 System16AFrame()
 	SekSetIRQLine(4, SEK_IRQSTATUS_AUTO);
 	SekClose();
 
-	profilecpu+=(SDL_GetTicks()-profiletmr);
+	//profilecpu+=(SDL_GetTicks()-profiletmr);
 
-    profiletmr=SDL_GetTicks();
+    //profiletmr=SDL_GetTicks();
 	if (Simulate8751) Simulate8751();
-	profile8751+=(SDL_GetTicks()-profiletmr);
+	//profile8751+=(SDL_GetTicks()-profiletmr);
 
-    profiletmr=SDL_GetTicks();
+    //profiletmr=SDL_GetTicks();
 	// Make sure the buffer is entirely filled.
 	if (pBurnSoundOut) {
 		INT32 nSegmentLength = nBurnSoundLen - nSoundBufferPos;
@@ -2619,12 +2619,12 @@ INT32 System16AFrame()
 
 		if (System167751ProgSize) DACUpdate(pBurnSoundOut, nBurnSoundLen);
 	}
-	profilesnd+=(SDL_GetTicks()-profiletmr);
-    profiletmr=SDL_GetTicks();
+	//profilesnd+=(SDL_GetTicks()-profiletmr);
+    //profiletmr=SDL_GetTicks();
 	if (pBurnDraw) System16ARender();
-	profilegfx+=(SDL_GetTicks()-profiletmr);
-	profiletotal+=(SDL_GetTicks()-profiletmr2);
-    profileframes++;
+//	profilegfx+=(SDL_GetTicks()-profiletmr);
+//	profiletotal+=(SDL_GetTicks()-profiletmr2);
+//    profileframes++;
 	return 0;
 }
 

@@ -158,7 +158,7 @@ static struct BurnDIPInfo WilytowrDIPList[]=
 	{0   , 0xfe, 0   ,    2, "Cabinet"			},
 	{0x11, 0x01, 0x02, 0x02, "Upright"			},
 	{0x11, 0x01, 0x02, 0x00, "Cocktail"			},
-	
+
 	{0   , 0xfe, 0   ,    2, "Coin Mode"			},
 	{0x11, 0x01, 0x04, 0x00, "Mode 1"			},
 	{0x11, 0x01, 0x04, 0x04, "Mode 2"			},
@@ -246,14 +246,14 @@ void __fastcall m63_main_write(UINT16 address, UINT8 data)
 UINT8 __fastcall m63_main_read(UINT16 address)
 {
 	switch (address)
-	{	
+	{
 		case 0xf000: // fghtbskt
 			return *sound_status;
 
 		case 0xf800:
 		case 0xf001: // fghtbskt
 			return DrvInputs[0];
-	
+
 		case 0xf801:
 		case 0xf002: // fghtbskt
 			return DrvInputs[1];
@@ -816,6 +816,7 @@ static void draw_sprites()
 
 static INT32 DrvDraw()
 {
+    if (!pBurnDraw) return 0;
 	if (DrvRecalc) {
 		m63PaletteRecalc();
 		DrvRecalc = 0;
@@ -823,7 +824,7 @@ static INT32 DrvDraw()
 
 	draw_bg_layer();
 	draw_sprites();
-	draw_fg_layer();	
+	draw_fg_layer();
 
 	BurnTransferCopy(DrvPalette);
 
@@ -922,7 +923,7 @@ static INT32 DrvScan(INT32 nAction,INT32 *pnMin)
 		*pnMin = 0x029702;
 	}
 
-	if (nAction & ACB_VOLATILE) {		
+	if (nAction & ACB_VOLATILE) {
 		memset(&ba, 0, sizeof(ba));
 
 		ba.Data	  = AllRam;

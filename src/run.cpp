@@ -80,7 +80,7 @@ static int GetInput(bool bCopy)
 
 extern void runshowprof()
 {
-    printf("total runoneframe %dms\n",(profframe/profframes));
+    if (profframes>0) printf("total runoneframe %dms\n",(profframe/profframes));
 }
 
 int RunOneFrame(bool bDraw, int fps)
@@ -133,13 +133,16 @@ int RunOneFrame(bool bDraw, int fps)
 	}
 //	profframe+=(SDL_GetTicks()-proftmp);
 	}
-	profframe+=(SDL_GetTicks()-proftmp);
+//	profframe+=(SDL_GetTicks()-proftmp);
 	if (bPauseOn)
 	{
 	//    GetInput(false);
+        //DrawString ("PAUSED", (unsigned short *) &BurnVideoBuffer[0], (PhysicalBufferWidth>>1)-24, 120,myscreen->w);
+        VideoTrans();
+        SDL_LockSurface(myscreen);
+        DrawString ("PAUSED", (unsigned short *) myscreen->pixels, (myscreen->w>>1)-24, (myscreen->h>>1)-4,myscreen->w);
+        SDL_UnlockSurface(myscreen);
 
-	    DrawString ("PAUSED", (unsigned short *) &BurnVideoBuffer[0], (PhysicalBufferWidth>>1)-24, 120,PhysicalBufferWidth);
-	    VideoTrans();
 	    gp2x_video_flip(false);
 	}
 /*	if (config_options.option_sound_enable)
@@ -147,7 +150,7 @@ int RunOneFrame(bool bDraw, int fps)
 
 */
     //profframe+=(SDL_GetTicks()-proftmp);
-    profframes++;
+//    profframes++;
     return 0;
 }
 

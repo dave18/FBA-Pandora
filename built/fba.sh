@@ -56,6 +56,13 @@ sudo /usr/pandora/scripts/op_videofir.sh default_up
 echo $nub0 > /proc/pandora/nub0/mode
 echo $nub1 > /proc/pandora/nub1/mode
 echo $cpu > /proc/pandora/cpu_mhz_max
+if [ -e /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ]; then
+	# must poke cpufreq so it does the actual clock transition
+	# according to new limits
+	gov=$(cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor)
+	echo $gov > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+fi
+
 
 ./picorestore
 

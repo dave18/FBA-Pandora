@@ -34,10 +34,11 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
-				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/gigawing.zip " />
+				<Option parameters="/media/MAINSYSTEM/pandora/appdata/fba-dave18/roms/tg_turrican.zip " />
 				<Compiler>
 					<Add option="-w" />
 					<Add option="-g" />
+					<Add option="-fsigned-char" />
 				</Compiler>
 			</Target>
 			<Target title="Quick">

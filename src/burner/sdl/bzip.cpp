@@ -67,7 +67,7 @@ static int FindRomByName(TCHAR* szName)
 {
 	struct ZipEntry* pl;
 	int i;
-
+    //printf("romname ===== %s\n",szName);
 	// Find the rom named szName in the List
 	for (i = 0, pl = List; i < nListCount; i++, pl++) {
 		TCHAR szCurrentName[MAX_PATH];
@@ -102,6 +102,7 @@ static int FindRom(int i)
 	memset(&ri, 0, sizeof(ri));
 
 	nRet = BurnDrvGetRomInfo(&ri, i);
+	//printf("romname ===== %s\n",ri.szName);
 	if (nRet != 0) {											// Failure: no such rom
 		return -2;
 	}
@@ -239,6 +240,7 @@ static int __cdecl BzipBurnLoadRom(unsigned char* Dest, int* pnWrote, int i)
 	TCHAR szText[128];
 	char* pszRomName = NULL;
 	int nRet = 0;
+	//printf("i=%d  nRomCount=%d\n",i,nRomCount);
 
 	if (i < 0 || i >= nRomCount) {
 		return 1;
@@ -541,11 +543,13 @@ int BzipOpen(bool bootApp)
 			break;
 		}
 
+
 		for (int d = 0; d < DIRS_MAX; d++) {
 			free(szBzipName[z]);
 			szBzipName[z] = (TCHAR*)malloc(MAX_PATH * sizeof(TCHAR));
 
 			_stprintf(szBzipName[z], _T("%s%hs"), szAppRomPaths[d], szName);
+			//printf("------ %s%hs\n", szAppRomPaths[d], szName);
 
 			if (ZipOpen(TCHARToANSI(szBzipName[z], NULL, 0)) == 0) {	// Open the rom zip file
 				nZipsFound++;
@@ -573,6 +577,7 @@ int BzipOpen(bool bootApp)
 				nFind = FindRom(i);
 
 				if (nFind < 0) {								// Couldn't find this rom at all
+				    //printf("romfind state %d\n",RomFind[i].nState);
 					continue;
 				}
 
@@ -581,6 +586,8 @@ int BzipOpen(bool bootApp)
 				RomFind[i].nState = 1;							// Set to found okay
 
 				BurnDrvGetRomInfo(&ri, i);						// Get info about the rom
+				//printf("romfind state %d\n",RomFind[i].nState);
+
 
 				if ((ri.nType & 0x80) == 0)	{
 					nTotalSize += ri.nLen;

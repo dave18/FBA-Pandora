@@ -30,6 +30,9 @@ Notes:
 		Hisou Kihei - Xserd: black screen
 */
 
+INT32 pcenCyclesTotal;
+INT32	nCyclesPerInt;
+
 static UINT8 *AllMem;
 static UINT8 *MemEnd;
 static UINT8 *AllRam;
@@ -426,7 +429,7 @@ static INT32 CommonInit(int type)
 			{
 				memcpy (PCECartROM + 0x40000, PCECartROM + 0x00000, 0x40000);
 			}
-	
+
 			if (length <= 0x80000)
 			{
 				memcpy (PCECartROM + 0x80000, PCECartROM + 0x00000, 0x80000);
@@ -478,6 +481,8 @@ static INT32 CommonInit(int type)
 	GenericTilesInit();
 
 	PCEDoReset();
+	pcenCyclesTotal = (INT32)((INT64)7159090 * nBurnCPUSpeedAdjust / (0x0100 * 60));
+	nCyclesPerInt=pcenCyclesTotal/262;
 
 	return 0;
 }
@@ -539,7 +544,7 @@ INT32 PCEDraw()
 	{
 		UINT16 *src = vdc_tmp_draw + (14 * 684) + 86;
 		UINT16 *dst = pTransDraw;
-	
+
 		for (INT32 y = 0; y < nScreenHeight; y++) {
 			for (INT32 x = 0; x < nScreenWidth; x++) {
 				dst[x] = src[x];
@@ -577,16 +582,16 @@ INT32 PCEFrame()
 
 	PCECompileInputs();
 
-	INT32 nCyclesTotal = (INT32)((INT64)7159090 * nBurnCPUSpeedAdjust / (0x0100 * 60));
-	
+	//INT32 nCyclesTotal = (INT32)((INT64)7159090 * nBurnCPUSpeedAdjust / (0x0100 * 60));
+
 	h6280Open(0);
-	
+
 	for (INT32 i = 0; i < 262; i++)
 	{
-		h6280Run(nCyclesTotal / 262);
+		h6280Run(nCyclesPerInt);
 		interrupt();
 	}
-	
+
 	if (pBurnSoundOut) {
 		c6280_update(pBurnSoundOut, nBurnSoundLen);
 	}
@@ -603,7 +608,7 @@ INT32 PCEFrame()
 INT32 PCEScan(INT32 nAction, INT32 *pnMin)
 {
 	struct BurnArea ba;
-	
+
 	if (pnMin != NULL) {
 		*pnMin = 0x029698;
 	}

@@ -10,6 +10,7 @@ extern unsigned char P1P2Start;
 int nAnalogSpeed=0x0100;
 
 #define MAX_INPUT_inp (19)
+//#define MAX_INPUT_inp (80)
 
 struct GameInp {
 	//unsigned char *pVal;  // Destination for the Input Value
@@ -29,7 +30,7 @@ struct DIPInfo{
 	struct GameInp *DIPData;
 } DIPInfo;
 // Mapping of PC inputs to game inputs
-struct GameInp GameInp[4][MAX_INPUT_inp];
+struct GameInp GameInp[6][MAX_INPUT_inp];
 unsigned int nGameInpCount = 0;
 static bool bInputOk = false;
 unsigned char *ServiceDip = 0;
@@ -46,9 +47,10 @@ int DoInputBlank(int /*bDipSwitch*/)
 
   DIPInfo.nDIP = 0;
   // Get the targets in the library for the Input Values
+  struct BurnInputInfo bii;
   for (i=0; i<nGameInpCount; i++)
   {
-    struct BurnInputInfo bii;
+    //struct BurnInputInfo bii;
     memset(&bii,0,sizeof(bii));
     BurnDrvGetInputInfo(&bii,i);
 
